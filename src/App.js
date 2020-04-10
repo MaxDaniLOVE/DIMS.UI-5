@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Firebase from './services/Firebase';
 
-function App() {
-  return <div className='App'>Hello!</div>;
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      testData: '',
+    };
+  }
+
+  componentDidMount() {
+    const db = new Firebase();
+    db.getTestData().then(({ test }) => {
+      this.setState({
+        testData: test,
+      });
+    });
+  }
+
+  render() {
+    const { testData } = this.state;
+    return <div className='App'>{testData}</div>;
+  }
 }
 
 export default App;
