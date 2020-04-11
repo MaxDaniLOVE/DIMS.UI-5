@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Firebase from './services/Firebase';
+import Firebase from '../../services/Firebase';
 
 class App extends Component {
   constructor() {
