@@ -5,22 +5,32 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      testData: '',
+      users: [],
     };
   }
 
   componentDidMount() {
     const db = new Firebase();
-    db.getTestData().then(({ test }) => {
+    db.getTestData().then((data) => {
+      const newUsers = [];
+      data.forEach((doc) => {
+        newUsers.push({ ...doc.data(), id: doc.id });
+      });
       this.setState({
-        testData: test,
+        users: newUsers,
       });
     });
   }
 
   render() {
-    const { testData } = this.state;
-    return <div className='App'>{testData}</div>;
+    const { users } = this.state;
+    return (
+      <div className='App'>
+        {users.map(({ name, id, lastName }) => (
+          <p key={id}>{`${name}, ${lastName}`}</p>
+        ))}
+      </div>
+    );
   }
 }
 

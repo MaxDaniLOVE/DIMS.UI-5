@@ -15,14 +15,9 @@ firebase.initializeApp(firebaseConfig);
 export default class Firebase {
   db = firebase.firestore();
 
-  setTestData = async () => {
+  addNewUser = async (user) => {
     try {
-      await this.db
-        .collection('test')
-        .doc('test')
-        .set({
-          test: 'test',
-        });
+      await this.db.collection('users').add(user);
     } catch (error) {
       throw new Error(error);
     }
@@ -31,13 +26,10 @@ export default class Firebase {
   getTestData = async () => {
     let testData;
     try {
-      testData = await this.db
-        .collection('test')
-        .doc('test')
-        .get();
+      testData = await this.db.collection('users').get();
     } catch (error) {
       throw new Error(error);
     }
-    return testData.data();
+    return testData;
   };
 }
