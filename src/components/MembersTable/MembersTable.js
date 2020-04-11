@@ -1,5 +1,6 @@
 import React from 'react';
 import TableHeader from '../../UI/TableHeader';
+import './MembersTable.scss';
 
 const MembersTable = ({ members }) => {
   const headers = ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Manage'];
@@ -21,10 +22,12 @@ const MembersTable = ({ members }) => {
     );
   });
   return (
-    <table>
-      <TableHeader headers={headers} />
-      <tbody>{membersTableBody}</tbody>
-    </table>
+    <div className='table-wrapper'>
+      <table className='members-table table'>
+        <TableHeader headers={headers} />
+        <tbody>{membersTableBody}</tbody>
+      </table>
+    </div>
   );
 };
 

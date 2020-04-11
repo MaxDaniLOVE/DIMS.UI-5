@@ -14,22 +14,24 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route exact path='/'>
-            <Redirect to='members' />
-          </Route>
-          <Route path='/members'>
-            <MembersPage />
-          </Route>
-          <Route path='/member/:mid/progress'>
-            <MembersProgressPage />
-          </Route>
-          <Route path='/member/:mid/tasks'>
-            <MembersTasksPage />
-          </Route>
-        </Switch>
-      </Router>
+      <div className='container'>
+        <Router>
+          <Switch>
+            <Route exact path='/'>
+              <Redirect to='members' />
+            </Route>
+            <Route path='/members'>
+              <MembersPage />
+            </Route>
+            <Route path='/member/:mid/progress'>
+              <MembersProgressPage />
+            </Route>
+            <Route path='/member/:mid/tasks'>
+              <MembersTasksPage />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
     );
   }
 }
