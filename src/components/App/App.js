@@ -1,35 +1,50 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Firebase from '../../services/Firebase';
+import MembersPage from '../../pages/MembersPage';
+import MembersProgressPage from '../../pages/MembersProgressPage';
+import MembersTasksPage from '../../pages/MembersTasksPage';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      users: [],
+      members: [],
     };
   }
 
   componentDidMount() {
     const db = new Firebase();
     db.getTestData().then((data) => {
-      const newUsers = [];
+      const newMembers = [];
       data.forEach((doc) => {
-        newUsers.push({ ...doc.data(), id: doc.id });
+        newMembers.push({ ...doc.data(), id: doc.id });
       });
       this.setState({
-        users: newUsers,
+        members: newMembers,
       });
     });
   }
 
   render() {
-    const { users } = this.state;
+    const { members } = this.state;
     return (
-      <div className='App'>
-        {users.map(({ name, id, lastName }) => (
-          <p key={id}>{`${name}, ${lastName}`}</p>
-        ))}
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path='/'>
+            <Redirect to='members' />
+          </Route>
+          <Route path='/members'>
+            <MembersPage members={members} />
+          </Route>
+          <Route path='/member/:mid/progress'>
+            <MembersProgressPage />
+          </Route>
+          <Route path='/member/:mid/tasks'>
+            <MembersTasksPage />
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }
