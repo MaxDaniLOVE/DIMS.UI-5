@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Preloader from '../components/Preloader';
+import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
 
 export default class MembersPage extends Component {
@@ -27,18 +28,6 @@ export default class MembersPage extends Component {
 
   render() {
     const { members, isLoaded } = this.state;
-    return (
-      <>
-        {isLoaded ? (
-          <ul>
-            {members.map(({ name, id }) => (
-              <li key={id}>{name}</li>
-            ))}
-          </ul>
-        ) : (
-          <Preloader />
-        )}
-      </>
-    );
+    return <>{isLoaded ? <MembersTable members={members} /> : <Preloader />}</>;
   }
 }
