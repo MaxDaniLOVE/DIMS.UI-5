@@ -5,6 +5,8 @@ import MembersPage from '../../pages/MembersPage';
 import MembersProgressPage from '../../pages/MembersProgressPage';
 import MembersTasksPage from '../../pages/MembersTasksPage';
 
+import './App.scss';
+
 class App extends Component {
   constructor() {
     super();
