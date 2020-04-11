@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Firebase from '../../services/Firebase';
 import MembersPage from '../../pages/MembersPage';
 import MembersProgressPage from '../../pages/MembersProgressPage';
 import MembersTasksPage from '../../pages/MembersTasksPage';
@@ -10,26 +9,10 @@ import './App.scss';
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      members: [],
-    };
-  }
-
-  componentDidMount() {
-    const db = new Firebase();
-    db.getTestData().then((data) => {
-      const newMembers = [];
-      data.forEach((doc) => {
-        newMembers.push({ ...doc.data(), id: doc.id });
-      });
-      this.setState({
-        members: newMembers,
-      });
-    });
+    this.state = {};
   }
 
   render() {
-    const { members } = this.state;
     return (
       <Router>
         <Switch>
@@ -37,7 +20,7 @@ class App extends Component {
             <Redirect to='members' />
           </Route>
           <Route path='/members'>
-            <MembersPage members={members} />
+            <MembersPage />
           </Route>
           <Route path='/member/:mid/progress'>
             <MembersProgressPage />
