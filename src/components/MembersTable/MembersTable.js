@@ -47,12 +47,8 @@ const MembersTable = ({ members }) => {
   );
 };
 
-MembersTable.defaultProps = {
-  members: [],
-};
-
 MembersTable.propTypes = {
-  members: PropTypes.arrayOf(PropTypes.object),
+  members: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default MembersTable;
