@@ -20,12 +20,18 @@ const MembersTable = ({ members }) => {
         <td>{education}</td>
         <td>{stringStartDate}</td>
         <td>{ageInYears}</td>
-        <td>
+        <td className='td-btns'>
           <Button>
             <Link to={`/member/${id}/tasks`}>Tasks</Link>
           </Button>
           <Button>
             <Link to={`/member/${id}/progress`}>Progress</Link>
+          </Button>
+          <Button>
+            <Link to='/'>Edit</Link>
+          </Button>
+          <Button customClass='danger'>
+            <Link to='/'>Delete</Link>
           </Button>
         </td>
       </tr>
