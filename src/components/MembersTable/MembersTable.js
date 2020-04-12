@@ -1,10 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
-import Firebase from '../../services/Firebase';
+import Button from '../../UI/Button';
 import './MembersTable.scss';
-
-const db = new Firebase();
 
 const MembersTable = ({ members }) => {
   const headers = ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Manage'];
@@ -22,9 +21,12 @@ const MembersTable = ({ members }) => {
         <td>{stringStartDate}</td>
         <td>{ageInYears}</td>
         <td>
-          <button type='button' onClick={() => db.getUsersTasks(id)}>
-            Tasks
-          </button>
+          <Button>
+            <Link to={`/member/${id}/tasks`}>Tasks</Link>
+          </Button>
+          <Button>
+            <Link to={`/member/${id}/progress`}>Progress</Link>
+          </Button>
         </td>
       </tr>
     );
