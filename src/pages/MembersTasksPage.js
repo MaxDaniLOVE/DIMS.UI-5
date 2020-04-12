@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Firebase from '../services/Firebase';
+import MembersTasksTable from '../components/MembersTasksTable';
 
 class MembersTasksPage extends Component {
   constructor() {
@@ -23,8 +24,8 @@ class MembersTasksPage extends Component {
   }
 
   render() {
-    const { match } = this.props;
-    return <div>{`There will be tasks of member with id: ${match.params.mid}`}</div>;
+    const { userTasks } = this.state;
+    return <MembersTasksTable userTasks={userTasks} />;
   }
 }
 
