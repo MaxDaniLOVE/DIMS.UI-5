@@ -14,13 +14,9 @@ class MembersTasksPage extends Component {
   componentDidMount() {
     const db = new Firebase();
     const { match } = this.props;
-    db.getUsersTasks(match.params.mid).then((snapshot) => {
-      const newUserTasks = [];
-      snapshot.forEach((docs) => {
-        newUserTasks.push(docs.data());
-      });
+    db.getUsersTasks(match.params.mid).then((newTasksData) => {
       this.setState({
-        userTasks: newUserTasks,
+        userTasks: newTasksData,
       });
     });
     console.log('there will be fetching data');

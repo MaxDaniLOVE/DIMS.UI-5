@@ -34,10 +34,28 @@ export default class Firebase {
   };
 
   getUsersTasks = async (id) => {
+    const allData = [];
     const data = await this.db
       .collection('usersTasks')
       .where('userId', '==', id)
       .get();
-    return data;
+    data.forEach((task) => {
+      allData.push(task.data());
+    });
+    const withAllData = allData.map((task) => {
+      const { taskId } = task;
+      const allTaskData = this.getTasks(taskId);
+      return allTaskData;
+    });
+    const tasksInfo = await Promise.all(withAllData);
+    return allData.map((el) => ({ ...el, tasksInfo }));
+  };
+
+  getTasks = async (id) => {
+    const taskData = await this.db
+      .collection('tasks')
+      .doc(id)
+      .get();
+    return taskData.data();
   };
 }
