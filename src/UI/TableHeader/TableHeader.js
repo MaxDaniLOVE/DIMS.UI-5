@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './TableHeader.scss';
 
 const TableHeader = ({ headers }) => {
@@ -11,6 +12,14 @@ const TableHeader = ({ headers }) => {
       </tr>
     </thead>
   );
+};
+
+TableHeader.defaultProps = {
+  headers: [],
+};
+
+TableHeader.propTypes = {
+  headers: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default TableHeader;

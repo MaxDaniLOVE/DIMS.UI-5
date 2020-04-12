@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import './MembersTable.scss';
 
@@ -29,6 +30,14 @@ const MembersTable = ({ members }) => {
       </table>
     </div>
   );
+};
+
+MembersTable.defaultProps = {
+  members: [],
+};
+
+MembersTable.propTypes = {
+  members: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default MembersTable;
