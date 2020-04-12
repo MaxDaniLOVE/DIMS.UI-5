@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
+import Status from '../../UI/Status';
 
 const MembersTasksTable = ({ userTasks }) => {
   const headers = ['#', 'Name', 'Start', 'Deadline', 'Status', 'Manage', 'Mark'];
@@ -14,7 +15,9 @@ const MembersTasksTable = ({ userTasks }) => {
         <td>{name}</td>
         <td>{new Date(startDate).toLocaleDateString()}</td>
         <td>{new Date(deadlineDate).toLocaleDateString()}</td>
-        <td>{stateId}</td>
+        <td>
+          <Status stateId={stateId} />
+        </td>
         <td>
           <Button>
             <p className='btn-inner'>Track</p>
