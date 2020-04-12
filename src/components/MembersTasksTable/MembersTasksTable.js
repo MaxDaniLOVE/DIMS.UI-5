@@ -28,10 +28,12 @@ const MembersTasksTable = ({ userTasks }) => {
     );
   });
   return (
-    <table className='members-table table'>
-      <TableHeader headers={headers} />
-      <tbody>{membersTasksTableBody}</tbody>
-    </table>
+    <div className='table-wrapper'>
+      <table className='members-table table'>
+        <TableHeader headers={headers} />
+        <tbody>{membersTasksTableBody}</tbody>
+      </table>
+    </div>
   );
 };
 
