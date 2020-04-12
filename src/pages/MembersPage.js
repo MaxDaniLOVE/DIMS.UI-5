@@ -14,7 +14,7 @@ export default class MembersPage extends Component {
 
   componentDidMount() {
     const db = new Firebase();
-    db.getTestData().then((data) => {
+    db.getUsersData().then((data) => {
       const newMembers = [];
       data.forEach((doc) => {
         newMembers.push({ ...doc.data(), id: doc.id });

@@ -23,13 +23,13 @@ export default class Firebase {
     }
   };
 
-  getTestData = async () => {
-    let testData;
+  getUsersData = async () => {
+    let usersData;
     try {
-      testData = await this.db.collection('users').get();
+      usersData = await this.db.collection('users').get();
     } catch (error) {
       throw new Error(error);
     }
-    return testData;
+    return usersData;
   };
 }
