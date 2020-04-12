@@ -36,11 +36,8 @@ export default class Firebase {
   getUsersTasks = async (id) => {
     const data = await this.db
       .collection('usersTasks')
-      .where('userID', '==', id)
+      .where('userId', '==', id)
       .get();
-    data.forEach((doc) => {
-      console.log(doc.data());
-    });
     return data;
   };
 }
