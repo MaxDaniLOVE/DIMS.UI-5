@@ -32,4 +32,15 @@ export default class Firebase {
     }
     return usersData;
   };
+
+  getUsersTasks = async (id) => {
+    const data = await this.db
+      .collection('usersTasks')
+      .where('userID', '==', id)
+      .get();
+    data.forEach((doc) => {
+      console.log(doc.data());
+    });
+    return data;
+  };
 }
