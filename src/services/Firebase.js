@@ -83,7 +83,7 @@ export default class Firebase {
       throw new Error(error);
     }
     const userProgressData = [];
-    userProgress.forEach((el) => userProgressData.push(el.data()));
+    userProgress.forEach((el) => userProgressData.push({ ...el.data(), taskTrackId: el.id }));
     return userProgressData;
   };
 }

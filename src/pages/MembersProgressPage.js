@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Firebase from '../services/Firebase';
+import MembersProgressTable from '../components/MembersProgressTable';
 
 class MembersProgressPage extends Component {
   constructor() {
     super();
     this.state = {
-      progress: {},
+      progress: [],
     };
   }
 
@@ -15,6 +16,7 @@ class MembersProgressPage extends Component {
     const db = new Firebase();
     const { match } = this.props;
     db.getUsersProgress(match.params.mid).then((progress) => {
+      progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
       this.setState({
         progress,
       });
@@ -22,8 +24,8 @@ class MembersProgressPage extends Component {
   }
 
   render() {
-    const { match } = this.props;
-    return <div>{`There will be progress for member with id: ${match.params.mid}`}</div>;
+    const { progress } = this.state;
+    return <MembersProgressTable progress={progress} />;
   }
 }
 
