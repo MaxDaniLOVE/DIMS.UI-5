@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom';
 import './Modal.scss';
 import Button from '../Button';
 
-const ModalOverlay = ({ children, onModalClose }) => {
+const ModalOverlay = ({ children, onModalClose, onSubmit }) => {
   const content = (
     <div className='modal-backdrop'>
       <form className='modal' onSubmit={() => console.log('submit')}>
         <div className='modal__content'>{children}</div>
         <Button onClick={onModalClose}>
           <p className='btn-inner'>Close</p>
+        </Button>
+        <Button
+          onClick={() => {
+            onSubmit();
+            onModalClose();
+          }}
+        >
+          <p className='btn-inner'>Submit</p>
         </Button>
       </form>
     </div>

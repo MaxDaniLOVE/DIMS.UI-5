@@ -62,12 +62,21 @@ export default class MembersPage extends Component {
     }));
   };
 
+  onAddNewMember = (member) => {
+    const db = new Firebase();
+    db.addNewUser(member);
+  };
+
   render() {
-    const { members, isLoaded, showModal } = this.state;
+    const { members, isLoaded, showModal, registerData } = this.state;
     const btnStyles = { marginBottom: '1rem' };
     return (
       <div className='table-wrapper'>
-        <Modal showModal={showModal} onModalClose={this.onModalClose}>
+        <Modal
+          showModal={showModal}
+          onModalClose={this.onModalClose}
+          onSubmit={() => this.onAddNewMember(registerData)}
+        >
           <MembersPageModal onFormChange={this.onFormChange} />
         </Modal>
         {isLoaded ? (
