@@ -1,0 +1,7 @@
+.admin-btns {
+  display: grid;
+  grid-gap: 5px;
+  .custom-btn {
+    justify-self: self-start;
+  }
+}

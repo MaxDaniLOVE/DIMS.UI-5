@@ -30,7 +30,7 @@ const MembersTable = ({ members }) => {
           <Button>
             <Link to='/'>Edit</Link>
           </Button>
-          <Button customClass='danger'>
+          <Button customClass='btn-danger'>
             <Link to='/'>Delete</Link>
           </Button>
         </td>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import Status from '../../UI/Status';
+import './MembersTasksTable.scss';
 
 const MembersTasksTable = ({ userTasks }) => {
   const headers = ['#', 'Name', 'Start', 'Deadline', 'Status', 'Manage', 'Mark'];
@@ -23,7 +24,14 @@ const MembersTasksTable = ({ userTasks }) => {
             <p className='btn-inner'>Track</p>
           </Button>
         </td>
-        <td>test</td>
+        <td className='admin-btns'>
+          <Button customClass='btn-success'>
+            <p className='btn-inner'>Success!</p>
+          </Button>
+          <Button customClass='btn-danger'>
+            <p className='btn-inner'>Fail!</p>
+          </Button>
+        </td>
       </tr>
     );
   });
