@@ -1,67 +1,67 @@
 const inputs = [
   {
     label: 'Name:',
-    id: 'name-input',
+    id: 'name',
     type: 'text',
   },
   {
     label: 'Last name:',
-    id: 'last-name-input',
+    id: 'lastName',
     type: 'text',
   },
   {
     label: 'Direction:',
-    id: 'direction-input',
+    id: 'directionId',
     type: 'radio',
   },
   {
     label: 'Birth date:',
-    id: 'birth-date-input',
+    id: 'birthDate',
     type: 'date',
   },
   {
     label: 'Education:',
-    id: 'education-input',
+    id: 'education',
     type: 'text',
   },
   {
     label: 'E-mail:',
-    id: 'mail-input',
+    id: 'email',
     type: 'email',
   },
   {
     label: 'Math score:',
-    id: 'math-input',
+    id: 'mathScore',
     type: 'number',
   },
   {
     label: 'University average score:',
-    id: 'uni-score-input',
+    id: 'universityAverageScore',
     type: 'number',
   },
   {
     label: 'Start date:',
-    id: 'start-date-input',
+    id: 'startDate',
     type: 'date',
   },
   {
     label: 'Sex:',
-    id: 'sex-input',
+    id: 'sex',
     type: 'radio',
   },
   {
     label: 'Skype:',
-    id: 'skype-input',
+    id: 'skype',
     type: 'text',
   },
   {
     label: 'Address:',
-    id: 'address-input',
+    id: 'address',
     type: 'text',
   },
   {
     label: 'Mobile phone:',
-    id: 'phone-input',
+    id: 'mobilePhone',
     type: 'tel',
   },
 ];

@@ -6,6 +6,7 @@ import Button from '../UI/Button';
 import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
 import MembersPageModal from '../components/MembersPageModal';
+import { inputsParser, defaultRegisterData } from '../utils/inputsParser';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -14,6 +15,7 @@ export default class MembersPage extends Component {
       members: [],
       isLoaded: false,
       showModal: false,
+      registerData: defaultRegisterData,
     };
   }
 
@@ -49,7 +51,15 @@ export default class MembersPage extends Component {
   onModalClose = () => {
     this.setState({
       showModal: false,
+      registerData: defaultRegisterData,
     });
+  };
+
+  onFormChange = (e) => {
+    const { value, id } = e.target;
+    this.setState(({ registerData }) => ({
+      registerData: inputsParser(value, id, registerData),
+    }));
   };
 
   render() {
@@ -58,7 +68,7 @@ export default class MembersPage extends Component {
     return (
       <div className='table-wrapper'>
         <Modal showModal={showModal} onModalClose={this.onModalClose}>
-          <MembersPageModal />
+          <MembersPageModal onFormChange={this.onFormChange} />
         </Modal>
         {isLoaded ? (
           <>

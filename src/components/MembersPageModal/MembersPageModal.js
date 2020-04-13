@@ -12,11 +12,12 @@ class MembersPageModal extends Component {
   }
 
   render() {
+    const { onFormChange } = this.props;
     const inputsLabels = inputs.map(({ label, id, type }) => (
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>
           {label}
-          <input type={type} id={id} />
+          <input type={type} id={id} onChange={(e) => onFormChange(e)} />
         </label>
       </div>
     ));
