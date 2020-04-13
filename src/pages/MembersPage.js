@@ -3,6 +3,7 @@ import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
 import Button from '../UI/Button';
+import { addCache, loadCache } from '../utils/cache';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -14,17 +15,26 @@ export default class MembersPage extends Component {
   }
 
   componentDidMount() {
-    const db = new Firebase();
-    db.getUsersData().then((data) => {
-      const newMembers = [];
-      data.forEach((doc) => {
-        newMembers.push({ ...doc.data(), id: doc.id });
-      });
+    const cachedData = loadCache('members');
+    if (cachedData) {
       this.setState({
-        members: newMembers,
+        members: cachedData,
         isLoaded: true,
       });
-    });
+    } else {
+      const db = new Firebase();
+      db.getUsersData().then((data) => {
+        const newMembers = [];
+        data.forEach((doc) => {
+          newMembers.push({ ...doc.data(), id: doc.id });
+        });
+        addCache('members', newMembers);
+        this.setState({
+          members: newMembers,
+          isLoaded: true,
+        });
+      });
+    }
   }
 
   render() {
