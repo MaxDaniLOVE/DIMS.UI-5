@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './Modal.scss';
+import PropTypes from 'prop-types';
 import Button from '../Button';
+
+import './Modal.scss';
 
 const ModalOverlay = ({ children, onModalClose, onSubmit }) => {
   const content = (
@@ -31,6 +33,10 @@ const Modal = (props) => {
     return <ModalOverlay {...props} />;
   }
   return null;
+};
+
+Modal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
 };
 
 export default Modal;

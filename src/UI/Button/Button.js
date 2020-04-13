@@ -14,9 +14,11 @@ Button.defaultProps = {
   type: 'button',
   customClass: '',
   customStyles: {},
+  onClick: () => null,
 };
 
 Button.propTypes = {
+  onClick: PropTypes.func,
   type: PropTypes.string,
   customClass: PropTypes.string,
   children: PropTypes.element.isRequired,
