@@ -34,7 +34,22 @@ export default class Faker {
   };
 
   generateUsersProgress = async (userId, taskId) => {
-    const { name, lastName } = await db.getUserData(userId);
-    console.log(name, lastName);
+    const usersProgress = await Promise.all(
+      [...new Array(3)].map(async () => {
+        const { name, lastName } = await db.getUserData(userId);
+        const taskName = (await db.getTasks(taskId)).name;
+        const trackNote = faker.lorem.sentence();
+        const progress = {
+          userId,
+          taskId,
+          userName: `${name} ${lastName}`,
+          taskName,
+          trackNote,
+          trackDate: new Date().getTime(),
+        };
+        return progress;
+      }),
+    );
+    usersProgress.map((task) => db.database.collection('usersProgress').add(task));
   };
 }
