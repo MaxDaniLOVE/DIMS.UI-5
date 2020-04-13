@@ -3,9 +3,11 @@ import './Preloader.scss';
 
 const Preloader = () => {
   return (
-    <div className='preloader'>
-      <div />
-      <div />
+    <div className='preloader-wrapper'>
+      <div className='preloader'>
+        <div />
+        <div />
+      </div>
     </div>
   );
 };

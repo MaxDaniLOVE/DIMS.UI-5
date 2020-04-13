@@ -1,20 +1,25 @@
 @import '../../scss/variables';
 
-.preloader {
-  display: inline-block;
-  position: relative;
-  height: 5.5rem;
-  width: 5.5rem;
+.preloader-wrapper {
+  display: flex;
+  justify-content: center;
+  .preloader {
+    display: inline-block;
+    position: relative;
+    height: 5.5rem;
+    width: 5.5rem;
+    div {
+      position: absolute;
+      border: 0.5rem solid $charcoal;
+      animation: spinner 1s ease-in-out infinite;
+    }
+    div:nth-child(2) {
+      animation-delay: -0.7s;
+      border: 0.5rem solid $cyan;
+    }
+  }
 }
-.preloader div {
-  position: absolute;
-  border: 0.5rem solid $charcoal;
-  animation: spinner 1s ease-in-out infinite;
-}
-.preloader div:nth-child(2) {
-  animation-delay: -0.7s;
-  border: 0.5rem solid $cyan;
-}
+
 @keyframes spinner {
   0% {
     top: 4rem;
