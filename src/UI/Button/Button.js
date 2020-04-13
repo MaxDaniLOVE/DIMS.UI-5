@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.scss';
 
-const Button = ({ type, children, customClass, customStyles }) => {
+const Button = ({ onClick, type, children, customClass, customStyles }) => {
   return (
-    <button className={`custom-btn ${customClass}`} type={type} style={customStyles}>
+    <button onClick={onClick} className={`custom-btn ${customClass}`} type={type} style={customStyles}>
       {children}
     </button>
   );

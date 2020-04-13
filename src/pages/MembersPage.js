@@ -4,6 +4,8 @@ import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
 import Button from '../UI/Button';
 import { addCache, loadCache } from '../utils/cache';
+import Modal from '../UI/Modal';
+import MembersPageModal from '../components/MembersPageModal';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -11,6 +13,7 @@ export default class MembersPage extends Component {
     this.state = {
       members: [],
       isLoaded: false,
+      showModal: false,
     };
   }
 
@@ -37,14 +40,29 @@ export default class MembersPage extends Component {
     }
   }
 
+  onModalOpen = () => {
+    this.setState({
+      showModal: true,
+    });
+  };
+
+  onModalClose = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
+
   render() {
-    const { members, isLoaded } = this.state;
+    const { members, isLoaded, showModal } = this.state;
     const btnStyles = { marginBottom: '1rem' };
     return (
       <div className='table-wrapper'>
+        <Modal showModal={showModal} onModalClose={this.onModalClose}>
+          <MembersPageModal />
+        </Modal>
         {isLoaded ? (
           <>
-            <Button customClass='with-margin' customStyles={btnStyles}>
+            <Button customClass='with-margin' customStyles={btnStyles} onClick={this.onModalOpen}>
               <p className='btn-inner'>Register</p>
             </Button>
             <MembersTable members={members} />
