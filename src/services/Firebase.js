@@ -13,11 +13,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export default class Firebase {
-  db = firebase.firestore();
+  database = firebase.firestore();
 
   addNewUser = async (user) => {
     try {
-      await this.db.collection('users').add(user);
+      await this.database.collection('users').add(user);
     } catch (error) {
       throw new Error(error);
     }
@@ -26,7 +26,7 @@ export default class Firebase {
   getUsersData = async () => {
     let usersData;
     try {
-      usersData = await this.db.collection('users').get();
+      usersData = await this.database.collection('users').get();
     } catch (error) {
       throw new Error(error);
     }
@@ -35,7 +35,7 @@ export default class Firebase {
 
   getUsersTasks = async (id) => {
     const allData = [];
-    const data = await this.db
+    const data = await this.database
       .collection('usersTasks')
       .where('userId', '==', id)
       .get();
@@ -52,7 +52,7 @@ export default class Firebase {
   };
 
   getTasks = async (id) => {
-    const taskData = await this.db
+    const taskData = await this.database
       .collection('tasks')
       .doc(id)
       .get();

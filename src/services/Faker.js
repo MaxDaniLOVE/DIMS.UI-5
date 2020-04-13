@@ -24,12 +24,12 @@ export default class Faker {
   };
 
   generateUsersTasks = async (userId) => {
-    const tasks = await db.db.collection('tasks').get();
+    const tasks = await db.database.collection('tasks').get();
     const membersTasks = [...new Array(3)].map(() => ({
       userId,
       taskId: faker.helpers.randomize(tasks.docs).id,
       stateId: faker.random.number({ min: 0, max: 2 }),
     }));
-    membersTasks.map((task) => db.db.collection('usersTasks').add(task));
+    membersTasks.map((task) => db.database.collection('usersTasks').add(task));
   };
 }
