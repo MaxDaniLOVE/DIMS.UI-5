@@ -4,6 +4,9 @@ const addCache = (key, data) => {
 };
 
 const loadCache = (key) => {
+  if (!localStorage[key]) {
+    return null;
+  }
   const parsedData = JSON.parse(localStorage[key]);
   return parsedData;
 };
