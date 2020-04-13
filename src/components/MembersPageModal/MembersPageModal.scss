@@ -1,3 +1,21 @@
+.form__content_container {
+  padding: 1rem 0;
+}
 .form-inputs {
   margin: 0.5rem 0;
+  label {
+    display: flex;
+    justify-content: space-between;
+    input {
+      width: 50%;
+    }
+  }
+  label[for='directionId'],
+  label[for='sex'] {
+    justify-content: flex-start;
+    input {
+      width: auto;
+      margin-right: 1rem;
+    }
+  }
 }

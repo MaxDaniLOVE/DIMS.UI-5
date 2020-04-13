@@ -13,6 +13,7 @@ const inputs = [
     label: 'Direction:',
     id: 'directionId',
     type: 'radio',
+    options: ['Java', 'Frontend', '.Net', 'Saleforce'],
   },
   {
     label: 'Birth date:',
@@ -48,6 +49,7 @@ const inputs = [
     label: 'Sex:',
     id: 'sex',
     type: 'radio',
+    options: ['Male', 'Female'],
   },
   {
     label: 'Skype:',

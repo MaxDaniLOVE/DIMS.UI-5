@@ -10,17 +10,20 @@ const ModalOverlay = ({ children, onModalClose, onSubmit }) => {
     <div className='modal-backdrop'>
       <form className='modal' onSubmit={() => console.log('submit')}>
         <div className='modal__content'>{children}</div>
-        <Button onClick={onModalClose}>
-          <p className='btn-inner'>Close</p>
-        </Button>
-        <Button
-          onClick={() => {
-            onSubmit();
-            onModalClose();
-          }}
-        >
-          <p className='btn-inner'>Submit</p>
-        </Button>
+        <div className='modal__footer'>
+          <Button
+            onClick={() => {
+              onSubmit();
+              onModalClose();
+            }}
+            customClass='btn-success'
+          >
+            <p className='btn-inner'>Save</p>
+          </Button>
+          <Button onClick={onModalClose} customStyles={{ width: '10rem' }}>
+            <span className='btn-inner'>Back to grid</span>
+          </Button>
+        </div>
       </form>
     </div>
   );
