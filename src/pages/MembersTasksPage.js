@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import Firebase from '../services/Firebase';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
+import { addCache, loadCache } from '../utils/cache';
 
 class MembersTasksPage extends Component {
   constructor() {
@@ -16,19 +17,31 @@ class MembersTasksPage extends Component {
   }
 
   componentDidMount() {
-    const db = new Firebase();
     const { match } = this.props;
-    db.getUsersTasks(match.params.mid).then((newTasksData) => {
+    const cachedTasks = loadCache(`${match.params.mid}_tasks`);
+    const cachedName = loadCache(`${match.params.mid}_name`);
+    if (cachedTasks && cachedName) {
       this.setState({
-        userTasks: newTasksData,
+        userTasks: cachedTasks,
+        memberName: cachedName,
         isLoaded: true,
       });
-    });
-    db.getUserData(match.params.mid).then(({ name }) => {
-      this.setState({
-        memberName: name,
+    } else {
+      const db = new Firebase();
+      db.getUsersTasks(match.params.mid).then((newTasksData) => {
+        addCache(`${match.params.mid}_tasks`, newTasksData);
+        this.setState({
+          userTasks: newTasksData,
+          isLoaded: true,
+        });
       });
-    });
+      db.getUserData(match.params.mid).then(({ name }) => {
+        addCache(`${match.params.mid}_name`, name);
+        this.setState({
+          memberName: name,
+        });
+      });
+    }
   }
 
   render() {
