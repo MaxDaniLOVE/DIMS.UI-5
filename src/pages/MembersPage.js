@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
+import Button from '../UI/Button';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -28,6 +29,20 @@ export default class MembersPage extends Component {
 
   render() {
     const { members, isLoaded } = this.state;
-    return <>{isLoaded ? <MembersTable members={members} /> : <Preloader />}</>;
+    const btnStyles = { marginBottom: '1rem' };
+    return (
+      <div className='table-wrapper'>
+        {isLoaded ? (
+          <>
+            <Button customClass='with-margin' customStyles={btnStyles}>
+              <p className='btn-inner'>Register</p>
+            </Button>
+            <MembersTable members={members} />
+          </>
+        ) : (
+          <Preloader />
+        )}
+      </div>
+    );
   }
 }
