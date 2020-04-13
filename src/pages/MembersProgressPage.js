@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import Firebase from '../services/Firebase';
 
 class MembersProgressPage extends Component {
+  constructor() {
+    super();
+    this.state = {
+      progress: {},
+    };
+  }
+
   componentDidMount() {
-    console.log('there will be fetching data');
+    const db = new Firebase();
+    const { match } = this.props;
+    db.getUsersProgress(match.params.mid).then((progress) => {
+      this.setState({
+        progress,
+      });
+    });
   }
 
   render() {

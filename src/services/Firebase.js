@@ -71,4 +71,19 @@ export default class Firebase {
       .get();
     return taskData.data();
   };
+
+  getUsersProgress = async (id) => {
+    let userProgress;
+    try {
+      userProgress = await this.database
+        .collection('usersProgress')
+        .where('userId', '==', id)
+        .get();
+    } catch (error) {
+      throw new Error(error);
+    }
+    const userProgressData = [];
+    userProgress.forEach((el) => userProgressData.push(el.data()));
+    return userProgressData;
+  };
 }
