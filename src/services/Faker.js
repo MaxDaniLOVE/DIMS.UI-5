@@ -32,4 +32,9 @@ export default class Faker {
     }));
     membersTasks.map((task) => db.database.collection('usersTasks').add(task));
   };
+
+  generateUsersProgress = async (userId, taskId) => {
+    const { name, lastName } = await db.getUserData(userId);
+    console.log(name, lastName);
+  };
 }

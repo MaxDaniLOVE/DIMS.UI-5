@@ -23,6 +23,19 @@ export default class Firebase {
     }
   };
 
+  getUserData = async (userId) => {
+    let userData;
+    try {
+      userData = await this.database
+        .collection('users')
+        .doc(userId)
+        .get();
+    } catch (error) {
+      throw new Error(error);
+    }
+    return userData.data();
+  };
+
   getUsersData = async () => {
     let usersData;
     try {
