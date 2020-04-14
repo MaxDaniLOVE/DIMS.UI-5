@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import inputs from '../../utils/inputs';
+import { dateToString } from '../../utils/convertDate';
 
 import './MembersPageModal.scss';
 
 const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
-  // console.log(new Date(registerData.startDate).toISOString().substr(0, 10))
   const inputsLabels = inputs.map(({ label, id, type, options }) => {
     if (type === 'radio') {
       return (
@@ -27,11 +27,18 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
         </div>
       );
     }
+    let value;
+    if (isEditMode && type !== 'date') {
+      value = registerData[id];
+    }
+    if (isEditMode && type === 'date') {
+      value = dateToString(registerData[id]);
+    }
     return (
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>
           {label}
-          <input value={isEditMode ? registerData[id] : ''} type={type} id={id} onChange={(e) => onFormChange(e)} />
+          <input value={value || ''} type={type} id={id} onChange={(e) => onFormChange(e)} />
         </label>
       </div>
     );
