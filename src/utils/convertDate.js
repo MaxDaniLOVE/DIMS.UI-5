@@ -4,8 +4,8 @@ const dateToString = (milliseconds) => {
 };
 
 const stringToDate = (string) => {
-  // const date = new Date(milliseconds).toISOString();
-  return null;
+  const date = Date.parse(string);
+  return date;
 };
 
 export { dateToString, stringToDate };
