@@ -5,7 +5,7 @@ import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import './MembersTable.scss';
 
-const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen }) => {
+const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete }) => {
   const headers = ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Manage'];
   const membersTableBody = members.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
@@ -34,8 +34,8 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen }) => {
           <Button onClick={() => onEditMemberModalOpen(id)}>
             <p className='btn-inner'>Edit</p>
           </Button>
-          <Button customClass='btn-danger'>
-            <Link to='/'>Delete</Link>
+          <Button onClick={() => onUserDelete(id)} customClass='btn-danger'>
+            <p className='btn-inner'>Delete</p>
           </Button>
         </td>
       </tr>
@@ -54,6 +54,7 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen }) => {
 MembersTable.propTypes = {
   onEditMemberModalOpen: PropTypes.func.isRequired,
   onMemberDataOpen: PropTypes.func.isRequired,
+  onUserDelete: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

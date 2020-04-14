@@ -97,4 +97,16 @@ export default class Firebase {
       throw new Error(error);
     }
   };
+
+  deleteUser = async (id) => {
+    // TODO add deliting users tasks and progress
+    try {
+      await this.database
+        .collection('users')
+        .doc(id)
+        .delete();
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 }

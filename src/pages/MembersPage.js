@@ -102,6 +102,11 @@ export default class MembersPage extends Component {
     });
   };
 
+  onUserDelete = async (userId) => {
+    await this.db.deleteUser(userId);
+    await this.getMembersData();
+  };
+
   render() {
     const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode } = this.state;
     const btnStyles = { marginBottom: '1rem' };
@@ -129,6 +134,7 @@ export default class MembersPage extends Component {
               members={members}
               onEditMemberModalOpen={this.onEditMemberModalOpen}
               onMemberDataOpen={this.onMemberDataOpen}
+              onUserDelete={this.onUserDelete}
             />
           </>
         ) : (
