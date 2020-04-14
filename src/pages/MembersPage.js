@@ -31,19 +31,23 @@ export default class MembersPage extends Component {
         isLoaded: true,
       });
     } else {
-      this.db.getUsersData().then((data) => {
-        const newMembers = [];
-        data.forEach((doc) => {
-          newMembers.push({ ...doc.data(), id: doc.id });
-        });
-        addCache('members', newMembers);
-        this.setState({
-          members: newMembers,
-          isLoaded: true,
-        });
-      });
+      this.getMembersData();
     }
   }
+
+  getMembersData = async () => {
+    this.db.getUsersData().then((data) => {
+      const newMembers = [];
+      data.forEach((doc) => {
+        newMembers.push({ ...doc.data(), id: doc.id });
+      });
+      addCache('members', newMembers);
+      this.setState({
+        members: newMembers,
+        isLoaded: true,
+      });
+    });
+  };
 
   onModalOpen = () => {
     this.setState({
@@ -67,8 +71,9 @@ export default class MembersPage extends Component {
     }));
   };
 
-  onAddNewMember = (member) => {
-    this.db.addNewUser(member);
+  onAddNewMember = async (member) => {
+    await this.db.addNewUser(member);
+    await this.getMembersData();
   };
 
   onEditMemberModalOpen = (userId) => {
@@ -81,9 +86,10 @@ export default class MembersPage extends Component {
     });
   };
 
-  onSubmitEditUser = () => {
+  onSubmitEditUser = async () => {
     const { registerData } = this.state;
-    this.db.editUserData(registerData);
+    await this.db.editUserData(registerData);
+    await this.getMembersData();
   };
 
   onMemberDataOpen = (userId) => {
