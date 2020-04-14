@@ -5,7 +5,7 @@ import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import './MembersTable.scss';
 
-const MembersTable = ({ members, onEditMember }) => {
+const MembersTable = ({ members, onEditMemberModalOpen }) => {
   const headers = ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Manage'];
   const membersTableBody = members.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
@@ -15,7 +15,7 @@ const MembersTable = ({ members, onEditMember }) => {
     return (
       <tr key={id}>
         <td>{idx + 1}</td>
-        <td onClick={() => onEditMember(id)}>{`${name} ${lastName}`}</td>
+        <td onClick={() => onEditMemberModalOpen(id)}>{`${name} ${lastName}`}</td>
         <td>{directionId}</td>
         <td>{education}</td>
         <td>{stringStartDate}</td>

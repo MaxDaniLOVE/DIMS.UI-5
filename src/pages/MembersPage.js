@@ -70,7 +70,7 @@ export default class MembersPage extends Component {
     console.log(member);
   };
 
-  onEditMember = (userId) => {
+  onEditMemberModalOpen = (userId) => {
     const { members } = this.state;
     const editedUser = members.find(({ id }) => id === userId);
     this.onModalOpen();
@@ -78,6 +78,12 @@ export default class MembersPage extends Component {
       registerData: { ...editedUser },
       isEditMode: true,
     });
+  };
+
+  onSubmitEditUser = () => {
+    const db = new Firebase();
+    const { registerData } = this.state;
+    db.editUserData(registerData);
   };
 
   render() {
@@ -89,7 +95,7 @@ export default class MembersPage extends Component {
           showModal={showModal}
           isEditMode={isEditMode}
           onModalClose={this.onModalClose}
-          onSubmit={() => this.onAddNewMember(registerData)}
+          onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
         >
           <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
         </Modal>
@@ -98,7 +104,7 @@ export default class MembersPage extends Component {
             <Button customClass='with-margin' customStyles={btnStyles} onClick={this.onModalOpen}>
               <p className='btn-inner'>Register</p>
             </Button>
-            <MembersTable members={members} onEditMember={this.onEditMember} />
+            <MembersTable members={members} onEditMemberModalOpen={this.onEditMemberModalOpen} />
           </>
         ) : (
           <Preloader />

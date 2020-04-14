@@ -86,4 +86,15 @@ export default class Firebase {
     userProgress.forEach((el) => userProgressData.push({ ...el.data(), taskTrackId: el.id }));
     return userProgressData;
   };
+
+  editUserData = async (newData) => {
+    try {
+      await this.database
+        .collection('users')
+        .doc(newData.id)
+        .set(newData, { merge: true });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 }
