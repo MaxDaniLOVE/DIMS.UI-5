@@ -18,6 +18,7 @@ export default class MembersPage extends Component {
       registerData: defaultRegisterData,
       isEditMode: false,
     };
+    this.db = new Firebase();
   }
 
   componentDidMount() {
@@ -28,8 +29,7 @@ export default class MembersPage extends Component {
         isLoaded: true,
       });
     } else {
-      const db = new Firebase();
-      db.getUsersData().then((data) => {
+      this.db.getUsersData().then((data) => {
         const newMembers = [];
         data.forEach((doc) => {
           newMembers.push({ ...doc.data(), id: doc.id });
@@ -65,9 +65,7 @@ export default class MembersPage extends Component {
   };
 
   onAddNewMember = (member) => {
-    const db = new Firebase();
-    // db.addNewUser(member);
-    console.log(member);
+    this.db.addNewUser(member);
   };
 
   onEditMemberModalOpen = (userId) => {
@@ -81,9 +79,8 @@ export default class MembersPage extends Component {
   };
 
   onSubmitEditUser = () => {
-    const db = new Firebase();
     const { registerData } = this.state;
-    db.editUserData(registerData);
+    this.db.editUserData(registerData);
   };
 
   render() {
