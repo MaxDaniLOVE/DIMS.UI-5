@@ -7,6 +7,7 @@ import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
 import MembersPageModal from '../components/MembersPageModal';
 import { inputsParser, defaultRegisterData } from '../utils/inputsParser';
+import MembersDataModal from '../components/MembersDataModal';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -17,6 +18,7 @@ export default class MembersPage extends Component {
       showModal: false,
       registerData: defaultRegisterData,
       isEditMode: false,
+      isDetailMode: false,
     };
     this.db = new Firebase();
   }
@@ -54,6 +56,7 @@ export default class MembersPage extends Component {
       showModal: false,
       registerData: defaultRegisterData,
       isEditMode: false,
+      isDetailMode: false,
     });
   };
 
@@ -83,25 +86,44 @@ export default class MembersPage extends Component {
     this.db.editUserData(registerData);
   };
 
+  onMemberDataOpen = (userId) => {
+    const { members } = this.state;
+    const editedUser = members.find(({ id }) => id === userId);
+    this.onModalOpen();
+    this.setState({
+      registerData: { ...editedUser },
+      isDetailMode: true,
+    });
+  };
+
   render() {
-    const { members, isLoaded, showModal, registerData, isEditMode } = this.state;
+    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode } = this.state;
     const btnStyles = { marginBottom: '1rem' };
     return (
       <div className='table-wrapper'>
         <Modal
           showModal={showModal}
           isEditMode={isEditMode}
+          isDetailMode={isDetailMode}
           onModalClose={this.onModalClose}
           onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
         >
-          <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
+          {isDetailMode ? (
+            <MembersDataModal registerData={registerData} />
+          ) : (
+            <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
+          )}
         </Modal>
         {isLoaded ? (
           <>
             <Button customClass='with-margin' customStyles={btnStyles} onClick={this.onModalOpen}>
               <p className='btn-inner'>Register</p>
             </Button>
-            <MembersTable members={members} onEditMemberModalOpen={this.onEditMemberModalOpen} />
+            <MembersTable
+              members={members}
+              onEditMemberModalOpen={this.onEditMemberModalOpen}
+              onMemberDataOpen={this.onMemberDataOpen}
+            />
           </>
         ) : (
           <Preloader />

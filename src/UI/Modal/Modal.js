@@ -5,21 +5,23 @@ import Button from '../Button';
 
 import './Modal.scss';
 
-const ModalOverlay = ({ children, onModalClose, onSubmit }) => {
+const ModalOverlay = ({ children, onModalClose, onSubmit, isDetailMode }) => {
   const content = (
     <div className='modal-backdrop'>
       <form className='modal' onSubmit={() => console.log('submit')}>
         <div className='modal__content'>{children}</div>
         <div className='modal__footer'>
-          <Button
-            onClick={() => {
-              onSubmit();
-              onModalClose();
-            }}
-            customClass='btn-success'
-          >
-            <p className='btn-inner'>Save</p>
-          </Button>
+          {isDetailMode ? null : (
+            <Button
+              onClick={() => {
+                onSubmit();
+                onModalClose();
+              }}
+              customClass='btn-success'
+            >
+              <p className='btn-inner'>Save</p>
+            </Button>
+          )}
           <Button onClick={onModalClose} customStyles={{ width: '10rem' }}>
             <span className='btn-inner'>Back to grid</span>
           </Button>

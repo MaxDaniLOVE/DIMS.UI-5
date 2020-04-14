@@ -5,7 +5,7 @@ import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import './MembersTable.scss';
 
-const MembersTable = ({ members, onEditMemberModalOpen }) => {
+const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen }) => {
   const headers = ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Manage'];
   const membersTableBody = members.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
@@ -16,7 +16,7 @@ const MembersTable = ({ members, onEditMemberModalOpen }) => {
       <tr key={id}>
         <td>{idx + 1}</td>
         <td>
-          <Button onClick={() => onEditMemberModalOpen(id)} customClass='btn-link'>
+          <Button onClick={() => onMemberDataOpen(id)} customClass='btn-link'>
             <p className='btn-inner'>{`${name} ${lastName}`}</p>
           </Button>
         </td>
@@ -31,8 +31,8 @@ const MembersTable = ({ members, onEditMemberModalOpen }) => {
           <Button>
             <Link to={`/member/${id}/progress`}>Progress</Link>
           </Button>
-          <Button>
-            <Link to='/'>Edit</Link>
+          <Button onClick={() => onEditMemberModalOpen(id)}>
+            <p className='btn-inner'>Edit</p>
           </Button>
           <Button customClass='btn-danger'>
             <Link to='/'>Delete</Link>
@@ -53,6 +53,7 @@ const MembersTable = ({ members, onEditMemberModalOpen }) => {
 
 MembersTable.propTypes = {
   onEditMemberModalOpen: PropTypes.func.isRequired,
+  onMemberDataOpen: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
