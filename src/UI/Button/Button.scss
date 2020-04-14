@@ -27,3 +27,20 @@
 .btn-success {
   background-color: $teal-green;
 }
+.btn-link {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid $charcoal;
+  transition: all 0.3s ease-in-out;
+  .btn-inner {
+    color: $charcoal;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: $charcoal;
+    transition: all 0.3s ease-in-out;
+    .btn-inner {
+      color: #fff;
+    }
+  }
+}

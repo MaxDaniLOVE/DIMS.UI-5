@@ -15,7 +15,11 @@ const MembersTable = ({ members, onEditMemberModalOpen }) => {
     return (
       <tr key={id}>
         <td>{idx + 1}</td>
-        <td onClick={() => onEditMemberModalOpen(id)}>{`${name} ${lastName}`}</td>
+        <td>
+          <Button onClick={() => onEditMemberModalOpen(id)} customClass='btn-link'>
+            <p className='btn-inner'>{`${name} ${lastName}`}</p>
+          </Button>
+        </td>
         <td>{directionId}</td>
         <td>{education}</td>
         <td>{stringStartDate}</td>
@@ -48,6 +52,7 @@ const MembersTable = ({ members, onEditMemberModalOpen }) => {
 };
 
 MembersTable.propTypes = {
+  onEditMemberModalOpen: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

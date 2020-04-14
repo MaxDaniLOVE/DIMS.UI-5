@@ -19,7 +19,7 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
                 id={id}
                 onChange={(e) => onFormChange(e)}
                 value={option}
-                checked={isEditMode ? registerData[id] === option : false}
+                checked={isEditMode ? registerData[id] === option : undefined}
               />
               {option}
             </label>
@@ -38,14 +38,16 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>
           {label}
-          <input value={value || ''} type={type} id={id} onChange={(e) => onFormChange(e)} />
+          <input value={isEditMode ? value : undefined} type={type} id={id} onChange={(e) => onFormChange(e)} />
         </label>
       </div>
     );
   });
+  const { name, lastName } = registerData;
+  const title = isEditMode ? `${name} ${lastName}:` : 'Register new user:';
   return (
     <>
-      <h3>Register new user:</h3>
+      <h3>{title}</h3>
       <div className='modal__content_container'>{inputsLabels}</div>
     </>
   );
