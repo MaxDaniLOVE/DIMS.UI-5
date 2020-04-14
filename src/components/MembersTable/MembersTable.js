@@ -5,7 +5,7 @@ import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import './MembersTable.scss';
 
-const MembersTable = ({ members }) => {
+const MembersTable = ({ members, onEditMember }) => {
   const headers = ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Manage'];
   const membersTableBody = members.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
@@ -15,7 +15,7 @@ const MembersTable = ({ members }) => {
     return (
       <tr key={id}>
         <td>{idx + 1}</td>
-        <td>{`${name} ${lastName}`}</td>
+        <td onClick={() => onEditMember(id)}>{`${name} ${lastName}`}</td>
         <td>{directionId}</td>
         <td>{education}</td>
         <td>{stringStartDate}</td>

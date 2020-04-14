@@ -16,6 +16,7 @@ export default class MembersPage extends Component {
       isLoaded: false,
       showModal: false,
       registerData: defaultRegisterData,
+      isEditMode: false,
     };
   }
 
@@ -52,6 +53,7 @@ export default class MembersPage extends Component {
     this.setState({
       showModal: false,
       registerData: defaultRegisterData,
+      isEditMode: false,
     });
   };
 
@@ -64,27 +66,39 @@ export default class MembersPage extends Component {
 
   onAddNewMember = (member) => {
     const db = new Firebase();
-    db.addNewUser(member);
+    // db.addNewUser(member);
+    console.log(member);
+  };
+
+  onEditMember = (userId) => {
+    const { members } = this.state;
+    const editedUser = members.find(({ id }) => id === userId);
+    this.onModalOpen();
+    this.setState({
+      registerData: { ...editedUser },
+      isEditMode: true,
+    });
   };
 
   render() {
-    const { members, isLoaded, showModal, registerData } = this.state;
+    const { members, isLoaded, showModal, registerData, isEditMode } = this.state;
     const btnStyles = { marginBottom: '1rem' };
     return (
       <div className='table-wrapper'>
         <Modal
           showModal={showModal}
+          isEditMode={isEditMode}
           onModalClose={this.onModalClose}
           onSubmit={() => this.onAddNewMember(registerData)}
         >
-          <MembersPageModal onFormChange={this.onFormChange} />
+          <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
         </Modal>
         {isLoaded ? (
           <>
             <Button customClass='with-margin' customStyles={btnStyles} onClick={this.onModalOpen}>
               <p className='btn-inner'>Register</p>
             </Button>
-            <MembersTable members={members} />
+            <MembersTable members={members} onEditMember={this.onEditMember} />
           </>
         ) : (
           <Preloader />

@@ -4,7 +4,8 @@ import inputs from '../../utils/inputs';
 
 import './MembersPageModal.scss';
 
-const MembersPageModal = ({ onFormChange }) => {
+const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
+  // console.log(new Date(registerData.startDate).toISOString().substr(0, 10))
   const inputsLabels = inputs.map(({ label, id, type, options }) => {
     if (type === 'radio') {
       return (
@@ -12,7 +13,14 @@ const MembersPageModal = ({ onFormChange }) => {
           {label}
           {options.map((option) => (
             <label htmlFor={id} key={option}>
-              <input name={id} type={type} id={id} onChange={(e) => onFormChange(e)} value={option} />
+              <input
+                name={id}
+                type={type}
+                id={id}
+                onChange={(e) => onFormChange(e)}
+                value={option}
+                checked={isEditMode ? registerData[id] === option : false}
+              />
               {option}
             </label>
           ))}
@@ -23,7 +31,7 @@ const MembersPageModal = ({ onFormChange }) => {
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>
           {label}
-          <input type={type} id={id} onChange={(e) => onFormChange(e)} />
+          <input value={isEditMode ? registerData[id] : ''} type={type} id={id} onChange={(e) => onFormChange(e)} />
         </label>
       </div>
     );
@@ -38,6 +46,8 @@ const MembersPageModal = ({ onFormChange }) => {
 
 MembersPageModal.propTypes = {
   onFormChange: PropTypes.func.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
+  registerData: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default MembersPageModal;
