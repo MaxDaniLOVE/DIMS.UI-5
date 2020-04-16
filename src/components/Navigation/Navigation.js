@@ -30,30 +30,36 @@ class Navigation extends Component {
     return (
       <>
         <SideBar isOpen={isSideBarOpen}>
-          <Button customClass='btn-danger' onClick={() => this.onCloseSideBar()}>
-            <p className='btn-inner'>X</p>
-          </Button>
-          <NavLink activeClassName='active-link' to='/members' onClick={() => this.onCloseSideBar()}>
-            All members
-          </NavLink>
-          <NavLink activeClassName='active-link' to='/tasks'>
-            All tasks
-          </NavLink>
-        </SideBar>
-        <MainHeader>
-          <Button customClass='navigation__menu-btn menu-btn' onClick={() => this.onOpenSideBar()}>
-            <span />
-            <span />
-            <span />
-          </Button>
-          <nav className='navigation__header-nav'>
-            <NavLink activeClassName='active-link' to='/members'>
+          <>
+            <Button customClass='btn-danger' onClick={() => this.onCloseSideBar()}>
+              <p className='btn-inner'>X</p>
+            </Button>
+            <NavLink activeClassName='active-link' to='/members' onClick={() => this.onCloseSideBar()}>
               All members
             </NavLink>
             <NavLink activeClassName='active-link' to='/tasks'>
               All tasks
             </NavLink>
-          </nav>
+          </>
+        </SideBar>
+        <MainHeader>
+          <>
+            <Button customClass='navigation__menu-btn menu-btn' onClick={() => this.onOpenSideBar()}>
+              <>
+                <span />
+                <span />
+                <span />
+              </>
+            </Button>
+            <nav className='navigation__header-nav'>
+              <NavLink activeClassName='active-link' to='/members'>
+                All members
+              </NavLink>
+              <NavLink activeClassName='active-link' to='/tasks'>
+                All tasks
+              </NavLink>
+            </nav>
+          </>
         </MainHeader>
       </>
     );
