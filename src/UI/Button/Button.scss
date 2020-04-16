@@ -12,6 +12,9 @@
   justify-content: center;
   align-items: center;
   justify-self: center;
+  &:hover {
+    cursor: pointer;
+  }
   .btn-inner,
   a {
     margin: 0;

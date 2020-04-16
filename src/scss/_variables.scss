@@ -8,11 +8,23 @@ $freesia: #e1c340 !default;
 $honeysuckle: #c44b4f !default;
 $teal-green: #0d877a !default;
 
-.active {
+@mixin active-link {
   display: inline-block;
-  height: 100%;
   background-color: $grey-ligth;
   padding: 0 0.5rem 0 1.5rem;
   transition: all 0.3s ease-in-out;
   color: $charcoal;
+}
+@mixin inactive-link {
+  display: inline-block;
+  text-align: center;
+  line-height: 4rem;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 300;
+  box-sizing: border-box;
+  border-radius: 0;
+  padding: 0 1.5rem 0 0.5rem;
+  color: $grey-ligth;
+  transition: all 0.3s ease-in-out;
 }

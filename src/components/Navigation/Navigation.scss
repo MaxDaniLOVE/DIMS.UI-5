@@ -25,26 +25,32 @@
     }
   }
   a {
-    display: inline-block;
-    text-align: center;
-    line-height: 4rem;
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: 300;
-    height: 100%;
-    border-radius: 0;
-    padding: 0 1.5rem 0 0.5rem;
-    color: $grey-ligth;
-    transition: all 0.3s ease-in-out;
+    @include inactive-link;
     &:hover {
-      @extend .active;
+      @include active-link;
+      height: 100%;
     }
   }
   .active-link {
-    @extend .active;
+    @include active-link;
+    height: 100%;
   }
 }
-
+.side-bar {
+  a {
+    @include inactive-link;
+    height: 4rem;
+    width: 100%;
+    &:hover {
+      @include active-link;
+      height: 4rem;
+    }
+  }
+  .active-link {
+    @include active-link;
+    height: 4rem;
+  }
+}
 @media only screen and (max-width: 768px) {
   .navigation {
     justify-content: space-between;
