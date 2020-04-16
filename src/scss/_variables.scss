@@ -7,3 +7,12 @@ $cyan: #4cd7d0 !default;
 $freesia: #e1c340 !default;
 $honeysuckle: #c44b4f !default;
 $teal-green: #0d877a !default;
+
+.active {
+  display: inline-block;
+  height: 100%;
+  background-color: $grey-ligth;
+  padding: 0 0.5rem 0 1.5rem;
+  transition: all 0.3s ease-in-out;
+  color: $charcoal;
+}

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import MembersPage from '../../pages/MembersPage';
 import MembersProgressPage from '../../pages/MembersProgressPage';
 import MembersTasksPage from '../../pages/MembersTasksPage';
+import Header from '../Navigation';
 
 import './App.scss';
 
@@ -14,8 +15,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className='container'>
-        <Router>
+      <Router>
+        <Header />
+        <div className='container'>
           <Switch>
             <Route exact path='/'>
               <Redirect to='members' />
@@ -30,8 +32,8 @@ class App extends Component {
               <MembersTasksPage />
             </Route>
           </Switch>
-        </Router>
-      </div>
+        </div>
+      </Router>
     );
   }
 }
