@@ -33,7 +33,7 @@ class Navigation extends Component {
           <Button customClass='btn-danger' onClick={() => this.onCloseSideBar()}>
             <p className='btn-inner'>X</p>
           </Button>
-          <NavLink activeClassName='active-link' to='/members'>
+          <NavLink activeClassName='active-link' to='/members' onClick={() => this.onCloseSideBar()}>
             All members
           </NavLink>
         </SideBar>
