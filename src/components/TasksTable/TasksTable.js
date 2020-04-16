@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 
-const TasksTable = ({ tasks }) => {
+const TasksTable = ({ tasks, onEditTaskModalOpen }) => {
   const headers = ['#', 'Name', 'Start', 'Deadline', ''];
   const tasksTableBody = tasks.map(({ deadlineDate, name, startDate, taskId }, idx) => {
     const startString = new Date(startDate).toLocaleDateString();
@@ -19,7 +19,7 @@ const TasksTable = ({ tasks }) => {
         <td>{startString}</td>
         <td>{deadlineString}</td>
         <td className='admin-btns'>
-          <Button>
+          <Button onClick={() => onEditTaskModalOpen(taskId)}>
             <p className='btn-inner'>Edit</p>
           </Button>
           <Button customClass='btn-danger'>
@@ -41,6 +41,7 @@ const TasksTable = ({ tasks }) => {
 
 TasksTable.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.any).isRequired,
+  onEditTaskModalOpen: PropTypes.func.isRequired,
 };
 
 export default TasksTable;

@@ -55,6 +55,26 @@ class TasksManagePage extends Component {
     }));
   };
 
+  onSubmitEditTask = (task) => {
+    console.log('this task edited');
+    console.log(task);
+  };
+
+  onAddNewTask = (task) => {
+    console.log('this task added');
+    console.log(task);
+  };
+
+  onEditTaskModalOpen = (id) => {
+    const { tasks } = this.state;
+    const editedTask = tasks.find(({ taskId }) => id === taskId);
+    this.onModalOpen();
+    this.setState({
+      taskData: { ...editedTask },
+      isEditMode: true,
+    });
+  };
+
   render() {
     const { tasks, isLoaded, showModal, isEditMode, isDetailMode, taskData } = this.state;
     const btnStyles = { marginBottom: '1rem' };
@@ -65,7 +85,7 @@ class TasksManagePage extends Component {
           isEditMode={isEditMode}
           isDetailMode={isDetailMode}
           onModalClose={this.onModalClose}
-          onSubmit={() => console.log(taskData)}
+          onSubmit={() => (isEditMode ? this.onSubmitEditTask(taskData) : this.onAddNewTask(taskData))}
         >
           {isDetailMode ? (
             <div>details</div>
@@ -78,7 +98,7 @@ class TasksManagePage extends Component {
             <Button customClass='btn-success' customStyles={btnStyles} onClick={this.onModalOpen}>
               <p className='btn-inner'>Create</p>
             </Button>
-            <TasksTable tasks={tasks} />
+            <TasksTable tasks={tasks} onEditTaskModalOpen={this.onEditTaskModalOpen} />
           </>
         ) : (
           <Preloader />
