@@ -4,6 +4,7 @@ import MembersPage from '../../pages/MembersPage';
 import MembersProgressPage from '../../pages/MembersProgressPage';
 import MembersTasksPage from '../../pages/MembersTasksPage';
 import Header from '../Navigation';
+import TasksManagePage from '../../pages/TasksManagePage';
 
 import './App.scss';
 
@@ -30,6 +31,9 @@ class App extends Component {
             </Route>
             <Route path='/member/:mid/tasks'>
               <MembersTasksPage />
+            </Route>
+            <Route path='/tasks'>
+              <TasksManagePage />
             </Route>
           </Switch>
         </div>

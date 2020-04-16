@@ -36,6 +36,9 @@ class Navigation extends Component {
           <NavLink activeClassName='active-link' to='/members' onClick={() => this.onCloseSideBar()}>
             All members
           </NavLink>
+          <NavLink activeClassName='active-link' to='/tasks'>
+            All tasks
+          </NavLink>
         </SideBar>
         <MainHeader>
           <Button customClass='navigation__menu-btn menu-btn' onClick={() => this.onOpenSideBar()}>
@@ -46,6 +49,9 @@ class Navigation extends Component {
           <nav className='navigation__header-nav'>
             <NavLink activeClassName='active-link' to='/members'>
               All members
+            </NavLink>
+            <NavLink activeClassName='active-link' to='/tasks'>
+              All tasks
             </NavLink>
           </nav>
         </MainHeader>
