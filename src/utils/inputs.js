@@ -1,4 +1,4 @@
-const inputs = [
+const membersInputs = [
   {
     label: 'Name:',
     id: 'name',
@@ -67,4 +67,28 @@ const inputs = [
     type: 'tel',
   },
 ];
-export default inputs;
+
+const tasksInputs = [
+  {
+    label: 'DescriptionId:',
+    id: 'description',
+    type: 'text',
+  },
+  {
+    label: 'Name:',
+    id: 'name',
+    type: 'text',
+  },
+  {
+    label: 'Start date:',
+    id: 'startDate',
+    type: 'date',
+  },
+  {
+    label: 'Deadline date:',
+    id: 'deadlineDate',
+    type: 'date',
+  },
+];
+
+export { membersInputs, tasksInputs };

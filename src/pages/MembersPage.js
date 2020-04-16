@@ -5,9 +5,10 @@ import Firebase from '../services/Firebase';
 import Button from '../UI/Button';
 import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
-import MembersPageModal from '../components/MembersPageModal';
+import ModalInputs from '../components/ModalInputs';
 import { inputsParser, defaultRegisterData } from '../utils/inputsParser';
 import MembersDataModal from '../components/MembersDataModal';
+import { membersInputs as inputs } from '../utils/inputs';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -120,9 +121,9 @@ export default class MembersPage extends Component {
           onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
         >
           {isDetailMode ? (
-            <MembersDataModal registerData={registerData} />
+            <MembersDataModal data={registerData} />
           ) : (
-            <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
+            <ModalInputs inputs={inputs} data={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
           )}
         </Modal>
         {isLoaded ? (

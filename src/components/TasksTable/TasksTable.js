@@ -11,7 +11,11 @@ const TasksTable = ({ tasks }) => {
     return (
       <tr key={taskId}>
         <td>{idx + 1}</td>
-        <td>{name}</td>
+        <td>
+          <Button onClick={() => console.log(taskId)} customClass='btn-link'>
+            <p className='btn-inner'>{name}</p>
+          </Button>
+        </td>
         <td>{startString}</td>
         <td>{deadlineString}</td>
         <td className='admin-btns'>

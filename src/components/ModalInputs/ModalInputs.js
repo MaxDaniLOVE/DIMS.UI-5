@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import inputs from '../../utils/inputs';
 import { dateToString } from '../../utils/convertDate';
 
 import './MembersPageModal.scss';
-
-const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
+// TODO rename it
+const ModalInputs = ({ onFormChange, isEditMode, data, inputs }) => {
   const inputsLabels = inputs.map(({ label, id, type, options }) => {
     if (type === 'radio') {
       return (
@@ -19,7 +18,7 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
                 id={id}
                 onChange={(e) => onFormChange(e)}
                 value={option}
-                checked={isEditMode ? registerData[id] === option : undefined}
+                checked={isEditMode ? data[id] === option : undefined}
               />
               {option}
             </label>
@@ -29,10 +28,10 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
     }
     let value;
     if (isEditMode && type !== 'date') {
-      value = registerData[id];
+      value = data[id];
     }
     if (isEditMode && type === 'date') {
-      value = dateToString(registerData[id]);
+      value = dateToString(data[id]);
     }
     return (
       <div className='form-inputs' key={id}>
@@ -43,7 +42,7 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
       </div>
     );
   });
-  const { name, lastName } = registerData;
+  const { name, lastName } = data;
   const title = isEditMode ? `${name} ${lastName}:` : 'Register new user:';
   return (
     <>
@@ -53,10 +52,11 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
   );
 };
 
-MembersPageModal.propTypes = {
+ModalInputs.propTypes = {
   onFormChange: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
-  registerData: PropTypes.objectOf(PropTypes.any).isRequired,
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
+  inputs: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default MembersPageModal;
+export default ModalInputs;
