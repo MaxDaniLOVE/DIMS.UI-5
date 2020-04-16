@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Firebase from '../services/Firebase';
 
 class TasksManagePage extends Component {
   constructor() {
@@ -6,13 +7,21 @@ class TasksManagePage extends Component {
     this.state = {
       tasks: [],
     };
+    this.db = new Firebase();
   }
 
   componentDidMount() {
-    console.log('mounted!');
+    this.db.getAllTasks().then((data) => {
+      const newData = [];
+      data.forEach((doc) => newData.push(doc.data()));
+      this.setState({
+        tasks: newData,
+      });
+    });
   }
 
   render() {
+    const { tasks } = this.state;
     return <div>TasksManage</div>;
   }
 }

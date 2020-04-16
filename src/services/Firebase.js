@@ -109,4 +109,14 @@ export default class Firebase {
       throw new Error(error);
     }
   };
+
+  getAllTasks = async () => {
+    let tasks;
+    try {
+      tasks = await this.database.collection('tasks').get();
+    } catch (error) {
+      throw new Error(error);
+    }
+    return tasks;
+  };
 }
