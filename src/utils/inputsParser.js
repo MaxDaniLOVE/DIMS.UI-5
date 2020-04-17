@@ -2,14 +2,14 @@ import { stringToDate } from './convertDate';
 
 const inputsParser = (value, id, data) => {
   const coppiedObj = { ...data };
-  if (id === 'startDate' || id === 'birthDate') {
+  if (id === 'startDate' || id === 'birthDate' || id === 'deadlineDate') {
     coppiedObj[id] = stringToDate(value);
   } else if (id === 'members') {
-    if (value.checked) {
-      data.members.add(value.userId);
-    } else {
-      data.members.delete(value.userId);
-    }
+    const itemIdx = data.members.findIndex(({ userId }) => userId === value.userId);
+    const oldItem = data.members[itemIdx];
+    const newItem = { ...oldItem, isSelected: value.checked };
+    const newMembers = [...data.members.slice(0, itemIdx), newItem, ...data.members.slice(itemIdx + 1)];
+    coppiedObj[id] = newMembers;
   } else {
     coppiedObj[id] = value;
   }
@@ -37,7 +37,7 @@ const defaultTaskData = {
   name: '',
   startDate: '',
   deadlineDate: '',
-  members: new Set(),
+  members: [],
 };
 
 export { inputsParser, defaultRegisterData, defaultTaskData };

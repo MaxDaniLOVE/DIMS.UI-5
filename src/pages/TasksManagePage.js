@@ -32,6 +32,16 @@ class TasksManagePage extends Component {
         isLoaded: true,
       });
     });
+    this.db.getUsersData().then((data) => {
+      const usersData = [];
+      data.forEach((doc) => {
+        const fullName = `${doc.data().name} ${doc.data().lastName}`;
+        usersData.push({ fullName, userId: doc.id });
+      });
+      this.setState(({ taskData }) => ({
+        taskData: { ...taskData, members: usersData },
+      }));
+    });
   }
 
   onModalOpen = () => {
@@ -41,12 +51,12 @@ class TasksManagePage extends Component {
   };
 
   onModalClose = () => {
-    this.setState({
+    this.setState(({ taskData }) => ({
       showModal: false,
-      taskData: defaultTaskData,
+      taskData: { ...this.defaultTaskData, members: taskData.members },
       isEditMode: false,
       isDetailMode: false,
-    });
+    }));
   };
 
   onFormChange = (e) => {
@@ -90,6 +100,12 @@ class TasksManagePage extends Component {
   render() {
     const { tasks, isLoaded, showModal, isEditMode, isDetailMode, taskData } = this.state;
     const btnStyles = { marginBottom: '1rem' };
+    const checkboxes = {
+      label: 'Members:',
+      id: 'members',
+      type: 'checkbox',
+      options: taskData.members,
+    };
     return (
       <div className='table-wrapper'>
         <Modal
@@ -102,7 +118,12 @@ class TasksManagePage extends Component {
           {isDetailMode ? (
             <DataModal data={taskData} inputs={inputs} />
           ) : (
-            <ModalInputs inputs={inputs} onFormChange={this.onFormChange} isEditMode={isEditMode} data={taskData} />
+            <ModalInputs
+              inputs={[...inputs, checkboxes]}
+              onFormChange={this.onFormChange}
+              isEditMode={isEditMode}
+              data={taskData}
+            />
           )}
         </Modal>
         {isLoaded ? (
