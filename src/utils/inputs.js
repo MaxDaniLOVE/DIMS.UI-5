@@ -70,7 +70,7 @@ const membersInputs = [
 
 const tasksInputs = [
   {
-    label: 'DescriptionId:',
+    label: 'Description:',
     id: 'description',
     type: 'text',
   },

@@ -5,6 +5,7 @@ import Button from '../UI/Button';
 import TasksTable from '../components/TasksTable';
 import Modal from '../UI/Modal';
 import ModalInputs from '../components/ModalInputs';
+import DataModal from '../components/DataModal';
 import { tasksInputs as inputs } from '../utils/inputs';
 import { inputsParser } from '../utils/inputsParser';
 
@@ -75,6 +76,16 @@ class TasksManagePage extends Component {
     });
   };
 
+  onTasksDataOpen = (id) => {
+    const { tasks } = this.state;
+    const editedTask = tasks.find(({ taskId }) => id === taskId);
+    this.onModalOpen();
+    this.setState({
+      taskData: { ...editedTask },
+      isDetailMode: true,
+    });
+  };
+
   render() {
     const { tasks, isLoaded, showModal, isEditMode, isDetailMode, taskData } = this.state;
     const btnStyles = { marginBottom: '1rem' };
@@ -88,7 +99,7 @@ class TasksManagePage extends Component {
           onSubmit={() => (isEditMode ? this.onSubmitEditTask(taskData) : this.onAddNewTask(taskData))}
         >
           {isDetailMode ? (
-            <div>details</div>
+            <DataModal data={taskData} inputs={inputs} />
           ) : (
             <ModalInputs inputs={inputs} onFormChange={this.onFormChange} isEditMode={isEditMode} data={taskData} />
           )}
@@ -98,7 +109,11 @@ class TasksManagePage extends Component {
             <Button customClass='btn-success' customStyles={btnStyles} onClick={this.onModalOpen}>
               <p className='btn-inner'>Create</p>
             </Button>
-            <TasksTable tasks={tasks} onEditTaskModalOpen={this.onEditTaskModalOpen} />
+            <TasksTable
+              tasks={tasks}
+              onEditTaskModalOpen={this.onEditTaskModalOpen}
+              onTasksDataOpen={this.onTasksDataOpen}
+            />
           </>
         ) : (
           <Preloader />

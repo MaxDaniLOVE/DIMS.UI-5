@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 
-const TasksTable = ({ tasks, onEditTaskModalOpen }) => {
+const TasksTable = ({ tasks, onEditTaskModalOpen, onTasksDataOpen }) => {
   const headers = ['#', 'Name', 'Start', 'Deadline', ''];
   const tasksTableBody = tasks.map(({ deadlineDate, name, startDate, taskId }, idx) => {
     const startString = new Date(startDate).toLocaleDateString();
@@ -12,7 +12,7 @@ const TasksTable = ({ tasks, onEditTaskModalOpen }) => {
       <tr key={taskId}>
         <td>{idx + 1}</td>
         <td>
-          <Button onClick={() => console.log(taskId)} customClass='btn-link'>
+          <Button onClick={() => onTasksDataOpen(taskId)} customClass='btn-link'>
             <p className='btn-inner'>{name}</p>
           </Button>
         </td>
