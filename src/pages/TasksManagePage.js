@@ -53,7 +53,7 @@ class TasksManagePage extends Component {
   onModalClose = () => {
     this.setState(({ taskData }) => ({
       showModal: false,
-      taskData: { ...this.defaultTaskData, members: taskData.members },
+      taskData: { ...defaultTaskData, members: taskData.members },
       isEditMode: false,
       isDetailMode: false,
     }));
@@ -91,10 +91,10 @@ class TasksManagePage extends Component {
     const { tasks } = this.state;
     const editedTask = tasks.find(({ taskId }) => id === taskId);
     this.onModalOpen();
-    this.setState({
-      taskData: { ...editedTask },
+    this.setState(({ taskData }) => ({
+      taskData: { ...editedTask, members: taskData.members },
       isDetailMode: true,
-    });
+    }));
   };
 
   render() {
