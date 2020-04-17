@@ -4,6 +4,12 @@ const inputsParser = (value, id, data) => {
   const coppiedObj = { ...data };
   if (id === 'startDate' || id === 'birthDate') {
     coppiedObj[id] = stringToDate(value);
+  } else if (id === 'members') {
+    if (value.checked) {
+      data.members.add(value.userId);
+    } else {
+      data.members.delete(value.userId);
+    }
   } else {
     coppiedObj[id] = value;
   }
@@ -26,4 +32,12 @@ const defaultRegisterData = {
   startDate: '',
 };
 
-export { inputsParser, defaultRegisterData };
+const defaultTaskData = {
+  description: '',
+  name: '',
+  startDate: '',
+  deadlineDate: '',
+  members: new Set(),
+};
+
+export { inputsParser, defaultRegisterData, defaultTaskData };

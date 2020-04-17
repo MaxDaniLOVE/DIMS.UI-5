@@ -7,14 +7,14 @@ import Modal from '../UI/Modal';
 import ModalInputs from '../components/ModalInputs';
 import DataModal from '../components/DataModal';
 import { tasksInputs as inputs } from '../utils/inputs';
-import { inputsParser } from '../utils/inputsParser';
+import { inputsParser, defaultTaskData } from '../utils/inputsParser';
 
 class TasksManagePage extends Component {
   constructor() {
     super();
     this.state = {
       tasks: [],
-      taskData: {},
+      taskData: defaultTaskData,
       isLoaded: false,
       showModal: false,
       isEditMode: false,
@@ -43,16 +43,17 @@ class TasksManagePage extends Component {
   onModalClose = () => {
     this.setState({
       showModal: false,
-      taskData: {},
+      taskData: defaultTaskData,
       isEditMode: false,
       isDetailMode: false,
     });
   };
 
   onFormChange = (e) => {
-    const { value, id } = e.target;
+    const { value, id, checked, type } = e.target;
+    const sendData = type === 'checkbox' ? { userId: value, checked } : value;
     this.setState(({ taskData }) => ({
-      taskData: inputsParser(value, id, taskData),
+      taskData: inputsParser(sendData, id, taskData),
     }));
   };
 

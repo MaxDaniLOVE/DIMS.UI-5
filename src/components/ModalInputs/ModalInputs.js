@@ -6,11 +6,11 @@ import './MembersPageModal.scss';
 // TODO rename it
 const ModalInputs = ({ onFormChange, isEditMode, data, inputs }) => {
   const inputsLabels = inputs.map(({ label, id, type, options }) => {
-    if (type === 'radio') {
+    if (type === 'radio' || type === 'checkbox') {
       return (
         <div className='form-inputs' key={id}>
           {label}
-          {options.map((option) => (
+          {[...options].map((option) => (
             <label htmlFor={id} key={option}>
               <input
                 name={id}

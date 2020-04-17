@@ -89,6 +89,12 @@ const tasksInputs = [
     id: 'deadlineDate',
     type: 'date',
   },
+  {
+    label: 'Members:',
+    id: 'members',
+    type: 'checkbox',
+    options: new Set().add('u1id').add('u2id'),
+  },
 ];
 
 export { membersInputs, tasksInputs };
