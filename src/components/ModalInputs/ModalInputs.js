@@ -10,19 +10,28 @@ const ModalInputs = ({ onFormChange, isEditMode, data, inputs }) => {
       return (
         <div className='form-inputs' key={id}>
           {label}
-          {options.map((option) => (
-            <label htmlFor={id} key={type === 'radio' ? option : option.userId}>
-              <input
-                name={id}
-                type={type}
-                id={id}
-                onChange={(e) => onFormChange(e)}
-                value={type === 'radio' ? option : option.userId}
-                checked={isEditMode ? data[id] === option : undefined}
-              />
-              {type === 'radio' ? option : option.fullName}
-            </label>
-          ))}
+          {options.map((option, idx) => {
+            let isChecked;
+            if (type === 'radio' && isEditMode) {
+              isChecked = data[id] === option;
+            }
+            if (type === 'checkbox' && isEditMode) {
+              isChecked = data[id][idx].userId === option.userId && option.isSelected;
+            }
+            return (
+              <label htmlFor={id} key={type === 'radio' ? option : option.userId}>
+                <input
+                  name={id}
+                  type={type}
+                  id={id}
+                  onChange={(e) => onFormChange(e)}
+                  value={type === 'radio' ? option : option.userId}
+                  checked={isEditMode ? isChecked : undefined}
+                />
+                {type === 'radio' ? option : option.fullName}
+              </label>
+            );
+          })}
         </div>
       );
     }
