@@ -81,10 +81,10 @@ class TasksManagePage extends Component {
     const { tasks } = this.state;
     const editedTask = tasks.find(({ taskId }) => id === taskId);
     this.onModalOpen();
-    this.setState({
-      taskData: { ...editedTask },
+    this.setState(({ taskData }) => ({
+      taskData: { ...editedTask, members: taskData.members },
       isEditMode: true,
-    });
+    }));
   };
 
   onTasksDataOpen = (id) => {
