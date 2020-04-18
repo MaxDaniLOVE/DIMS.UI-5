@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import inputs from '../../utils/inputs';
+import { membersInputs } from '../../utils/inputs';
 import { dateToString } from '../../utils/convertDate';
 
 import './MembersPageModal.scss';
 
 const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
-  const inputsLabels = inputs.map(({ label, id, type, options }) => {
+  const inputsLabels = membersInputs.map(({ label, id, type, options }) => {
     if (type === 'radio') {
       return (
         <div className='form-inputs' key={id}>

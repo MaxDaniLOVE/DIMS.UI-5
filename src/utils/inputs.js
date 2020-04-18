@@ -1,4 +1,4 @@
-const inputs = [
+const membersInputs = [
   {
     label: 'Name:',
     id: 'name',
@@ -67,4 +67,4 @@ const inputs = [
     type: 'tel',
   },
 ];
-export default inputs;
+export { membersInputs };

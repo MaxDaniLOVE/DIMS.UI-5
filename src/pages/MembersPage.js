@@ -8,7 +8,7 @@ import Modal from '../UI/Modal';
 import MembersPageModal from '../components/MembersPageModal';
 import { inputsParser, defaultRegisterData } from '../utils/inputsParser';
 import DataModal from '../components/DataModal';
-import inputs from '../utils/inputs';
+import { membersInputs } from '../utils/inputs';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -121,7 +121,7 @@ export default class MembersPage extends Component {
           onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
         >
           {isDetailMode ? (
-            <DataModal data={registerData} inputFields={inputs} />
+            <DataModal data={registerData} inputFields={membersInputs} />
           ) : (
             <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
           )}
