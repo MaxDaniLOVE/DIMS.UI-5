@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 
-const MembersProgressTable = ({ progress, isMemberTasks }) => {
+const MembersProgressTable = ({ progress, isMemberTasks, onSubtaskDataOpen }) => {
   const headers = ['#', 'Task', 'Note', 'Date'];
   const progressBody = progress.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId } = task;
@@ -12,7 +12,7 @@ const MembersProgressTable = ({ progress, isMemberTasks }) => {
         <td>{idx + 1}</td>
         <td>
           {isMemberTasks ? (
-            <Button customClass='btn-link' onClick={() => console.log(taskTrackId)}>
+            <Button customClass='btn-link' onClick={() => onSubtaskDataOpen(taskTrackId)}>
               <p className='btn-inner'>{taskName}</p>
             </Button>
           ) : (
@@ -46,11 +46,13 @@ const MembersProgressTable = ({ progress, isMemberTasks }) => {
 
 MembersProgressTable.defaultProps = {
   isMemberTasks: false,
+  onSubtaskDataOpen: () => {},
 };
 
 MembersProgressTable.propTypes = {
   progress: PropTypes.arrayOf(PropTypes.object).isRequired,
   isMemberTasks: PropTypes.bool,
+  onSubtaskDataOpen: PropTypes.func,
 };
 
 export default MembersProgressTable;

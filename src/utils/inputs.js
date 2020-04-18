@@ -67,4 +67,18 @@ const membersInputs = [
     type: 'tel',
   },
 ];
-export { membersInputs };
+
+const subtasksInputs = [
+  {
+    label: 'Track date:',
+    id: 'trackDate',
+    type: 'date',
+  },
+  {
+    label: 'Note:',
+    id: 'trackNote',
+    type: 'text',
+  },
+];
+
+export { membersInputs, subtasksInputs };

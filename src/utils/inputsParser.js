@@ -26,4 +26,9 @@ const defaultRegisterData = {
   startDate: '',
 };
 
-export { inputsParser, defaultRegisterData };
+const defaultSubtaskData = {
+  trackDate: '',
+  trackNote: '',
+};
+
+export { inputsParser, defaultRegisterData, defaultSubtaskData };

@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './DataModal.scss';
 
-const DataModal = ({ data, inputFields }) => {
+const DataModal = ({ data, inputFields, header }) => {
   const dataStrings = inputFields.map(({ label, id }) => ({
     label,
     value: data[id],
   }));
   return (
     <div>
+      {header}
       {dataStrings.map(({ label, value }) => {
         const newValue = label.includes('date') ? new Date(value).toLocaleDateString() : value;
         return (
@@ -25,6 +26,7 @@ const DataModal = ({ data, inputFields }) => {
 DataModal.propTypes = {
   data: PropTypes.objectOf(PropTypes.any).isRequired,
   inputFields: PropTypes.arrayOf(PropTypes.object).isRequired,
+  header: PropTypes.element,
 };
 
 export default DataModal;
