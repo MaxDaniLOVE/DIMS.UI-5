@@ -127,4 +127,16 @@ export default class Firebase {
       throw new Error(error);
     }
   };
+
+  deleteSubtask = async (subtaskId) => {
+    // TODO add deliting users tasks and progress
+    try {
+      await this.database
+        .collection('usersProgress')
+        .doc(subtaskId)
+        .delete();
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 }

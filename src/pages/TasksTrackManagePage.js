@@ -32,17 +32,21 @@ class TasksTrackManagePage extends Component {
         isLoaded: true,
       });
     } else {
-      const db = new Firebase();
-      db.getUsersProgress(memberId).then((progress) => {
-        progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
-        addCache(`${memberId}_progress`, progress);
-        this.setState({
-          progress,
-          isLoaded: true,
-        });
-      });
+      this.getTracksData();
     }
   }
+
+  getTracksData = async () => {
+    const memberId = '1XMvbioNVdqnsLoLEYnc'; // TODO get memberId from store/context
+    this.db.getUsersProgress(memberId).then((progress) => {
+      progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
+      addCache(`${memberId}_progress`, progress);
+      this.setState({
+        progress,
+        isLoaded: true,
+      });
+    });
+  };
 
   onModalOpen = () => {
     this.setState({
@@ -91,8 +95,14 @@ class TasksTrackManagePage extends Component {
     }));
   };
 
-  onAddSubtask = (subtask) => {
-    this.db.addNewSubtask(subtask);
+  onAddSubtask = async (subtask) => {
+    await this.db.addNewSubtask(subtask);
+    await this.getTracksData();
+  };
+
+  onSubtaskDelete = async (subtaskId) => {
+    await this.db.deleteSubtask(subtaskId);
+    await this.getTracksData();
   };
 
   render() {
@@ -126,6 +136,7 @@ class TasksTrackManagePage extends Component {
               progress={progress}
               isMemberTasks
               onSubtaskDataOpen={this.onSubtaskDataOpen}
+              onSubtaskDelete={this.onSubtaskDelete}
             />
           </>
         ) : (
