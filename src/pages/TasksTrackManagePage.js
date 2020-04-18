@@ -3,10 +3,11 @@ import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import { addCache, loadCache } from '../utils/cache';
-import { defaultSubtaskData } from '../utils/inputsParser';
+import { defaultSubtaskData, inputsParser } from '../utils/inputsParser';
 import Modal from '../UI/Modal';
 import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
+import FormModal from '../components/FormModal';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -68,6 +69,32 @@ class TasksTrackManagePage extends Component {
     });
   };
 
+  onFormChange = (e) => {
+    const { value, id } = e.target;
+    this.setState(({ subtaskData }) => {
+      const { taskId, taskName } = subtaskData;
+      const newSubtask = {
+        taskId,
+        taskName,
+        userId: '1XMvbioNVdqnsLoLEYnc', // TODO get memberId from store/context
+        userName: 'Armando Abbott', // TODO get memberId from store/context
+        ...inputsParser(value, id, subtaskData),
+      };
+      return { subtaskData: newSubtask };
+    });
+  };
+
+  onAddSubtaskModalOpen = (taskId, taskName) => {
+    this.onModalOpen();
+    this.setState(({ subtaskData }) => ({
+      subtaskData: { ...subtaskData, taskId, taskName },
+    }));
+  };
+
+  onAddSubtask = (subtask) => {
+    this.db.addNewSubtask(subtask);
+  };
+
   render() {
     const { progress, isLoaded, showModal, isEditMode, isDetailMode, subtaskData } = this.state;
     const modalHeader = <h3>{`Task track - ${subtaskData.taskName}`}</h3>;
@@ -78,16 +105,28 @@ class TasksTrackManagePage extends Component {
           isEditMode={isEditMode}
           isDetailMode={isDetailMode}
           onModalClose={this.onModalClose}
-          // onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
+          onSubmit={() => (isEditMode ? this.onSubmitEditUser(subtaskData) : this.onAddSubtask(subtaskData))}
         >
-          {isDetailMode ? <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} /> : null
-          // <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
-          }
+          {isDetailMode ? (
+            <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />
+          ) : (
+            <FormModal
+              inputs={subtasksInputs}
+              data={subtaskData}
+              onFormChange={this.onFormChange}
+              isEditMode={isEditMode}
+            />
+          )}
         </Modal>
         {isLoaded ? (
           <>
             <h2>This is your tasks:</h2>
-            <MembersProgressTable progress={progress} isMemberTasks onSubtaskDataOpen={this.onSubtaskDataOpen} />
+            <MembersProgressTable
+              onAddSubtaskModalOpen={this.onAddSubtaskModalOpen}
+              progress={progress}
+              isMemberTasks
+              onSubtaskDataOpen={this.onSubtaskDataOpen}
+            />
           </>
         ) : (
           <Preloader />

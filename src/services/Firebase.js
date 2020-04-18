@@ -119,4 +119,12 @@ export default class Firebase {
     }
     return tasks;
   };
+
+  addNewSubtask = async (subtask) => {
+    try {
+      await this.database.collection('usersProgress').add(subtask);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 }

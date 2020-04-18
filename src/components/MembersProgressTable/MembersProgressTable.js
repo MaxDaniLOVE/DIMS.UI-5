@@ -3,23 +3,31 @@ import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 
-const MembersProgressTable = ({ progress, isMemberTasks, onSubtaskDataOpen }) => {
+const MembersProgressTable = ({ progress, isMemberTasks, onSubtaskDataOpen, onAddSubtaskModalOpen }) => {
   const headers = ['#', 'Task', 'Note', 'Date'];
   const progressBody = progress.map((task, idx) => {
-    const { taskName, trackDate, trackNote, taskTrackId } = task;
+    const { taskName, trackDate, trackNote, taskTrackId, taskId } = task;
     return (
       <tr key={taskTrackId}>
         <td>{idx + 1}</td>
         <td>
           {isMemberTasks ? (
-            <Button customClass='btn-link' onClick={() => onSubtaskDataOpen(taskTrackId)}>
+            <Button customClass='btn-link' onClick={() => onAddSubtaskModalOpen(taskId, taskName)}>
               <p className='btn-inner'>{taskName}</p>
             </Button>
           ) : (
             taskName
           )}
         </td>
-        <td>{trackNote}</td>
+        <td>
+          {isMemberTasks ? (
+            <Button customClass='btn-link' onClick={() => onSubtaskDataOpen(taskTrackId)}>
+              <p className='btn-inner'>{`${trackNote.slice(0, 15)}...`}</p>
+            </Button>
+          ) : (
+            trackNote
+          )}
+        </td>
         <td>{new Date(trackDate).toLocaleDateString()}</td>
         {isMemberTasks ? (
           <td>
