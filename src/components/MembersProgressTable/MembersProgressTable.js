@@ -10,7 +10,15 @@ const MembersProgressTable = ({ progress, isMemberTasks }) => {
     return (
       <tr key={taskTrackId}>
         <td>{idx + 1}</td>
-        <td>{taskName}</td>
+        <td>
+          {isMemberTasks ? (
+            <Button customClass='btn-link' onClick={() => console.log(taskTrackId)}>
+              <p className='btn-inner'>{taskName}</p>
+            </Button>
+          ) : (
+            taskName
+          )}
+        </td>
         <td>{trackNote}</td>
         <td>{new Date(trackDate).toLocaleDateString()}</td>
         {isMemberTasks ? (
