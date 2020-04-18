@@ -40,6 +40,9 @@ class Navigation extends Component {
             <NavLink activeClassName='active-link' to='/tasks'>
               All tasks
             </NavLink>
+            <NavLink activeClassName='active-link' to='/member/subtasks'>
+              My tasks
+            </NavLink>
           </>
         </SideBar>
         <MainHeader>
@@ -57,6 +60,9 @@ class Navigation extends Component {
               </NavLink>
               <NavLink activeClassName='active-link' to='/tasks'>
                 All tasks
+              </NavLink>
+              <NavLink activeClassName='active-link' to='/member/subtasks'>
+                My tasks
               </NavLink>
             </nav>
           </>
