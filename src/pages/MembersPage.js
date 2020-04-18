@@ -5,7 +5,7 @@ import Firebase from '../services/Firebase';
 import Button from '../UI/Button';
 import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
-import MembersPageModal from '../components/MembersPageModal';
+import FormModal from '../components/FormModal';
 import { inputsParser, defaultRegisterData } from '../utils/inputsParser';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
@@ -124,7 +124,12 @@ export default class MembersPage extends Component {
           {isDetailMode ? (
             <DataModal header={modalHeader} data={registerData} inputFields={membersInputs} />
           ) : (
-            <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
+            <FormModal
+              inputs={membersInputs}
+              data={registerData}
+              onFormChange={this.onFormChange}
+              isEditMode={isEditMode}
+            />
           )}
         </Modal>
         {isLoaded ? (
