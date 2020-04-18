@@ -111,6 +111,7 @@ export default class MembersPage extends Component {
   render() {
     const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode } = this.state;
     const btnStyles = { marginBottom: '1rem' };
+    const modalHeader = <h3>{`${registerData.name}'s details:`}</h3>;
     return (
       <div className='table-wrapper'>
         <Modal
@@ -121,7 +122,7 @@ export default class MembersPage extends Component {
           onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
         >
           {isDetailMode ? (
-            <DataModal data={registerData} inputFields={membersInputs} />
+            <DataModal header={modalHeader} data={registerData} inputFields={membersInputs} />
           ) : (
             <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
           )}
