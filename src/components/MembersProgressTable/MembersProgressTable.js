@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
+import Button from '../../UI/Button';
 
-const MembersProgressTable = ({ progress }) => {
+const MembersProgressTable = ({ progress, isMemberTasks }) => {
   const headers = ['#', 'Task', 'Note', 'Date'];
   const progressBody = progress.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId } = task;
@@ -12,21 +13,36 @@ const MembersProgressTable = ({ progress }) => {
         <td>{taskName}</td>
         <td>{trackNote}</td>
         <td>{new Date(trackDate).toLocaleDateString()}</td>
+        {isMemberTasks ? (
+          <td>
+            <Button onClick={() => console.log(taskTrackId)}>
+              <p className='btn-inner'>Edit</p>
+            </Button>
+            <Button onClick={() => console.log(taskTrackId)} customClass='btn-danger'>
+              <p className='btn-inner'>Delete</p>
+            </Button>
+          </td>
+        ) : null}
       </tr>
     );
   });
   return (
     <div className='table-wrapper'>
       <table className='members-table table'>
-        <TableHeader headers={headers} />
+        <TableHeader headers={isMemberTasks ? [...headers, ''] : headers} />
         <tbody>{progressBody}</tbody>
       </table>
     </div>
   );
 };
 
+MembersProgressTable.defaultProps = {
+  isMemberTasks: false,
+};
+
 MembersProgressTable.propTypes = {
   progress: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isMemberTasks: PropTypes.bool,
 };
 
 export default MembersProgressTable;
