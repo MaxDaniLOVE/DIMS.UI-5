@@ -8,12 +8,13 @@
     position: relative;
     height: 5.5rem;
     width: 5.5rem;
-    div {
+    &__first-child,
+    &__second-child {
       position: absolute;
       border: 0.5rem solid $charcoal;
       animation: spinner 1s ease-in-out infinite;
     }
-    div:nth-child(2) {
+    &__second-child {
       animation-delay: -0.7s;
       border: 0.5rem solid $cyan;
     }

@@ -14,7 +14,7 @@ Button.defaultProps = {
   type: 'button',
   customClass: '',
   customStyles: {},
-  onClick: () => null,
+  onClick: () => {},
 };
 
 Button.propTypes = {

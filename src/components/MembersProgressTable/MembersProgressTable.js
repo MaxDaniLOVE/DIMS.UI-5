@@ -64,7 +64,7 @@ MembersProgressTable.defaultProps = {
 };
 
 MembersProgressTable.propTypes = {
-  progress: PropTypes.arrayOf(PropTypes.object).isRequired,
+  progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
   isMemberTasks: PropTypes.bool,
   onSubtaskDataOpen: PropTypes.func,
 };

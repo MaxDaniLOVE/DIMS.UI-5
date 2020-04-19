@@ -8,25 +8,29 @@ const DataModal = ({ data, inputFields, header }) => {
     value: data[id],
   }));
   return (
-    <div>
+    <>
       {header}
-      {dataStrings.map(({ label, value }) => {
-        const newValue = label.includes('date') ? new Date(value).toLocaleDateString() : value;
-        return (
-          <div className='data' key={label}>
-            <p className='data__label'>{label}</p>
-            <p className='data__value'>{newValue}</p>
-          </div>
-        );
-      })}
-    </div>
+      <table>
+        <tbody>
+          {dataStrings.map(({ label, value }) => {
+            const newValue = label.includes('date') ? new Date(value).toLocaleDateString() : value;
+            return (
+              <tr key={label}>
+                <th>{label}</th>
+                <th>{newValue}</th>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 };
 
 DataModal.propTypes = {
   data: PropTypes.objectOf(PropTypes.any).isRequired,
   inputFields: PropTypes.arrayOf(PropTypes.object).isRequired,
-  header: PropTypes.element,
+  header: PropTypes.element.isRequired,
 };
 
 export default DataModal;

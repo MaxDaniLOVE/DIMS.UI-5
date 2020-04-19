@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import Button from '../Button';
 
 import './Modal.scss';
+
+const modalDomElement = document.getElementById('modal');
 
 const ModalOverlay = ({ children, onModalClose, onSubmit, isDetailMode }) => {
   const content = (
@@ -29,7 +31,7 @@ const ModalOverlay = ({ children, onModalClose, onSubmit, isDetailMode }) => {
       </form>
     </div>
   );
-  return ReactDOM.createPortal(content, document.getElementById('modal'));
+  return createPortal(content, modalDomElement);
 };
 
 const Modal = (props) => {

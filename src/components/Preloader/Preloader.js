@@ -5,8 +5,8 @@ const Preloader = () => {
   return (
     <div className='preloader-wrapper'>
       <div className='preloader'>
-        <div />
-        <div />
+        <div className='preloader__first-child' />
+        <div className='preloader__second-child' />
       </div>
     </div>
   );
