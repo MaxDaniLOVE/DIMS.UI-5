@@ -55,7 +55,7 @@ MembersTable.propTypes = {
   onEditMemberModalOpen: PropTypes.func.isRequired,
   onMemberDataOpen: PropTypes.func.isRequired,
   onUserDelete: PropTypes.func.isRequired,
-  members: PropTypes.arrayOf(PropTypes.object).isRequired,
+  members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
 export default MembersTable;

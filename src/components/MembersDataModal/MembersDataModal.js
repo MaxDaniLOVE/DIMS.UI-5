@@ -18,65 +18,67 @@ const MembersDataModal = ({ registerData }) => {
     universityAverageScore,
   } = registerData;
   return (
-    <div>
-      <p>
-        Address:
-        {address}
-      </p>
-      <p>
-        BirthDate:
-        {new Date(birthDate).toLocaleDateString()}
-      </p>
-      <p>
-        DirectionId:
-        {directionId}
-      </p>
-      <p>
-        Education:
-        {education}
-      </p>
-      <p>
-        E-mail:
-        {email}
-      </p>
-      <p>
-        Last name:
-        {lastName}
-      </p>
-      <p>
-        Math score:
-        {mathScore}
-      </p>
-      <p>
-        mobilePhone:
-        {mobilePhone}
-      </p>
-      <p>
-        Name:
-        {name}
-      </p>
-      <p>
-        Sex:
-        {sex}
-      </p>
-      <p>
-        Skype:
-        {skype}
-      </p>
-      <p>
-        Start date:
-        {new Date(startDate).toLocaleDateString()}
-      </p>
-      <p>
-        University average score:
-        {universityAverageScore}
-      </p>
-    </div>
+    <table>
+      <tbody>
+        <tr>
+          <th>Address:</th>
+          <th>{address}</th>
+        </tr>
+        <tr>
+          <th>BirthDate:</th>
+          <th>{new Date(birthDate).toLocaleDateString()}</th>
+        </tr>
+        <tr>
+          <th>Direction:</th>
+          <th>{directionId}</th>
+        </tr>
+        <tr>
+          <th>Education:</th>
+          <th>{education}</th>
+        </tr>
+        <tr>
+          <th>E-mail:</th>
+          <th>{email}</th>
+        </tr>
+        <tr>
+          <th>Last name:</th>
+          <th>{lastName}</th>
+        </tr>
+        <tr>
+          <th>Math score:</th>
+          <th>{mathScore}</th>
+        </tr>
+        <tr>
+          <th>Mobile phone:</th>
+          <th>{mobilePhone}</th>
+        </tr>
+        <tr>
+          <th>Name:</th>
+          <th>{name}</th>
+        </tr>
+        <tr>
+          <th>Sex:</th>
+          <th>{sex}</th>
+        </tr>
+        <tr>
+          <th>Skype:</th>
+          <th>{skype}</th>
+        </tr>
+        <tr>
+          <th>Start date:</th>
+          <th>{new Date(startDate).toLocaleDateString()}</th>
+        </tr>
+        <tr>
+          <th>University average score:</th>
+          <th>{universityAverageScore}</th>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 
 MembersDataModal.propTypes = {
-  registerData: PropTypes.objectOf(PropTypes.any).isRequired,
+  registerData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
 };
 
 export default MembersDataModal;

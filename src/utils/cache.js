@@ -1,14 +1,5 @@
-const addCache = (key, data) => {
-  const stringifyedData = JSON.stringify(data);
-  localStorage.setItem(key, stringifyedData);
-};
+const addCache = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
-const loadCache = (key) => {
-  if (!localStorage[key]) {
-    return null;
-  }
-  const parsedData = JSON.parse(localStorage[key]);
-  return parsedData;
-};
+const loadCache = (key) => (localStorage[key] ? JSON.parse(localStorage[key]) : null);
 
 export { addCache, loadCache };

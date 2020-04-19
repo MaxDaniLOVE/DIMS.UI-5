@@ -6,20 +6,16 @@ const TableHeader = ({ headers }) => {
   return (
     <thead className='table-header'>
       <tr>
-        {headers.map((label) => (
-          <th key={label}>{label}</th>
+        {headers.map((header) => (
+          <th key={header}>{header}</th>
         ))}
       </tr>
     </thead>
   );
 };
 
-TableHeader.defaultProps = {
-  headers: [],
-};
-
 TableHeader.propTypes = {
-  headers: PropTypes.arrayOf(PropTypes.string),
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default TableHeader;
