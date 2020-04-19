@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
+import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 
 const MembersProgressTable = ({ progress }) => {
-  const headers = ['#', 'Task', 'Note', 'Date'];
   const progressBody = progress.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId } = task;
     return (

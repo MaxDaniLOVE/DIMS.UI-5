@@ -27,18 +27,23 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
         </div>
       );
     }
-    let value;
+    let inputPlaceholder;
     if (isEditMode && type !== 'date') {
-      value = registerData[id];
+      inputPlaceholder = registerData[id];
     }
     if (isEditMode && type === 'date') {
-      value = dateToString(registerData[id]);
+      inputPlaceholder = dateToString(registerData[id]);
     }
     return (
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>
           {label}
-          <input value={isEditMode ? value : undefined} type={type} id={id} onChange={(e) => onFormChange(e)} />
+          <input
+            value={isEditMode ? inputPlaceholder : undefined}
+            type={type}
+            id={id}
+            onChange={(e) => onFormChange(e)}
+          />
         </label>
       </div>
     );

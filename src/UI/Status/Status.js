@@ -2,10 +2,22 @@ import React from 'react';
 import './Status.scss';
 
 const Status = ({ stateId }) => {
-  if (!stateId) {
-    return <span className='failed'>Failed!</span>;
-  }
-  return stateId === 1 ? <span className='success'>Success!</span> : <span className='active'>Active</span>;
+  const stateValues = {
+    0: {
+      stateName: 'Failed!',
+      stateClass: 'failed',
+    },
+    1: {
+      stateName: 'Success!',
+      stateClass: 'success',
+    },
+    2: {
+      stateName: 'Active',
+      stateClass: 'active',
+    },
+  };
+  const { stateName, stateClass } = stateValues[stateId];
+  return <span className={stateClass}>{stateName}</span>;
 };
 
 export default Status;
