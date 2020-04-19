@@ -17,7 +17,7 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
                 name={id}
                 type={type}
                 id={id}
-                onChange={(e) => onFormChange(e)}
+                onChange={onFormChange}
                 value={option}
                 checked={isEditMode ? registerData[id] === option : undefined}
               />
