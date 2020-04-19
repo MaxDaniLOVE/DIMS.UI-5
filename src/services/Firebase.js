@@ -115,7 +115,7 @@ export default class Firebase {
     try {
       tasks = await this.database.collection('tasks').get();
     } catch (error) {
-      throw new Error(error);
+      throw new Error("Can't load tasks data. Try later.");
     }
     return tasks;
   };
@@ -124,7 +124,7 @@ export default class Firebase {
     try {
       await this.database.collection('usersProgress').add(subtask);
     } catch (error) {
-      throw new Error(error);
+      throw new Error("Can't add new subtasks. Try later.");
     }
   };
 
@@ -136,7 +136,7 @@ export default class Firebase {
         .doc(subtaskId)
         .delete();
     } catch (error) {
-      throw new Error(error);
+      throw new Error("Can't delete subtasks. Try later.");
     }
   };
 }
