@@ -1,5 +1,5 @@
 @import '../../scss/variables';
-.custom-btn {
+.btn {
   height: fit-content;
   width: 5rem;
   border: none;
@@ -12,6 +12,9 @@
   justify-content: center;
   align-items: center;
   justify-self: center;
+  line-height: 2rem;
+  text-decoration: none;
+  color: #fff;
   .btn-inner,
   a {
     margin: 0;
@@ -27,20 +30,19 @@
 .btn-success {
   background-color: $teal-green;
 }
-.btn-link {
+.btn-outline {
   width: 100%;
   background-color: transparent;
   border: 1px solid $charcoal;
   transition: all 0.3s ease-in-out;
-  .btn-inner {
-    color: $charcoal;
-  }
+  color: $charcoal;
   &:hover {
     cursor: pointer;
     background-color: $charcoal;
     transition: all 0.3s ease-in-out;
-    .btn-inner {
-      color: #fff;
-    }
+    color: #fff;
   }
+}
+.btn-return {
+  width: 10rem;
 }

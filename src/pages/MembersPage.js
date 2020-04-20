@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
-import Button from '../UI/Button';
+import { Button } from '../UI/Buttons';
 import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
 import MembersPageModal from '../components/MembersPageModal';
@@ -132,7 +132,7 @@ export default class MembersPage extends Component {
         {isLoaded ? (
           <>
             <Button customClass='with-margin' customStyles={btnStyles} onClick={this.onModalOpen}>
-              <p className='btn-inner'>Register</p>
+              Register
             </Button>
             <MembersTable
               members={members}
