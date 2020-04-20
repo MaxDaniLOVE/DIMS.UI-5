@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import Button from '../Button';
+import { GoBackButton, SuccessButton } from '../Buttons';
 
 import './Modal.scss';
 
@@ -13,14 +13,8 @@ const Modal = ({ children, onModalClose, onSubmit, isDetailMode, showModal }) =>
       <form className='modal' onSubmit={onSubmit}>
         <div className='modal__content'>{children}</div>
         <div className='modal__footer'>
-          {isDetailMode ? null : (
-            <Button onClick={onSubmit} customClass='btn-success'>
-              <p className='btn-inner'>Save</p>
-            </Button>
-          )}
-          <Button onClick={onModalClose} customStyles={{ width: '10rem' }}>
-            <span className='btn-inner'>Back to grid</span>
-          </Button>
+          {isDetailMode ? null : <SuccessButton onClick={onSubmit}>Save</SuccessButton>}
+          <GoBackButton onClick={onModalClose} />
         </div>
       </form>
     </div>

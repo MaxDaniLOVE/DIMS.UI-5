@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
-import Button from '../../UI/Button';
+import { Button, SuccessButton, DangerButton } from '../../UI/Buttons';
 import Status from '../../UI/Status';
 import './MembersTasksTable.scss';
 import { membersTasksHeaders as headers } from '../../utils/tableHeaders';
@@ -25,12 +25,8 @@ const MembersTasksTable = ({ userTasks }) => {
           </Button>
         </td>
         <td className='admin-btns'>
-          <Button customClass='btn-success'>
-            <p className='btn-inner'>Success!</p>
-          </Button>
-          <Button customClass='btn-danger'>
-            <p className='btn-inner'>Fail!</p>
-          </Button>
+          <SuccessButton>Success!</SuccessButton>
+          <DangerButton>Fail!</DangerButton>
         </td>
       </tr>
     );

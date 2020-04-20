@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
-import Button from '../../UI/Button';
+import { Button } from '../../UI/Buttons';
 
 const TasksTable = ({ tasks }) => {
   const headers = ['#', 'Name', 'Start', 'Deadline', ''];

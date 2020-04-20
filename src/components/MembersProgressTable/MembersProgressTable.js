@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
-import Button from '../../UI/Button';
+import { Button, OutlineButton, DangerButton } from '../../UI/Buttons';
 import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
 
@@ -19,18 +19,16 @@ const MembersProgressTable = ({
         <td>{idx + 1}</td>
         <td>
           {isMemberTasks ? (
-            <Button customClass='btn-link' onClick={() => onAddSubtaskModalOpen(taskId, taskName)}>
-              <p className='btn-inner'>{taskName}</p>
-            </Button>
+            <OutlineButton onClick={() => onAddSubtaskModalOpen(taskId, taskName)}>{taskName}</OutlineButton>
           ) : (
             taskName
           )}
         </td>
         <td>
           {isMemberTasks ? (
-            <Button customClass='btn-link' onClick={() => onSubtaskDataOpen(taskTrackId)}>
-              <p className='btn-inner'>{`${trackNote.slice(0, 15)}...`}</p>
-            </Button>
+            <OutlineButton onClick={() => onSubtaskDataOpen(taskTrackId)}>
+              {`${trackNote.slice(0, 15)}...`}
+            </OutlineButton>
           ) : (
             trackNote
           )}
@@ -38,12 +36,8 @@ const MembersProgressTable = ({
         <td>{millisecondsToDate(trackDate)}</td>
         {isMemberTasks ? (
           <td>
-            <Button onClick={() => console.log(taskTrackId)}>
-              <p className='btn-inner'>Edit</p>
-            </Button>
-            <Button onClick={() => onSubtaskDelete(taskTrackId)} customClass='btn-danger'>
-              <p className='btn-inner'>Delete</p>
-            </Button>
+            <Button onClick={() => console.log(taskTrackId)}>Edit</Button>
+            <DangerButton onClick={() => onSubtaskDelete(taskTrackId)}>Delete</DangerButton>
           </td>
         ) : null}
       </tr>

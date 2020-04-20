@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Firebase from '../services/Firebase';
 import Preloader from '../components/Preloader';
-import Button from '../UI/Button';
+import { Button } from '../UI/Buttons';
 import TasksTable from '../components/TasksTable';
 
 class TasksManagePage extends Component {

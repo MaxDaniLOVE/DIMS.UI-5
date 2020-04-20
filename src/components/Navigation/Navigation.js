@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import Button from '../../UI/Button';
+import { DangerButton, BurgerButton } from '../../UI/Buttons';
 import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
 import './Navigation.scss';
@@ -31,9 +31,7 @@ class Navigation extends Component {
       <>
         <SideBar isOpen={isSideBarOpen}>
           <>
-            <Button customClass='btn-danger' onClick={() => this.onCloseSideBar()}>
-              <p className='btn-inner'>X</p>
-            </Button>
+            <DangerButton onClick={() => this.onCloseSideBar()}>X</DangerButton>
             <NavLink activeClassName='active-link' to='/members' onClick={() => this.onCloseSideBar()}>
               All members
             </NavLink>
@@ -47,13 +45,7 @@ class Navigation extends Component {
         </SideBar>
         <MainHeader>
           <>
-            <Button customClass='navigation__menu-btn menu-btn' onClick={() => this.onOpenSideBar()}>
-              <>
-                <span />
-                <span />
-                <span />
-              </>
-            </Button>
+            <BurgerButton onClick={() => this.onOpenSideBar()} />
             <nav className='navigation__header-nav'>
               <NavLink activeClassName='active-link' to='/members'>
                 All members
