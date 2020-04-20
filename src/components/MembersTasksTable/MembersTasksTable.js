@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
-import { Button, SuccessButton, DangerButton } from '../../UI/Button';
+import { Button, SuccessButton, DangerButton } from '../../UI/Buttons';
 import Status from '../../UI/Status';
 import './MembersTasksTable.scss';
 import { membersTasksHeaders as headers } from '../../utils/tableHeaders';
