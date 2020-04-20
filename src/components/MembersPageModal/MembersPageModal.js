@@ -27,7 +27,7 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
     };
     let inputPlaceholder;
     if (isEditMode) {
-      inputPlaceholder = covertationDict[type] ? dateToString(registerData[id]) : registerData[id];
+      inputPlaceholder = covertationDict[type] || registerData[id];
     }
     return (
       <div className='form-inputs' key={id}>
