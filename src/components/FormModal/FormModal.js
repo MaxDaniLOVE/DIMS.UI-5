@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateToString } from '../../utils/convertDate';
+import RadioInput from '../../UI/RadioInput';
 
 import './FormModal.scss';
 
@@ -8,30 +9,24 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs }) => {
   const inputsLabels = inputs.map(({ label, id, type, options }) => {
     if (type === 'radio') {
       return (
-        <div className='form-inputs' key={id}>
-          {label}
-          {options.map((option) => (
-            <label htmlFor={id} key={option}>
-              <input
-                name={id}
-                type={type}
-                id={id}
-                onChange={onFormChange}
-                value={option}
-                checked={isEditMode ? data[id] === option : undefined}
-              />
-              {option}
-            </label>
-          ))}
-        </div>
+        <RadioInput
+          key={id}
+          label={label}
+          id={id}
+          type={type}
+          options={options}
+          onChange={onFormChange}
+          data={data}
+          isEditMode={isEditMode}
+        />
       );
     }
+    const covertationDict = {
+      date: dateToString(data[id]),
+    };
     let inputPlaceholder;
-    if (isEditMode && type !== 'date') {
-      inputPlaceholder = data[id];
-    }
-    if (isEditMode && type === 'date') {
-      inputPlaceholder = dateToString(data[id]);
+    if (isEditMode) {
+      inputPlaceholder = covertationDict[type] || data[id];
     }
     return (
       <div className='form-inputs' key={id}>

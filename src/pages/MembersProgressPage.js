@@ -31,7 +31,6 @@ class MembersProgressPage extends Component {
     } else {
       db.getUsersProgress(match.params.mid).then((progress) => {
         const sortedProgress = this.sortFromOldToNew(progress);
-        // progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
         addCache(`${match.params.mid}_progress`, sortedProgress);
         this.setState({
           progress: sortedProgress,
