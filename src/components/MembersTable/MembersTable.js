@@ -5,18 +5,21 @@ import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import './MembersTable.scss';
 import { membersHeaders as headers } from '../../utils/tableHeaders';
+import { millisecondsToDate, millisecondsToAge } from '../../utils/convertDate';
 
 const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete }) => {
   const membersTableBody = members.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
-    const stringStartDate = new Date(startDate).toLocaleDateString();
-    const ageMs = new Date().getTime() - new Date(birthDate).getTime();
-    const ageInYears = new Date(ageMs).getFullYear() - 1970;
+    const stringStartDate = millisecondsToDate(startDate);
+    const ageInYears = millisecondsToAge(birthDate);
+    const openDataModal = () => onMemberDataOpen(id);
+    const openEditModal = () => onEditMemberModalOpen(id);
+    const deleteMember = () => onUserDelete(id);
     return (
       <tr key={id}>
         <td>{idx + 1}</td>
         <td>
-          <Button onClick={() => onMemberDataOpen(id)} customClass='btn-link'>
+          <Button onClick={openDataModal} customClass='btn-link'>
             <p className='btn-inner'>{`${name} ${lastName}`}</p>
           </Button>
         </td>
@@ -31,10 +34,10 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
           <Button>
             <Link to={`/member/${id}/progress`}>Progress</Link>
           </Button>
-          <Button onClick={() => onEditMemberModalOpen(id)}>
+          <Button onClick={openEditModal}>
             <p className='btn-inner'>Edit</p>
           </Button>
-          <Button onClick={() => onUserDelete(id)} customClass='btn-danger'>
+          <Button onClick={deleteMember} customClass='btn-danger'>
             <p className='btn-inner'>Delete</p>
           </Button>
         </td>

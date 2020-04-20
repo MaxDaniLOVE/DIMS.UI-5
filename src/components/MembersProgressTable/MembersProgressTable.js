@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
+import { millisecondsToDate } from '../../utils/convertDate';
 
 const MembersProgressTable = ({
   progress,
@@ -34,7 +35,7 @@ const MembersProgressTable = ({
             trackNote
           )}
         </td>
-        <td>{new Date(trackDate).toLocaleDateString()}</td>
+        <td>{millisecondsToDate(trackDate)}</td>
         {isMemberTasks ? (
           <td>
             <Button onClick={() => console.log(taskTrackId)}>

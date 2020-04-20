@@ -10,7 +10,7 @@ const modalDomElement = document.getElementById('modal');
 const Modal = ({ children, onModalClose, onSubmit, isDetailMode, showModal }) => {
   const content = (
     <div className='modal-backdrop'>
-      <form className='modal' onSubmit={() => console.log('submit')}>
+      <form className='modal' onSubmit={onSubmit}>
         <div className='modal__content'>{children}</div>
         <div className='modal__footer'>
           {isDetailMode ? null : (
