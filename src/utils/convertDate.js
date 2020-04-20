@@ -2,4 +2,11 @@ const dateToString = (milliseconds) => new Date(milliseconds).toISOString().subs
 
 const stringToDate = (string) => Date.parse(string);
 
-export { dateToString, stringToDate };
+const millisecondsToDate = (milliseconds) => new Date(milliseconds).toLocaleDateString();
+
+const millisecondsToAge = (milliseconds) => {
+  const ageMs = new Date().getTime() - new Date(milliseconds).getTime();
+  return new Date(ageMs).getFullYear() - 1970;
+};
+
+export { dateToString, stringToDate, millisecondsToDate, millisecondsToAge };

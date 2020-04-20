@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
+import { millisecondsToDate } from '../../utils/convertDate';
 
 const MembersProgressTable = ({ progress }) => {
   const progressBody = progress.map((task, idx) => {
@@ -11,7 +12,7 @@ const MembersProgressTable = ({ progress }) => {
         <td>{idx + 1}</td>
         <td>{taskName}</td>
         <td>{trackNote}</td>
-        <td>{new Date(trackDate).toLocaleDateString()}</td>
+        <td>{millisecondsToDate(trackDate)}</td>
       </tr>
     );
   });

@@ -36,16 +36,15 @@ export default class MembersPage extends Component {
   }
 
   getMembersData = async () => {
-    this.db.getUsersData().then((data) => {
-      const newMembers = [];
-      data.forEach((doc) => {
-        newMembers.push({ ...doc.data(), id: doc.id });
-      });
-      addCache('members', newMembers);
-      this.setState({
-        members: newMembers,
-        isLoaded: true,
-      });
+    const data = await this.db.getUsersData();
+    const newMembers = [];
+    data.forEach((doc) => {
+      newMembers.push({ ...doc.data(), id: doc.id });
+    });
+    addCache('members', newMembers);
+    this.setState({
+      members: newMembers,
+      isLoaded: true,
     });
   };
 
@@ -73,8 +72,9 @@ export default class MembersPage extends Component {
 
   onAddNewMember = async (member) => {
     await this.db.addNewUser(member);
-    await this.getMembersData();
+    const result = await this.getMembersData();
     this.onModalClose();
+    return result;
   };
 
   onEditMemberModalOpen = (userId) => {
@@ -90,8 +90,9 @@ export default class MembersPage extends Component {
   onSubmitEditUser = async () => {
     const { registerData } = this.state;
     await this.db.editUserData(registerData);
-    await this.getMembersData();
+    const result = await this.getMembersData();
     this.onModalClose();
+    return result;
   };
 
   onMemberDataOpen = (userId) => {
@@ -106,7 +107,8 @@ export default class MembersPage extends Component {
 
   onUserDelete = async (userId) => {
     await this.db.deleteUser(userId);
-    await this.getMembersData();
+    const result = await this.getMembersData();
+    return result;
   };
 
   render() {
