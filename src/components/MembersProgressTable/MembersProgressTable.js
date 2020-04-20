@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
+import Layout from '../Layout';
+import Table from '../../UI/Table';
 import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
 
@@ -17,12 +19,14 @@ const MembersProgressTable = ({ progress }) => {
     );
   });
   return (
-    <div className='table-wrapper'>
-      <table className='members-table table'>
-        <TableHeader headers={headers} />
-        <tbody>{progressBody}</tbody>
-      </table>
-    </div>
+    <Layout>
+      <Table>
+        <>
+          <TableHeader headers={headers} />
+          <tbody>{progressBody}</tbody>
+        </>
+      </Table>
+    </Layout>
   );
 };
 
