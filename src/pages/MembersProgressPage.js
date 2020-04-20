@@ -30,10 +30,11 @@ class MembersProgressPage extends Component {
       });
     } else {
       db.getUsersProgress(match.params.mid).then((progress) => {
-        progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
-        addCache(`${match.params.mid}_progress`, progress);
+        const sortedProgress = this.sortFromOldToNew(progress);
+        // progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
+        addCache(`${match.params.mid}_progress`, sortedProgress);
         this.setState({
-          progress,
+          progress: sortedProgress,
           isLoaded: true,
         });
       });
@@ -45,6 +46,12 @@ class MembersProgressPage extends Component {
       });
     }
   }
+
+  sortFromOldToNew = (progress) => {
+    const sorted = [...progress];
+    sorted.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1));
+    return sorted;
+  };
 
   render() {
     const { progress, isLoaded, memberName } = this.state;

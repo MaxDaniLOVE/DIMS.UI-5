@@ -6,7 +6,8 @@ import { Button } from '../UI/Buttons';
 import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
 import FormModal from '../components/FormModal';
-import { inputsParser, defaultRegisterData } from '../utils/inputsParser';
+import inputsParser from '../utils/inputsParser';
+import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
 

@@ -10,25 +10,4 @@ const inputsParser = (value, id, data) => {
   return coppiedObj;
 };
 
-const defaultRegisterData = {
-  directionId: '',
-  name: '',
-  email: '',
-  lastName: '',
-  sex: '',
-  education: '',
-  birthDate: '',
-  universityAverageScore: '',
-  mathScore: '',
-  address: '',
-  mobilePhone: '',
-  skype: '',
-  startDate: '',
-};
-
-const defaultSubtaskData = {
-  trackDate: '',
-  trackNote: '',
-};
-
-export { inputsParser, defaultRegisterData, defaultSubtaskData };
+export default inputsParser;
