@@ -75,6 +75,7 @@ export default class MembersPage extends Component {
   onAddNewMember = async (member) => {
     await this.db.addNewUser(member);
     await this.getMembersData();
+    this.onModalClose();
   };
 
   onEditMemberModalOpen = (userId) => {
@@ -91,6 +92,7 @@ export default class MembersPage extends Component {
     const { registerData } = this.state;
     await this.db.editUserData(registerData);
     await this.getMembersData();
+    this.onModalClose();
   };
 
   onMemberDataOpen = (userId) => {

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import './MembersTable.scss';
+import { membersHeaders as headers } from '../../utils/tableHeaders';
 
 const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete }) => {
-  const headers = ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Manage'];
   const membersTableBody = members.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
     const stringStartDate = new Date(startDate).toLocaleDateString();

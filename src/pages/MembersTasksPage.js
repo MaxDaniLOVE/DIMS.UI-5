@@ -6,6 +6,8 @@ import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
 import { addCache, loadCache } from '../utils/cache';
 
+const db = new Firebase();
+
 class MembersTasksPage extends Component {
   constructor() {
     super();
@@ -27,7 +29,6 @@ class MembersTasksPage extends Component {
         isLoaded: true,
       });
     } else {
-      const db = new Firebase();
       db.getUsersTasks(match.params.mid).then((newTasksData) => {
         addCache(`${match.params.mid}_tasks`, newTasksData);
         this.setState({

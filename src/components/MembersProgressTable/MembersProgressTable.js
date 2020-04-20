@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
+import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 
 const MembersProgressTable = ({
   progress,
@@ -10,7 +11,6 @@ const MembersProgressTable = ({
   onAddSubtaskModalOpen,
   onSubtaskDelete,
 }) => {
-  const headers = ['#', 'Task', 'Note', 'Date'];
   const progressBody = progress.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId, taskId } = task;
     return (

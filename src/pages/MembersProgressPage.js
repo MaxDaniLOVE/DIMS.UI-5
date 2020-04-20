@@ -6,6 +6,8 @@ import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import { addCache, loadCache } from '../utils/cache';
 
+const db = new Firebase();
+
 class MembersProgressPage extends Component {
   constructor() {
     super();
@@ -27,7 +29,6 @@ class MembersProgressPage extends Component {
         isLoaded: true,
       });
     } else {
-      const db = new Firebase();
       db.getUsersProgress(match.params.mid).then((progress) => {
         progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
         addCache(`${match.params.mid}_progress`, progress);

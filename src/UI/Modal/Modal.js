@@ -7,20 +7,14 @@ import './Modal.scss';
 
 const modalDomElement = document.getElementById('modal');
 
-const ModalOverlay = ({ children, onModalClose, onSubmit, isDetailMode }) => {
+const Modal = ({ children, onModalClose, onSubmit, isDetailMode, showModal }) => {
   const content = (
     <div className='modal-backdrop'>
       <form className='modal' onSubmit={() => console.log('submit')}>
         <div className='modal__content'>{children}</div>
         <div className='modal__footer'>
           {isDetailMode ? null : (
-            <Button
-              onClick={() => {
-                onSubmit();
-                onModalClose();
-              }}
-              customClass='btn-success'
-            >
+            <Button onClick={onSubmit} customClass='btn-success'>
               <p className='btn-inner'>Save</p>
             </Button>
           )}
@@ -31,15 +25,7 @@ const ModalOverlay = ({ children, onModalClose, onSubmit, isDetailMode }) => {
       </form>
     </div>
   );
-  return createPortal(content, modalDomElement);
-};
-
-const Modal = (props) => {
-  const { showModal } = props;
-  if (showModal) {
-    return <ModalOverlay {...props} />;
-  }
-  return null;
+  return showModal ? createPortal(content, modalDomElement) : null;
 };
 
 Modal.propTypes = {

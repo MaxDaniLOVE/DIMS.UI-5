@@ -4,9 +4,9 @@ import TableHeader from '../../UI/TableHeader';
 import Button from '../../UI/Button';
 import Status from '../../UI/Status';
 import './MembersTasksTable.scss';
+import { membersTasksHeaders as headers } from '../../utils/tableHeaders';
 
 const MembersTasksTable = ({ userTasks }) => {
-  const headers = ['#', 'Name', 'Start', 'Deadline', 'Status', 'Manage', 'Mark'];
   const membersTasksTableBody = userTasks.map((task, idx) => {
     const { tasksInfo, stateId, userTaskId } = task;
     const { deadlineDate, name, startDate } = tasksInfo;
