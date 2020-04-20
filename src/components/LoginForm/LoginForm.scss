@@ -1,0 +1,15 @@
+@import '../../scss/variables';
+.login-form-wrapper {
+  background-color: $charcoal;
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 21px 0px rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 1rem;
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  .btn {
+    align-self: flex-end;
+  }
+}

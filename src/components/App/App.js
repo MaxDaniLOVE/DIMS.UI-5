@@ -6,6 +6,7 @@ import MembersTasksPage from '../../pages/MembersTasksPage';
 import Header from '../Navigation';
 import TasksManagePage from '../../pages/TasksManagePage';
 import TasksTrackManagePage from '../../pages/TasksTrackManagePage';
+import AuthPage from '../../pages/AuthPage';
 
 import './App.scss';
 
@@ -17,6 +18,9 @@ const App = () => {
         <Switch>
           <Route exact path='/'>
             <Redirect to='members' />
+          </Route>
+          <Route path='/auth'>
+            <AuthPage />
           </Route>
           <Route path='/members'>
             <MembersPage />
