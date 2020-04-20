@@ -8,33 +8,32 @@ export default class Firebase {
 
   addNewUser = async (user) => {
     try {
-      await this.database.collection('users').add(user);
+      const newUser = await this.database.collection('users').add(user);
+      return newUser;
     } catch (error) {
       throw new Error("Can't add new user. Try later.");
     }
   };
 
   getUserData = async (userId) => {
-    let userData;
     try {
-      userData = await this.database
+      const userData = await this.database
         .collection('users')
         .doc(userId)
         .get();
+      return userData.data();
     } catch (error) {
       throw new Error("Can't get user data. Try later.");
     }
-    return userData.data();
   };
 
   getUsersData = async () => {
-    let usersData;
     try {
-      usersData = await this.database.collection('users').get();
+      const usersData = await this.database.collection('users').get();
+      return usersData;
     } catch (error) {
       throw new Error("Can't get users data. Try later.");
     }
-    return usersData;
   };
 
   getUsersTasks = async (id) => {

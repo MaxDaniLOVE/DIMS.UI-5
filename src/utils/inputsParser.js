@@ -10,20 +10,4 @@ const inputsParser = (value, id, data) => {
   return coppiedObj;
 };
 
-const defaultRegisterData = {
-  directionId: '',
-  name: '',
-  email: '',
-  lastName: '',
-  sex: '',
-  education: '',
-  birthDate: '',
-  universityAverageScore: '',
-  mathScore: '',
-  address: '',
-  mobilePhone: '',
-  skype: '',
-  startDate: '',
-};
-
-export { inputsParser, defaultRegisterData };
+export default inputsParser;

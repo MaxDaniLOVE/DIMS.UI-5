@@ -6,7 +6,8 @@ import { Button } from '../UI/Buttons';
 import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
 import MembersPageModal from '../components/MembersPageModal';
-import { inputsParser, defaultRegisterData } from '../utils/inputsParser';
+import { defaultRegisterData } from '../utils/defaultInputsData';
+import inputsParser from '../utils/inputsParser';
 import MembersDataModal from '../components/MembersDataModal';
 
 export default class MembersPage extends Component {
