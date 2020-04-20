@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import inputs from '../../utils/inputs';
 import { dateToString } from '../../utils/convertDate';
+import RadioInput from '../../UI/RadioInput';
 
 import './MembersPageModal.scss';
 
@@ -9,30 +10,24 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
   const inputsLabels = inputs.map(({ label, id, type, options }) => {
     if (type === 'radio') {
       return (
-        <div className='form-inputs' key={id}>
-          {label}
-          {options.map((option) => (
-            <label htmlFor={id} key={option}>
-              <input
-                name={id}
-                type={type}
-                id={id}
-                onChange={onFormChange}
-                value={option}
-                checked={isEditMode ? registerData[id] === option : undefined}
-              />
-              {option}
-            </label>
-          ))}
-        </div>
+        <RadioInput
+          key={id}
+          label={label}
+          id={id}
+          type={type}
+          options={options}
+          onChange={onFormChange}
+          data={registerData}
+          isEditMode={isEditMode}
+        />
       );
     }
+    const covertationDict = {
+      date: dateToString(registerData[id]),
+    };
     let inputPlaceholder;
-    if (isEditMode && type !== 'date') {
-      inputPlaceholder = registerData[id];
-    }
-    if (isEditMode && type === 'date') {
-      inputPlaceholder = dateToString(registerData[id]);
+    if (isEditMode) {
+      inputPlaceholder = covertationDict[type] ? dateToString(registerData[id]) : registerData[id];
     }
     return (
       <div className='form-inputs' key={id}>

@@ -1,4 +1,9 @@
-const dateToString = (milliseconds) => new Date(milliseconds).toISOString().substr(0, 10);
+const dateToString = (milliseconds) => {
+  if (typeof milliseconds !== 'number') {
+    return false;
+  }
+  return new Date(milliseconds).toISOString().substr(0, 10);
+};
 
 const stringToDate = (string) => Date.parse(string);
 
