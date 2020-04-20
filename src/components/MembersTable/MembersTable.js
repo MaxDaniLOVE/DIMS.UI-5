@@ -5,6 +5,8 @@ import { Button, DangerButton, LinkButton, OutlineButton } from '../../UI/Button
 import './MembersTable.scss';
 import { membersHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate, millisecondsToAge } from '../../utils/convertDate';
+import Layout from '../Layout';
+import Table from '../../UI/Table';
 
 const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete }) => {
   const membersTableBody = members.map((member, idx) => {
@@ -34,12 +36,14 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
     );
   });
   return (
-    <div className='table-wrapper'>
-      <table className='members-table table'>
-        <TableHeader headers={headers} />
-        <tbody>{membersTableBody}</tbody>
-      </table>
-    </div>
+    <Layout>
+      <Table>
+        <>
+          <TableHeader headers={headers} />
+          <tbody>{membersTableBody}</tbody>
+        </>
+      </Table>
+    </Layout>
   );
 };
 

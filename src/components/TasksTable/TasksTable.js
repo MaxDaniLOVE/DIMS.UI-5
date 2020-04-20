@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
-import { Button } from '../../UI/Buttons';
+import { Button, DangerButton } from '../../UI/Buttons';
+import Layout from '../Layout';
+import Table from '../../UI/Table';
 
 const TasksTable = ({ tasks }) => {
   const headers = ['#', 'Name', 'Start', 'Deadline', ''];
@@ -18,20 +20,20 @@ const TasksTable = ({ tasks }) => {
           <Button>
             <p className='btn-inner'>Edit</p>
           </Button>
-          <Button customClass='btn-danger'>
-            <p className='btn-inner'>Delete</p>
-          </Button>
+          <DangerButton onClick={() => console.log(taskId)}>Delete</DangerButton>
         </td>
       </tr>
     );
   });
   return (
-    <div className='table-wrapper'>
-      <table className='members-table table'>
-        <TableHeader headers={headers} />
-        <tbody>{tasksTableBody}</tbody>
-      </table>
-    </div>
+    <Layout>
+      <Table>
+        <>
+          <TableHeader headers={headers} />
+          <tbody>{tasksTableBody}</tbody>
+        </>
+      </Table>
+    </Layout>
   );
 };
 

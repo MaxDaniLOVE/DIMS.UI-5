@@ -5,6 +5,8 @@ import { Button, SuccessButton, DangerButton } from '../../UI/Buttons';
 import Status from '../../UI/Status';
 import './MembersTasksTable.scss';
 import { membersTasksHeaders as headers } from '../../utils/tableHeaders';
+import Layout from '../Layout';
+import Table from '../../UI/Table';
 
 const MembersTasksTable = ({ userTasks }) => {
   const membersTasksTableBody = userTasks.map((task, idx) => {
@@ -32,12 +34,14 @@ const MembersTasksTable = ({ userTasks }) => {
     );
   });
   return (
-    <div className='table-wrapper'>
-      <table className='members-table table'>
-        <TableHeader headers={headers} />
-        <tbody>{membersTasksTableBody}</tbody>
-      </table>
-    </div>
+    <Layout className='table-wrapper'>
+      <Table>
+        <>
+          <TableHeader headers={headers} />
+          <tbody>{membersTasksTableBody}</tbody>
+        </>
+      </Table>
+    </Layout>
   );
 };
 
