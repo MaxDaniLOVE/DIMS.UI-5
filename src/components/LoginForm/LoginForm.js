@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SuccessButton } from '../../UI/Buttons';
+import { SubmitButton } from '../../UI/Buttons';
 import './LoginForm.scss';
 
 const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid }) => {
@@ -16,7 +16,9 @@ const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid }) => {
     <div className='login-form-wrapper'>
       <form className='login-form' onSubmit={onSubmit}>
         {inputsField}
-        <SuccessButton onClick={onSubmit}>Login</SuccessButton>
+        <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
+          Login
+        </SubmitButton>
       </form>
     </div>
   );
