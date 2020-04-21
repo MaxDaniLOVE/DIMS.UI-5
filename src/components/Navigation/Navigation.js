@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { DangerButton, BurgerButton } from '../../UI/Buttons';
 import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
+import NavigationLinks from '../NavigationLinks';
 import './Navigation.scss';
 
 class Navigation extends Component {
@@ -32,30 +32,14 @@ class Navigation extends Component {
         <SideBar isOpen={isSideBarOpen}>
           <>
             <DangerButton onClick={() => this.onCloseSideBar()}>X</DangerButton>
-            <NavLink activeClassName='active-link' to='/members' onClick={() => this.onCloseSideBar()}>
-              All members
-            </NavLink>
-            <NavLink activeClassName='active-link' to='/tasks'>
-              All tasks
-            </NavLink>
-            <NavLink activeClassName='active-link' to='/member/subtasks'>
-              My tasks
-            </NavLink>
+            <NavigationLinks onClick={this.onCloseSideBar} />
           </>
         </SideBar>
         <MainHeader>
           <>
             <BurgerButton onClick={() => this.onOpenSideBar()} />
             <nav className='navigation__header-nav'>
-              <NavLink activeClassName='active-link' to='/members'>
-                All members
-              </NavLink>
-              <NavLink activeClassName='active-link' to='/tasks'>
-                All tasks
-              </NavLink>
-              <NavLink activeClassName='active-link' to='/member/subtasks'>
-                My tasks
-              </NavLink>
+              <NavigationLinks />
             </nav>
           </>
         </MainHeader>
