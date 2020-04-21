@@ -86,11 +86,13 @@ const authInputs = [
     label: 'Email:',
     id: 'email',
     type: 'email',
+    validationPattern: /^\S+@\S+\.\S+$/,
   },
   {
     label: 'Password:',
     id: 'password',
     type: 'password',
+    validationPattern: /.{8,}/,
   },
 ];
 
