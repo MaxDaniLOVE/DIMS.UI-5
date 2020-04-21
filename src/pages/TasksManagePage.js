@@ -32,8 +32,8 @@ class TasksManagePage extends Component {
       <div className='table-wrapper'>
         {isLoaded ? (
           <>
-            <Button customClass='btn-success' customStyles={btnStyles}>
-              <p className='btn-inner'>Create</p>
+            <Button onClick={() => console.log('Create new task')} customClass='btn-success' customStyles={btnStyles}>
+              Create
             </Button>
             <TasksTable tasks={tasks} />
           </>

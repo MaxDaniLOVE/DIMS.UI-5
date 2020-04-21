@@ -17,9 +17,7 @@ const TasksTable = ({ tasks }) => {
         <td>{startString}</td>
         <td>{deadlineString}</td>
         <td className='admin-btns'>
-          <Button>
-            <p className='btn-inner'>Edit</p>
-          </Button>
+          <Button onClick={() => console.log(`edit ${taskId}`)}>Edit</Button>
           <DangerButton onClick={() => console.log(taskId)}>Delete</DangerButton>
         </td>
       </tr>
