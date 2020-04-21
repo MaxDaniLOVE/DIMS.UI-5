@@ -10,6 +10,7 @@ import inputsParser from '../utils/inputsParser';
 import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
+import validation from '../utils/validation';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -21,6 +22,7 @@ export default class MembersPage extends Component {
       registerData: defaultRegisterData,
       isEditMode: false,
       isDetailMode: false,
+      isFormValid: false,
     };
     this.db = new Firebase();
   }
@@ -67,9 +69,16 @@ export default class MembersPage extends Component {
 
   onFormChange = (e) => {
     const { value, id } = e.target;
-    this.setState(({ registerData }) => ({
-      registerData: inputsParser(value, id, registerData),
-    }));
+    this.setState(({ registerData }) => {
+      const updatedRegisterData = inputsParser(value, id, registerData);
+      const validatedInputs = { ...updatedRegisterData };
+      delete validatedInputs.id; // delete id of objects as it's should not be validate
+      const isFormValid = validation(validatedInputs, membersInputs);
+      return {
+        registerData: updatedRegisterData,
+        isFormValid,
+      };
+    });
   };
 
   onAddNewMember = async (member) => {
@@ -114,7 +123,7 @@ export default class MembersPage extends Component {
   };
 
   render() {
-    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode } = this.state;
+    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid } = this.state;
     const btnStyles = { marginBottom: '1rem' };
     const modalHeader = <h3>{`${registerData.name}'s details:`}</h3>;
     return (
@@ -124,6 +133,7 @@ export default class MembersPage extends Component {
           isEditMode={isEditMode}
           isDetailMode={isDetailMode}
           onModalClose={this.onModalClose}
+          isFormValid={isFormValid}
           onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
         >
           {isDetailMode ? (
