@@ -106,6 +106,7 @@ class TasksTrackManagePage extends Component {
   };
 
   onAddSubtask = async (subtask) => {
+    this.onModalClose();
     await this.db.addNewSubtask(subtask);
     await this.getTracksData();
   };
