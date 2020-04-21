@@ -8,6 +8,12 @@
   .login-form {
     display: flex;
     flex-direction: column;
+    &__input {
+      margin-bottom: 1rem;
+      label {
+        display: table-caption;
+      }
+    }
   }
   .btn {
     align-self: flex-end;

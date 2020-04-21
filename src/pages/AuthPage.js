@@ -10,8 +10,25 @@ class AuthPage extends Component {
     };
   }
 
+  onMailChange = (e) => {
+    this.setState({
+      email: e.target.value,
+    });
+  };
+
+  onPassChange = (e) => {
+    this.setState({
+      password: e.target.value,
+    });
+  };
+
+  onSubmit = () => {
+    const { password, email } = this.state;
+    console.log(password, email);
+  };
+
   render() {
-    return <LoginForm />;
+    return <LoginForm onSubmit={this.onSubmit} onMailChange={this.onMailChange} onPassChange={this.onPassChange} />;
   }
 }
 
