@@ -3,22 +3,19 @@ import PropTypes from 'prop-types';
 import { SuccessButton } from '../../UI/Buttons';
 import './LoginForm.scss';
 
-const LoginForm = ({ onMailChange, onPassChange, onSubmit }) => {
+const LoginForm = ({ onFormChange, onSubmit, inputs }) => {
+  const inputsField = inputs.map(({ label, id, type }) => (
+    <div className='login-form__input' key={id}>
+      <label htmlFor={id}>
+        {label}
+        <input type={type} id={id} onChange={onFormChange} />
+      </label>
+    </div>
+  ));
   return (
     <div className='login-form-wrapper'>
       <form className='login-form' onSubmit={onSubmit}>
-        <div className='login-form__input'>
-          <label htmlFor='email'>
-            Email:
-            <input type='text' id='email' onChange={onMailChange} />
-          </label>
-        </div>
-        <div className='login-form__input'>
-          <label htmlFor='pass'>
-            Password:
-            <input type='password' id='pass' onChange={onPassChange} />
-          </label>
-        </div>
+        {inputsField}
         <SuccessButton onClick={onSubmit}>Login</SuccessButton>
       </form>
     </div>
@@ -26,8 +23,8 @@ const LoginForm = ({ onMailChange, onPassChange, onSubmit }) => {
 };
 
 LoginForm.propTypes = {
-  onMailChange: PropTypes.func.isRequired,
-  onPassChange: PropTypes.func.isRequired,
+  onFormChange: PropTypes.func.isRequired,
+  inputs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 

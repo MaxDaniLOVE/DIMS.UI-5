@@ -1,34 +1,31 @@
 import React, { Component } from 'react';
 import LoginForm from '../components/LoginForm';
+import { defaultAuthData } from '../utils/defaultInputsData';
+import { authInputs as inputs } from '../utils/inputs';
+import inputsParser from '../utils/inputsParser';
 
 class AuthPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      authData: defaultAuthData,
     };
   }
 
-  onMailChange = (e) => {
-    this.setState({
-      email: e.target.value,
-    });
-  };
-
-  onPassChange = (e) => {
-    this.setState({
-      password: e.target.value,
-    });
+  onFormChange = (e) => {
+    const { value, id } = e.target;
+    this.setState(({ authData }) => ({
+      authData: inputsParser(value, id, authData),
+    }));
   };
 
   onSubmit = () => {
-    const { password, email } = this.state;
-    console.log(password, email);
+    const { authData } = this.state;
+    console.log(authData);
   };
 
   render() {
-    return <LoginForm onSubmit={this.onSubmit} onMailChange={this.onMailChange} onPassChange={this.onPassChange} />;
+    return <LoginForm inputs={inputs} onSubmit={this.onSubmit} onFormChange={this.onFormChange} />;
   }
 }
 

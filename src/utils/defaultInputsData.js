@@ -19,4 +19,9 @@ const defaultSubtaskData = {
   trackNote: '',
 };
 
-export { defaultRegisterData, defaultSubtaskData };
+const defaultAuthData = {
+  email: '',
+  password: '',
+};
+
+export { defaultRegisterData, defaultSubtaskData, defaultAuthData };

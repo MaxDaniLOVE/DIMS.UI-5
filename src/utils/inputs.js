@@ -81,4 +81,17 @@ const subtasksInputs = [
   },
 ];
 
-export { membersInputs, subtasksInputs };
+const authInputs = [
+  {
+    label: 'Email:',
+    id: 'email',
+    type: 'email',
+  },
+  {
+    label: 'Password:',
+    id: 'password',
+    type: 'password',
+  },
+];
+
+export { membersInputs, subtasksInputs, authInputs };
