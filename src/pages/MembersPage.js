@@ -64,6 +64,7 @@ export default class MembersPage extends Component {
       registerData: defaultRegisterData,
       isEditMode: false,
       isDetailMode: false,
+      isFormValid: false,
     });
   };
 
@@ -95,6 +96,7 @@ export default class MembersPage extends Component {
     this.setState({
       registerData: { ...editedUser },
       isEditMode: true,
+      isFormValid: true,
     });
   };
 

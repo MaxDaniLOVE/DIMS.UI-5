@@ -63,6 +63,7 @@ class TasksTrackManagePage extends Component {
       subtaskData: defaultSubtaskData,
       isEditMode: false,
       isDetailMode: false,
+      isFormValid: false,
     });
   };
 

@@ -20,7 +20,7 @@ const NavigationLinks = ({ onClick }) => {
   return (
     <>
       {links.map(({ link, label }) => (
-        <NavLink activeClassName='active-link' to={link} onClick={onClick}>
+        <NavLink key={link} activeClassName='active-link' to={link} onClick={onClick}>
           {label}
         </NavLink>
       ))}
