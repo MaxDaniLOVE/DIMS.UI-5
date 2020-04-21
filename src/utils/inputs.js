@@ -19,6 +19,7 @@ const membersInputs = [
     label: 'Birth date:',
     id: 'birthDate',
     type: 'date',
+    validationPattern: /[0-9]{13}/,
   },
   {
     label: 'Education:',
@@ -44,6 +45,7 @@ const membersInputs = [
     label: 'Start date:',
     id: 'startDate',
     type: 'date',
+    validationPattern: /[0-9]{13}/,
   },
   {
     label: 'Sex:',
@@ -73,11 +75,13 @@ const subtasksInputs = [
     label: 'Track date:',
     id: 'trackDate',
     type: 'date',
+    validationPattern: /[0-9]{13}/,
   },
   {
     label: 'Note:',
     id: 'trackNote',
     type: 'text',
+    validationPattern: /.{10,}/,
   },
 ];
 

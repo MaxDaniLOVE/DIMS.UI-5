@@ -1,19 +1,23 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { GoBackButton, SuccessButton } from '../Buttons';
+import { GoBackButton, SubmitButton } from '../Buttons';
 
 import './Modal.scss';
 
 const modalDomElement = document.getElementById('modal');
 
-const Modal = ({ children, onModalClose, onSubmit, isDetailMode, showModal }) => {
+const Modal = ({ children, onModalClose, onSubmit, isDetailMode, showModal, isFormValid }) => {
   const content = (
     <div className='modal-backdrop'>
       <form className='modal' onSubmit={onSubmit}>
         <div className='modal__content'>{children}</div>
         <div className='modal__footer'>
-          {isDetailMode ? null : <SuccessButton onClick={onSubmit}>Save</SuccessButton>}
+          {isDetailMode ? null : (
+            <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
+              Save
+            </SubmitButton>
+          )}
           <GoBackButton onClick={onModalClose} />
         </div>
       </form>
@@ -24,6 +28,7 @@ const Modal = ({ children, onModalClose, onSubmit, isDetailMode, showModal }) =>
 
 Modal.propTypes = {
   showModal: PropTypes.bool.isRequired,
+  isFormValid: PropTypes.bool.isRequired,
 };
 
 export default Modal;

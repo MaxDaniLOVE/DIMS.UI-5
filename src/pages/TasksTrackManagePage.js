@@ -9,6 +9,7 @@ import Modal from '../UI/Modal';
 import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
 import FormModal from '../components/FormModal';
+import validation from '../utils/validation';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -20,6 +21,7 @@ class TasksTrackManagePage extends Component {
       isEditMode: false,
       isDetailMode: false,
       subtaskData: defaultSubtaskData,
+      isFormValid: false,
     };
     this.db = new Firebase();
   }
@@ -78,14 +80,20 @@ class TasksTrackManagePage extends Component {
     const { value, id } = e.target;
     this.setState(({ subtaskData }) => {
       const { taskId, taskName } = subtaskData;
+      const inputsValues = inputsParser(value, id, subtaskData);
       const newSubtask = {
         taskId,
         taskName,
         userId: '1XMvbioNVdqnsLoLEYnc', // TODO get memberId from store/context
         userName: 'Armando Abbott', // TODO get memberId from store/context
-        ...inputsParser(value, id, subtaskData),
+        ...inputsValues,
       };
-      return { subtaskData: newSubtask };
+      const validatedInputs = {
+        trackNote: newSubtask.trackNote,
+        trackDate: newSubtask.trackDate,
+      };
+      const isFormValid = validation(validatedInputs, subtasksInputs);
+      return { subtaskData: newSubtask, isFormValid };
     });
   };
 
@@ -107,7 +115,7 @@ class TasksTrackManagePage extends Component {
   };
 
   render() {
-    const { progress, isLoaded, showModal, isEditMode, isDetailMode, subtaskData } = this.state;
+    const { progress, isLoaded, showModal, isEditMode, isDetailMode, subtaskData, isFormValid } = this.state;
     const modalHeader = <h3>{`Task track - ${subtaskData.taskName}`}</h3>;
     return (
       <div className='table-wrapper'>
@@ -116,6 +124,7 @@ class TasksTrackManagePage extends Component {
           isEditMode={isEditMode}
           isDetailMode={isDetailMode}
           onModalClose={this.onModalClose}
+          isFormValid={isFormValid}
           onSubmit={() => (isEditMode ? this.onSubmitEditUser(subtaskData) : this.onAddSubtask(subtaskData))}
         >
           {isDetailMode ? (
@@ -126,6 +135,7 @@ class TasksTrackManagePage extends Component {
               data={subtaskData}
               onFormChange={this.onFormChange}
               isEditMode={isEditMode}
+              isFormValid={isFormValid}
             />
           )}
         </Modal>
