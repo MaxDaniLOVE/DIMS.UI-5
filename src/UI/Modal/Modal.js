@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { GoBackButton, SuccessButton } from '../Buttons';
 
-import './Modal.scss';
+import './modal.scss';
 
 const modalDomElement = document.getElementById('modal');
 

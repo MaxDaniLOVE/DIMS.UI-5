@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import { Button, SuccessButton, DangerButton } from '../../UI/Buttons';
 import Status from '../../UI/Status';
-import './MembersTasksTable.scss';
+import './membersTasksTable.scss';
 import { membersTasksHeaders as headers } from '../../utils/tableHeaders';
 import Layout from '../Layout';
 import Table from '../../UI/Table';

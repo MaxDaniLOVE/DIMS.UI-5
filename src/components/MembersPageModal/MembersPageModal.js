@@ -4,7 +4,7 @@ import inputs from '../../utils/inputs';
 import { dateToString } from '../../utils/convertDate';
 import RadioInput from '../../UI/RadioInput';
 
-import './MembersPageModal.scss';
+import './membersPageModal.scss';
 
 const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
   const inputsLabels = inputs.map(({ label, id, type, options }) => {

@@ -4,7 +4,7 @@ import MembersPage from '../../pages/MembersPage';
 import MembersProgressPage from '../../pages/MembersProgressPage';
 import MembersTasksPage from '../../pages/MembersTasksPage';
 
-import './App.scss';
+import './app.scss';
 
 const App = () => {
   return (

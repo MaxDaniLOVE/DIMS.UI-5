@@ -1,5 +1,5 @@
 import React from 'react';
-import './Status.scss';
+import './status.scss';
 
 const Status = ({ stateId }) => {
   const stateValues = {

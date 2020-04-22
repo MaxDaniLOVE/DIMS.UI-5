@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeader from '../../UI/TableHeader';
 import { Button, DangerButton, LinkButton, OutlineButton } from '../../UI/Buttons';
-import './MembersTable.scss';
+import './membersTable.scss';
 import { membersHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate, millisecondsToAge } from '../../utils/convertDate';
 import Layout from '../Layout';
