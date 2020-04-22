@@ -7,7 +7,7 @@ import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
 import MembersPageModal from '../components/MembersPageModal';
 import { defaultRegisterData } from '../utils/defaultInputsData';
-import inputsParser from '../utils/inputsParser';
+import inputsChangeHandler from '../utils/inputsChangeHandler';
 import MembersDataModal from '../components/MembersDataModal';
 
 export default class MembersPage extends Component {
@@ -67,7 +67,7 @@ export default class MembersPage extends Component {
   onFormChange = (e) => {
     const { value, id } = e.target;
     this.setState(({ registerData }) => ({
-      registerData: inputsParser(value, id, registerData),
+      registerData: inputsChangeHandler(value, id, registerData),
     }));
   };
 

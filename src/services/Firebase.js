@@ -11,7 +11,7 @@ export default class Firebase {
       const newUser = await this.database.collection('users').add(user);
       return newUser;
     } catch (error) {
-      throw new Error("Can't add new user. Try later.");
+      console.error("Can't add new user. Try later.");
     }
   };
 
@@ -23,7 +23,7 @@ export default class Firebase {
         .get();
       return userData.data();
     } catch (error) {
-      throw new Error("Can't get user data. Try later.");
+      console.error("Can't get user data. Try later.");
     }
   };
 
@@ -32,7 +32,7 @@ export default class Firebase {
       const usersData = await this.database.collection('users').get();
       return usersData;
     } catch (error) {
-      throw new Error("Can't get users data. Try later.");
+      console.error("Can't get users data. Try later.");
     }
   };
 
@@ -68,7 +68,7 @@ export default class Firebase {
         .where('userId', '==', id)
         .get();
     } catch (error) {
-      throw new Error("Can't get user progress. Try later.");
+      console.error("Can't get user progress. Try later.");
     }
     const userProgressData = userProgress.docs.map((el) => ({ ...el.data(), taskTrackId: el.id }));
     return userProgressData;
@@ -81,7 +81,7 @@ export default class Firebase {
         .doc(newData.id)
         .set(newData, { merge: true });
     } catch (error) {
-      throw new Error("Can't update user data. Try later.");
+      console.error("Can't update user data. Try later.");
     }
   };
 
@@ -93,7 +93,7 @@ export default class Firebase {
         .doc(id)
         .delete();
     } catch (error) {
-      throw new Error("Can't delete user data. Try later.");
+      console.error("Can't delete user data. Try later.");
     }
   };
 }
