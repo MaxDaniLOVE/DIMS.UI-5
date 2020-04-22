@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { dateToString } from '../../utils/convertDate';
 import RadioInput from '../../UI/RadioInput';
 
-import './FormModal.scss';
+import './formModal.scss';
 
 const FormModal = ({ onFormChange, isEditMode, data, inputs }) => {
   const inputsLabels = inputs.map(({ label, id, type, options }) => {

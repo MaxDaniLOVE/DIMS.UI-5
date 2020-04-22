@@ -6,6 +6,7 @@ import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import { addCache, loadCache } from '../utils/cache';
 import Layout from '../components/Layout';
+import sortFromOldToNew from '../utils/sortFromOldToNew';
 
 const db = new Firebase();
 
@@ -31,7 +32,7 @@ class MembersProgressPage extends Component {
       });
     } else {
       db.getUsersProgress(match.params.mid).then((progress) => {
-        const sortedProgress = this.sortFromOldToNew(progress);
+        const sortedProgress = sortFromOldToNew(progress);
         addCache(`${match.params.mid}_progress`, sortedProgress);
         this.setState({
           progress: sortedProgress,
@@ -46,12 +47,6 @@ class MembersProgressPage extends Component {
       });
     }
   }
-
-  sortFromOldToNew = (progress) => {
-    const sorted = [...progress];
-    sorted.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1));
-    return sorted;
-  };
 
   render() {
     const { progress, isLoaded, memberName } = this.state;

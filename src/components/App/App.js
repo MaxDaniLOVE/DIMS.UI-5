@@ -8,7 +8,7 @@ import TasksManagePage from '../../pages/TasksManagePage';
 import TasksTrackManagePage from '../../pages/TasksTrackManagePage';
 import AuthPage from '../../pages/AuthPage';
 
-import './App.scss';
+import './app.scss';
 
 const App = () => {
   return (
