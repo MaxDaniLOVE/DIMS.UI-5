@@ -3,7 +3,7 @@ import { DangerButton, BurgerButton } from '../../UI/Buttons';
 import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
 import NavigationLinks from '../NavigationLinks';
-import './Navigation.scss';
+import './navigation.scss';
 
 class Navigation extends Component {
   constructor() {

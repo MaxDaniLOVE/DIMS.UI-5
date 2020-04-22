@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './SideBar.scss';
+import './sideBar.scss';
 
 const SideBar = ({ children, isOpen }) => {
   const showSideBar = isOpen ? {} : { display: 'none' };

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { SubmitButton } from '../../UI/Buttons';
-import './LoginForm.scss';
+import './loginForm.scss';
 
 const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid }) => {
   const inputsField = inputs.map(({ label, id, type }) => (
