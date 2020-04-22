@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from './Button';
 
 const OutlineButton = ({ onClick, children }) => {
   return (
-    <button onClick={onClick} className='btn btn-outline' type='button'>
+    <Button onClick={onClick} newClassName='btn-outline'>
       {children}
-    </button>
+    </Button>
   );
 };
 

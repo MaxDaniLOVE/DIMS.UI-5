@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from './Button';
 
 const DangerButton = ({ onClick, children }) => {
   return (
-    <button onClick={onClick} className='btn btn-danger' type='button'>
+    <Button onClick={onClick} newClassName='btn-danger'>
       {children}
-    </button>
+    </Button>
   );
 };
 

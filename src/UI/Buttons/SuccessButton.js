@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from './Button';
 
 const SuccessButton = ({ onClick, children }) => {
   return (
-    <button onClick={onClick} className='btn btn-success' type='button'>
+    <Button onClick={onClick} newClassName='btn-success'>
       {children}
-    </button>
+    </Button>
   );
 };
 
