@@ -6,7 +6,7 @@ import { Button } from '../UI/Buttons';
 import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
 import FormModal from '../components/FormModal';
-import inputsParser from '../utils/inputsParser';
+import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
@@ -71,7 +71,7 @@ export default class MembersPage extends Component {
   onFormChange = (e) => {
     const { value, id } = e.target;
     this.setState(({ registerData }) => {
-      const updatedRegisterData = inputsParser(value, id, registerData);
+      const updatedRegisterData = inputsChangeHandler(value, id, registerData);
       const validatedInputs = { ...updatedRegisterData };
       delete validatedInputs.id; // delete id of objects as it's should not be validate
       const isFormValid = validation(validatedInputs, membersInputs);

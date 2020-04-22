@@ -3,7 +3,7 @@ import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import { addCache, loadCache } from '../utils/cache';
-import inputsParser from '../utils/inputsParser';
+import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultSubtaskData } from '../utils/defaultInputsData';
 import Modal from '../UI/Modal';
 import DataModal from '../components/DataModal';
@@ -81,7 +81,7 @@ class TasksTrackManagePage extends Component {
     const { value, id } = e.target;
     this.setState(({ subtaskData }) => {
       const { taskId, taskName } = subtaskData;
-      const inputsValues = inputsParser(value, id, subtaskData);
+      const inputsValues = inputsChangeHandler(value, id, subtaskData);
       const newSubtask = {
         taskId,
         taskName,

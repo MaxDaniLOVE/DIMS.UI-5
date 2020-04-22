@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import LoginForm from '../components/LoginForm';
 import { defaultAuthData } from '../utils/defaultInputsData';
 import { authInputs as inputs } from '../utils/inputs';
-import inputsParser from '../utils/inputsParser';
+import inputsChangeHandler from '../utils/inputsChangeHandler';
 import validation from '../utils/validation';
 
 class AuthPage extends Component {
@@ -17,7 +17,7 @@ class AuthPage extends Component {
   onFormChange = (e) => {
     const { value, id } = e.target;
     this.setState(({ authData }) => {
-      const updatedAuthData = inputsParser(value, id, authData);
+      const updatedAuthData = inputsChangeHandler(value, id, authData);
       const isValid = validation(updatedAuthData, inputs);
       return {
         authData: updatedAuthData,

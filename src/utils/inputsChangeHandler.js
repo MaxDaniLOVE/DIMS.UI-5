@@ -1,6 +1,6 @@
 import { stringToDate } from './convertDate';
 
-const inputsParser = (value, id, data) => {
+const inputsChangeHandler = (value, id, data) => {
   const coppiedObj = { ...data };
   if (id === 'startDate' || id === 'birthDate' || id === 'trackDate') {
     coppiedObj[id] = stringToDate(value);
@@ -10,4 +10,4 @@ const inputsParser = (value, id, data) => {
   return coppiedObj;
 };
 
-export default inputsParser;
+export default inputsChangeHandler;
