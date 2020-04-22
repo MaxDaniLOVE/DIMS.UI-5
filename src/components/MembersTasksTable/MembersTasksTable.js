@@ -34,7 +34,7 @@ const MembersTasksTable = ({ userTasks }) => {
     );
   });
   return (
-    <Layout className='table-wrapper'>
+    <Layout>
       <Table>
         <>
           <TableHeader headers={headers} />
@@ -46,7 +46,15 @@ const MembersTasksTable = ({ userTasks }) => {
 };
 
 MembersTasksTable.propTypes = {
-  userTasks: PropTypes.arrayOf(PropTypes.any).isRequired,
+  userTasks: PropTypes.arrayOf(
+    PropTypes.objectOf(
+      PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+        PropTypes.objectOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+      ]),
+    ),
+  ).isRequired,
 };
 
 export default MembersTasksTable;

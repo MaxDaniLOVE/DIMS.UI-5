@@ -22,12 +22,12 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
         />
       );
     }
-    const covertationDict = {
+    const convertationDict = {
       date: dateToString(registerData[id]),
     };
     let inputPlaceholder;
     if (isEditMode) {
-      inputPlaceholder = covertationDict[type] || registerData[id];
+      inputPlaceholder = convertationDict[type] || registerData[id];
     }
     return (
       <div className='form-inputs' key={id}>
@@ -56,7 +56,7 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
 MembersPageModal.propTypes = {
   onFormChange: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
-  registerData: PropTypes.objectOf(PropTypes.any).isRequired,
+  registerData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
 };
 
 export default MembersPageModal;
