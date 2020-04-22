@@ -21,12 +21,12 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs }) => {
         />
       );
     }
-    const covertationDict = {
+    const convertationDict = {
       date: dateToString(data[id]),
     };
     let inputPlaceholder;
     if (isEditMode) {
-      inputPlaceholder = covertationDict[type] || data[id];
+      inputPlaceholder = convertationDict[type] || data[id];
     }
     return (
       <div className='form-inputs' key={id}>
@@ -55,7 +55,7 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs }) => {
 FormModal.propTypes = {
   onFormChange: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
-  data: PropTypes.objectOf(PropTypes.any).isRequired,
+  data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   inputs: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

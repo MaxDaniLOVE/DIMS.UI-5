@@ -5,6 +5,7 @@ import Firebase from '../services/Firebase';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
 import { addCache, loadCache } from '../utils/cache';
+import Layout from '../components/Layout';
 
 const db = new Firebase();
 
@@ -48,7 +49,7 @@ class MembersTasksPage extends Component {
   render() {
     const { userTasks, isLoaded, memberName } = this.state;
     return (
-      <div className='table-wrapper'>
+      <Layout>
         {isLoaded ? (
           <>
             <h2>{`Hi, dear ${memberName}! This is your current tasks:`}</h2>
@@ -57,7 +58,7 @@ class MembersTasksPage extends Component {
         ) : (
           <Preloader />
         )}
-      </div>
+      </Layout>
     );
   }
 }

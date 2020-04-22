@@ -5,6 +5,7 @@ import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import { addCache, loadCache } from '../utils/cache';
+import Layout from '../components/Layout';
 
 const db = new Firebase();
 
@@ -55,7 +56,7 @@ class MembersProgressPage extends Component {
   render() {
     const { progress, isLoaded, memberName } = this.state;
     return (
-      <div className='table-wrapper'>
+      <Layout>
         {isLoaded ? (
           <>
             <h2>{`${memberName}'s progress:`}</h2>
@@ -64,7 +65,7 @@ class MembersProgressPage extends Component {
         ) : (
           <Preloader />
         )}
-      </div>
+      </Layout>
     );
   }
 }

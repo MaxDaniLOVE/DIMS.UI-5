@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Button from './Button';
 
 const LinkButton = ({ children, link }) => {
   return (
-    <button className='btn' type='button'>
+    <Button>
       <Link to={link}>{children}</Link>
-    </button>
+    </Button>
   );
 };
 

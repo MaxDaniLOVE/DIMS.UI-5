@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from './Button';
 
 const GoBackButton = ({ onClick }) => {
   return (
-    <button onClick={onClick} className='btn btn-return' type='button'>
+    <Button onClick={onClick} newClassName='btn-return'>
       Back to grid
-    </button>
+    </Button>
   );
 };
 

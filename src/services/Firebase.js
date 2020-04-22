@@ -37,14 +37,12 @@ export default class Firebase {
   };
 
   getUsersTasks = async (id) => {
-    const allData = [];
     const data = await this.database
       .collection('usersTasks')
       .where('userId', '==', id)
       .get();
-    data.forEach((task) => {
-      allData.push({ ...task.data(), userTaskId: task.id });
-    });
+
+    const allData = data.docs.map((task) => ({ ...task.data(), userTaskId: task.id }));
     const withAllData = allData.map((task) => {
       const { taskId } = task;
       const allTaskData = this.getTasks(taskId);
@@ -72,8 +70,7 @@ export default class Firebase {
     } catch (error) {
       throw new Error("Can't get user progress. Try later.");
     }
-    const userProgressData = [];
-    userProgress.forEach((el) => userProgressData.push({ ...el.data(), taskTrackId: el.id }));
+    const userProgressData = userProgress.docs.map((el) => ({ ...el.data(), taskTrackId: el.id }));
     return userProgressData;
   };
 
