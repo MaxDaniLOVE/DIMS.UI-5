@@ -28,6 +28,10 @@ class TasksManagePage extends Component {
   }
 
   componentDidMount() {
+    this.getTasksData();
+  }
+
+  getTasksData() {
     this.db.getAllTasks().then((data) => {
       const newData = [];
       data.forEach((doc) => newData.push({ ...doc.data(), taskId: doc.id }));
@@ -72,6 +76,17 @@ class TasksManagePage extends Component {
     this.setState({
       assignedMembers: newMembers,
     });
+  };
+
+  onAddSubtask = async (task) => {
+    const { assignedMembers } = this.state;
+    this.onModalClose();
+    const taskId = await this.db.addNewTask(task);
+    assignedMembers.map(async (userId) => {
+      const userTask = { stateId: 2, taskId, userId };
+      await this.db.addUserTask(userTask);
+    });
+    this.getTasksData();
   };
 
   render() {

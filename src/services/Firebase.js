@@ -143,4 +143,22 @@ export default class Firebase {
       console.error("Can't update subtask data. Try later.");
     }
   };
+
+  addNewTask = async (newTask) => {
+    try {
+      const task = await this.database.collection('tasks').add(newTask);
+      return task.id;
+    } catch (error) {
+      throw new Error("Can't add new subtasks. Try later.");
+    }
+  };
+
+  addUserTask = async (newUserTask) => {
+    try {
+      const task = await this.database.collection('usersTasks').add(newUserTask);
+      return task.id;
+    } catch (error) {
+      throw new Error("Can't add new subtasks. Try later.");
+    }
+  };
 }
