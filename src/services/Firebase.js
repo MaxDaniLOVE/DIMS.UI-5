@@ -161,4 +161,16 @@ export default class Firebase {
       throw new Error("Can't add new subtasks. Try later.");
     }
   };
+
+  deleteTask = async (taskId) => {
+    // TODO add deliting users progress
+    try {
+      await this.database
+        .collection('tasks')
+        .doc(taskId)
+        .delete();
+    } catch (error) {
+      throw new Error("Can't delete subtasks. Try later.");
+    }
+  };
 }

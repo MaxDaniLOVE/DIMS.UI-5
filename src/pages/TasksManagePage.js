@@ -55,7 +55,13 @@ class TasksManagePage extends Component {
       isEditMode: false,
       isDetailMode: false,
       isFormValid: false,
+      assignedMembers: [],
     });
+  };
+
+  onDeleteTask = async (taskId) => {
+    await this.db.deleteTask(taskId);
+    this.getTasksData();
   };
 
   onFormChange = (e) => {
@@ -119,7 +125,7 @@ class TasksManagePage extends Component {
         {isLoaded ? (
           <>
             <Button onClick={this.onModalOpen}>Create</Button>
-            <TasksTable tasks={tasks} />
+            <TasksTable tasks={tasks} onDeleteTask={this.onDeleteTask} />
           </>
         ) : (
           <Preloader />
