@@ -2,7 +2,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { GoBackButton, SubmitButton } from '../Buttons';
-
+import Checkboxes from '../Checkboxes';
 import './modal.scss';
 
 const modalDomElement = document.getElementById('modal');
@@ -11,7 +11,10 @@ const Modal = ({ children, onModalClose, onSubmit, isDetailMode, showModal, isFo
   const content = (
     <div className='modal-backdrop'>
       <form className='modal' onSubmit={onSubmit}>
-        <div className='modal__content'>{children}</div>
+        <div className='modal__content'>
+          {children}
+          <Checkboxes />
+        </div>
         <div className='modal__footer'>
           {isDetailMode ? null : (
             <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>

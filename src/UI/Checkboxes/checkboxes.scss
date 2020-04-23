@@ -1,0 +1,9 @@
+.members-checkboxes__wrapper {
+  display: flex;
+  justify-content: space-between;
+  .members-checkboxes {
+    height: 10rem;
+    width: 60%;
+    overflow: auto;
+  }
+}
