@@ -7,6 +7,7 @@ import Header from '../Navigation';
 import TasksManagePage from '../../pages/TasksManagePage';
 import TasksTrackManagePage from '../../pages/TasksTrackManagePage';
 import AuthPage from '../../pages/AuthPage';
+import Footer from '../../UI/Footer';
 
 import './app.scss';
 
@@ -39,6 +40,7 @@ const App = () => {
           </Route>
         </Switch>
       </div>
+      <Footer />
     </Router>
   );
 };
