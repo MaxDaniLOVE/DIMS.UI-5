@@ -95,6 +95,17 @@ class TasksManagePage extends Component {
     this.getTasksData();
   };
 
+  onEditTaskModalOpen = (id) => {
+    const { tasks } = this.state;
+    const editedTask = tasks.find(({ taskId }) => taskId === id);
+    this.onModalOpen();
+    this.setState({
+      taskData: { ...editedTask },
+      isEditMode: true,
+      isFormValid: true,
+    });
+  };
+
   render() {
     const { tasks, isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData } = this.state;
     const modalHeader = <h3>{`Task - ${taskData.name}`}</h3>;
@@ -125,7 +136,7 @@ class TasksManagePage extends Component {
         {isLoaded ? (
           <>
             <Button onClick={this.onModalOpen}>Create</Button>
-            <TasksTable tasks={tasks} onDeleteTask={this.onDeleteTask} />
+            <TasksTable tasks={tasks} onDeleteTask={this.onDeleteTask} onEditTaskModalOpen={this.onEditTaskModalOpen} />
           </>
         ) : (
           <Preloader />

@@ -5,7 +5,7 @@ import { Button, DangerButton } from '../../UI/Buttons';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
 
-const TasksTable = ({ tasks, onDeleteTask }) => {
+const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen }) => {
   const headers = ['#', 'Name', 'Start', 'Deadline', ''];
   const tasksTableBody = tasks.map(({ deadlineDate, name, startDate, taskId }, idx) => {
     const startString = new Date(startDate).toLocaleDateString();
@@ -17,7 +17,7 @@ const TasksTable = ({ tasks, onDeleteTask }) => {
         <td>{startString}</td>
         <td>{deadlineString}</td>
         <td className='admin-btns'>
-          <Button onClick={() => console.log(`edit ${taskId}`)}>Edit</Button>
+          <Button onClick={() => onEditTaskModalOpen(taskId)}>Edit</Button>
           <DangerButton onClick={() => onDeleteTask(taskId)}>Delete</DangerButton>
         </td>
       </tr>
