@@ -13,6 +13,7 @@ const MembersProgressTable = ({
   onSubtaskDataOpen,
   onAddSubtaskModalOpen,
   onSubtaskDelete,
+  onEditSubtaskModalOpen,
 }) => {
   const progressBody = progress.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId, taskId } = task;
@@ -38,7 +39,7 @@ const MembersProgressTable = ({
         <td>{millisecondsToDate(trackDate)}</td>
         {isMemberTasks ? (
           <td>
-            <Button onClick={() => console.log(taskTrackId)}>Edit</Button>
+            <Button onClick={() => onEditSubtaskModalOpen(taskTrackId)}>Edit</Button>
             <DangerButton onClick={() => onSubtaskDelete(taskTrackId)}>Delete</DangerButton>
           </td>
         ) : null}

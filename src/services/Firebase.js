@@ -75,11 +75,14 @@ export default class Firebase {
   };
 
   editUserData = async (newData) => {
+    const { id } = newData;
+    const updatedData = { ...newData };
+    delete updatedData.id;
     try {
       await this.database
         .collection('users')
-        .doc(newData.id)
-        .set(newData, { merge: true });
+        .doc(id)
+        .set(updatedData, { merge: true });
     } catch (error) {
       console.error("Can't update user data. Try later.");
     }
@@ -124,6 +127,20 @@ export default class Firebase {
         .delete();
     } catch (error) {
       throw new Error("Can't delete subtasks. Try later.");
+    }
+  };
+
+  editUserProgress = async (newData) => {
+    const { taskTrackId } = newData;
+    const updatedData = { ...newData };
+    delete updatedData.taskTrackId;
+    try {
+      await this.database
+        .collection('usersProgress')
+        .doc(taskTrackId)
+        .set(updatedData, { merge: true });
+    } catch (error) {
+      console.error("Can't update subtask data. Try later.");
     }
   };
 }

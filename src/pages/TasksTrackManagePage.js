@@ -116,6 +116,25 @@ class TasksTrackManagePage extends Component {
     await this.getTracksData();
   };
 
+  onEditSubtaskModalOpen = (subtaskId) => {
+    const { progress } = this.state;
+    const editedSubtask = progress.find(({ taskTrackId }) => taskTrackId === subtaskId);
+    this.onModalOpen();
+    this.setState({
+      subtaskData: { ...editedSubtask },
+      isEditMode: true,
+      isFormValid: true,
+    });
+  };
+
+  onSubmitEditSubtask = async () => {
+    const { subtaskData } = this.state;
+    await this.db.editUserProgress(subtaskData);
+    const result = await this.getTracksData();
+    this.onModalClose();
+    return result;
+  };
+
   render() {
     const { progress, isLoaded, showModal, isEditMode, isDetailMode, subtaskData, isFormValid } = this.state;
     const modalHeader = <h3>{`Task track - ${subtaskData.taskName}`}</h3>;
@@ -127,7 +146,7 @@ class TasksTrackManagePage extends Component {
           isDetailMode={isDetailMode}
           onModalClose={this.onModalClose}
           isFormValid={isFormValid}
-          onSubmit={() => (isEditMode ? this.onSubmitEditUser(subtaskData) : this.onAddSubtask(subtaskData))}
+          onSubmit={() => (isEditMode ? this.onSubmitEditSubtask(subtaskData) : this.onAddSubtask(subtaskData))}
         >
           {isDetailMode ? (
             <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />
@@ -150,6 +169,7 @@ class TasksTrackManagePage extends Component {
               isMemberTasks
               onSubtaskDataOpen={this.onSubtaskDataOpen}
               onSubtaskDelete={this.onSubtaskDelete}
+              onEditSubtaskModalOpen={this.onEditSubtaskModalOpen}
             />
           </>
         ) : (
