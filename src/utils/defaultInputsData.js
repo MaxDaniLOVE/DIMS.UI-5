@@ -24,4 +24,11 @@ const defaultAuthData = {
   password: '',
 };
 
-export { defaultRegisterData, defaultSubtaskData, defaultAuthData };
+const defaultTaskData = {
+  deadlineDate: '',
+  description: '',
+  name: '',
+  startDate: '',
+};
+
+export { defaultRegisterData, defaultSubtaskData, defaultAuthData, defaultTaskData };

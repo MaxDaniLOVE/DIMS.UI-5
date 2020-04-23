@@ -112,4 +112,31 @@ const authInputs = [
   },
 ];
 
-export { membersInputs, subtasksInputs, authInputs };
+const tasksInputs = [
+  {
+    label: 'Name:',
+    id: 'name',
+    type: 'text',
+    validationPattern: /.{3,}/,
+  },
+  {
+    label: 'Start date:',
+    id: 'startDate',
+    type: 'date',
+    validationPattern: /[0-9]{13}/,
+  },
+  {
+    label: 'Deadline date:',
+    id: 'deadlineDate',
+    type: 'date',
+    validationPattern: /[0-9]{13}/,
+  },
+  {
+    label: 'Description:',
+    id: 'description',
+    type: 'text',
+    validationPattern: /.{3,}/,
+  },
+];
+
+export { membersInputs, subtasksInputs, authInputs, tasksInputs };
