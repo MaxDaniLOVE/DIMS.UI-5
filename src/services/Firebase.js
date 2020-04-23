@@ -114,7 +114,7 @@ export default class Firebase {
     try {
       await this.database.collection('usersProgress').add(subtask);
     } catch (error) {
-      throw new Error("Can't add new subtasks. Try later.");
+      console.error("Can't add new subtasks. Try later.");
     }
   };
 
@@ -126,7 +126,7 @@ export default class Firebase {
         .doc(subtaskId)
         .delete();
     } catch (error) {
-      throw new Error("Can't delete subtasks. Try later.");
+      console.error("Can't delete subtasks. Try later.");
     }
   };
 
@@ -149,7 +149,7 @@ export default class Firebase {
       const task = await this.database.collection('tasks').add(newTask);
       return task.id;
     } catch (error) {
-      throw new Error("Can't add new subtasks. Try later.");
+      console.error("Can't add new tasks. Try later.");
     }
   };
 
@@ -158,7 +158,7 @@ export default class Firebase {
       const task = await this.database.collection('usersTasks').add(newUserTask);
       return task.id;
     } catch (error) {
-      throw new Error("Can't add new subtasks. Try later.");
+      console.error("Can't add new user tasks. Try later.");
     }
   };
 
@@ -170,15 +170,19 @@ export default class Firebase {
         .doc(taskId)
         .delete();
     } catch (error) {
-      throw new Error("Can't delete subtasks. Try later.");
+      console.error("Can't delete tasks. Try later.");
     }
   };
 
   getAssignedUsers = async (taskId) => {
-    const userTasks = await this.database
-      .collection('usersTasks')
-      .where('taskId', '==', taskId)
-      .get();
-    return userTasks.docs.map((task) => task.data().userId);
+    try {
+      const userTasks = await this.database
+        .collection('usersTasks')
+        .where('taskId', '==', taskId)
+        .get();
+      return userTasks.docs.map((task) => task.data().userId);
+    } catch (error) {
+      console.error("Can't get assigned users. Try later.");
+    }
   };
 }

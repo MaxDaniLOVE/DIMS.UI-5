@@ -54,7 +54,7 @@ class Checkboxes extends Component {
                     type='checkbox'
                     id={id}
                     onChange={this.onCheckboxChange}
-                    checked={isEditMode && assignedMembers.includes(id)}
+                    checked={isEditMode ? assignedMembers.includes(id) : undefined}
                   />
                 </label>
               </div>
