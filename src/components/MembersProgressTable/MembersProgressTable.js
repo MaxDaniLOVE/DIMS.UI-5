@@ -17,21 +17,17 @@ const MembersProgressTable = ({
 }) => {
   const progressBody = progress.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId, taskId } = task;
+    const onDeleteHandler = () => onSubtaskDelete(taskTrackId);
+    const onEditHandler = () => onEditSubtaskModalOpen(taskTrackId);
+    const omAddHandler = () => onAddSubtaskModalOpen(taskId, taskName);
+    const onDataOpenHandler = () => onSubtaskDataOpen(taskTrackId);
     return (
       <tr key={taskTrackId}>
         <td>{idx + 1}</td>
+        <td>{isMemberTasks ? <OutlineButton onClick={omAddHandler}>{taskName}</OutlineButton> : taskName}</td>
         <td>
           {isMemberTasks ? (
-            <OutlineButton onClick={() => onAddSubtaskModalOpen(taskId, taskName)}>{taskName}</OutlineButton>
-          ) : (
-            taskName
-          )}
-        </td>
-        <td>
-          {isMemberTasks ? (
-            <OutlineButton onClick={() => onSubtaskDataOpen(taskTrackId)}>
-              {`${trackNote.slice(0, 15)}...`}
-            </OutlineButton>
+            <OutlineButton onClick={onDataOpenHandler}>{`${trackNote.slice(0, 15)}...`}</OutlineButton>
           ) : (
             trackNote
           )}
@@ -39,8 +35,8 @@ const MembersProgressTable = ({
         <td>{millisecondsToDate(trackDate)}</td>
         {isMemberTasks ? (
           <td>
-            <Button onClick={() => onEditSubtaskModalOpen(taskTrackId)}>Edit</Button>
-            <DangerButton onClick={() => onSubtaskDelete(taskTrackId)}>Delete</DangerButton>
+            <Button onClick={onEditHandler}>Edit</Button>
+            <DangerButton onClick={onDeleteHandler}>Delete</DangerButton>
           </td>
         ) : null}
       </tr>
@@ -61,12 +57,18 @@ const MembersProgressTable = ({
 MembersProgressTable.defaultProps = {
   isMemberTasks: false,
   onSubtaskDataOpen: () => {},
+  onAddSubtaskModalOpen: () => {},
+  onSubtaskDelete: () => {},
+  onEditSubtaskModalOpen: () => {},
 };
 
 MembersProgressTable.propTypes = {
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
   isMemberTasks: PropTypes.bool,
   onSubtaskDataOpen: PropTypes.func,
+  onAddSubtaskModalOpen: PropTypes.func,
+  onSubtaskDelete: PropTypes.func,
+  onEditSubtaskModalOpen: PropTypes.func,
 };
 
 export default MembersProgressTable;
