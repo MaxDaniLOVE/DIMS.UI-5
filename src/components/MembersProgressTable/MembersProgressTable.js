@@ -6,6 +6,7 @@ import Layout from '../Layout';
 import Table from '../../UI/Table';
 import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
+import noteConverter from '../../utils/noteConverter';
 
 const MembersProgressTable = ({
   progress,
@@ -27,7 +28,7 @@ const MembersProgressTable = ({
         <td>{isMemberTasks ? <OutlineButton onClick={omAddHandler}>{taskName}</OutlineButton> : taskName}</td>
         <td>
           {isMemberTasks ? (
-            <OutlineButton onClick={onDataOpenHandler}>{`${trackNote.slice(0, 15)}...`}</OutlineButton>
+            <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote)}</OutlineButton>
           ) : (
             trackNote
           )}
