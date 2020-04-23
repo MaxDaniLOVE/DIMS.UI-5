@@ -7,13 +7,22 @@ import './modal.scss';
 
 const modalDomElement = document.getElementById('modal');
 
-const Modal = ({ children, onModalClose, onSubmit, isDetailMode, showModal, isFormValid }) => {
+const Modal = ({
+  children,
+  onModalClose,
+  onSubmit,
+  isDetailMode,
+  showModal,
+  isFormValid,
+  onCheckboxChange,
+  isCheckboxShow,
+}) => {
   const content = (
     <div className='modal-backdrop'>
       <form className='modal' onSubmit={onSubmit}>
         <div className='modal__content'>
           {children}
-          <Checkboxes />
+          {isCheckboxShow ? <Checkboxes onCheckboxChange={onCheckboxChange} /> : null}
         </div>
         <div className='modal__footer'>
           {isDetailMode ? null : (

@@ -7,6 +7,7 @@ class Checkboxes extends Component {
     super(props);
     this.state = {
       members: [],
+      assgnedMembers: [],
     };
   }
 
@@ -14,6 +15,23 @@ class Checkboxes extends Component {
     const cachedData = loadCache('members');
     this.setState({ members: cachedData });
   }
+
+  onCheckboxChange = (e) => {
+    const { id, checked } = e.target;
+    const { assgnedMembers } = this.state;
+    const { onCheckboxChange } = this.props;
+    const updatedMembers = new Set();
+    assgnedMembers.map((el) => updatedMembers.add(el));
+    if (checked) {
+      updatedMembers.add(id);
+    } else {
+      updatedMembers.delete(id);
+    }
+    this.setState(() => ({
+      assgnedMembers: [...updatedMembers],
+    }));
+    onCheckboxChange([...updatedMembers]);
+  };
 
   render() {
     const { members } = this.state;
@@ -26,7 +44,7 @@ class Checkboxes extends Component {
               <div className='form-inputs' key={id}>
                 <label htmlFor={id}>
                   {`${name} ${lastName}:`}
-                  <input value={id} type='checkbox' id={id} onChange={() => {}} />
+                  <input value={id} type='checkbox' id={id} onChange={this.onCheckboxChange} />
                 </label>
               </div>
             );

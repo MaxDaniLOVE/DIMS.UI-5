@@ -68,6 +68,12 @@ class TasksManagePage extends Component {
     });
   };
 
+  onCheckboxChange = (newMembers) => {
+    this.setState({
+      assignedMembers: newMembers,
+    });
+  };
+
   render() {
     const { tasks, isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData } = this.state;
     const modalHeader = <h3>{`Task - ${taskData.name}`}</h3>;
@@ -79,6 +85,8 @@ class TasksManagePage extends Component {
           isDetailMode={isDetailMode}
           onModalClose={this.onModalClose}
           isFormValid={isFormValid}
+          onCheckboxChange={this.onCheckboxChange}
+          isCheckboxShow
           onSubmit={() => (isEditMode ? this.onSubmitEditSubtask(taskData) : this.onAddSubtask(taskData))}
         >
           {isDetailMode ? (
