@@ -4,12 +4,15 @@ import TableHeader from '../../UI/TableHeader';
 import { Button, DangerButton } from '../../UI/Buttons';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
+import { taskTableHeaders as headers } from '../../utils/tableHeaders';
+import { millisecondsToDate } from '../../utils/convertDate';
 
 const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen }) => {
-  const headers = ['#', 'Name', 'Start', 'Deadline', ''];
   const tasksTableBody = tasks.map(({ deadlineDate, name, startDate, taskId }, idx) => {
-    const startString = new Date(startDate).toLocaleDateString();
-    const deadlineString = new Date(deadlineDate).toLocaleDateString();
+    const startString = millisecondsToDate(startDate);
+    const deadlineString = millisecondsToDate(deadlineDate);
+    const onEditTaskHandler = () => onEditTaskModalOpen(taskId);
+    const onDeleteTaskHandler = () => onDeleteTask(taskId);
     return (
       <tr key={taskId}>
         <td>{idx + 1}</td>
@@ -17,8 +20,8 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen }) => {
         <td>{startString}</td>
         <td>{deadlineString}</td>
         <td className='admin-btns'>
-          <Button onClick={() => onEditTaskModalOpen(taskId)}>Edit</Button>
-          <DangerButton onClick={() => onDeleteTask(taskId)}>Delete</DangerButton>
+          <Button onClick={onEditTaskHandler}>Edit</Button>
+          <DangerButton onClick={onDeleteTaskHandler}>Delete</DangerButton>
         </td>
       </tr>
     );
