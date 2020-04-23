@@ -84,7 +84,7 @@ class TasksManagePage extends Component {
     });
   };
 
-  onAddSubtask = async (task) => {
+  onAddTask = async (task) => {
     const { assignedMembers } = this.state;
     this.onModalClose();
     const taskId = await this.db.addNewTask(task);
@@ -95,19 +95,27 @@ class TasksManagePage extends Component {
     this.getTasksData();
   };
 
-  onEditTaskModalOpen = (id) => {
+  onEditTaskModalOpen = async (id) => {
     const { tasks } = this.state;
     const editedTask = tasks.find(({ taskId }) => taskId === id);
-    this.onModalOpen();
+    const assignedMembers = await this.db.getAssignedUsers(id);
     this.setState({
       taskData: { ...editedTask },
       isEditMode: true,
       isFormValid: true,
+      assignedMembers,
     });
+    this.onModalOpen();
+  };
+
+  onSubmitEditTask = (task) => {
+    const { assignedMembers } = this.state;
+    console.log(task);
+    console.log(assignedMembers);
   };
 
   render() {
-    const { tasks, isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData } = this.state;
+    const { tasks, isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData, assignedMembers } = this.state;
     const modalHeader = <h3>{`Task - ${taskData.name}`}</h3>;
     return (
       <div className='table-wrapper'>
@@ -119,7 +127,8 @@ class TasksManagePage extends Component {
           isFormValid={isFormValid}
           onCheckboxChange={this.onCheckboxChange}
           isCheckboxShow
-          onSubmit={() => (isEditMode ? this.onSubmitEditSubtask(taskData) : this.onAddSubtask(taskData))}
+          assignedMembers={assignedMembers}
+          onSubmit={() => (isEditMode ? this.onSubmitEditTask(taskData) : this.onAddTask(taskData))}
         >
           {isDetailMode ? (
             <DataModal header={modalHeader} data={taskData} inputFields={tasksInputs} />

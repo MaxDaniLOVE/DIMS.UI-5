@@ -173,4 +173,12 @@ export default class Firebase {
       throw new Error("Can't delete subtasks. Try later.");
     }
   };
+
+  getAssignedUsers = async (taskId) => {
+    const userTasks = await this.database
+      .collection('usersTasks')
+      .where('taskId', '==', taskId)
+      .get();
+    return userTasks.docs.map((task) => task.data().userId);
+  };
 }

@@ -16,13 +16,17 @@ const Modal = ({
   isFormValid,
   onCheckboxChange,
   isCheckboxShow,
+  assignedMembers,
+  isEditMode,
 }) => {
   const content = (
     <div className='modal-backdrop'>
       <form className='modal' onSubmit={onSubmit}>
         <div className='modal__content'>
           {children}
-          {isCheckboxShow ? <Checkboxes onCheckboxChange={onCheckboxChange} /> : null}
+          {isCheckboxShow ? (
+            <Checkboxes isEditMode={isEditMode} onCheckboxChange={onCheckboxChange} assignedMembers={assignedMembers} />
+          ) : null}
         </div>
         <div className='modal__footer'>
           {isDetailMode ? null : (
