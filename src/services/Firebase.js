@@ -185,4 +185,59 @@ export default class Firebase {
       console.error("Can't get assigned users. Try later.");
     }
   };
+
+  editTask = async (newTask, assignedMembers) => {
+    const { taskId } = newTask;
+    const updatedData = { ...newTask };
+    delete updatedData.taskId;
+    try {
+      await this.database
+        .collection('tasks')
+        .doc(taskId)
+        .set(updatedData, { merge: true });
+      await this.updateAssignedUsers(taskId, assignedMembers);
+    } catch (error) {
+      console.error("Can't update task data. Try later.");
+    }
+  };
+
+  updateAssignedUsers = async (taskId, assignedMembers) => {
+    try {
+      const alreadyAssignedUsers = await this.getAssignedUsers(taskId);
+      const unassignedUsers = assignedMembers.filter((el) => !alreadyAssignedUsers.includes(el));
+      const userTasks = await this.database
+        .collection('usersTasks')
+        .where('taskId', '==', taskId)
+        .get();
+      const tasksToDelete = [];
+      userTasks.docs.map(async (task) => {
+        const taskObject = task.data();
+        const { userId } = taskObject;
+        if (!assignedMembers.includes(userId)) {
+          tasksToDelete.push(task.id);
+          return false;
+        }
+        return task.id;
+      });
+      unassignedUsers.map((userId) => {
+        const userTask = { stateId: 2, taskId, userId };
+        this.addUserTask(userTask);
+        return userTask;
+      });
+      tasksToDelete.map((task) => this.deleteUserTask(task));
+    } catch (error) {
+      console.error("Can't update assigned users. Try later.", error);
+    }
+  };
+
+  deleteUserTask = async (userTaskId) => {
+    try {
+      await this.database
+        .collection('usersTasks')
+        .doc(userTaskId)
+        .delete();
+    } catch (error) {
+      console.error("Can't delete tasks. Try later.");
+    }
+  };
 }

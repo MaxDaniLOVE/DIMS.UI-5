@@ -108,10 +108,12 @@ class TasksManagePage extends Component {
     this.onModalOpen();
   };
 
-  onSubmitEditTask = (task) => {
+  onSubmitEditTask = async (task) => {
     const { assignedMembers } = this.state;
     console.log(task);
-    console.log(assignedMembers);
+    await this.db.editTask(task, assignedMembers);
+    this.getTasksData();
+    this.onModalClose();
   };
 
   render() {
