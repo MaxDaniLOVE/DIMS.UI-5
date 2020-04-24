@@ -27,23 +27,21 @@ class TasksTrackManagePage extends Component {
   }
 
   componentDidMount() {
-    const memberId = '1XMvbioNVdqnsLoLEYnc'; // TODO get memberId from store/context
-    const cachedProgress = loadCache(`${memberId}_progress`);
-    if (cachedProgress) {
-      this.setState({
-        progress: cachedProgress,
-        isLoaded: true,
-      });
-    } else {
-      this.getTracksData();
-    }
+    this.getTracksData();
   }
 
   getTracksData = async () => {
     const memberId = '1XMvbioNVdqnsLoLEYnc'; // TODO get memberId from store/context
-    this.db.getUsersProgress(memberId).then((progress) => {
+    const { match } = this.props;
+    const recievedId = match.params.tid;
+    console.log(recievedId);
+    this.db.getUsersProgress(memberId).then(async (progress) => {
       progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
-      addCache(`${memberId}_progress`, progress);
+      if (recievedId) {
+        const editedTask = progress.find(({ taskId }) => taskId === recievedId);
+        const { taskId, taskName } = editedTask;
+        this.onAddSubtaskModalOpen(taskId, taskName);
+      }
       this.setState({
         progress,
         isLoaded: true,

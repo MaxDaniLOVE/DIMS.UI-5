@@ -26,9 +26,7 @@ const App = () => {
           <Route path='/members'>
             <MembersPage />
           </Route>
-          <Route path='/member/subtasks'>
-            <TasksTrackManagePage />
-          </Route>
+          <Route path='/member/subtasks/:tid?' render={(props) => <TasksTrackManagePage {...props} />} />
           <Route path='/member/:mid/progress'>
             <MembersProgressPage />
           </Route>
