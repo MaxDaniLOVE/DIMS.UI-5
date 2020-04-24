@@ -123,7 +123,6 @@ class TasksManagePage extends Component {
 
   onSubmitEditTask = async (task) => {
     const { assignedMembers } = this.state;
-    console.log(task);
     await this.db.editTask(task, assignedMembers);
     this.getTasksData();
     this.onModalClose();
