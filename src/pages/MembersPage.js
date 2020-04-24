@@ -127,7 +127,8 @@ export default class MembersPage extends Component {
   render() {
     const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid } = this.state;
     const btnStyles = { marginBottom: '1rem' };
-    const modalHeader = <h3>{`${registerData.name}'s details:`}</h3>;
+    const modalHeader =
+      isEditMode || isDetailMode ? <h3>{`${registerData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
     return (
       <div className='table-wrapper'>
         <Modal
@@ -146,6 +147,7 @@ export default class MembersPage extends Component {
               data={registerData}
               onFormChange={this.onFormChange}
               isEditMode={isEditMode}
+              modalHeader={modalHeader}
             />
           )}
         </Modal>

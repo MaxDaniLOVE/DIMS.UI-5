@@ -130,7 +130,7 @@ class TasksManagePage extends Component {
 
   render() {
     const { tasks, isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData, assignedMembers } = this.state;
-    const modalHeader = <h3>{`Task - ${taskData.name}`}</h3>;
+    const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${taskData.name}:`}</h3> : <h3>Add new task:</h3>;
     return (
       <div className='table-wrapper'>
         <Modal
@@ -148,6 +148,7 @@ class TasksManagePage extends Component {
             <DataModal header={modalHeader} data={taskData} inputFields={tasksInputs} />
           ) : (
             <FormModal
+              modalHeader={modalHeader}
               inputs={tasksInputs}
               data={taskData}
               onFormChange={this.onFormChange}

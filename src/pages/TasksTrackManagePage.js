@@ -155,6 +155,7 @@ class TasksTrackManagePage extends Component {
               onFormChange={this.onFormChange}
               isEditMode={isEditMode}
               isFormValid={isFormValid}
+              modalHeader={modalHeader}
             />
           )}
         </Modal>

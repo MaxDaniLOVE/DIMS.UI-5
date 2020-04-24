@@ -5,7 +5,7 @@ import RadioInput from '../../UI/RadioInput';
 
 import './formModal.scss';
 
-const FormModal = ({ onFormChange, isEditMode, data, inputs }) => {
+const FormModal = ({ onFormChange, isEditMode, data, inputs, modalHeader }) => {
   const inputsLabels = inputs.map(({ label, id, type, options }) => {
     if (type === 'radio') {
       return (
@@ -38,7 +38,7 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs }) => {
   const title = isEditMode ? `${name} ${lastName}:` : 'Register new user:';
   return (
     <>
-      <h3>{title}</h3>
+      {modalHeader}
       <div className='modal__content_container'>{inputsLabels}</div>
     </>
   );
