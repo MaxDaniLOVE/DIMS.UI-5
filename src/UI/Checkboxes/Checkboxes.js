@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { loadCache } from '../../utils/cache';
 import './checkboxes.scss';
 
@@ -71,5 +72,10 @@ class Checkboxes extends Component {
     );
   }
 }
+
+Checkboxes.propTypes = {
+  assignedMembers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onCheckboxChange: PropTypes.func.isRequired,
+};
 
 export default Checkboxes;

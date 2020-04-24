@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
-import { addCache, loadCache } from '../utils/cache';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultSubtaskData } from '../utils/defaultInputsData';
 import Modal from '../UI/Modal';
@@ -34,7 +34,6 @@ class TasksTrackManagePage extends Component {
     const memberId = '1XMvbioNVdqnsLoLEYnc'; // TODO get memberId from store/context
     const { match } = this.props;
     const recievedId = match.params.tid;
-    console.log(recievedId);
     this.db.getUsersProgress(memberId).then(async (progress) => {
       progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
       if (recievedId) {
@@ -178,5 +177,9 @@ class TasksTrackManagePage extends Component {
     );
   }
 }
+
+TasksTrackManagePage.propTypes = {
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default TasksTrackManagePage;

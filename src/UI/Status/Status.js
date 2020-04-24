@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './status.scss';
 
 const Status = ({ stateId }) => {
@@ -18,6 +19,10 @@ const Status = ({ stateId }) => {
   };
   const { stateName, stateClass } = stateValues[stateId];
   return <span className={stateClass}>{stateName}</span>;
+};
+
+Status.propTypes = {
+  stateId: PropTypes.number.isRequired,
 };
 
 export default Status;

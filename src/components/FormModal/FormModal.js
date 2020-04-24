@@ -34,8 +34,6 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs, modalHeader }) => {
       </div>
     );
   });
-  const { name, lastName } = data;
-  const title = isEditMode ? `${name} ${lastName}:` : 'Register new user:';
   return (
     <>
       {modalHeader}
@@ -49,6 +47,7 @@ FormModal.propTypes = {
   isEditMode: PropTypes.bool.isRequired,
   data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   inputs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  modalHeader: PropTypes.element.isRequired,
 };
 
 export default FormModal;

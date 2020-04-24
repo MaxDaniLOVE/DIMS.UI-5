@@ -74,9 +74,23 @@ class Modal extends Component {
   }
 }
 
+Modal.defaultProps = {
+  assignedMembers: [],
+  onCheckboxChange: () => {},
+  isCheckboxShow: false,
+};
+
 Modal.propTypes = {
   showModal: PropTypes.bool.isRequired,
   isFormValid: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired,
+  onModalClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isDetailMode: PropTypes.bool.isRequired,
+  onCheckboxChange: PropTypes.func,
+  isCheckboxShow: PropTypes.bool,
+  assignedMembers: PropTypes.arrayOf(PropTypes.string),
+  isEditMode: PropTypes.bool.isRequired,
 };
 
 export default Modal;

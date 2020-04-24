@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Firebase from '../services/Firebase';
 import Preloader from '../components/Preloader';
 import { Button } from '../UI/Buttons';
@@ -169,5 +170,9 @@ class TasksManagePage extends Component {
     );
   }
 }
+
+TasksManagePage.propTypes = {
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default TasksManagePage;

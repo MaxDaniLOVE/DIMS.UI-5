@@ -25,8 +25,8 @@ const MembersTasksTable = ({ userTasks }) => {
           <LinkButton link={`/member/subtasks/${taskId}`}>Track</LinkButton>
         </td>
         <td className='admin-btns'>
-          <SuccessButton>Success!</SuccessButton>
-          <DangerButton>Fail!</DangerButton>
+          <SuccessButton onClick={() => {}}>Success!</SuccessButton>
+          <DangerButton onClick={() => {}}>Fail!</DangerButton>
         </td>
       </tr>
     );

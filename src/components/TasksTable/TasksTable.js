@@ -40,6 +40,8 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen }) => {
 
 TasksTable.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.any).isRequired,
+  onDeleteTask: PropTypes.func.isRequired,
+  onEditTaskModalOpen: PropTypes.func.isRequired,
 };
 
 export default TasksTable;
