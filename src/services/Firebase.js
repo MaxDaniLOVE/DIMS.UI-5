@@ -95,6 +95,16 @@ export default class Firebase {
         .collection('users')
         .doc(id)
         .delete();
+      const deletingProgress = await this.database
+        .collection('usersProgress')
+        .where('userId', '==', id)
+        .get();
+      const deletingUsersTasks = await this.database
+        .collection('usersTasks')
+        .where('userId', '==', id)
+        .get();
+      deletingProgress.docs.map((subtask) => this.deleteSubtask(subtask.id));
+      deletingUsersTasks.docs.map((userTask) => this.deleteUserTask(userTask.id));
     } catch (error) {
       console.error("Can't delete user data. Try later.");
     }
@@ -239,7 +249,6 @@ export default class Firebase {
   };
 
   deleteUserTask = async (userTaskId) => {
-    // TODO add deliting users subtasks
     try {
       await this.database
         .collection('usersTasks')
