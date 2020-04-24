@@ -35,9 +35,7 @@ const App = () => {
           <Route path='/member/:mid/tasks'>
             <MembersTasksPage />
           </Route>
-          <Route path='/tasks'>
-            <TasksManagePage />
-          </Route>
+          <Route path='/tasks/:tid?' render={(props) => <TasksManagePage {...props} />} />
         </Switch>
       </div>
       <Footer />

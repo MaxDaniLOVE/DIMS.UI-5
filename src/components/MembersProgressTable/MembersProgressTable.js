@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import TableHeader from '../../UI/TableHeader';
 import { Button, OutlineButton, DangerButton } from '../../UI/Buttons';
 import Layout from '../Layout';
@@ -25,7 +26,13 @@ const MembersProgressTable = ({
     return (
       <tr key={taskTrackId}>
         <td>{idx + 1}</td>
-        <td>{isMemberTasks ? <OutlineButton onClick={omAddHandler}>{taskName}</OutlineButton> : taskName}</td>
+        <td>
+          {isMemberTasks ? (
+            <OutlineButton onClick={omAddHandler}>{taskName}</OutlineButton>
+          ) : (
+            <Link to={`/tasks/${taskId}`}>{taskName}</Link>
+          )}
+        </td>
         <td>
           {isMemberTasks ? (
             <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote)}</OutlineButton>

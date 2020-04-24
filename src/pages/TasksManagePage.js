@@ -31,10 +31,22 @@ class TasksManagePage extends Component {
     this.getTasksData();
   }
 
-  getTasksData() {
-    this.db.getAllTasks().then((data) => {
+  async getTasksData() {
+    const { match } = this.props;
+    const recievedId = match.params.tid;
+    this.db.getAllTasks().then(async (data) => {
       const newData = [];
       data.forEach((doc) => newData.push({ ...doc.data(), taskId: doc.id }));
+      if (recievedId) {
+        const assignedMembers = await this.db.getAssignedUsers(recievedId);
+        const editedTask = newData.find(({ taskId }) => taskId === recievedId);
+        this.setState({
+          taskData: editedTask,
+          assignedMembers,
+          isEditMode: true,
+          showModal: true,
+        });
+      }
       this.setState({
         tasks: newData,
         isLoaded: true,
