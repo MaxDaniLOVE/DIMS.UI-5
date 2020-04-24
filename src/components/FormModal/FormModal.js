@@ -24,15 +24,12 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs }) => {
     const convertationDict = {
       date: dateToString(data[id]),
     };
-    let inputPlaceholder;
-    if (isEditMode) {
-      inputPlaceholder = convertationDict[type] || data[id];
-    }
+    const inputPlaceholder = convertationDict[type] || data[id];
     return (
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>
           {label}
-          <input value={isEditMode ? inputPlaceholder : undefined} type={type} id={id} onChange={onFormChange} />
+          <input value={inputPlaceholder} type={type} id={id} onChange={onFormChange} />
         </label>
       </div>
     );
