@@ -119,7 +119,6 @@ export default class Firebase {
   };
 
   deleteSubtask = async (subtaskId) => {
-    // TODO add deliting users tasks and progress
     try {
       await this.database
         .collection('usersProgress')
@@ -163,12 +162,21 @@ export default class Firebase {
   };
 
   deleteTask = async (taskId) => {
-    // TODO add deliting users progress
     try {
       await this.database
         .collection('tasks')
         .doc(taskId)
         .delete();
+      const deletingProgress = await this.database
+        .collection('usersProgress')
+        .where('taskId', '==', taskId)
+        .get();
+      const deletingUsersTasks = await this.database
+        .collection('usersTasks')
+        .where('taskId', '==', taskId)
+        .get();
+      deletingProgress.docs.map((subtask) => this.deleteSubtask(subtask.id));
+      deletingUsersTasks.docs.map((userTask) => this.deleteUserTask(userTask.id));
     } catch (error) {
       console.error("Can't delete tasks. Try later.");
     }
@@ -231,6 +239,7 @@ export default class Firebase {
   };
 
   deleteUserTask = async (userTaskId) => {
+    // TODO add deliting users subtasks
     try {
       await this.database
         .collection('usersTasks')
