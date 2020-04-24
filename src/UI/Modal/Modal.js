@@ -40,7 +40,6 @@ class Modal extends Component {
       onModalClose,
       onSubmit,
       isDetailMode,
-      showModal,
       isFormValid,
       onCheckboxChange,
       isCheckboxShow,

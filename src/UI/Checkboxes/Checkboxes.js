@@ -13,10 +13,17 @@ class Checkboxes extends Component {
 
   componentDidMount() {
     const cachedData = loadCache('members');
-    const { isEditMode, assignedMembers } = this.props;
+    const { assignedMembers } = this.props;
     this.setState({
       members: cachedData,
-      assignedMembers: isEditMode ? assignedMembers : [],
+      assignedMembers,
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { assignedMembers } = nextProps;
+    this.setState({
+      assignedMembers,
     });
   }
 
@@ -39,7 +46,6 @@ class Checkboxes extends Component {
 
   render() {
     const { members, assignedMembers } = this.state;
-    const { isEditMode } = this.props;
     return (
       <div className='members-checkboxes__wrapper'>
         Assign members:
@@ -54,7 +60,7 @@ class Checkboxes extends Component {
                     type='checkbox'
                     id={id}
                     onChange={this.onCheckboxChange}
-                    checked={isEditMode ? assignedMembers.includes(id) : undefined}
+                    checked={assignedMembers.includes(id)}
                   />
                 </label>
               </div>
