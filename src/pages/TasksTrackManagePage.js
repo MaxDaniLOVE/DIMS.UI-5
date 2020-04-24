@@ -35,7 +35,7 @@ class TasksTrackManagePage extends Component {
     const { match } = this.props;
     const recievedId = match.params.tid;
     this.db.getUsersProgress(memberId).then(async (progress) => {
-      progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // sort from old to new
+      progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // ! sort from old to new
       if (recievedId) {
         const editedTask = progress.find(({ taskId }) => taskId === recievedId);
         const { taskId, taskName } = editedTask;
