@@ -34,6 +34,12 @@ class Modal extends Component {
     return null;
   }
 
+  componentWillUnmount() {
+    if (modalDomElement.contains(this.el)) {
+      modalDomElement.removeChild(this.el);
+    }
+  }
+
   render() {
     const {
       children,
