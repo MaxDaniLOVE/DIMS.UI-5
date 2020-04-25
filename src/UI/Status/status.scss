@@ -1,0 +1,16 @@
+@import '../../scss/variables';
+.failed {
+  color: $honeysuckle;
+}
+.success {
+  color: $teal-green;
+}
+.active {
+  color: $charcoal;
+}
+.failed,
+.success,
+.active {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
