@@ -8,6 +8,7 @@ import { defaultSubtaskData } from '../utils/defaultInputsData';
 import Modal from '../UI/Modal';
 import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
+import sortFromOldToNew from '../utils/sortFromOldToNew';
 import FormModal from '../components/FormModal';
 import validation from '../utils/validation';
 
@@ -35,14 +36,14 @@ class TasksTrackManagePage extends Component {
     const { match } = this.props;
     const recievedId = match.params.tid;
     this.db.getUsersProgress(memberId).then(async (progress) => {
-      progress.sort((a, b) => (a.trackDate > b.trackDate ? 1 : -1)); // ! sort from old to new
+      const sortedProgress = sortFromOldToNew(progress);
       if (recievedId) {
-        const editedTask = progress.find(({ taskId }) => taskId === recievedId);
+        const editedTask = sortedProgress.find(({ taskId }) => taskId === recievedId);
         const { taskId, taskName } = editedTask;
         this.onAddSubtaskModalOpen(taskId, taskName);
       }
       this.setState({
-        progress,
+        progress: sortedProgress,
         isLoaded: true,
       });
     });

@@ -31,13 +31,13 @@ class Navigation extends Component {
       <>
         <SideBar isOpen={isSideBarOpen}>
           <>
-            <DangerButton onClick={() => this.onCloseSideBar()}>X</DangerButton>
+            <DangerButton onClick={this.onCloseSideBar}>X</DangerButton>
             <NavigationLinks onClick={this.onCloseSideBar} />
           </>
         </SideBar>
         <MainHeader>
           <>
-            <BurgerButton onClick={() => this.onOpenSideBar()} />
+            <BurgerButton onClick={this.onOpenSideBar} />
             <nav className='navigation__header-nav'>
               <NavigationLinks />
             </nav>

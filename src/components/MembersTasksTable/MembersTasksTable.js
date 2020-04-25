@@ -7,6 +7,7 @@ import './membersTasksTable.scss';
 import { membersTasksHeaders as headers } from '../../utils/tableHeaders';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
+import { millisecondsToDate } from '../../utils/convertDate';
 
 const MembersTasksTable = ({ userTasks }) => {
   const membersTasksTableBody = userTasks.map((task, idx) => {
@@ -16,8 +17,8 @@ const MembersTasksTable = ({ userTasks }) => {
       <tr key={userTaskId}>
         <td>{idx + 1}</td>
         <td>{name}</td>
-        <td>{new Date(startDate).toLocaleDateString()}</td>
-        <td>{new Date(deadlineDate).toLocaleDateString()}</td>
+        <td>{millisecondsToDate(startDate)}</td>
+        <td>{millisecondsToDate(deadlineDate)}</td>
         <td>
           <Status stateId={stateId} />
         </td>
