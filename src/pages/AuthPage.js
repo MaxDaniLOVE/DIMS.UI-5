@@ -29,6 +29,10 @@ class AuthPage extends Component {
   onSubmit = () => {
     const { authData } = this.state;
     console.log(authData);
+    this.state = {
+      authData: defaultAuthData,
+      isFormValid: false,
+    };
   };
 
   render() {
