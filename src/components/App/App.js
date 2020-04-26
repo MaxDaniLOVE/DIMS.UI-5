@@ -29,15 +29,19 @@ class App extends Component {
 
   onStatusChanged = async () => {
     const userStatus = await auth.onStatusChanged();
-    const { isLoggedIn, role, email } = userStatus;
-    const user = isLoggedIn ? { role, email } : {};
+    const { isLoggedIn, role, email, userId, userName } = userStatus;
+    let user = isLoggedIn ? { role, email } : {};
+    if (role === 'USER') {
+      user = { ...user, userId, userName };
+    }
     this.setState({ isLoggedIn, user });
+    return { isLoggedIn, user };
   };
 
   onLogIn = async (authData) => {
-    const user = await auth.login(authData);
-    await this.onStatusChanged();
-    this.setState({ user });
+    await auth.login(authData);
+    const user = await this.onStatusChanged();
+    this.setState({ ...user });
   };
 
   onLogOut = async () => {
@@ -46,8 +50,8 @@ class App extends Component {
   };
 
   onRegister = async (authData) => {
-    const user = await auth.registerNewUser(authData);
-    await this.onStatusChanged();
+    await auth.registerNewUser(authData);
+    const user = await this.onStatusChanged();
     this.setState({ user });
   };
 

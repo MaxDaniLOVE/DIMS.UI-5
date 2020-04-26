@@ -21,7 +21,11 @@ export default class Authentication extends Firebase {
     const isLoggedIn = await new Promise((res) => {
       this.auth.onAuthStateChanged(async (user) => {
         if (user) {
-          const userRole = await this.getUserRole(user.email);
+          let userRole = await this.getUserRole(user.email);
+          if (userRole.role === 'USER') {
+            const additionalData = await this.getUserDataByEmail(user.email);
+            userRole = { ...userRole, ...additionalData };
+          }
           res({
             isLoggedIn: true,
             ...userRole,

@@ -34,9 +34,7 @@ class TasksTrackManagePage extends Component {
 
   getTracksData = async () => {
     const { user } = this.context;
-    const userData = await this.db.getUserDataByEmail(user.email);
-    const { userId } = userData;
-    // const memberId = '1XMvbioNVdqnsLoLEYnc'; // TODO get memberId from store/context
+    const { userId } = user;
     const { match } = this.props;
     const recievedId = match.params.tid;
     this.db.getUsersProgress(userId).then(async (progress) => {
@@ -49,7 +47,6 @@ class TasksTrackManagePage extends Component {
       this.setState({
         progress: sortedProgress,
         isLoaded: true,
-        userData,
       });
     });
   };
@@ -82,14 +79,15 @@ class TasksTrackManagePage extends Component {
 
   onFormChange = (e) => {
     const { value, id } = e.target;
-    const { userData } = this.state;
+    const { user } = this.context;
     this.setState(({ subtaskData }) => {
       const { taskId, taskName } = subtaskData;
       const inputsValues = inputsChangeHandler(value, id, subtaskData);
       const newSubtask = {
         taskId,
         taskName,
-        ...userData,
+        userId: user.userId,
+        userName: user.userName,
         ...inputsValues,
       };
       const validatedInputs = {
