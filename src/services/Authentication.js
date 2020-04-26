@@ -12,14 +12,19 @@ export default class Authentication {
     }
   };
 
-  onStatusChanged = () => {
-    this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log('user logged in');
-      } else {
-        console.log('user logged out');
-      }
+  onStatusChanged = async () => {
+    const isLoggedIn = await new Promise((res) => {
+      this.auth.onAuthStateChanged((user) => {
+        if (user) {
+          console.log('user logged in');
+          res(true);
+        } else {
+          console.log('user logged out');
+          res(false);
+        }
+      });
     });
+    return isLoggedIn;
   };
 
   login = async ({ email, password }) => {

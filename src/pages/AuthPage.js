@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AuthContext from '../context';
 import LoginForm from '../components/LoginForm';
 import { defaultAuthData } from '../utils/defaultInputsData';
 import { authInputs as inputs } from '../utils/inputs';
@@ -28,7 +29,8 @@ class AuthPage extends Component {
 
   onSubmit = () => {
     const { authData } = this.state;
-    console.log(authData);
+    const { onLogIn } = this.context;
+    onLogIn(authData);
     this.setState({
       authData: defaultAuthData,
       isFormValid: false,
@@ -42,5 +44,5 @@ class AuthPage extends Component {
     );
   }
 }
-
+AuthPage.contextType = AuthContext;
 export default AuthPage;

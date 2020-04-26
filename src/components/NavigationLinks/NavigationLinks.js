@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import { DangerButton } from '../../UI/Buttons';
 
-const NavigationLinks = ({ onClick }) => {
+const NavigationLinks = ({ onClick, onLogOut }) => {
   const links = [
     {
       link: '/members',
@@ -24,6 +25,7 @@ const NavigationLinks = ({ onClick }) => {
           {label}
         </NavLink>
       ))}
+      <DangerButton onClick={onLogOut}>LogOut</DangerButton>
     </>
   );
 };
@@ -34,6 +36,7 @@ NavigationLinks.defaultProps = {
 
 NavigationLinks.propTypes = {
   onClick: PropTypes.func,
+  onLogOut: PropTypes.func.isRequired,
 };
 
 export default NavigationLinks;

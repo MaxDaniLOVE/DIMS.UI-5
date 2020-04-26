@@ -3,6 +3,7 @@ import { DangerButton, BurgerButton } from '../../UI/Buttons';
 import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
 import NavigationLinks from '../NavigationLinks';
+import AuthContext from '../../context';
 import './navigation.scss';
 
 class Navigation extends Component {
@@ -27,19 +28,20 @@ class Navigation extends Component {
 
   render() {
     const { isSideBarOpen } = this.state;
+    const { onLogOut } = this.context;
     return (
       <>
         <SideBar isOpen={isSideBarOpen}>
           <>
             <DangerButton onClick={this.onCloseSideBar}>X</DangerButton>
-            <NavigationLinks onClick={this.onCloseSideBar} />
+            <NavigationLinks onClick={this.onCloseSideBar} onLogOut={onLogOut} />
           </>
         </SideBar>
         <MainHeader>
           <>
             <BurgerButton onClick={this.onOpenSideBar} />
             <nav className='navigation__header-nav'>
-              <NavigationLinks />
+              <NavigationLinks onLogOut={onLogOut} />
             </nav>
           </>
         </MainHeader>
@@ -47,5 +49,7 @@ class Navigation extends Component {
     );
   }
 }
+
+Navigation.contextType = AuthContext;
 
 export default Navigation;
