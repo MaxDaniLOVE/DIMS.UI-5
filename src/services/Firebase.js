@@ -6,6 +6,31 @@ firebase.initializeApp(firebaseConfig);
 export default class Firebase {
   database = firebase.firestore();
 
+  isUserExists = async (email) => {
+    try {
+      const user = await this.database
+        .collection('users')
+        .where('email', '==', email)
+        .get();
+      await this.createUserRole(email);
+      return user.docs[0].exists;
+    } catch (error) {
+      console.error('User is not added to database. Try later.');
+      return false;
+    }
+  };
+
+  createUserRole = async (email) => {
+    try {
+      const newRole = { role: 'USER', email };
+      const newRoleAdded = await this.database.collection('roles').add(newRole);
+      return newRoleAdded;
+    } catch (error) {
+      console.error('Can not add user role. Try later.');
+      return false;
+    }
+  };
+
   getUserRole = async (email) => {
     try {
       const userRole = await this.database

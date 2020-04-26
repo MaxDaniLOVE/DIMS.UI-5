@@ -6,9 +6,12 @@ export default class Authentication extends Firebase {
 
   registerNewUser = async ({ email, password }) => {
     try {
-      await this.auth.createUserWithEmailAndPassword(email, password);
-      const userRole = await this.getUserRole(email);
-      return userRole;
+      const isUserAddedToDb = await this.isUserExists(email);
+      if (isUserAddedToDb) {
+        await this.auth.createUserWithEmailAndPassword(email, password);
+        const userRole = await this.getUserRole(email);
+        return userRole;
+      }
     } catch (error) {
       console.error(error.message);
     }
