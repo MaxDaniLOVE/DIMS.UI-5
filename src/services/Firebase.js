@@ -6,6 +6,18 @@ firebase.initializeApp(firebaseConfig);
 export default class Firebase {
   database = firebase.firestore();
 
+  getUserRole = async (email) => {
+    try {
+      const userRole = await this.database
+        .collection('roles')
+        .where('email', '==', email)
+        .get();
+      return userRole.docs[0].data();
+    } catch (error) {
+      console.error("Can't get user role. Try later.");
+    }
+  };
+
   addNewUser = async (user) => {
     try {
       const newUser = await this.database.collection('users').add(user);

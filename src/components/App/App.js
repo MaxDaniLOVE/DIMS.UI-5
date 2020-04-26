@@ -19,6 +19,7 @@ class App extends Component {
     super(props);
     this.state = {
       isLoggedIn: false,
+      user: {},
     };
   }
 
@@ -27,14 +28,16 @@ class App extends Component {
   }
 
   onStatusChanged = async () => {
-    const isLoggedIn = await auth.onStatusChanged();
-    this.setState({ isLoggedIn });
+    const userStatus = await auth.onStatusChanged();
+    const { isLoggedIn, role, email } = userStatus;
+    const user = isLoggedIn ? { role, email } : {};
+    this.setState({ isLoggedIn, user });
   };
 
   onLogIn = async (authData) => {
     const user = await auth.login(authData);
     await this.onStatusChanged();
-    return user;
+    this.setState({ user });
   };
 
   onLogOut = async () => {
@@ -43,11 +46,12 @@ class App extends Component {
   };
 
   render() {
-    const { isLoggedIn } = this.state;
+    const { isLoggedIn, user } = this.state;
     const defaultContextValue = {
       isLoggedIn,
       onLogIn: this.onLogIn,
       onLogOut: this.onLogOut,
+      user,
     };
     const routes = isLoggedIn ? (
       <>

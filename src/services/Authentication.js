@@ -1,6 +1,7 @@
 import firebase from 'firebase';
+import Firebase from './Firebase';
 
-export default class Authentication {
+export default class Authentication extends Firebase {
   auth = firebase.auth();
 
   registerNewUser = async ({ email, password }) => {
@@ -14,13 +15,18 @@ export default class Authentication {
 
   onStatusChanged = async () => {
     const isLoggedIn = await new Promise((res) => {
-      this.auth.onAuthStateChanged((user) => {
+      this.auth.onAuthStateChanged(async (user) => {
         if (user) {
-          console.log('user logged in');
-          res(true);
+          const userRole = await this.getUserRole(user.email);
+          res({
+            isLoggedIn: true,
+            ...userRole,
+          });
         } else {
           console.log('user logged out');
-          res(false);
+          res({
+            isLoggedIn: false,
+          });
         }
       });
     });
@@ -29,8 +35,9 @@ export default class Authentication {
 
   login = async ({ email, password }) => {
     try {
-      const userData = await this.auth.signInWithEmailAndPassword(email, password);
-      return userData;
+      await this.auth.signInWithEmailAndPassword(email, password);
+      const userRole = await this.getUserRole(email);
+      return userRole;
     } catch (error) {
       console.error(error.message);
     }
