@@ -6,6 +6,21 @@ firebase.initializeApp(firebaseConfig);
 export default class Firebase {
   database = firebase.firestore();
 
+  getUserDataByEmail = async (email) => {
+    try {
+      const user = await this.database
+        .collection('users')
+        .where('email', '==', email)
+        .get();
+      const userId = user.docs[0].id;
+      const userName = user.docs[0].data().name;
+      return { userId, userName };
+    } catch (error) {
+      console.error('User is not added to database. Try later.');
+      return false;
+    }
+  };
+
   isUserExists = async (email) => {
     try {
       const user = await this.database

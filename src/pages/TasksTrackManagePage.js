@@ -11,6 +11,7 @@ import { subtasksInputs } from '../utils/inputs';
 import sortFromOldToNew from '../utils/sortFromOldToNew';
 import FormModal from '../components/FormModal';
 import validation from '../utils/validation';
+import AuthContext from '../context';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -32,10 +33,13 @@ class TasksTrackManagePage extends Component {
   }
 
   getTracksData = async () => {
-    const memberId = '1XMvbioNVdqnsLoLEYnc'; // TODO get memberId from store/context
+    const { user } = this.context;
+    const userData = await this.db.getUserDataByEmail(user.email);
+    const { userId } = userData;
+    // const memberId = '1XMvbioNVdqnsLoLEYnc'; // TODO get memberId from store/context
     const { match } = this.props;
     const recievedId = match.params.tid;
-    this.db.getUsersProgress(memberId).then(async (progress) => {
+    this.db.getUsersProgress(userId).then(async (progress) => {
       const sortedProgress = sortFromOldToNew(progress);
       if (recievedId) {
         const editedTask = sortedProgress.find(({ taskId }) => taskId === recievedId);
@@ -45,6 +49,7 @@ class TasksTrackManagePage extends Component {
       this.setState({
         progress: sortedProgress,
         isLoaded: true,
+        userData,
       });
     });
   };
@@ -77,14 +82,14 @@ class TasksTrackManagePage extends Component {
 
   onFormChange = (e) => {
     const { value, id } = e.target;
+    const { userData } = this.state;
     this.setState(({ subtaskData }) => {
       const { taskId, taskName } = subtaskData;
       const inputsValues = inputsChangeHandler(value, id, subtaskData);
       const newSubtask = {
         taskId,
         taskName,
-        userId: '1XMvbioNVdqnsLoLEYnc', // TODO get memberId from store/context
-        userName: 'Armando Abbott', // TODO get memberId from store/context
+        ...userData,
         ...inputsValues,
       };
       const validatedInputs = {
@@ -178,6 +183,8 @@ class TasksTrackManagePage extends Component {
     );
   }
 }
+
+TasksTrackManagePage.contextType = AuthContext;
 
 TasksTrackManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
