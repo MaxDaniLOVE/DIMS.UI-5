@@ -40,7 +40,8 @@
   }
 }
 .side-bar {
-  a {
+  a,
+  .btn-logout {
     @include inactive-link;
     height: 4rem;
     width: 100%;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { DangerButton } from '../../UI/Buttons';
+import { LogoutButton } from '../../UI/Buttons';
 
 const NavigationLinks = ({ onClick, onLogOut }) => {
   const links = [
@@ -25,7 +25,7 @@ const NavigationLinks = ({ onClick, onLogOut }) => {
           {label}
         </NavLink>
       ))}
-      <DangerButton onClick={onLogOut}>LogOut</DangerButton>
+      <LogoutButton onClick={onLogOut}>LogOut</LogoutButton>
     </>
   );
 };

@@ -52,3 +52,12 @@
 .btn-return {
   width: 10rem;
 }
+.btn-logout {
+  @include inactive-link;
+  width: auto;
+  background-color: $honeysuckle;
+  padding: 0 1rem 0 1rem;
+  &:hover {
+    @include active-link;
+  }
+}
