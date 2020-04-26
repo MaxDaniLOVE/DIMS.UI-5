@@ -49,30 +49,38 @@ class App extends Component {
       onLogIn: this.onLogIn,
       onLogOut: this.onLogOut,
     };
+    const routes = isLoggedIn ? (
+      <>
+        <Route exact path='/'>
+          <Redirect to='members' />
+        </Route>
+        <Route path='/members'>
+          <MembersPage />
+        </Route>
+        <Route path='/member/subtasks/:tid?' render={(props) => <TasksTrackManagePage {...props} />} />
+        <Route path='/member/:mid/progress'>
+          <MembersProgressPage />
+        </Route>
+        <Route path='/member/:mid/tasks'>
+          <MembersTasksPage />
+        </Route>
+        <Route path='/tasks/:tid?' render={(props) => <TasksManagePage {...props} />} />
+        <Redirect to='/members' />
+      </>
+    ) : (
+      <>
+        <Route path='/auth'>
+          <AuthPage />
+        </Route>
+        <Redirect to='/auth' />
+      </>
+    );
     return (
       <AuthContext.Provider value={defaultContextValue}>
         <Router>
           <Header />
           <div className='container'>
-            <Switch>
-              <Route exact path='/'>
-                <Redirect to='members' />
-              </Route>
-              <Route path='/auth'>
-                <AuthPage />
-              </Route>
-              <Route path='/members'>
-                <MembersPage />
-              </Route>
-              <Route path='/member/subtasks/:tid?' render={(props) => <TasksTrackManagePage {...props} />} />
-              <Route path='/member/:mid/progress'>
-                <MembersProgressPage />
-              </Route>
-              <Route path='/member/:mid/tasks'>
-                <MembersTasksPage />
-              </Route>
-              <Route path='/tasks/:tid?' render={(props) => <TasksManagePage {...props} />} />
-            </Switch>
+            <Switch>{routes}</Switch>
           </div>
           <Footer />
         </Router>
