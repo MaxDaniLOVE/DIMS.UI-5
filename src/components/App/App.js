@@ -45,12 +45,19 @@ class App extends Component {
     await this.onStatusChanged();
   };
 
+  onRegister = async (authData) => {
+    const user = await auth.registerNewUser(authData);
+    await this.onStatusChanged();
+    this.setState({ user });
+  };
+
   render() {
     const { isLoggedIn, user } = this.state;
     const defaultContextValue = {
       isLoggedIn,
       onLogIn: this.onLogIn,
       onLogOut: this.onLogOut,
+      onRegister: this.onRegister,
       user,
     };
     const routes = isLoggedIn ? (

@@ -6,8 +6,9 @@ export default class Authentication extends Firebase {
 
   registerNewUser = async ({ email, password }) => {
     try {
-      const newUser = await this.auth.createUserWithEmailAndPassword(email, password);
-      return newUser;
+      await this.auth.createUserWithEmailAndPassword(email, password);
+      const userRole = await this.getUserRole(email);
+      return userRole;
     } catch (error) {
       console.error(error.message);
     }
@@ -23,7 +24,6 @@ export default class Authentication extends Firebase {
             ...userRole,
           });
         } else {
-          console.log('user logged out');
           res({
             isLoggedIn: false,
           });

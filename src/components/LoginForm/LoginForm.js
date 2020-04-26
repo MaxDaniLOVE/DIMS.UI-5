@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SubmitButton } from '../../UI/Buttons';
+import { SubmitButton, SuccessButton } from '../../UI/Buttons';
 import './loginForm.scss';
 
-const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid }) => {
+const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode, onSwitchMode }) => {
   const inputsField = inputs.map(({ label, id, type }) => (
     <div className='login-form__input' key={id}>
       <label htmlFor={id}>
@@ -15,11 +15,13 @@ const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid }) => {
   return (
     <div className='login-form-wrapper'>
       <form className='login-form' onSubmit={onSubmit}>
+        <h3>{isRegisterMode ? 'Register:' : 'Login:'}</h3>
         {inputsField}
         <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
-          Login
+          {isRegisterMode ? 'Register' : 'Login'}
         </SubmitButton>
       </form>
+      <SuccessButton onClick={onSwitchMode}>{isRegisterMode ? 'Switch to login' : 'Switch to register'}</SuccessButton>
     </div>
   );
 };
@@ -29,6 +31,8 @@ LoginForm.propTypes = {
   inputs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   onSubmit: PropTypes.func.isRequired,
   isFormValid: PropTypes.bool.isRequired,
+  isRegisterMode: PropTypes.bool.isRequired,
+  onSwitchMode: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

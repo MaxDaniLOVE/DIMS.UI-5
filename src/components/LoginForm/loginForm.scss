@@ -1,21 +1,27 @@
 @import '../../scss/variables';
 .login-form-wrapper {
+  width: 25rem;
   background-color: $charcoal;
   border-radius: 0.5rem;
   box-shadow: 0px 0px 21px 0px rgba(0, 0, 0, 0.75);
   color: #fff;
-  padding: 1rem;
+  padding: 2rem 3rem;
   .login-form {
     display: flex;
     flex-direction: column;
     &__input {
       margin-bottom: 1rem;
-      label {
-        display: table-caption;
+      input {
+        width: 99%;
       }
+    }
+    .btn {
+      width: 5rem;
+      align-self: flex-end;
+      margin-bottom: 1rem;
     }
   }
   .btn {
-    align-self: flex-end;
+    width: 100%;
   }
 }

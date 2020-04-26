@@ -12,6 +12,7 @@ class AuthPage extends Component {
     this.state = {
       authData: defaultAuthData,
       isFormValid: false,
+      isRegisterMode: false,
     };
   }
 
@@ -27,10 +28,14 @@ class AuthPage extends Component {
     });
   };
 
+  onSwitchMode = () => {
+    this.setState(({ isRegisterMode }) => ({ isRegisterMode: !isRegisterMode }));
+  };
+
   onSubmit = () => {
-    const { authData } = this.state;
-    const { onLogIn } = this.context;
-    onLogIn(authData);
+    const { authData, isRegisterMode } = this.state;
+    const { onLogIn, onRegister } = this.context;
+    isRegisterMode ? onRegister(authData) : onLogIn(authData);
     this.setState({
       authData: defaultAuthData,
       isFormValid: false,
@@ -38,9 +43,16 @@ class AuthPage extends Component {
   };
 
   render() {
-    const { isFormValid } = this.state;
+    const { isFormValid, isRegisterMode } = this.state;
     return (
-      <LoginForm inputs={inputs} onSubmit={this.onSubmit} onFormChange={this.onFormChange} isFormValid={isFormValid} />
+      <LoginForm
+        inputs={inputs}
+        onSubmit={this.onSubmit}
+        onFormChange={this.onFormChange}
+        isFormValid={isFormValid}
+        onSwitchMode={this.onSwitchMode}
+        isRegisterMode={isRegisterMode}
+      />
     );
   }
 }
