@@ -4,12 +4,14 @@ import TableHeader from '../../UI/TableHeader';
 import { LinkButton, SuccessButton, DangerButton } from '../../UI/Buttons';
 import Status from '../../UI/Status';
 import './membersTasksTable.scss';
-import { membersTasksHeaders as headers } from '../../utils/tableHeaders';
+import { membersTasksHeaders } from '../../utils/tableHeaders';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
 import { millisecondsToDate } from '../../utils/convertDate';
 
-const MembersTasksTable = ({ userTasks }) => {
+const MembersTasksTable = ({ userTasks, role }) => {
+  const headers =
+    role !== 'USER' ? [...membersTasksHeaders] : [...membersTasksHeaders].splice(0, membersTasksHeaders.length - 1);
   const membersTasksTableBody = userTasks.map((task, idx) => {
     const { tasksInfo, stateId, userTaskId, taskId } = task;
     const { deadlineDate, name, startDate } = tasksInfo;
@@ -25,10 +27,12 @@ const MembersTasksTable = ({ userTasks }) => {
         <td>
           <LinkButton link={`/member/subtasks/${taskId}`}>Track</LinkButton>
         </td>
-        <td className='admin-btns'>
-          <SuccessButton onClick={() => {}}>Success!</SuccessButton>
-          <DangerButton onClick={() => {}}>Fail!</DangerButton>
-        </td>
+        {role === 'USER' ? null : (
+          <td className='admin-btns'>
+            <SuccessButton onClick={() => {}}>Success!</SuccessButton>
+            <DangerButton onClick={() => {}}>Fail!</DangerButton>
+          </td>
+        )}
       </tr>
     );
   });
@@ -54,6 +58,7 @@ MembersTasksTable.propTypes = {
       ]),
     ),
   ).isRequired,
+  role: PropTypes.string.isRequired,
 };
 
 export default MembersTasksTable;

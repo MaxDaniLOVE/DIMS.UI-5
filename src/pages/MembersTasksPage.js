@@ -5,6 +5,7 @@ import Firebase from '../services/Firebase';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
+import AuthContext from '../context';
 
 const db = new Firebase();
 
@@ -35,12 +36,15 @@ class MembersTasksPage extends Component {
 
   render() {
     const { userTasks, isLoaded, memberName } = this.state;
+    const {
+      user: { role },
+    } = this.context;
     return (
       <Layout>
         {isLoaded ? (
           <>
             <h2>{`Hi, dear ${memberName}! This is your current tasks:`}</h2>
-            <MembersTasksTable userTasks={userTasks} />
+            <MembersTasksTable userTasks={userTasks} role={role} />
           </>
         ) : (
           <Preloader />
@@ -49,6 +53,8 @@ class MembersTasksPage extends Component {
     );
   }
 }
+
+MembersTasksPage.contextType = AuthContext;
 
 MembersTasksPage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
