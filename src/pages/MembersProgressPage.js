@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
-import { addCache, loadCache } from '../utils/cache';
 import Layout from '../components/Layout';
 import sortFromOldToNew from '../utils/sortFromOldToNew';
 
@@ -22,30 +21,18 @@ class MembersProgressPage extends Component {
 
   componentDidMount() {
     const { match } = this.props;
-    const cachedProgress = loadCache(`${match.params.mid}_progress`);
-    const cachedName = loadCache(`${match.params.mid}_name`);
-    if (cachedProgress && cachedName) {
+    db.getUsersProgress(match.params.mid).then((progress) => {
+      const sortedProgress = sortFromOldToNew(progress);
       this.setState({
-        progress: cachedProgress,
-        memberName: cachedName,
+        progress: sortedProgress,
         isLoaded: true,
       });
-    } else {
-      db.getUsersProgress(match.params.mid).then((progress) => {
-        const sortedProgress = sortFromOldToNew(progress);
-        addCache(`${match.params.mid}_progress`, sortedProgress);
-        this.setState({
-          progress: sortedProgress,
-          isLoaded: true,
-        });
+    });
+    db.getUserData(match.params.mid).then(({ name }) => {
+      this.setState({
+        memberName: name,
       });
-      db.getUserData(match.params.mid).then(({ name }) => {
-        addCache(`${match.params.mid}_name`, name);
-        this.setState({
-          memberName: name,
-        });
-      });
-    }
+    });
   }
 
   render() {

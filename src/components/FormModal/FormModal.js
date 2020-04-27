@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import inputs from '../../utils/inputs';
 import { dateToString } from '../../utils/convertDate';
 import RadioInput from '../../UI/RadioInput';
 
-import './membersPageModal.scss';
+import './formModal.scss';
 
-const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
+const FormModal = ({ onFormChange, isEditMode, data, inputs, modalHeader }) => {
   const inputsLabels = inputs.map(({ label, id, type, options }) => {
     if (type === 'radio') {
       return (
@@ -17,15 +16,15 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
           type={type}
           options={options}
           onChange={onFormChange}
-          data={registerData}
+          data={data}
           isEditMode={isEditMode}
         />
       );
     }
     const convertationDict = {
-      date: dateToString(registerData[id]),
+      date: dateToString(data[id]),
     };
-    const inputPlaceholder = convertationDict[type] || registerData[id];
+    const inputPlaceholder = convertationDict[type] || data[id];
     return (
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>
@@ -35,20 +34,20 @@ const MembersPageModal = ({ onFormChange, isEditMode, registerData }) => {
       </div>
     );
   });
-  const { name, lastName } = registerData;
-  const title = isEditMode ? `${name} ${lastName}:` : 'Register new user:';
   return (
     <>
-      <h3>{title}</h3>
+      {modalHeader}
       <div className='modal__content_container'>{inputsLabels}</div>
     </>
   );
 };
 
-MembersPageModal.propTypes = {
+FormModal.propTypes = {
   onFormChange: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
-  registerData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  inputs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  modalHeader: PropTypes.element.isRequired,
 };
 
-export default MembersPageModal;
+export default FormModal;

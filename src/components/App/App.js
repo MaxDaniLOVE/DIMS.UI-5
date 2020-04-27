@@ -3,29 +3,41 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import MembersPage from '../../pages/MembersPage';
 import MembersProgressPage from '../../pages/MembersProgressPage';
 import MembersTasksPage from '../../pages/MembersTasksPage';
+import Header from '../Navigation';
+import TasksManagePage from '../../pages/TasksManagePage';
+import TasksTrackManagePage from '../../pages/TasksTrackManagePage';
+import AuthPage from '../../pages/AuthPage';
+import Footer from '../../UI/Footer';
 
 import './app.scss';
 
 const App = () => {
   return (
-    <div className='container'>
-      <Router>
+    <Router>
+      <Header />
+      <div className='container'>
         <Switch>
           <Route exact path='/'>
             <Redirect to='members' />
           </Route>
+          <Route path='/auth'>
+            <AuthPage />
+          </Route>
           <Route path='/members'>
             <MembersPage />
           </Route>
+          <Route path='/member/subtasks/:tid?' render={(props) => <TasksTrackManagePage {...props} />} />
           <Route path='/member/:mid/progress'>
             <MembersProgressPage />
           </Route>
           <Route path='/member/:mid/tasks'>
             <MembersTasksPage />
           </Route>
+          <Route path='/tasks/:tid?' render={(props) => <TasksManagePage {...props} />} />
         </Switch>
-      </Router>
-    </div>
+      </div>
+      <Footer />
+    </Router>
   );
 };
 

@@ -1,11 +1,16 @@
 const dateToString = (milliseconds) => {
   if (typeof milliseconds !== 'number') {
-    return false;
+    return new Date().toISOString().substr(0, 10);
   }
   return new Date(milliseconds).toISOString().substr(0, 10);
 };
 
-const stringToDate = (string) => Date.parse(string);
+const stringToDate = (string) => {
+  if (!string.length) {
+    return new Date().getTime();
+  }
+  return Date.parse(string);
+};
 
 const millisecondsToDate = (milliseconds) => new Date(milliseconds).toLocaleDateString();
 

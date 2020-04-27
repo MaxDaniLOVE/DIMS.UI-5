@@ -14,4 +14,21 @@ const defaultRegisterData = {
   startDate: '',
 };
 
-export { defaultRegisterData };
+const defaultSubtaskData = {
+  trackDate: '',
+  trackNote: '',
+};
+
+const defaultAuthData = {
+  email: '',
+  password: '',
+};
+
+const defaultTaskData = {
+  deadlineDate: '',
+  description: '',
+  name: '',
+  startDate: '',
+};
+
+export { defaultRegisterData, defaultSubtaskData, defaultAuthData, defaultTaskData };

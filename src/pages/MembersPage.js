@@ -5,10 +5,12 @@ import Firebase from '../services/Firebase';
 import { Button } from '../UI/Buttons';
 import { addCache, loadCache } from '../utils/cache';
 import Modal from '../UI/Modal';
-import MembersPageModal from '../components/MembersPageModal';
-import { defaultRegisterData } from '../utils/defaultInputsData';
+import FormModal from '../components/FormModal';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
-import MembersDataModal from '../components/MembersDataModal';
+import { defaultRegisterData } from '../utils/defaultInputsData';
+import DataModal from '../components/DataModal';
+import { membersInputs } from '../utils/inputs';
+import validation from '../utils/validation';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -20,6 +22,7 @@ export default class MembersPage extends Component {
       registerData: defaultRegisterData,
       isEditMode: false,
       isDetailMode: false,
+      isFormValid: false,
     };
     this.db = new Firebase();
   }
@@ -61,14 +64,22 @@ export default class MembersPage extends Component {
       registerData: defaultRegisterData,
       isEditMode: false,
       isDetailMode: false,
+      isFormValid: false,
     });
   };
 
   onFormChange = (e) => {
     const { value, id } = e.target;
-    this.setState(({ registerData }) => ({
-      registerData: inputsChangeHandler(value, id, registerData),
-    }));
+    this.setState(({ registerData }) => {
+      const updatedRegisterData = inputsChangeHandler(value, id, registerData);
+      const validatedInputs = { ...updatedRegisterData };
+      delete validatedInputs.id; // delete id of objects as it's should not be validate
+      const isFormValid = validation(validatedInputs, membersInputs);
+      return {
+        registerData: updatedRegisterData,
+        isFormValid,
+      };
+    });
   };
 
   onAddNewMember = async (member) => {
@@ -85,6 +96,7 @@ export default class MembersPage extends Component {
     this.setState({
       registerData: { ...editedUser },
       isEditMode: true,
+      isFormValid: true,
     });
   };
 
@@ -113,8 +125,10 @@ export default class MembersPage extends Component {
   };
 
   render() {
-    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode } = this.state;
+    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid } = this.state;
     const btnStyles = { marginBottom: '1rem' };
+    const modalHeader =
+      isEditMode || isDetailMode ? <h3>{`${registerData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
     return (
       <div className='table-wrapper'>
         <Modal
@@ -122,12 +136,19 @@ export default class MembersPage extends Component {
           isEditMode={isEditMode}
           isDetailMode={isDetailMode}
           onModalClose={this.onModalClose}
+          isFormValid={isFormValid}
           onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
         >
           {isDetailMode ? (
-            <MembersDataModal registerData={registerData} />
+            <DataModal header={modalHeader} data={registerData} inputFields={membersInputs} />
           ) : (
-            <MembersPageModal registerData={registerData} onFormChange={this.onFormChange} isEditMode={isEditMode} />
+            <FormModal
+              inputs={membersInputs}
+              data={registerData}
+              onFormChange={this.onFormChange}
+              isEditMode={isEditMode}
+              modalHeader={modalHeader}
+            />
           )}
         </Modal>
         {isLoaded ? (

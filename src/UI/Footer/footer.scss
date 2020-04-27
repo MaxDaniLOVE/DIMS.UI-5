@@ -1,0 +1,20 @@
+@import '../../scss/variables';
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  padding: 0.5rem;
+  padding-right: 5rem;
+  background-color: $charcoal;
+  display: flex;
+  justify-content: flex-end;
+  box-shadow: 0px 0px 21px 0px rgba(0, 0, 0, 0.75);
+  &__title {
+    display: inline;
+    margin: 0;
+    margin-right: 5rem;
+    font-weight: 300;
+  }
+}

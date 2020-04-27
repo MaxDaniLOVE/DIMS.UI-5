@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { GoBackButton, SuccessButton } from '../Buttons';
-
+import { GoBackButton, SubmitButton } from '../Buttons';
+import Checkboxes from '../Checkboxes';
 import './modal.scss';
 
 const modalDomElement = document.getElementById('modal');
@@ -34,14 +34,43 @@ class Modal extends Component {
     return null;
   }
 
+  componentWillUnmount() {
+    if (modalDomElement.contains(this.el)) {
+      modalDomElement.removeChild(this.el);
+    }
+  }
+
   render() {
-    const { children, onModalClose, onSubmit, isDetailMode } = this.props;
+    const {
+      children,
+      onModalClose,
+      onSubmit,
+      isDetailMode,
+      isFormValid,
+      onCheckboxChange,
+      isCheckboxShow,
+      assignedMembers,
+      isEditMode,
+    } = this.props;
     const content = (
       <div className='modal-backdrop'>
         <form className='modal' onSubmit={onSubmit}>
-          <div className='modal__content'>{children}</div>
+          <div className='modal__content'>
+            {children}
+            {isCheckboxShow ? (
+              <Checkboxes
+                isEditMode={isEditMode}
+                onCheckboxChange={onCheckboxChange}
+                assignedMembers={assignedMembers}
+              />
+            ) : null}
+          </div>
           <div className='modal__footer'>
-            {isDetailMode ? null : <SuccessButton onClick={onSubmit}>Save</SuccessButton>}
+            {isDetailMode ? null : (
+              <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
+                Save
+              </SubmitButton>
+            )}
             <GoBackButton onClick={onModalClose} />
           </div>
         </form>
@@ -51,8 +80,23 @@ class Modal extends Component {
   }
 }
 
+Modal.defaultProps = {
+  assignedMembers: [],
+  onCheckboxChange: () => {},
+  isCheckboxShow: false,
+};
+
 Modal.propTypes = {
   showModal: PropTypes.bool.isRequired,
+  isFormValid: PropTypes.bool.isRequired,
+  children: PropTypes.element.isRequired,
+  onModalClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isDetailMode: PropTypes.bool.isRequired,
+  onCheckboxChange: PropTypes.func,
+  isCheckboxShow: PropTypes.bool,
+  assignedMembers: PropTypes.arrayOf(PropTypes.string),
+  isEditMode: PropTypes.bool.isRequired,
 };
 
 export default Modal;
