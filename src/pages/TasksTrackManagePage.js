@@ -29,14 +29,14 @@ class TasksTrackManagePage extends Component {
   }
 
   componentDidMount() {
-    this.getTracksData();
-  }
-
-  getTracksData = async () => {
-    const { user } = this.context;
-    const { userId } = user;
     const { match } = this.props;
     const recievedId = match.params.tid;
+    this.getTracksData(recievedId);
+  }
+
+  getTracksData = async (recievedId) => {
+    const { user } = this.context;
+    const { userId } = user;
     this.db.getUsersProgress(userId).then(async (progress) => {
       const sortedProgress = sortFromOldToNew(progress);
       if (recievedId) {
