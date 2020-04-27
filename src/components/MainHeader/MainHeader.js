@@ -5,8 +5,12 @@ const MainHeader = ({ children }) => {
   return <header className='navigation'>{children}</header>;
 };
 
+MainHeader.defaultProps = {
+  children: null,
+};
+
 MainHeader.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
 };
 
 export default MainHeader;
