@@ -1,0 +1,54 @@
+@import '../../scss/variables';
+.btn {
+  height: fit-content;
+  width: 5rem;
+  border: none;
+  padding: 0;
+  background-color: $charcoal;
+  font-size: 1rem;
+  font-family: Lato;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  &:hover {
+    cursor: pointer;
+  }
+  line-height: 2rem;
+  text-decoration: none;
+  color: #fff;
+  .btn-inner,
+  a {
+    margin: 0;
+    width: 100%;
+    line-height: 2rem;
+    text-decoration: none;
+    color: #fff;
+  }
+}
+.btn-danger {
+  background-color: $honeysuckle;
+}
+.btn-success {
+  background-color: $teal-green;
+}
+.btn-outline {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid $charcoal;
+  transition: all 0.3s ease-in-out;
+  color: $charcoal;
+  &:hover {
+    cursor: pointer;
+    background-color: $charcoal;
+    transition: all 0.3s ease-in-out;
+    color: #fff;
+  }
+}
+.menu-btn {
+  cursor: pointer;
+}
+.btn-return {
+  width: 10rem;
+}
