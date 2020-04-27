@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Label } from 'reactstrap';
-import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
 import { SubmitButton, SuccessButton } from '../../UI/Buttons';
 
 import './loginForm.scss';
 
 const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode, onSwitchMode }) => {
-  const inputsField = inputs.map(({ label, id, type, validationPattern }) => (
+  const inputsField = inputs.map(({ label, id, type, validationPattern, errorMessage }) => (
     <AvGroup className='login-form__input' key={id}>
       <Label htmlFor={id}>
         {label}
-        <AvInput
+        <AvField
           name={id}
           type={type}
           id={id}
           onChange={onFormChange}
           validate={{
-            required: { value: true, errorMessage: 'Please enter a name' },
+            required: { value: true, errorMessage: "You can't leave empty field" },
             pattern: {
               value: validationPattern,
-              errorMessage: 'Your name must be composed only with letter and numbers',
+              errorMessage,
             },
           }}
         />

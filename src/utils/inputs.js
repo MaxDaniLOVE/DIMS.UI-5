@@ -103,12 +103,14 @@ const authInputs = [
     id: 'email',
     type: 'email',
     validationPattern: '^\\S+@\\S+\\.\\S+$',
+    errorMessage: 'Please enter valid email',
   },
   {
     label: 'Password:',
     id: 'password',
     type: 'password',
     validationPattern: '.{8,}',
+    errorMessage: 'Password should contain 8 characters',
   },
 ];
 
