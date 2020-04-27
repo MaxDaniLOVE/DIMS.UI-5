@@ -14,6 +14,8 @@
   justify-self: center;
   &:hover {
     cursor: pointer;
+    background-color: $charcoal-hover;
+    color: #fff;
   }
   line-height: 2rem;
   text-decoration: none;
@@ -29,9 +31,15 @@
 }
 .btn-danger {
   background-color: $honeysuckle;
+  &:hover {
+    background-color: $honeysuckle-hover;
+  }
 }
 .btn-success {
   background-color: $teal-green;
+  &:hover {
+    background-color: $teal-green-hover;
+  }
 }
 .btn-outline {
   width: 100%;

@@ -53,28 +53,22 @@ class Modal extends Component {
       isEditMode,
     } = this.props;
     const content = (
-      <div className='modal-backdrop'>
-        <form className='modal' onSubmit={onSubmit}>
-          <div className='modal__content'>
-            {children}
-            {isCheckboxShow ? (
-              <Checkboxes
-                isEditMode={isEditMode}
-                onCheckboxChange={onCheckboxChange}
-                assignedMembers={assignedMembers}
-              />
-            ) : null}
-          </div>
-          <div className='modal__footer'>
-            {isDetailMode ? null : (
-              <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
-                Save
-              </SubmitButton>
-            )}
-            <GoBackButton onClick={onModalClose} />
-          </div>
-        </form>
-      </div>
+      <form className='modal-window' onSubmit={onSubmit}>
+        <div className='modal-window__content'>
+          {children}
+          {isCheckboxShow ? (
+            <Checkboxes isEditMode={isEditMode} onCheckboxChange={onCheckboxChange} assignedMembers={assignedMembers} />
+          ) : null}
+        </div>
+        <div className='modal-window__footer'>
+          {isDetailMode ? null : (
+            <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
+              Save
+            </SubmitButton>
+          )}
+          <GoBackButton onClick={onModalClose} />
+        </div>
+      </form>
     );
     return createPortal(content, this.el);
   }

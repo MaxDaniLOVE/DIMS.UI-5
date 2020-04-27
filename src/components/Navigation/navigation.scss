@@ -8,6 +8,9 @@
   justify-content: flex-end;
   height: 4rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+  &__header-nav {
+    display: flex;
+  }
   &__menu-btn {
     margin: 0 0.5rem;
     display: none;
@@ -17,6 +20,9 @@
     border: none;
     flex-direction: column;
     justify-content: space-around;
+    &:hover {
+      background-color: $grey;
+    }
     span {
       &::after {
         display: block;
