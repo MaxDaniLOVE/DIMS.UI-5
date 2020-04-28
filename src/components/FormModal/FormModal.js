@@ -21,10 +21,8 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs, modalHeader }) => {
         />
       );
     }
-    const convertationDict = {
-      date: dateToString(data[id]),
-    };
-    const inputPlaceholder = convertationDict[type] || data[id];
+    const inputPlaceholder = data[id];
+    console.log(inputPlaceholder);
     return (
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>

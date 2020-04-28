@@ -23,7 +23,7 @@ const membersInputs = [
     label: 'Birth date:',
     id: 'birthDate',
     type: 'date',
-    validationPattern: '[0-9]{1,}',
+    validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
   },
   {
     label: 'Education:',
@@ -53,7 +53,7 @@ const membersInputs = [
     label: 'Start date:',
     id: 'startDate',
     type: 'date',
-    validationPattern: '[0-9]{13}',
+    validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
   },
   {
     label: 'Sex:',

@@ -11,6 +11,7 @@ import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
 import validation from '../utils/validation';
+import { stringToDate, dateToString } from '../utils/convertDate';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -83,7 +84,9 @@ export default class MembersPage extends Component {
   };
 
   onAddNewMember = async (member) => {
-    await this.db.addNewUser(member);
+    const { birthDate, startDate } = member;
+    const newMember = { ...member, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
+    await this.db.addNewUser(newMember);
     const result = await this.getMembersData();
     this.onModalClose();
     return result;
@@ -92,17 +95,19 @@ export default class MembersPage extends Component {
   onEditMemberModalOpen = (userId) => {
     const { members } = this.state;
     const editedUser = members.find(({ id }) => id === userId);
+    const { birthDate, startDate } = editedUser;
     this.onModalOpen();
     this.setState({
-      registerData: { ...editedUser },
+      registerData: { ...editedUser, birthDate: dateToString(birthDate), startDate: dateToString(startDate) },
       isEditMode: true,
       isFormValid: true,
     });
   };
 
-  onSubmitEditUser = async () => {
-    const { registerData } = this.state;
-    await this.db.editUserData(registerData);
+  onSubmitEditUser = async (member) => {
+    const { birthDate, startDate } = member;
+    const newMember = { ...member, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
+    await this.db.editUserData(newMember);
     const result = await this.getMembersData();
     this.onModalClose();
     return result;
