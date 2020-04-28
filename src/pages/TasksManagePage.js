@@ -11,6 +11,7 @@ import validation from '../utils/validation';
 import Modal from '../UI/Modal';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
+import { stringToDate, dateToString } from '../utils/convertDate';
 
 class TasksManagePage extends Component {
   constructor() {
@@ -98,9 +99,11 @@ class TasksManagePage extends Component {
   };
 
   onAddTask = async (task) => {
+    const { deadlineDate, startDate } = task;
+    const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
     this.onModalClose();
-    const taskId = await this.db.addNewTask(task);
+    const taskId = await this.db.addNewTask(newTask);
     assignedMembers.map(async (userId) => {
       const userTask = { stateId: 2, taskId, userId };
       await this.db.addUserTask(userTask);
@@ -112,8 +115,9 @@ class TasksManagePage extends Component {
     const { tasks } = this.state;
     const editedTask = tasks.find(({ taskId }) => taskId === id);
     const assignedMembers = await this.db.getAssignedUsers(id);
+    const { deadlineDate, startDate } = editedTask;
     this.setState({
-      taskData: { ...editedTask },
+      taskData: { ...editedTask, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) },
       isEditMode: true,
       isFormValid: true,
       assignedMembers,
@@ -122,8 +126,10 @@ class TasksManagePage extends Component {
   };
 
   onSubmitEditTask = async (task) => {
+    const { deadlineDate, startDate } = task;
+    const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
-    await this.db.editTask(task, assignedMembers);
+    await this.db.editTask(newTask, assignedMembers);
     this.getTasksData();
     this.onModalClose();
   };

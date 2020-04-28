@@ -87,7 +87,7 @@ const subtasksInputs = [
     label: 'Track date:',
     id: 'trackDate',
     type: 'date',
-    validationPattern: '[0-9]{13}',
+    validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
   },
   {
     label: 'Note:',
@@ -125,13 +125,13 @@ const tasksInputs = [
     label: 'Start date:',
     id: 'startDate',
     type: 'date',
-    validationPattern: '[0-9]{13}',
+    validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
   },
   {
     label: 'Deadline date:',
     id: 'deadlineDate',
     type: 'date',
-    validationPattern: '[0-9]{13}',
+    validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
   },
   {
     label: 'Description:',
