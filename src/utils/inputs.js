@@ -5,12 +5,14 @@ const membersInputs = [
     id: 'name',
     type: 'text',
     validationPattern: '[A-za-z]{3,}',
+    errorMessage: 'Name should contain at least 3 characters',
   },
   {
     label: 'Last name:',
     id: 'lastName',
     type: 'text',
     validationPattern: '[A-za-z]{2,}',
+    errorMessage: 'Last name should contain at least 2 characters',
   },
   {
     label: 'Direction:',
@@ -24,36 +26,42 @@ const membersInputs = [
     id: 'birthDate',
     type: 'date',
     validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
+    errorMessage: 'Enter valid date',
   },
   {
     label: 'Education:',
     id: 'education',
     type: 'text',
     validationPattern: '[A-za-z]{3,}',
+    errorMessage: 'Name of university should contain at least 3 characters',
   },
   {
     label: 'E-mail:',
     id: 'email',
     type: 'email',
     validationPattern: '^\\S+@\\S+\\.\\S+$',
+    errorMessage: 'Please enter valid email',
   },
   {
     label: 'Math score:',
     id: 'mathScore',
     type: 'number',
     validationPattern: '[0-9]{1}',
+    errorMessage: 'Please enter valid number',
   },
   {
     label: 'University average score:',
     id: 'universityAverageScore',
     type: 'number',
     validationPattern: '[0-9]{1}',
+    errorMessage: 'Please enter valid number',
   },
   {
     label: 'Start date:',
     id: 'startDate',
     type: 'date',
     validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
+    errorMessage: 'Enter valid date',
   },
   {
     label: 'Sex:',
@@ -67,18 +75,21 @@ const membersInputs = [
     id: 'skype',
     type: 'text',
     validationPattern: '.{6,}',
+    errorMessage: 'Please enter valid skype login',
   },
   {
     label: 'Address:',
     id: 'address',
     type: 'text',
     validationPattern: '[A-za-z0-9]{8,}',
+    errorMessage: 'Address should contain at least 8 characters',
   },
   {
     label: 'Mobile phone:',
     id: 'mobilePhone',
-    type: 'tel',
-    validationPattern: '[0-9]{12}',
+    type: 'text',
+    validationPattern: '^\\+375[0-9]{9}$',
+    errorMessage: 'Please enter valid mobile phone',
   },
 ];
 
@@ -88,12 +99,14 @@ const subtasksInputs = [
     id: 'trackDate',
     type: 'date',
     validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
+    errorMessage: 'Enter valid date',
   },
   {
     label: 'Note:',
     id: 'trackNote',
     type: 'text',
     validationPattern: '.{10,}',
+    errorMessage: 'Note should contain at least 10 characters',
   },
 ];
 
@@ -120,24 +133,28 @@ const tasksInputs = [
     id: 'name',
     type: 'text',
     validationPattern: '.{3,}',
+    errorMessage: 'name should contain at least 3 characters',
   },
   {
     label: 'Start date:',
     id: 'startDate',
     type: 'date',
     validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
+    errorMessage: 'Enter valid date',
   },
   {
     label: 'Deadline date:',
     id: 'deadlineDate',
     type: 'date',
     validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
+    errorMessage: 'Enter valid date',
   },
   {
     label: 'Description:',
     id: 'description',
     type: 'text',
-    validationPattern: '.{3,}',
+    validationPattern: '.{10,}',
+    errorMessage: 'Description should contain at least 10 characters',
   },
 ];
 

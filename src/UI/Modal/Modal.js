@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import { AvForm } from 'availity-reactstrap-validation';
 import { GoBackButton, SubmitButton } from '../Buttons';
 import Checkboxes from '../Checkboxes';
 import './modal.scss';
@@ -53,7 +54,7 @@ class Modal extends Component {
       isEditMode,
     } = this.props;
     const content = (
-      <form className='modal-window' onSubmit={onSubmit}>
+      <AvForm className='modal-window' onSubmit={onSubmit}>
         <div className='modal-window__content'>
           {children}
           {isCheckboxShow ? (
@@ -68,7 +69,7 @@ class Modal extends Component {
           )}
           <GoBackButton onClick={onModalClose} />
         </div>
-      </form>
+      </AvForm>
     );
     return createPortal(content, this.el);
   }

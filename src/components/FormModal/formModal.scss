@@ -2,12 +2,16 @@
   padding: 1rem 0;
 }
 .form-inputs {
-  margin: 0.5rem 0;
+  margin: 0;
+  .form-group {
+    margin: 0;
+  }
   label {
     display: flex;
     justify-content: space-between;
     input {
-      width: 50%;
+      padding: 0 0.5rem;
+      height: auto;
     }
   }
   label[for='directionId'],
