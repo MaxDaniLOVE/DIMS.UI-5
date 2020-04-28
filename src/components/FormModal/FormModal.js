@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dateToString } from '../../utils/convertDate';
 import RadioInput from '../../UI/RadioInput';
 
 import './formModal.scss';
@@ -22,7 +21,6 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs, modalHeader }) => {
       );
     }
     const inputPlaceholder = data[id];
-    console.log(inputPlaceholder);
     return (
       <div className='form-inputs' key={id}>
         <label htmlFor={id}>

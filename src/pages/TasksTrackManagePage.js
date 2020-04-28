@@ -12,6 +12,7 @@ import sortFromOldToNew from '../utils/sortFromOldToNew';
 import FormModal from '../components/FormModal';
 import validation from '../utils/validation';
 import AuthContext from '../context';
+import { stringToDate, dateToString } from '../utils/convertDate';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -107,8 +108,10 @@ class TasksTrackManagePage extends Component {
   };
 
   onAddSubtask = async (subtask) => {
+    const { trackDate } = subtask;
+    const newSubtask = { ...subtask, trackDate: stringToDate(trackDate) };
     this.onModalClose();
-    await this.db.addNewSubtask(subtask);
+    await this.db.addNewSubtask(newSubtask);
     await this.getTracksData();
   };
 
@@ -120,17 +123,19 @@ class TasksTrackManagePage extends Component {
   onEditSubtaskModalOpen = (subtaskId) => {
     const { progress } = this.state;
     const editedSubtask = progress.find(({ taskTrackId }) => taskTrackId === subtaskId);
+    const { trackDate } = editedSubtask;
     this.onModalOpen();
     this.setState({
-      subtaskData: { ...editedSubtask },
+      subtaskData: { ...editedSubtask, trackDate: dateToString(trackDate) },
       isEditMode: true,
       isFormValid: true,
     });
   };
 
-  onSubmitEditSubtask = async () => {
-    const { subtaskData } = this.state;
-    await this.db.editUserProgress(subtaskData);
+  onSubmitEditSubtask = async (subtask) => {
+    const { trackDate } = subtask;
+    const newSubtask = { ...subtask, trackDate: stringToDate(trackDate) };
+    await this.db.editUserProgress(newSubtask);
     const result = await this.getTracksData();
     this.onModalClose();
     return result;

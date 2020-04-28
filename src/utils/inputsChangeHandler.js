@@ -1,12 +1,6 @@
-import { stringToDate } from './convertDate';
-
 const inputsChangeHandler = (value, id, data) => {
   const coppiedObj = { ...data };
-  if (id === 'startDate' || id === 'birthDate' || id === 'trackDate' || id === 'deadlineDate') {
-    coppiedObj[id] = value;
-  } else {
-    coppiedObj[id] = value;
-  }
+  coppiedObj[id] = value;
   return coppiedObj;
 };
 
