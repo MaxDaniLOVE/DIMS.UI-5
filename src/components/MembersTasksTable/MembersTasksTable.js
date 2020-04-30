@@ -9,11 +9,13 @@ import Layout from '../Layout';
 import Table from '../../UI/Table';
 import { millisecondsToDate } from '../../utils/convertDate';
 
-const MembersTasksTable = ({ userTasks, role }) => {
+const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
   const headers = membersTasksHeaders[role];
   const membersTasksTableBody = userTasks.map((task, idx) => {
     const { tasksInfo, stateId, userTaskId, taskId } = task;
     const { deadlineDate, name, startDate } = tasksInfo;
+    const onSucced = () => onSetMark(userTaskId, 'success');
+    const onFailed = () => onSetMark(userTaskId, 'fail');
     return (
       <tr key={userTaskId}>
         <td>{idx + 1}</td>
@@ -30,8 +32,8 @@ const MembersTasksTable = ({ userTasks, role }) => {
         )}
         {role === 'USER' ? null : (
           <td className='admin-btns'>
-            <SuccessButton onClick={() => {}}>Success!</SuccessButton>
-            <DangerButton onClick={() => {}}>Fail!</DangerButton>
+            <SuccessButton onClick={onSucced}>Success!</SuccessButton>
+            <DangerButton onClick={onFailed}>Fail!</DangerButton>
           </td>
         )}
       </tr>
@@ -60,6 +62,7 @@ MembersTasksTable.propTypes = {
     ),
   ).isRequired,
   role: PropTypes.string.isRequired,
+  onSetMark: PropTypes.func.isRequired,
 };
 
 export default MembersTasksTable;

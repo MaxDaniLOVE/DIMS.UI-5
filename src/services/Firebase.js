@@ -333,4 +333,20 @@ export default class Firebase {
       console.error("Can't delete tasks. Try later.");
     }
   };
+
+  onSetUserMark = async (userTaskId, state) => {
+    const statesIds = {
+      success: 1,
+      fail: 0,
+    };
+    try {
+      await this.database
+        .collection('usersTasks')
+        .doc(userTaskId)
+        .update({ stateId: statesIds[state] });
+      return 'updated';
+    } catch (error) {
+      console.error("Can't set mark. Try later.");
+    }
+  };
 }

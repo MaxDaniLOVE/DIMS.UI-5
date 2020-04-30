@@ -20,19 +20,25 @@ class MembersTasksPage extends Component {
   }
 
   componentDidMount() {
-    const { match } = this.props;
-    db.getUsersTasks(match.params.mid).then((newTasksData) => {
-      this.setState({
-        userTasks: newTasksData,
-        isLoaded: true,
-      });
-    });
-    db.getUserData(match.params.mid).then(({ name }) => {
-      this.setState({
-        memberName: name,
-      });
-    });
+    this.getUserTasksData();
   }
+
+  getUserTasksData = async () => {
+    const { match } = this.props;
+    const newTasksData = await db.getUsersTasks(match.params.mid);
+    const { name } = await db.getUserData(match.params.mid);
+    this.setState({
+      userTasks: newTasksData,
+      isLoaded: true,
+      memberName: name,
+    });
+  };
+
+  onSetMark = async (userTaskId, state) => {
+    const result = await db.onSetUserMark(userTaskId, state);
+    await this.getUserTasksData();
+    return result;
+  };
 
   render() {
     const { userTasks, isLoaded, memberName } = this.state;
@@ -44,7 +50,7 @@ class MembersTasksPage extends Component {
         {isLoaded ? (
           <>
             <h2>{`Hi, dear ${memberName}! This is your current tasks:`}</h2>
-            <MembersTasksTable userTasks={userTasks} role={role} />
+            <MembersTasksTable userTasks={userTasks} role={role} onSetMark={this.onSetMark} />
           </>
         ) : (
           <Preloader />
