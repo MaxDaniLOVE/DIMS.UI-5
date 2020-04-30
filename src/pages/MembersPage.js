@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Alert } from 'reactstrap';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
@@ -12,6 +13,7 @@ import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
 import validation from '../utils/validation';
 import { stringToDate, dateToString } from '../utils/convertDate';
+import AuthContext from '../context';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -24,6 +26,7 @@ export default class MembersPage extends Component {
       isEditMode: false,
       isDetailMode: false,
       isFormValid: false,
+      showAlert: false,
     };
     this.db = new Firebase();
   }
@@ -54,7 +57,15 @@ export default class MembersPage extends Component {
   };
 
   onModalOpen = () => {
-    this.setState({
+    const {
+      user: { role },
+    } = this.context;
+    if (role === 'MENTOR') {
+      return this.setState({
+        showAlert: true,
+      });
+    }
+    return this.setState({
       showModal: true,
     });
   };
@@ -93,11 +104,19 @@ export default class MembersPage extends Component {
   };
 
   onEditMemberModalOpen = (userId) => {
+    const {
+      user: { role },
+    } = this.context;
+    if (role === 'MENTOR') {
+      return this.setState({
+        showAlert: true,
+      });
+    }
     const { members } = this.state;
     const editedUser = members.find(({ id }) => id === userId);
     const { birthDate, startDate } = editedUser;
     this.onModalOpen();
-    this.setState({
+    return this.setState({
       registerData: { ...editedUser, birthDate: dateToString(birthDate), startDate: dateToString(startDate) },
       isEditMode: true,
       isFormValid: true,
@@ -116,21 +135,35 @@ export default class MembersPage extends Component {
   onMemberDataOpen = (userId) => {
     const { members } = this.state;
     const editedUser = members.find(({ id }) => id === userId);
-    this.onModalOpen();
     this.setState({
+      showModal: true,
       registerData: { ...editedUser },
       isDetailMode: true,
     });
   };
 
   onUserDelete = async (userId) => {
+    const {
+      user: { role },
+    } = this.context;
+    if (role === 'MENTOR') {
+      return this.setState({
+        showAlert: true,
+      });
+    }
     await this.db.deleteUser(userId);
     const result = await this.getMembersData();
     return result;
   };
 
+  onAlertClose = () => {
+    this.setState({
+      showAlert: false,
+    });
+  };
+
   render() {
-    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid } = this.state;
+    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid, showAlert } = this.state;
     const btnStyles = { marginBottom: '1rem' };
     const modalHeader =
       isEditMode || isDetailMode ? <h3>{`${registerData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
@@ -167,6 +200,9 @@ export default class MembersPage extends Component {
               onMemberDataOpen={this.onMemberDataOpen}
               onUserDelete={this.onUserDelete}
             />
+            <Alert color='primary' isOpen={showAlert} toggle={this.onAlertClose}>
+              This feature available only for admin
+            </Alert>
           </>
         ) : (
           <Preloader />
@@ -175,3 +211,5 @@ export default class MembersPage extends Component {
     );
   }
 }
+
+MembersPage.contextType = AuthContext;

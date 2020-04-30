@@ -13,3 +13,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.alert {
+  position: fixed;
+  right: 2rem;
+  bottom: 3rem;
+}
