@@ -10,8 +10,7 @@ import Table from '../../UI/Table';
 import { millisecondsToDate } from '../../utils/convertDate';
 
 const MembersTasksTable = ({ userTasks, role }) => {
-  const headers =
-    role !== 'USER' ? [...membersTasksHeaders] : [...membersTasksHeaders].splice(0, membersTasksHeaders.length - 1);
+  const headers = membersTasksHeaders[role];
   const membersTasksTableBody = userTasks.map((task, idx) => {
     const { tasksInfo, stateId, userTaskId, taskId } = task;
     const { deadlineDate, name, startDate } = tasksInfo;
@@ -24,9 +23,11 @@ const MembersTasksTable = ({ userTasks, role }) => {
         <td>
           <Status stateId={stateId} />
         </td>
-        <td>
-          <LinkButton link={`/member/subtasks/${taskId}`}>Track</LinkButton>
-        </td>
+        {role !== 'USER' ? null : (
+          <td>
+            <LinkButton link={`/member/subtasks/${taskId}`}>Track</LinkButton>
+          </td>
+        )}
         {role === 'USER' ? null : (
           <td className='admin-btns'>
             <SuccessButton onClick={() => {}}>Success!</SuccessButton>
