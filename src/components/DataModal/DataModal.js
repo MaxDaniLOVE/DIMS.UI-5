@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Table } from 'reactstrap';
 import { millisecondsToDate } from '../../utils/convertDate';
 import './DataModal.scss';
 
@@ -11,7 +12,7 @@ const DataModal = ({ data, inputFields, header }) => {
   return (
     <>
       {header}
-      <table>
+      <Table>
         <tbody>
           {dataStrings.map(({ label, value }) => {
             const newValue = label.includes('date') ? millisecondsToDate(value) : value;
@@ -23,7 +24,7 @@ const DataModal = ({ data, inputFields, header }) => {
             );
           })}
         </tbody>
-      </table>
+      </Table>
     </>
   );
 };
