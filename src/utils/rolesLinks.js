@@ -30,8 +30,14 @@ const rolesLinks = (role, userId) => {
         label: 'All tasks',
       },
     ],
+    AUTH: [
+      {
+        link: '/auth',
+        label: 'Login',
+      },
+    ],
   };
-  return links[role];
+  return links[role] || links.AUTH;
 };
 
 export default rolesLinks;

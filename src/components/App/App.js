@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Header from '../Navigation';
-import AuthPage from '../../pages/AuthPage';
 import Footer from '../../UI/Footer';
 import AuthContext from '../../context';
 import Authentication from '../../services/Authentication';
@@ -53,6 +52,7 @@ class App extends Component {
 
   render() {
     const { isLoggedIn, user } = this.state;
+    const { role } = user;
     const defaultContextValue = {
       isLoggedIn,
       onLogIn: this.onLogIn,
@@ -60,16 +60,7 @@ class App extends Component {
       onRegister: this.onRegister,
       user,
     };
-    const routes = isLoggedIn ? (
-      <Routes role={user.role} />
-    ) : (
-      <>
-        <Route path='/auth'>
-          <AuthPage />
-        </Route>
-        <Redirect to='/auth' />
-      </>
-    );
+    const routes = <Routes role={role} />;
     return (
       <AuthContext.Provider value={defaultContextValue}>
         <Router>

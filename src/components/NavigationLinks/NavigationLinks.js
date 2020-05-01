@@ -8,16 +8,12 @@ const NavigationLinks = ({ onClick, onLogOut, role, userId, isLoggedIn }) => {
   const links = rolesLinks(role, userId);
   return (
     <>
-      {isLoggedIn ? (
-        <>
-          {links.map(({ link, label }) => (
-            <NavLink key={link} activeClassName='active-link' to={link} onClick={onClick}>
-              {label}
-            </NavLink>
-          ))}
-          <LogoutButton onClick={onLogOut}>LogOut</LogoutButton>
-        </>
-      ) : null}
+      {links.map(({ link, label }) => (
+        <NavLink key={link} activeClassName='active-link' to={link} onClick={onClick}>
+          {label}
+        </NavLink>
+      ))}
+      {isLoggedIn ? <LogoutButton onClick={onLogOut}>LogOut</LogoutButton> : null}
     </>
   );
 };

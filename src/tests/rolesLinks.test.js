@@ -49,4 +49,12 @@ describe('Roles links', () => {
       },
     ]);
   });
+  it('should return link to auth page', () => {
+    expect(rolesLinks('', '')).toMatchObject([
+      {
+        link: '/auth',
+        label: 'Login',
+      },
+    ]);
+  });
 });

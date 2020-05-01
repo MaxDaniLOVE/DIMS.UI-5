@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import TasksTrackManagePage from '../../pages/TasksTrackManagePage';
 import MembersTasksPage from '../../pages/MembersTasksPage';
 import MembersPage from '../../pages/MembersPage';
 import MembersProgressPage from '../../pages/MembersProgressPage';
 import TasksManagePage from '../../pages/TasksManagePage';
 import AuthContext from '../../context';
+import AuthPage from '../../pages/AuthPage';
 
 const Routes = ({ role }) => {
   const { user } = useContext(AuthContext);
@@ -55,8 +57,23 @@ const Routes = ({ role }) => {
         </>
       );
     default:
-      break;
+      return (
+        <>
+          <Route path='/auth'>
+            <AuthPage />
+          </Route>
+          <Redirect to='/auth' />
+        </>
+      );
   }
+};
+
+Routes.defaultProps = {
+  role: '',
+};
+
+Routes.propTypes = {
+  role: PropTypes.string,
 };
 
 export default Routes;

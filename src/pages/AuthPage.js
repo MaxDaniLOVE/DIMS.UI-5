@@ -35,11 +35,11 @@ class AuthPage extends Component {
   onSubmit = () => {
     const { authData, isRegisterMode } = this.state;
     const { onLogIn, onRegister } = this.context;
-    isRegisterMode ? onRegister(authData) : onLogIn(authData);
     this.setState({
       authData: defaultAuthData,
       isFormValid: false,
     });
+    return isRegisterMode ? onRegister(authData) : onLogIn(authData);
   };
 
   render() {

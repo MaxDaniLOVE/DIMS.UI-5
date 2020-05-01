@@ -26,6 +26,12 @@ class Navigation extends Component {
     });
   };
 
+  onLogOutHandle = () => {
+    const { onLogOut } = this.context;
+    onLogOut();
+    this.onCloseSideBar();
+  };
+
   render() {
     const { isSideBarOpen } = this.state;
     const {
@@ -41,21 +47,19 @@ class Navigation extends Component {
             <NavigationLinks
               onClick={this.onCloseSideBar}
               isLoggedIn={isLoggedIn}
-              onLogOut={onLogOut}
+              onLogOut={this.onLogOutHandle}
               role={role}
               userId={userId}
             />
           </>
         </SideBar>
         <MainHeader>
-          {isLoggedIn ? (
-            <>
-              <BurgerButton onClick={this.onOpenSideBar} />
-              <nav className='navigation__header-nav'>
-                <NavigationLinks onLogOut={onLogOut} isLoggedIn={isLoggedIn} role={role} userId={userId} />
-              </nav>
-            </>
-          ) : null}
+          <>
+            <BurgerButton onClick={this.onOpenSideBar} />
+            <nav className='navigation__header-nav'>
+              <NavigationLinks onLogOut={onLogOut} isLoggedIn={isLoggedIn} role={role} userId={userId} />
+            </nav>
+          </>
         </MainHeader>
       </>
     );
