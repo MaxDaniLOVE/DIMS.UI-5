@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Modal } from 'reactstrap';
+import { Modal } from 'reactstrap';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
@@ -14,6 +14,7 @@ import { membersInputs } from '../utils/inputs';
 import validation from '../utils/validation';
 import { stringToDate, dateToString } from '../utils/convertDate';
 import AuthContext from '../context';
+import { DangerAlert } from '../UI/Alerts';
 
 export default class MembersPage extends Component {
   constructor() {
@@ -201,9 +202,9 @@ export default class MembersPage extends Component {
               onMemberDataOpen={this.onMemberDataOpen}
               onUserDelete={this.onUserDelete}
             />
-            <Alert color='primary' isOpen={showAlert} toggle={this.onAlertClose}>
+            <DangerAlert isOpen={showAlert} toggle={this.onAlertClose}>
               This feature available only for admin
-            </Alert>
+            </DangerAlert>
           </>
         ) : (
           <Preloader />

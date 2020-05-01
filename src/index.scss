@@ -25,4 +25,13 @@ code {
   position: fixed;
   right: 2rem;
   bottom: 3rem;
+  font-size: 2rem;
+  font-weight: 300;
+  &-danger {
+    color: #fff;
+    background-color: $honeysuckle;
+  }
+  button {
+    height: 100%;
+  }
 }
