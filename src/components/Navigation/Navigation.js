@@ -44,7 +44,6 @@ class Navigation extends Component {
       <>
         <SideBar isOpen={isSideBarOpen}>
           <>
-            <CurrentUser>{email}</CurrentUser>
             <DangerButton onClick={this.onCloseSideBar}>X</DangerButton>
             <NavigationLinks
               onClick={this.onCloseSideBar}
