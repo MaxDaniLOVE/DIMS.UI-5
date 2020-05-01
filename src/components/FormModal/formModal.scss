@@ -14,8 +14,7 @@
       height: auto;
     }
   }
-  label[for='directionId'],
-  label[for='sex'] {
+  .radio-label {
     justify-content: flex-start;
     input {
       width: auto;

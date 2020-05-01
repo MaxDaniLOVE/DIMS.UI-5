@@ -4,6 +4,7 @@ import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
 import NavigationLinks from '../NavigationLinks';
 import AuthContext from '../../context';
+import CurrentUser from '../../UI/CurrentUser';
 import './navigation.scss';
 
 class Navigation extends Component {
@@ -37,12 +38,13 @@ class Navigation extends Component {
     const {
       onLogOut,
       isLoggedIn,
-      user: { role, userId },
+      user: { role, userId, email },
     } = this.context;
     return (
       <>
         <SideBar isOpen={isSideBarOpen}>
           <>
+            <CurrentUser>{email}</CurrentUser>
             <DangerButton onClick={this.onCloseSideBar}>X</DangerButton>
             <NavigationLinks
               onClick={this.onCloseSideBar}
@@ -55,6 +57,7 @@ class Navigation extends Component {
         </SideBar>
         <MainHeader>
           <>
+            <CurrentUser>{email}</CurrentUser>
             <BurgerButton onClick={this.onOpenSideBar} />
             <nav className='navigation__header-nav'>
               <NavigationLinks onLogOut={onLogOut} isLoggedIn={isLoggedIn} role={role} userId={userId} />
