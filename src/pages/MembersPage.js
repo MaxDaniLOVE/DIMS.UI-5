@@ -5,7 +5,7 @@ import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
 import { Button } from '../UI/Buttons';
 import { addCache, loadCache } from '../utils/cache';
-import ModalContent from '../UI/Modal';
+import ModalContent from '../UI/ModalContent';
 import FormModal from '../components/FormModal';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultRegisterData } from '../utils/defaultInputsData';

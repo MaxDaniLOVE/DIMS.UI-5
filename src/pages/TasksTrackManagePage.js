@@ -6,7 +6,7 @@ import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultSubtaskData } from '../utils/defaultInputsData';
-import ModalContent from '../UI/Modal';
+import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
 import sortFromOldToNew from '../utils/sortFromOldToNew';
