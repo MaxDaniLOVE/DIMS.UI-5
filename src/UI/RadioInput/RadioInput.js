@@ -7,8 +7,15 @@ const RadioInput = (props) => {
     <div className='form-inputs' key={id}>
       {label}
       {options.map((option) => (
-        <label htmlFor={id} key={option}>
-          <input name={id} type={type} id={id} onChange={onChange} value={option} checked={data[id] === option} />
+        <label htmlFor={`${id}_${option}`} key={option}>
+          <input
+            name={id}
+            type={type}
+            id={`${id}_${option}`}
+            onChange={onChange}
+            value={option}
+            checked={data[id] === option}
+          />
           {option}
         </label>
       ))}
