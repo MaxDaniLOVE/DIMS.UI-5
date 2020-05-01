@@ -1,14 +1,16 @@
 import React from 'react';
+import { CustomInput, FormGroup, Label } from 'reactstrap';
+
 import PropTypes from 'prop-types';
 
 const RadioInput = (props) => {
   const { label, id, type, options, onChange, data } = props;
   return (
-    <div className='form-inputs' key={id}>
+    <FormGroup className='form-inputs' key={id}>
       {label}
       {options.map((option) => (
-        <label className='radio-label' htmlFor={`${id}_${option}`} key={option}>
-          <input
+        <Label className='radio-label' htmlFor={`${id}_${option}`} key={option}>
+          <CustomInput
             name={id}
             type={type}
             id={`${id}_${option}`}
@@ -17,9 +19,9 @@ const RadioInput = (props) => {
             checked={data[id] === option}
           />
           {option}
-        </label>
+        </Label>
       ))}
-    </div>
+    </FormGroup>
   );
 };
 

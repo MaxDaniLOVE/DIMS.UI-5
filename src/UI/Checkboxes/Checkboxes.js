@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { CustomInput, FormGroup, Label } from 'reactstrap';
 import { loadCache } from '../../utils/cache';
 import './checkboxes.scss';
 
@@ -40,18 +41,18 @@ class Checkboxes extends PureComponent {
         <div className='members-checkboxes'>
           {members.map(({ name, lastName, id }) => {
             return (
-              <div className='form-inputs' key={id}>
-                <label htmlFor={id}>
+              <FormGroup className='form-inputs' key={id}>
+                <Label htmlFor={id}>
                   {`${name} ${lastName}:`}
-                  <input
+                  <CustomInput
                     value={id}
                     type='checkbox'
                     id={id}
                     onChange={this.onCheckboxChange}
                     checked={assignedMembers.includes(id)}
                   />
-                </label>
-              </div>
+                </Label>
+              </FormGroup>
             );
           })}
         </div>
