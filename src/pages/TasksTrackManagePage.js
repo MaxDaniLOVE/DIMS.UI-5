@@ -31,8 +31,10 @@ class TasksTrackManagePage extends Component {
 
   componentDidMount() {
     const { match } = this.props;
-    const recievedId = match.params.tid;
-    this.getTracksData(recievedId);
+    const {
+      params: { tid },
+    } = match;
+    this.getTracksData(tid);
   }
 
   getTracksData = async (recievedId) => {

@@ -25,8 +25,11 @@ class MembersTasksPage extends Component {
 
   getUserTasksData = async () => {
     const { match } = this.props;
-    const newTasksData = await db.getUsersTasks(match.params.mid);
-    const { name } = await db.getUserData(match.params.mid);
+    const {
+      params: { mid },
+    } = match;
+    const newTasksData = await db.getUsersTasks(mid);
+    const { name } = await db.getUserData(mid);
     this.setState({
       userTasks: newTasksData,
       isLoaded: true,
