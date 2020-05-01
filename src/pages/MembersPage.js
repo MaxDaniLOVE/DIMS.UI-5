@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Alert } from 'reactstrap';
+import { Alert, Modal } from 'reactstrap';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
 import { Button } from '../UI/Buttons';
 import { addCache, loadCache } from '../utils/cache';
-import Modal from '../UI/Modal';
+import ModalContent from '../UI/Modal';
 import FormModal from '../components/FormModal';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultRegisterData } from '../utils/defaultInputsData';
@@ -168,25 +168,27 @@ export default class MembersPage extends Component {
       isEditMode || isDetailMode ? <h3>{`${registerData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
     return (
       <div className='table-wrapper'>
-        <Modal
-          showModal={showModal}
-          isEditMode={isEditMode}
-          isDetailMode={isDetailMode}
-          onModalClose={this.onModalClose}
-          isFormValid={isFormValid}
-          onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
-        >
-          {isDetailMode ? (
-            <DataModal header={modalHeader} data={registerData} inputFields={membersInputs} />
-          ) : (
-            <FormModal
-              inputs={membersInputs}
-              data={registerData}
-              onFormChange={this.onFormChange}
-              isEditMode={isEditMode}
-              modalHeader={modalHeader}
-            />
-          )}
+        <Modal isOpen={showModal} toggle={this.onModalClose}>
+          <ModalContent
+            showModal={showModal}
+            isEditMode={isEditMode}
+            isDetailMode={isDetailMode}
+            onModalClose={this.onModalClose}
+            isFormValid={isFormValid}
+            onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
+          >
+            {isDetailMode ? (
+              <DataModal header={modalHeader} data={registerData} inputFields={membersInputs} />
+            ) : (
+              <FormModal
+                inputs={membersInputs}
+                data={registerData}
+                onFormChange={this.onFormChange}
+                isEditMode={isEditMode}
+                modalHeader={modalHeader}
+              />
+            )}
+          </ModalContent>
         </Modal>
         {isLoaded ? (
           <>

@@ -1,88 +1,48 @@
-import React, { Component } from 'react';
-import { createPortal } from 'react-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { AvForm } from 'availity-reactstrap-validation';
 import { GoBackButton, SubmitButton } from '../Buttons';
 import Checkboxes from '../Checkboxes';
 import './modal.scss';
 
-const modalDomElement = document.getElementById('modal');
+const ModalContent = ({
+  children,
+  onModalClose,
+  onSubmit,
+  isDetailMode,
+  isFormValid,
+  onCheckboxChange,
+  isCheckboxShow,
+  assignedMembers,
+  isEditMode,
+}) => {
+  return (
+    <AvForm className='modal-window' onSubmit={onSubmit}>
+      <div className='modal-window__content'>
+        {children}
+        {isCheckboxShow ? (
+          <Checkboxes isEditMode={isEditMode} onCheckboxChange={onCheckboxChange} assignedMembers={assignedMembers} />
+        ) : null}
+      </div>
+      <div className='modal-window__footer'>
+        {isDetailMode ? null : (
+          <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
+            Save
+          </SubmitButton>
+        )}
+        <GoBackButton onClick={onModalClose} />
+      </div>
+    </AvForm>
+  );
+};
 
-class Modal extends Component {
-  constructor(props) {
-    super(props);
-    this.el = document.createElement('div');
-    this.el.setAttribute('class', 'modal-backdrop');
-  }
-
-  componentDidMount() {
-    const { showModal } = this.props;
-    if (showModal) {
-      modalDomElement.appendChild(this.el);
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { showModal } = this.props;
-    if (prevProps.showModal === showModal) {
-      return null;
-    }
-    if (showModal) {
-      modalDomElement.appendChild(this.el);
-    } else {
-      modalDomElement.removeChild(this.el);
-    }
-    return null;
-  }
-
-  componentWillUnmount() {
-    if (modalDomElement.contains(this.el)) {
-      modalDomElement.removeChild(this.el);
-    }
-  }
-
-  render() {
-    const {
-      children,
-      onModalClose,
-      onSubmit,
-      isDetailMode,
-      isFormValid,
-      onCheckboxChange,
-      isCheckboxShow,
-      assignedMembers,
-      isEditMode,
-    } = this.props;
-    const content = (
-      <AvForm className='modal-window' onSubmit={onSubmit}>
-        <div className='modal-window__content'>
-          {children}
-          {isCheckboxShow ? (
-            <Checkboxes isEditMode={isEditMode} onCheckboxChange={onCheckboxChange} assignedMembers={assignedMembers} />
-          ) : null}
-        </div>
-        <div className='modal-window__footer'>
-          {isDetailMode ? null : (
-            <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
-              Save
-            </SubmitButton>
-          )}
-          <GoBackButton onClick={onModalClose} />
-        </div>
-      </AvForm>
-    );
-    return createPortal(content, this.el);
-  }
-}
-
-Modal.defaultProps = {
+ModalContent.defaultProps = {
   assignedMembers: [],
   onCheckboxChange: () => {},
   isCheckboxShow: false,
 };
 
-Modal.propTypes = {
-  showModal: PropTypes.bool.isRequired,
+ModalContent.propTypes = {
   isFormValid: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
   onModalClose: PropTypes.func.isRequired,
@@ -94,4 +54,4 @@ Modal.propTypes = {
   isEditMode: PropTypes.bool.isRequired,
 };
 
-export default Modal;
+export default ModalContent;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Modal } from 'reactstrap';
 import Firebase from '../services/Firebase';
 import Preloader from '../components/Preloader';
 import { Button } from '../UI/Buttons';
@@ -8,7 +9,7 @@ import { defaultTaskData } from '../utils/defaultInputsData';
 import { tasksInputs } from '../utils/inputs';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import validation from '../utils/validation';
-import Modal from '../UI/Modal';
+import ModalContent from '../UI/Modal';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { stringToDate, dateToString } from '../utils/convertDate';
@@ -140,29 +141,31 @@ class TasksManagePage extends Component {
     const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${taskData.name}:`}</h3> : <h3>Add new task:</h3>;
     return (
       <div className='table-wrapper'>
-        <Modal
-          showModal={showModal}
-          isEditMode={isEditMode}
-          isDetailMode={isDetailMode}
-          onModalClose={this.onModalClose}
-          isFormValid={isFormValid}
-          onCheckboxChange={this.onCheckboxChange}
-          isCheckboxShow
-          assignedMembers={assignedMembers}
-          onSubmit={() => (isEditMode ? this.onSubmitEditTask(taskData) : this.onAddTask(taskData))}
-        >
-          {isDetailMode ? (
-            <DataModal header={modalHeader} data={taskData} inputFields={tasksInputs} />
-          ) : (
-            <FormModal
-              modalHeader={modalHeader}
-              inputs={tasksInputs}
-              data={taskData}
-              onFormChange={this.onFormChange}
-              isEditMode={isEditMode}
-              isFormValid={isFormValid}
-            />
-          )}
+        <Modal isOpen={showModal} toggle={this.onModalClose}>
+          <ModalContent
+            showModal={showModal}
+            isEditMode={isEditMode}
+            isDetailMode={isDetailMode}
+            onModalClose={this.onModalClose}
+            isFormValid={isFormValid}
+            onCheckboxChange={this.onCheckboxChange}
+            isCheckboxShow
+            assignedMembers={assignedMembers}
+            onSubmit={() => (isEditMode ? this.onSubmitEditTask(taskData) : this.onAddTask(taskData))}
+          >
+            {isDetailMode ? (
+              <DataModal header={modalHeader} data={taskData} inputFields={tasksInputs} />
+            ) : (
+              <FormModal
+                modalHeader={modalHeader}
+                inputs={tasksInputs}
+                data={taskData}
+                onFormChange={this.onFormChange}
+                isEditMode={isEditMode}
+                isFormValid={isFormValid}
+              />
+            )}
+          </ModalContent>
         </Modal>
         {isLoaded ? (
           <>

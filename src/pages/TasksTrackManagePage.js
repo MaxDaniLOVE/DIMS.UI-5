@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Modal } from 'reactstrap';
 import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultSubtaskData } from '../utils/defaultInputsData';
-import Modal from '../UI/Modal';
+import ModalContent from '../UI/Modal';
 import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
 import sortFromOldToNew from '../utils/sortFromOldToNew';
@@ -148,27 +149,30 @@ class TasksTrackManagePage extends Component {
     const modalHeader = <h3>{`Task track - ${subtaskData.taskName}`}</h3>;
     return (
       <div className='table-wrapper'>
-        <Modal
-          showModal={showModal}
-          isEditMode={isEditMode}
-          isDetailMode={isDetailMode}
-          onModalClose={this.onModalClose}
-          isFormValid={isFormValid}
-          onSubmit={() => (isEditMode ? this.onSubmitEditSubtask(subtaskData) : this.onAddSubtask(subtaskData))}
-        >
-          {isDetailMode ? (
-            <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />
-          ) : (
-            <FormModal
-              inputs={subtasksInputs}
-              data={subtaskData}
-              onFormChange={this.onFormChange}
-              isEditMode={isEditMode}
-              isFormValid={isFormValid}
-              modalHeader={modalHeader}
-            />
-          )}
+        <Modal isOpen={showModal} toggle={this.onModalClose}>
+          <ModalContent
+            showModal={showModal}
+            isEditMode={isEditMode}
+            isDetailMode={isDetailMode}
+            onModalClose={this.onModalClose}
+            isFormValid={isFormValid}
+            onSubmit={() => (isEditMode ? this.onSubmitEditSubtask(subtaskData) : this.onAddSubtask(subtaskData))}
+          >
+            {isDetailMode ? (
+              <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />
+            ) : (
+              <FormModal
+                inputs={subtasksInputs}
+                data={subtaskData}
+                onFormChange={this.onFormChange}
+                isEditMode={isEditMode}
+                isFormValid={isFormValid}
+                modalHeader={modalHeader}
+              />
+            )}
+          </ModalContent>
         </Modal>
+
         {isLoaded ? (
           <>
             <h2>This is your tasks:</h2>
