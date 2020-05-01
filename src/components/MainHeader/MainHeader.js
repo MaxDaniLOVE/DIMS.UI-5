@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Navbar } from 'reactstrap';
 
 const MainHeader = ({ children }) => {
-  return <header className='navigation'>{children}</header>;
+  return <Navbar className='navigation'>{children}</Navbar>;
 };
 
 MainHeader.defaultProps = {

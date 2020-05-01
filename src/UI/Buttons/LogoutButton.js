@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from './Button';
+import { Button } from 'reactstrap';
 
 const LogoutButton = ({ onClick, children }) => {
   return (
-    <Button onClick={onClick} newClassName='btn-logout'>
+    <Button onClick={onClick} className='btn-logout'>
       {children}
     </Button>
   );

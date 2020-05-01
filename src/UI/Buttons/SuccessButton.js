@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from './Button';
+import { Button } from 'reactstrap';
 
 const SuccessButton = ({ onClick, children }) => {
   return (
-    <Button onClick={onClick} newClassName='btn-success'>
+    <Button onClick={onClick} color='success'>
       {children}
     </Button>
   );
