@@ -85,7 +85,6 @@ export default class MembersPage extends Component {
     this.setState(({ registerData }) => {
       const updatedRegisterData = inputsChangeHandler(value, id, registerData);
       const validatedInputs = { ...updatedRegisterData };
-      delete validatedInputs.id; // delete id of objects as it's should not be validate
       const isFormValid = validation(validatedInputs, membersInputs);
       return {
         registerData: updatedRegisterData,

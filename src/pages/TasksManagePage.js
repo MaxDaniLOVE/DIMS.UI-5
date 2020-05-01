@@ -83,7 +83,6 @@ class TasksManagePage extends Component {
     this.setState(({ taskData }) => {
       const updatedTaskData = inputsChangeHandler(value, id, taskData);
       const validatedInputs = { ...updatedTaskData };
-      delete validatedInputs.taskId; // delete id of objects as it's should not be validate
       const isFormValid = validation(validatedInputs, tasksInputs);
       return {
         taskData: updatedTaskData,

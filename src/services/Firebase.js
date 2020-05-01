@@ -139,21 +139,18 @@ export default class Firebase {
   };
 
   editUserData = async (newData) => {
-    const { id } = newData;
-    const updatedData = { ...newData };
-    delete updatedData.id;
+    const { id, ...updData } = newData;
     try {
       await this.database
         .collection('users')
         .doc(id)
-        .set(updatedData, { merge: true });
+        .set(updData, { merge: true });
     } catch (error) {
       console.error("Can't update user data. Try later.");
     }
   };
 
   deleteUser = async (id) => {
-    // TODO add deliting users tasks and progress
     try {
       await this.database
         .collection('users')
@@ -204,14 +201,12 @@ export default class Firebase {
   };
 
   editUserProgress = async (newData) => {
-    const { taskTrackId } = newData;
-    const updatedData = { ...newData };
-    delete updatedData.taskTrackId;
+    const { taskTrackId, ...updData } = newData;
     try {
       await this.database
         .collection('usersProgress')
         .doc(taskTrackId)
-        .set(updatedData, { merge: true });
+        .set(updData, { merge: true });
     } catch (error) {
       console.error("Can't update subtask data. Try later.");
     }
@@ -269,14 +264,12 @@ export default class Firebase {
   };
 
   editTask = async (newTask, assignedMembers) => {
-    const { taskId } = newTask;
-    const updatedData = { ...newTask };
-    delete updatedData.taskId;
+    const { taskId, ...updData } = newTask;
     try {
       await this.database
         .collection('tasks')
         .doc(taskId)
-        .set(updatedData, { merge: true });
+        .set(updData, { merge: true });
       await this.updateAssignedUsers(taskId, assignedMembers, newTask);
     } catch (error) {
       console.error("Can't update task data. Try later.");
