@@ -10,7 +10,7 @@ const DangerAlert = ({ children, isOpen, toggle }) => (
 
 DangerAlert.propTypes = {
   toggle: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
 };
 
