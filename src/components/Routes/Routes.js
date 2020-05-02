@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import TasksTrackManagePage from '../../pages/TasksTrackManagePage';
 import MembersTasksPage from '../../pages/MembersTasksPage';
 import MembersPage from '../../pages/MembersPage';
@@ -9,9 +8,9 @@ import TasksManagePage from '../../pages/TasksManagePage';
 import AuthContext from '../../context';
 import AuthPage from '../../pages/AuthPage';
 
-const Routes = ({ role }) => {
+const Routes = () => {
   const { user } = useContext(AuthContext);
-  const { userId } = user;
+  const { userId, role } = user;
 
   switch (role) {
     case 'USER':
@@ -66,14 +65,6 @@ const Routes = ({ role }) => {
         </>
       );
   }
-};
-
-Routes.defaultProps = {
-  role: '',
-};
-
-Routes.propTypes = {
-  role: PropTypes.string,
 };
 
 export default Routes;
