@@ -84,11 +84,11 @@ export default class MembersPage extends Component {
   onFormChange = (e) => {
     const { value, id } = e.target;
     this.setState(({ registerData }) => {
-      const updatedRegisterData = inputsChangeHandler(value, id, registerData);
-      const validatedInputs = { ...updatedRegisterData };
+      const updated = inputsChangeHandler(value, id, registerData);
+      const validatedInputs = { ...updated };
       const isFormValid = validation(validatedInputs, membersInputs);
       return {
-        registerData: updatedRegisterData,
+        registerData: updated,
         isFormValid,
       };
     });

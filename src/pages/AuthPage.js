@@ -19,11 +19,11 @@ class AuthPage extends Component {
   onFormChange = (e) => {
     const { value, id } = e.target;
     this.setState(({ authData }) => {
-      const updatedAuthData = inputsChangeHandler(value, id, authData);
-      const isValid = validation(updatedAuthData, inputs);
+      const updated = inputsChangeHandler(value, id, authData);
+      const isFormValid = validation(updated, inputs);
       return {
-        authData: updatedAuthData,
-        isFormValid: isValid,
+        authData: updated,
+        isFormValid,
       };
     });
   };

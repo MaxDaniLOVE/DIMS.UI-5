@@ -297,14 +297,16 @@ export default class Firebase {
       unassignedUsers.map(async (userId) => {
         const userTask = { stateId: 2, taskId, userId };
         this.addUserTask(userTask);
-        const { name } = newTask;
+        const { name: taskName } = newTask;
         const userName = await this.getUserName(userId);
+        const trackDate = new Date().getTime();
+        const trackNote = 'Recieve new task';
         const firstSubtask = {
           userId,
           taskId,
-          taskName: name,
-          trackDate: new Date().getTime(),
-          trackNote: 'Recieve new task',
+          taskName,
+          trackDate,
+          trackNote,
           userName,
         };
         await this.addNewSubtask(firstSubtask);

@@ -84,11 +84,11 @@ class TasksManagePage extends Component {
   onFormChange = (e) => {
     const { value, id } = e.target;
     this.setState(({ taskData }) => {
-      const updatedTaskData = inputsChangeHandler(value, id, taskData);
-      const validatedInputs = { ...updatedTaskData };
+      const updated = inputsChangeHandler(value, id, taskData);
+      const validatedInputs = { ...updated };
       const isFormValid = validation(validatedInputs, tasksInputs);
       return {
-        taskData: updatedTaskData,
+        taskData: updated,
         isFormValid,
       };
     });

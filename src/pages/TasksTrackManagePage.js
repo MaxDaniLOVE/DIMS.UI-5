@@ -39,8 +39,9 @@ class TasksTrackManagePage extends Component {
   }
 
   getTracksData = async (recievedId) => {
-    const { user } = this.context;
-    const { userId } = user;
+    const {
+      user: { userId },
+    } = this.context;
     this.db.getUsersProgress(userId).then(async (progress) => {
       const sortedProgress = sortFromOldToNew(progress);
       if (recievedId) {
@@ -83,15 +84,17 @@ class TasksTrackManagePage extends Component {
 
   onFormChange = (e) => {
     const { value, id } = e.target;
-    const { user } = this.context;
+    const {
+      user: { userId, userName },
+    } = this.context;
     this.setState(({ subtaskData }) => {
       const { taskId, taskName } = subtaskData;
       const inputsValues = inputsChangeHandler(value, id, subtaskData);
       const newSubtask = {
         taskId,
         taskName,
-        userId: user.userId,
-        userName: user.userName,
+        userId,
+        userName,
         ...inputsValues,
       };
       const validatedInputs = {
