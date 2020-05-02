@@ -13,4 +13,12 @@ const validation = (data, inputs) => {
   return isValidArray.every((el) => el);
 };
 
-export default validation;
+const fieldValidation = (value, errorMessage) => ({
+  required: { value: true, errorMessage: "You can't leave empty field" },
+  pattern: {
+    value,
+    errorMessage,
+  },
+});
+
+export { validation, fieldValidation };

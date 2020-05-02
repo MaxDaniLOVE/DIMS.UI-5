@@ -3,30 +3,22 @@ import PropTypes from 'prop-types';
 import { Label } from 'reactstrap';
 import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
 import { SubmitButton, SuccessButton } from '../../UI/Buttons';
+import { fieldValidation } from '../../utils/validation';
 
 import './loginForm.scss';
 
 const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode, onSwitchMode }) => {
-  const inputsField = inputs.map(({ label, id, type, validationPattern, errorMessage }) => (
-    <AvGroup className='login-form__input' key={id}>
-      <Label htmlFor={id}>
-        {label}
-        <AvField
-          name={id}
-          type={type}
-          id={id}
-          onChange={onFormChange}
-          validate={{
-            required: { value: true, errorMessage: "You can't leave empty field" },
-            pattern: {
-              value: validationPattern,
-              errorMessage,
-            },
-          }}
-        />
-      </Label>
-    </AvGroup>
-  ));
+  const inputsField = inputs.map(({ label, id, type, validationPattern, errorMessage }) => {
+    const pattern = fieldValidation(validationPattern, errorMessage);
+    return (
+      <AvGroup className='login-form__input' key={id}>
+        <Label htmlFor={id}>
+          {label}
+          <AvField name={id} type={type} id={id} onChange={onFormChange} validate={pattern} />
+        </Label>
+      </AvGroup>
+    );
+  });
   return (
     <div className='login-form-wrapper'>
       <AvForm className='login-form' onSubmit={onSubmit}>

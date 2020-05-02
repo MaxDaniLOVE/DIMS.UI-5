@@ -11,7 +11,7 @@ import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
 import sortFromOldToNew from '../utils/sortFromOldToNew';
 import FormModal from '../components/FormModal';
-import validation from '../utils/validation';
+import { validation } from '../utils/validation';
 import AuthContext from '../context';
 import { stringToDate, dateToString } from '../utils/convertDate';
 

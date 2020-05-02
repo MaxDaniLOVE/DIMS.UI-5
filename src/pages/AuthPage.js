@@ -4,7 +4,7 @@ import LoginForm from '../components/LoginForm';
 import { defaultAuthData } from '../utils/defaultInputsData';
 import { authInputs as inputs } from '../utils/inputs';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
-import validation from '../utils/validation';
+import { validation } from '../utils/validation';
 
 class AuthPage extends Component {
   constructor(props) {

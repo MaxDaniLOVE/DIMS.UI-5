@@ -8,7 +8,7 @@ import TasksTable from '../components/TasksTable';
 import { defaultTaskData } from '../utils/defaultInputsData';
 import { tasksInputs } from '../utils/inputs';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
-import validation from '../utils/validation';
+import { validation } from '../utils/validation';
 import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';

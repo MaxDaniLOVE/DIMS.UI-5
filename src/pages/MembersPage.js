@@ -11,7 +11,7 @@ import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
-import validation from '../utils/validation';
+import { validation } from '../utils/validation';
 import { stringToDate, dateToString } from '../utils/convertDate';
 import AuthContext from '../context';
 import { DangerAlert } from '../UI/Alerts';

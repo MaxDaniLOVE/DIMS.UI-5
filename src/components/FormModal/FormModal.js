@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Label } from 'reactstrap';
 import { AvGroup, AvField } from 'availity-reactstrap-validation';
 import RadioInput from '../../UI/RadioInput';
+import { fieldValidation } from '../../utils/validation';
 
 import './formModal.scss';
 
@@ -23,24 +24,12 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs, modalHeader }) => {
       );
     }
     const inputPlaceholder = data[id];
+    const pattern = fieldValidation(validationPattern, errorMessage);
     return (
       <AvGroup className='form-inputs' key={id}>
         <Label htmlFor={id}>
           {label}
-          <AvField
-            name={id}
-            value={inputPlaceholder}
-            type={type}
-            id={id}
-            onChange={onFormChange}
-            validate={{
-              required: { value: true, errorMessage: "You can't leave empty field" },
-              pattern: {
-                value: validationPattern,
-                errorMessage,
-              },
-            }}
-          />
+          <AvField name={id} value={inputPlaceholder} type={type} id={id} onChange={onFormChange} validate={pattern} />
         </Label>
       </AvGroup>
     );
