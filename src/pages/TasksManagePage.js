@@ -107,7 +107,7 @@ class TasksManagePage extends Component {
     this.onModalClose();
     const taskId = await this.db.addNewTask(newTask);
     assignedMembers.map(async (userId) => {
-      const userTask = { stateId: 2, taskId, userId };
+      const userTask = { state: 'active', taskId, userId };
       await this.db.addUserTask(userTask);
     });
     this.getTasksData();
@@ -136,6 +136,11 @@ class TasksManagePage extends Component {
     this.onModalClose();
   };
 
+  onSubmit = () => {
+    const { isEditMode, taskData } = this.state;
+    return isEditMode ? this.onSubmitEditTask(taskData) : this.onAddTask(taskData);
+  };
+
   render() {
     const { tasks, isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData, assignedMembers } = this.state;
     const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${taskData.name}:`}</h3> : <h3>Add new task:</h3>;
@@ -151,7 +156,7 @@ class TasksManagePage extends Component {
             onCheckboxChange={this.onCheckboxChange}
             isCheckboxShow
             assignedMembers={assignedMembers}
-            onSubmit={() => (isEditMode ? this.onSubmitEditTask(taskData) : this.onAddTask(taskData))}
+            onSubmit={this.onSubmit}
           >
             {isDetailMode ? (
               <DataModal header={modalHeader} data={taskData} inputFields={tasksInputs} />

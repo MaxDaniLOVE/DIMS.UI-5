@@ -221,9 +221,10 @@ export default class Firebase {
     }
   };
 
-  addUserTask = async (newUserTask) => {
+  addUserTask = async (userTask) => {
+    const { state, ...newUserTask } = userTask;
     try {
-      const task = await this.database.collection('usersTasks').add(newUserTask);
+      const task = await this.database.collection('usersTasks').add({ ...newUserTask, stateId: this.statesIds[state] });
       return task.id;
     } catch (error) {
       console.error("Can't add new user tasks. Try later.");
@@ -295,7 +296,7 @@ export default class Firebase {
         return task.id;
       });
       unassignedUsers.map(async (userId) => {
-        const userTask = { stateId: 2, taskId, userId };
+        const userTask = { state: 'active', taskId, userId };
         this.addUserTask(userTask);
         const { name: taskName } = newTask;
         const userName = await this.getUserName(userId);
@@ -329,16 +330,18 @@ export default class Firebase {
     }
   };
 
+  statesIds = {
+    active: 2,
+    success: 1,
+    fail: 0,
+  };
+
   onSetUserMark = async (userTaskId, state) => {
-    const statesIds = {
-      success: 1,
-      fail: 0,
-    };
     try {
       await this.database
         .collection('usersTasks')
         .doc(userTaskId)
-        .update({ stateId: statesIds[state] });
+        .update({ stateId: this.statesIds[state] });
       return 'updated';
     } catch (error) {
       console.error("Can't set mark. Try later.");

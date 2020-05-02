@@ -147,6 +147,11 @@ class TasksTrackManagePage extends Component {
     return result;
   };
 
+  onSubmit = () => {
+    const { isEditMode, subtaskData } = this.state;
+    return isEditMode ? this.onSubmitEditSubtask(subtaskData) : this.onAddSubtask(subtaskData);
+  };
+
   render() {
     const { progress, isLoaded, showModal, isEditMode, isDetailMode, subtaskData, isFormValid } = this.state;
     const modalHeader = <h3>{`Task track - ${subtaskData.taskName}`}</h3>;
@@ -159,7 +164,7 @@ class TasksTrackManagePage extends Component {
             isDetailMode={isDetailMode}
             onModalClose={this.onModalClose}
             isFormValid={isFormValid}
-            onSubmit={() => (isEditMode ? this.onSubmitEditSubtask(subtaskData) : this.onAddSubtask(subtaskData))}
+            onSubmit={this.onSubmit}
           >
             {isDetailMode ? (
               <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />

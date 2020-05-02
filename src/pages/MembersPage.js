@@ -162,6 +162,11 @@ export default class MembersPage extends Component {
     });
   };
 
+  onSubmit = () => {
+    const { isEditMode, registerData } = this.state;
+    return isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData);
+  };
+
   render() {
     const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid, showAlert } = this.state;
     const btnStyles = { marginBottom: '1rem' };
@@ -176,7 +181,7 @@ export default class MembersPage extends Component {
             isDetailMode={isDetailMode}
             onModalClose={this.onModalClose}
             isFormValid={isFormValid}
-            onSubmit={() => (isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData))}
+            onSubmit={this.onSubmit}
           >
             {isDetailMode ? (
               <DataModal header={modalHeader} data={registerData} inputFields={membersInputs} />
