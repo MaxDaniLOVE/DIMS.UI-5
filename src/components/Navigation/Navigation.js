@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DangerButton, BurgerButton } from '../../UI/Buttons';
 import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
-import NavigationLinks from '../NavigationLinks';
+import CreateRolesLink from '../CreateRolesLink';
 import AuthContext from '../../context';
 import CurrentUser from '../../UI/CurrentUser';
 import './navigation.scss';
@@ -45,7 +45,7 @@ class Navigation extends Component {
         <SideBar isOpen={isSideBarOpen}>
           <>
             <DangerButton onClick={this.onCloseSideBar}>X</DangerButton>
-            <NavigationLinks
+            <CreateRolesLink
               onClick={this.onCloseSideBar}
               isLoggedIn={isLoggedIn}
               onLogOut={this.onLogOutHandle}
@@ -59,7 +59,7 @@ class Navigation extends Component {
             <CurrentUser>{email}</CurrentUser>
             <BurgerButton onClick={this.onOpenSideBar} />
             <nav className='navigation__header-nav'>
-              <NavigationLinks onLogOut={onLogOut} isLoggedIn={isLoggedIn} role={role} userId={userId} />
+              <CreateRolesLink onLogOut={onLogOut} isLoggedIn={isLoggedIn} role={role} userId={userId} />
             </nav>
           </>
         </MainHeader>

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { LogoutButton } from '../../UI/Buttons';
 import rolesLinks from '../../utils/rolesLinks';
 
-const NavigationLinks = ({ onClick, onLogOut, role, userId, isLoggedIn }) => {
+const CreateRolesLink = ({ onClick, onLogOut, role, userId, isLoggedIn }) => {
   const links = rolesLinks(role, userId);
   return (
     <>
@@ -18,13 +18,13 @@ const NavigationLinks = ({ onClick, onLogOut, role, userId, isLoggedIn }) => {
   );
 };
 
-NavigationLinks.defaultProps = {
+CreateRolesLink.defaultProps = {
   onClick: () => {},
   role: '',
   userId: '',
 };
 
-NavigationLinks.propTypes = {
+CreateRolesLink.propTypes = {
   onClick: PropTypes.func,
   onLogOut: PropTypes.func.isRequired,
   role: PropTypes.string,
@@ -32,4 +32,4 @@ NavigationLinks.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
-export default NavigationLinks;
+export default CreateRolesLink;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Container } from 'reactstrap';
 import Header from '../Navigation';
 import Footer from '../../UI/Footer';
 import AuthContextProvider from '../AuthContextProvider';
@@ -10,11 +11,11 @@ const App = () => (
   <AuthContextProvider>
     <Router>
       <Header />
-      <div className='container'>
+      <Container>
         <Switch>
           <Routes />
         </Switch>
-      </div>
+      </Container>
       <Footer />
     </Router>
   </AuthContextProvider>

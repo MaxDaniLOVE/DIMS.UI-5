@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar } from 'reactstrap';
 
-const MainHeader = ({ children }) => {
-  return <Navbar className='navigation'>{children}</Navbar>;
-};
+const MainHeader = ({ children }) => <Navbar className='navigation'>{children}</Navbar>;
 
 MainHeader.defaultProps = {
   children: null,
