@@ -16,6 +16,7 @@ const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
     const { deadlineDate, name, startDate } = tasksInfo;
     const onSucced = () => onSetMark(userTaskId, 'success');
     const onFailed = () => onSetMark(userTaskId, 'fail');
+    const isUser = role === 'USER';
     return (
       <tr key={userTaskId}>
         <td>{idx + 1}</td>
@@ -25,12 +26,12 @@ const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
         <td>
           <Status stateId={stateId} />
         </td>
-        {role !== 'USER' ? null : (
+        {!isUser ? null : (
           <td>
             <LinkButton link={`/member/subtasks/${taskId}`}>Track</LinkButton>
           </td>
         )}
-        {role === 'USER' ? null : (
+        {isUser ? null : (
           <td className='admin-btns'>
             <SuccessButton onClick={onSucced}>Success!</SuccessButton>
             <DangerButton onClick={onFailed}>Fail!</DangerButton>

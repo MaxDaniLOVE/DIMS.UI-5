@@ -11,60 +11,42 @@ import AuthPage from '../../pages/AuthPage';
 const Routes = () => {
   const { user } = useContext(AuthContext);
   const { userId, role } = user;
-
-  switch (role) {
-    case 'USER':
-      return (
-        <>
-          <Route path='/member/subtasks/:tid?' render={(props) => <TasksTrackManagePage {...props} />} />
-          <Route path='/member/:mid/tasks'>
-            <MembersTasksPage />
-          </Route>
-          <Redirect to={`/member/${userId}/tasks`} />
-        </>
-      );
-    case 'ADMIN':
-      return (
-        <>
-          <Route path='/members'>
-            <MembersPage />
-          </Route>
-          <Route path='/member/:mid/progress'>
-            <MembersProgressPage />
-          </Route>
-          <Route path='/member/:mid/tasks'>
-            <MembersTasksPage />
-          </Route>
-          <Route path='/tasks/:tid?' render={(props) => <TasksManagePage {...props} />} />
-          <Redirect to='/members' />
-        </>
-      );
-    case 'MENTOR':
-      return (
-        <>
-          <Route path='/members'>
-            <MembersPage />
-          </Route>
-          <Route path='/member/:mid/progress'>
-            <MembersProgressPage />
-          </Route>
-          <Route path='/member/:mid/tasks'>
-            <MembersTasksPage />
-          </Route>
-          <Route path='/tasks/:tid?' render={(props) => <TasksManagePage {...props} />} />
-          <Redirect to='/members' />
-        </>
-      );
-    default:
-      return (
-        <>
-          <Route path='/auth'>
-            <AuthPage />
-          </Route>
-          <Redirect to='/auth' />
-        </>
-      );
+  if (!role) {
+    return (
+      <>
+        <Route path='/auth'>
+          <AuthPage />
+        </Route>
+        <Redirect to='/auth' />
+      </>
+    );
   }
+  if (role === 'USER') {
+    return (
+      <>
+        <Route path='/member/subtasks/:tid?' component={TasksTrackManagePage} />
+        <Route path='/member/:mid/tasks'>
+          <MembersTasksPage />
+        </Route>
+        <Redirect to={`/member/${userId}/tasks`} />
+      </>
+    );
+  }
+  return (
+    <>
+      <Route path='/members'>
+        <MembersPage />
+      </Route>
+      <Route path='/member/:mid/progress'>
+        <MembersProgressPage />
+      </Route>
+      <Route path='/member/:mid/tasks'>
+        <MembersTasksPage />
+      </Route>
+      <Route path='/tasks/:tid?' component={TasksManagePage} />
+      <Redirect to='/members' />
+    </>
+  );
 };
 
 export default Routes;
