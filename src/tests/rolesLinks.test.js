@@ -2,7 +2,8 @@ import rolesLinks from '../utils/rolesLinks';
 
 describe('Roles links', () => {
   it('should return Mentors links ', () => {
-    expect(rolesLinks('MENTOR')).toMatchObject([
+    const givenStr = 'MENTOR';
+    const expected = [
       {
         link: '/members',
         label: 'All members',
@@ -11,22 +12,15 @@ describe('Roles links', () => {
         link: '/tasks',
         label: 'All tasks',
       },
-    ]);
-  });
-  it('should return Mentors links ', () => {
-    expect(rolesLinks('MENTOR', undefined)).toMatchObject([
-      {
-        link: '/members',
-        label: 'All members',
-      },
-      {
-        link: '/tasks',
-        label: 'All tasks',
-      },
-    ]);
+    ];
+
+    const result = rolesLinks(givenStr);
+
+    expect(result).toMatchObject(expected);
   });
   it('should return Admin links ', () => {
-    expect(rolesLinks('ADMIN', undefined)).toMatchObject([
+    const givenStr = 'ADMIN';
+    const expected = [
       {
         link: '/members',
         label: 'All members',
@@ -35,10 +29,16 @@ describe('Roles links', () => {
         link: '/tasks',
         label: 'All tasks',
       },
-    ]);
+    ];
+
+    const result = rolesLinks(givenStr);
+
+    expect(result).toMatchObject(expected);
   });
   it("should return links of user with id 'uid1'", () => {
-    expect(rolesLinks('USER', 'uid1')).toMatchObject([
+    const givenStr = 'USER';
+    const givenId = 'uid1';
+    const expected = [
       {
         link: '/member/subtasks',
         label: 'Tracking',
@@ -47,14 +47,24 @@ describe('Roles links', () => {
         link: `/member/uid1/tasks`,
         label: 'My tasks',
       },
-    ]);
+    ];
+
+    const result = rolesLinks(givenStr, givenId);
+
+    expect(result).toMatchObject(expected);
   });
   it('should return link to auth page', () => {
-    expect(rolesLinks('', '')).toMatchObject([
+    const givenStr = '';
+    const givenId = '';
+    const expected = [
       {
         link: '/auth',
         label: 'Login',
       },
-    ]);
+    ];
+
+    const result = rolesLinks(givenStr, givenId);
+
+    expect(result).toMatchObject(expected);
   });
 });

@@ -1,18 +1,37 @@
-import validation from '../utils/validation';
+import { validation } from '../utils/validation';
 import { authInputs } from '../utils/inputs';
 import { defaultAuthData } from '../utils/defaultInputsData';
 
 describe('Validation', () => {
   it('should return false for default inputs ', () => {
-    expect(validation(defaultAuthData, authInputs)).toBe(false);
+    const expected = false;
+
+    const result = validation(defaultAuthData, authInputs);
+
+    expect(result).toBe(expected);
   });
   it('should return false for empty password input', () => {
-    expect(validation({ email: 'test@gmail.com', password: '' }, authInputs)).toBe(false);
+    const givenObj = { email: 'test@gmail.com', password: '' };
+    const expected = false;
+
+    const result = validation(givenObj, authInputs);
+
+    expect(result).toBe(expected);
   });
   it('should return false for empty email input', () => {
-    expect(validation({ email: '', password: '12345678' }, authInputs)).toBe(false);
+    const givenObj = { email: '', password: '12345678' };
+    const expected = false;
+
+    const result = validation(givenObj, authInputs);
+
+    expect(result).toBe(expected);
   });
   it('should return true for valid inputs', () => {
-    expect(validation({ email: 'test@gmail.com', password: '12345678' }, authInputs)).toBe(true);
+    const givenObj = { email: 'test@gmail.com', password: '12345678' };
+    const expected = true;
+
+    const result = validation(givenObj, authInputs);
+
+    expect(result).toBe(expected);
   });
 });
