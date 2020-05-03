@@ -108,6 +108,9 @@ class TasksManagePage extends Component {
     const taskId = await this.db.addNewTask(newTask);
     assignedMembers.map(async (userId) => {
       const userTask = { state: 'active', taskId, userId };
+      const { name } = task;
+      const firstSubtask = await this.db.createFirstSubtask(name, userId, taskId);
+      await this.db.addNewSubtask(firstSubtask);
       await this.db.addUserTask(userTask);
     });
     this.getTasksData();

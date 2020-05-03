@@ -299,17 +299,7 @@ export default class Firebase {
         const userTask = { state: 'active', taskId, userId };
         this.addUserTask(userTask);
         const { name: taskName } = newTask;
-        const userName = await this.getUserName(userId);
-        const trackDate = new Date().getTime();
-        const trackNote = 'Recieve new task';
-        const firstSubtask = {
-          userId,
-          taskId,
-          taskName,
-          trackDate,
-          trackNote,
-          userName,
-        };
+        const firstSubtask = await this.createFirstSubtask(taskName, userId, taskId);
         await this.addNewSubtask(firstSubtask);
         return userTask;
       });
@@ -317,6 +307,21 @@ export default class Firebase {
     } catch (error) {
       console.error("Can't update assigned users. Try later.", error);
     }
+  };
+
+  createFirstSubtask = async (taskName, userId, taskId) => {
+    const userName = await this.getUserName(userId);
+    const trackDate = new Date().getTime();
+    const trackNote = 'Recieve new task';
+    const firstSubtask = {
+      userId,
+      taskId,
+      taskName,
+      trackDate,
+      trackNote,
+      userName,
+    };
+    return firstSubtask;
   };
 
   deleteUserTask = async (userTaskId) => {
