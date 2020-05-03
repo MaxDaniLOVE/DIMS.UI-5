@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Modal } from 'reactstrap';
 import Firebase from '../services/Firebase';
 import Preloader from '../components/Preloader';
 import { Button } from '../UI/Buttons';
@@ -7,10 +8,11 @@ import TasksTable from '../components/TasksTable';
 import { defaultTaskData } from '../utils/defaultInputsData';
 import { tasksInputs } from '../utils/inputs';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
-import validation from '../utils/validation';
-import Modal from '../UI/Modal';
+import { validation } from '../utils/validation';
+import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
+import { stringToDate, dateToString } from '../utils/convertDate';
 
 class TasksManagePage extends Component {
   constructor() {
@@ -34,13 +36,15 @@ class TasksManagePage extends Component {
 
   async getTasksData() {
     const { match } = this.props;
-    const recievedId = match.params.tid;
+    const {
+      params: { tid },
+    } = match;
     this.db.getAllTasks().then(async (data) => {
       const newData = [];
       data.forEach((doc) => newData.push({ ...doc.data(), taskId: doc.id }));
-      if (recievedId) {
-        const assignedMembers = await this.db.getAssignedUsers(recievedId);
-        const editedTask = newData.find(({ taskId }) => taskId === recievedId);
+      if (tid) {
+        const assignedMembers = await this.db.getAssignedUsers(tid);
+        const editedTask = newData.find(({ taskId }) => taskId === tid);
         this.setState({
           taskData: editedTask,
           assignedMembers,
@@ -80,12 +84,11 @@ class TasksManagePage extends Component {
   onFormChange = (e) => {
     const { value, id } = e.target;
     this.setState(({ taskData }) => {
-      const updatedTaskData = inputsChangeHandler(value, id, taskData);
-      const validatedInputs = { ...updatedTaskData };
-      delete validatedInputs.taskId; // delete id of objects as it's should not be validate
+      const updated = inputsChangeHandler(value, id, taskData);
+      const validatedInputs = { ...updated };
       const isFormValid = validation(validatedInputs, tasksInputs);
       return {
-        taskData: updatedTaskData,
+        taskData: updated,
         isFormValid,
       };
     });
@@ -98,11 +101,13 @@ class TasksManagePage extends Component {
   };
 
   onAddTask = async (task) => {
+    const { deadlineDate, startDate } = task;
+    const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
     this.onModalClose();
-    const taskId = await this.db.addNewTask(task);
+    const taskId = await this.db.addNewTask(newTask);
     assignedMembers.map(async (userId) => {
-      const userTask = { stateId: 2, taskId, userId };
+      const userTask = { state: 'active', taskId, userId };
       await this.db.addUserTask(userTask);
     });
     this.getTasksData();
@@ -112,8 +117,9 @@ class TasksManagePage extends Component {
     const { tasks } = this.state;
     const editedTask = tasks.find(({ taskId }) => taskId === id);
     const assignedMembers = await this.db.getAssignedUsers(id);
+    const { deadlineDate, startDate } = editedTask;
     this.setState({
-      taskData: { ...editedTask },
+      taskData: { ...editedTask, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) },
       isEditMode: true,
       isFormValid: true,
       assignedMembers,
@@ -122,10 +128,17 @@ class TasksManagePage extends Component {
   };
 
   onSubmitEditTask = async (task) => {
+    const { deadlineDate, startDate } = task;
+    const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
-    await this.db.editTask(task, assignedMembers);
+    await this.db.editTask(newTask, assignedMembers);
     this.getTasksData();
     this.onModalClose();
+  };
+
+  onSubmit = () => {
+    const { isEditMode, taskData } = this.state;
+    return isEditMode ? this.onSubmitEditTask(taskData) : this.onAddTask(taskData);
   };
 
   render() {
@@ -133,29 +146,31 @@ class TasksManagePage extends Component {
     const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${taskData.name}:`}</h3> : <h3>Add new task:</h3>;
     return (
       <div className='table-wrapper'>
-        <Modal
-          showModal={showModal}
-          isEditMode={isEditMode}
-          isDetailMode={isDetailMode}
-          onModalClose={this.onModalClose}
-          isFormValid={isFormValid}
-          onCheckboxChange={this.onCheckboxChange}
-          isCheckboxShow
-          assignedMembers={assignedMembers}
-          onSubmit={() => (isEditMode ? this.onSubmitEditTask(taskData) : this.onAddTask(taskData))}
-        >
-          {isDetailMode ? (
-            <DataModal header={modalHeader} data={taskData} inputFields={tasksInputs} />
-          ) : (
-            <FormModal
-              modalHeader={modalHeader}
-              inputs={tasksInputs}
-              data={taskData}
-              onFormChange={this.onFormChange}
-              isEditMode={isEditMode}
-              isFormValid={isFormValid}
-            />
-          )}
+        <Modal isOpen={showModal} toggle={this.onModalClose}>
+          <ModalContent
+            showModal={showModal}
+            isEditMode={isEditMode}
+            isDetailMode={isDetailMode}
+            onModalClose={this.onModalClose}
+            isFormValid={isFormValid}
+            onCheckboxChange={this.onCheckboxChange}
+            isCheckboxShow
+            assignedMembers={assignedMembers}
+            onSubmit={this.onSubmit}
+          >
+            {isDetailMode ? (
+              <DataModal header={modalHeader} data={taskData} inputFields={tasksInputs} />
+            ) : (
+              <FormModal
+                modalHeader={modalHeader}
+                inputs={tasksInputs}
+                data={taskData}
+                onFormChange={this.onFormChange}
+                isEditMode={isEditMode}
+                isFormValid={isFormValid}
+              />
+            )}
+          </ModalContent>
         </Modal>
         {isLoaded ? (
           <>

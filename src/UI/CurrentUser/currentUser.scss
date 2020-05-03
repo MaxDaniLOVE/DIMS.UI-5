@@ -1,0 +1,8 @@
+@import '../../scss/variables';
+
+.current-user {
+  @include inactive-link;
+  width: auto;
+  background-color: $teal-green;
+  padding: 0 1rem;
+}

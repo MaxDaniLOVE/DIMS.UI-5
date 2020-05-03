@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from './Button';
+import { Button } from 'reactstrap';
 
 const GoBackButton = ({ onClick }) => {
   return (
-    <Button onClick={onClick} newClassName='btn-return'>
+    <Button onClick={onClick} className='btn-return'>
       Back to grid
     </Button>
   );

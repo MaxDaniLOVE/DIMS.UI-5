@@ -10,6 +10,28 @@ body {
   font-size: 16px;
 }
 
+td,
+th {
+  vertical-align: middle !important;
+  text-align: center !important;
+  width: fit-content !important;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.alert {
+  position: fixed;
+  right: 2rem;
+  bottom: 3rem;
+  font-size: 2rem;
+  font-weight: 300;
+  &-danger {
+    color: #fff;
+    background-color: $honeysuckle;
+  }
+  button {
+    height: 100%;
+  }
 }

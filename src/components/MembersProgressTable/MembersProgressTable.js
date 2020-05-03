@@ -8,6 +8,7 @@ import Table from '../../UI/Table';
 import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
 import noteConverter from '../../utils/noteConverter';
+import './membersProgressTable.scss';
 
 const MembersProgressTable = ({
   progress,
@@ -42,7 +43,7 @@ const MembersProgressTable = ({
         </td>
         <td>{millisecondsToDate(trackDate)}</td>
         {isMemberTasks ? (
-          <td>
+          <td className='user-btns'>
             <Button onClick={onEditHandler}>Edit</Button>
             <DangerButton onClick={onDeleteHandler}>Delete</DangerButton>
           </td>

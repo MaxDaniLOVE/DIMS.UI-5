@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Modal } from 'reactstrap';
 import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { defaultSubtaskData } from '../utils/defaultInputsData';
-import Modal from '../UI/Modal';
+import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
 import sortFromOldToNew from '../utils/sortFromOldToNew';
 import FormModal from '../components/FormModal';
-import validation from '../utils/validation';
+import { validation } from '../utils/validation';
+import AuthContext from '../context';
+import { stringToDate, dateToString } from '../utils/convertDate';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -28,14 +31,18 @@ class TasksTrackManagePage extends Component {
   }
 
   componentDidMount() {
-    this.getTracksData();
+    const { match } = this.props;
+    const {
+      params: { tid },
+    } = match;
+    this.getTracksData(tid);
   }
 
-  getTracksData = async () => {
-    const memberId = '1XMvbioNVdqnsLoLEYnc'; // TODO get memberId from store/context
-    const { match } = this.props;
-    const recievedId = match.params.tid;
-    this.db.getUsersProgress(memberId).then(async (progress) => {
+  getTracksData = async (recievedId) => {
+    const {
+      user: { userId },
+    } = this.context;
+    this.db.getUsersProgress(userId).then(async (progress) => {
       const sortedProgress = sortFromOldToNew(progress);
       if (recievedId) {
         const editedTask = sortedProgress.find(({ taskId }) => taskId === recievedId);
@@ -77,14 +84,17 @@ class TasksTrackManagePage extends Component {
 
   onFormChange = (e) => {
     const { value, id } = e.target;
+    const {
+      user: { userId, userName },
+    } = this.context;
     this.setState(({ subtaskData }) => {
       const { taskId, taskName } = subtaskData;
       const inputsValues = inputsChangeHandler(value, id, subtaskData);
       const newSubtask = {
         taskId,
         taskName,
-        userId: '1XMvbioNVdqnsLoLEYnc', // TODO get memberId from store/context
-        userName: 'Armando Abbott', // TODO get memberId from store/context
+        userId,
+        userName,
         ...inputsValues,
       };
       const validatedInputs = {
@@ -104,8 +114,10 @@ class TasksTrackManagePage extends Component {
   };
 
   onAddSubtask = async (subtask) => {
+    const { trackDate } = subtask;
+    const newSubtask = { ...subtask, trackDate: stringToDate(trackDate) };
     this.onModalClose();
-    await this.db.addNewSubtask(subtask);
+    await this.db.addNewSubtask(newSubtask);
     await this.getTracksData();
   };
 
@@ -117,20 +129,27 @@ class TasksTrackManagePage extends Component {
   onEditSubtaskModalOpen = (subtaskId) => {
     const { progress } = this.state;
     const editedSubtask = progress.find(({ taskTrackId }) => taskTrackId === subtaskId);
+    const { trackDate } = editedSubtask;
     this.onModalOpen();
     this.setState({
-      subtaskData: { ...editedSubtask },
+      subtaskData: { ...editedSubtask, trackDate: dateToString(trackDate) },
       isEditMode: true,
       isFormValid: true,
     });
   };
 
-  onSubmitEditSubtask = async () => {
-    const { subtaskData } = this.state;
-    await this.db.editUserProgress(subtaskData);
+  onSubmitEditSubtask = async (subtask) => {
+    const { trackDate } = subtask;
+    const newSubtask = { ...subtask, trackDate: stringToDate(trackDate) };
+    await this.db.editUserProgress(newSubtask);
     const result = await this.getTracksData();
     this.onModalClose();
     return result;
+  };
+
+  onSubmit = () => {
+    const { isEditMode, subtaskData } = this.state;
+    return isEditMode ? this.onSubmitEditSubtask(subtaskData) : this.onAddSubtask(subtaskData);
   };
 
   render() {
@@ -138,27 +157,30 @@ class TasksTrackManagePage extends Component {
     const modalHeader = <h3>{`Task track - ${subtaskData.taskName}`}</h3>;
     return (
       <div className='table-wrapper'>
-        <Modal
-          showModal={showModal}
-          isEditMode={isEditMode}
-          isDetailMode={isDetailMode}
-          onModalClose={this.onModalClose}
-          isFormValid={isFormValid}
-          onSubmit={() => (isEditMode ? this.onSubmitEditSubtask(subtaskData) : this.onAddSubtask(subtaskData))}
-        >
-          {isDetailMode ? (
-            <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />
-          ) : (
-            <FormModal
-              inputs={subtasksInputs}
-              data={subtaskData}
-              onFormChange={this.onFormChange}
-              isEditMode={isEditMode}
-              isFormValid={isFormValid}
-              modalHeader={modalHeader}
-            />
-          )}
+        <Modal isOpen={showModal} toggle={this.onModalClose}>
+          <ModalContent
+            showModal={showModal}
+            isEditMode={isEditMode}
+            isDetailMode={isDetailMode}
+            onModalClose={this.onModalClose}
+            isFormValid={isFormValid}
+            onSubmit={this.onSubmit}
+          >
+            {isDetailMode ? (
+              <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />
+            ) : (
+              <FormModal
+                inputs={subtasksInputs}
+                data={subtaskData}
+                onFormChange={this.onFormChange}
+                isEditMode={isEditMode}
+                isFormValid={isFormValid}
+                modalHeader={modalHeader}
+              />
+            )}
+          </ModalContent>
         </Modal>
+
         {isLoaded ? (
           <>
             <h2>This is your tasks:</h2>
@@ -178,6 +200,8 @@ class TasksTrackManagePage extends Component {
     );
   }
 }
+
+TasksTrackManagePage.contextType = AuthContext;
 
 TasksTrackManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,

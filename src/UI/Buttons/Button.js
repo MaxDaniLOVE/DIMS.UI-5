@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button as ReactStrapBtn } from 'reactstrap';
 import './button.scss';
 
 const Button = ({ onClick, children, newClassName }) => {
   return (
-    <button onClick={onClick} className={`btn ${newClassName}`} type='button'>
+    <ReactStrapBtn onClick={onClick} className={`btn ${newClassName}`}>
       {children}
-    </button>
+    </ReactStrapBtn>
   );
 };
 

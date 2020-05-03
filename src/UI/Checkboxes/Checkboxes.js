@@ -1,37 +1,27 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { CustomInput, FormGroup, Label } from 'reactstrap';
 import { loadCache } from '../../utils/cache';
 import './checkboxes.scss';
 
-class Checkboxes extends Component {
+class Checkboxes extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       members: [],
-      assignedMembers: [],
     };
   }
 
   componentDidMount() {
     const cachedData = loadCache('members');
-    const { assignedMembers } = this.props;
     this.setState({
       members: cachedData,
-      assignedMembers,
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { assignedMembers } = nextProps;
-    this.setState({
-      assignedMembers,
     });
   }
 
   onCheckboxChange = (e) => {
     const { id, checked } = e.target;
-    const { assignedMembers } = this.state;
-    const { onCheckboxChange } = this.props;
+    const { onCheckboxChange, assignedMembers } = this.props;
     const updatedMembers = new Set();
     assignedMembers.map((el) => updatedMembers.add(el));
     if (checked) {
@@ -39,32 +29,30 @@ class Checkboxes extends Component {
     } else {
       updatedMembers.delete(id);
     }
-    this.setState(() => ({
-      assignedMembers: [...updatedMembers],
-    }));
     onCheckboxChange([...updatedMembers]);
   };
 
   render() {
-    const { members, assignedMembers } = this.state;
+    const { members } = this.state;
+    const { assignedMembers } = this.props;
     return (
       <div className='members-checkboxes__wrapper'>
         Assign members:
         <div className='members-checkboxes'>
           {members.map(({ name, lastName, id }) => {
             return (
-              <div className='form-inputs' key={id}>
-                <label htmlFor={id}>
+              <FormGroup className='form-inputs' key={id}>
+                <Label htmlFor={id}>
                   {`${name} ${lastName}:`}
-                  <input
+                  <CustomInput
                     value={id}
                     type='checkbox'
                     id={id}
                     onChange={this.onCheckboxChange}
                     checked={assignedMembers.includes(id)}
                   />
-                </label>
-              </div>
+                </Label>
+              </FormGroup>
             );
           })}
         </div>

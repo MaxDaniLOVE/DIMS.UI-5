@@ -6,6 +6,58 @@ firebase.initializeApp(firebaseConfig);
 export default class Firebase {
   database = firebase.firestore();
 
+  getUserDataByEmail = async (email) => {
+    try {
+      const user = await this.database
+        .collection('users')
+        .where('email', '==', email)
+        .get();
+      const userId = user.docs[0].id;
+      const userName = user.docs[0].data().name;
+      return { userId, userName };
+    } catch (error) {
+      console.error('User is not added to database. Try later.');
+      return false;
+    }
+  };
+
+  isUserExists = async (email) => {
+    try {
+      const user = await this.database
+        .collection('users')
+        .where('email', '==', email)
+        .get();
+      await this.createUserRole(email);
+      return user.docs[0].exists;
+    } catch (error) {
+      console.error('User is not added to database. Try later.');
+      return false;
+    }
+  };
+
+  createUserRole = async (email) => {
+    try {
+      const newRole = { role: 'USER', email };
+      const newRoleAdded = await this.database.collection('roles').add(newRole);
+      return newRoleAdded;
+    } catch (error) {
+      console.error('Can not add user role. Try later.');
+      return false;
+    }
+  };
+
+  getUserRole = async (email) => {
+    try {
+      const userRole = await this.database
+        .collection('roles')
+        .where('email', '==', email)
+        .get();
+      return userRole.docs[0].data();
+    } catch (error) {
+      console.error("Can't get user role. Try later.");
+    }
+  };
+
   addNewUser = async (user) => {
     try {
       const newUser = await this.database.collection('users').add(user);
@@ -87,21 +139,18 @@ export default class Firebase {
   };
 
   editUserData = async (newData) => {
-    const { id } = newData;
-    const updatedData = { ...newData };
-    delete updatedData.id;
+    const { id, ...updData } = newData;
     try {
       await this.database
         .collection('users')
         .doc(id)
-        .set(updatedData, { merge: true });
+        .set(updData, { merge: true });
     } catch (error) {
       console.error("Can't update user data. Try later.");
     }
   };
 
   deleteUser = async (id) => {
-    // TODO add deliting users tasks and progress
     try {
       await this.database
         .collection('users')
@@ -152,14 +201,12 @@ export default class Firebase {
   };
 
   editUserProgress = async (newData) => {
-    const { taskTrackId } = newData;
-    const updatedData = { ...newData };
-    delete updatedData.taskTrackId;
+    const { taskTrackId, ...updData } = newData;
     try {
       await this.database
         .collection('usersProgress')
         .doc(taskTrackId)
-        .set(updatedData, { merge: true });
+        .set(updData, { merge: true });
     } catch (error) {
       console.error("Can't update subtask data. Try later.");
     }
@@ -174,9 +221,10 @@ export default class Firebase {
     }
   };
 
-  addUserTask = async (newUserTask) => {
+  addUserTask = async (userTask) => {
+    const { state, ...newUserTask } = userTask;
     try {
-      const task = await this.database.collection('usersTasks').add(newUserTask);
+      const task = await this.database.collection('usersTasks').add({ ...newUserTask, stateId: this.statesIds[state] });
       return task.id;
     } catch (error) {
       console.error("Can't add new user tasks. Try later.");
@@ -217,14 +265,12 @@ export default class Firebase {
   };
 
   editTask = async (newTask, assignedMembers) => {
-    const { taskId } = newTask;
-    const updatedData = { ...newTask };
-    delete updatedData.taskId;
+    const { taskId, ...updData } = newTask;
     try {
       await this.database
         .collection('tasks')
         .doc(taskId)
-        .set(updatedData, { merge: true });
+        .set(updData, { merge: true });
       await this.updateAssignedUsers(taskId, assignedMembers, newTask);
     } catch (error) {
       console.error("Can't update task data. Try later.");
@@ -250,16 +296,18 @@ export default class Firebase {
         return task.id;
       });
       unassignedUsers.map(async (userId) => {
-        const userTask = { stateId: 2, taskId, userId };
+        const userTask = { state: 'active', taskId, userId };
         this.addUserTask(userTask);
-        const { name } = newTask;
+        const { name: taskName } = newTask;
         const userName = await this.getUserName(userId);
+        const trackDate = new Date().getTime();
+        const trackNote = 'Recieve new task';
         const firstSubtask = {
           userId,
           taskId,
-          taskName: name,
-          trackDate: new Date().getTime(),
-          trackNote: 'Recieve new task',
+          taskName,
+          trackDate,
+          trackNote,
           userName,
         };
         await this.addNewSubtask(firstSubtask);
@@ -279,6 +327,24 @@ export default class Firebase {
         .delete();
     } catch (error) {
       console.error("Can't delete tasks. Try later.");
+    }
+  };
+
+  statesIds = {
+    active: 2,
+    success: 1,
+    fail: 0,
+  };
+
+  onSetUserMark = async (userTaskId, state) => {
+    try {
+      await this.database
+        .collection('usersTasks')
+        .doc(userTaskId)
+        .update({ stateId: this.statesIds[state] });
+      return 'updated';
+    } catch (error) {
+      console.error("Can't set mark. Try later.");
     }
   };
 }

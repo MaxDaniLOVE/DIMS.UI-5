@@ -6,5 +6,16 @@ import LinkButton from './LinkButton';
 import OutlineButton from './OutlineButton';
 import BurgerButton from './BurgerButton';
 import SubmitButton from './SubmitButton';
+import LogoutButton from './LogoutButton';
 
-export { Button, GoBackButton, SuccessButton, DangerButton, LinkButton, OutlineButton, BurgerButton, SubmitButton };
+export {
+  Button,
+  GoBackButton,
+  SuccessButton,
+  DangerButton,
+  LinkButton,
+  OutlineButton,
+  BurgerButton,
+  SubmitButton,
+  LogoutButton,
+};

@@ -1,0 +1,8 @@
+.user-btns {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: min-content min-content;
+  button {
+    margin: 0;
+  }
+}
