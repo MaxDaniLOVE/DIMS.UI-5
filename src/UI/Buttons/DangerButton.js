@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from './Button';
+import { Button } from 'reactstrap';
 
 const DangerButton = ({ onClick, children }) => {
   return (
-    <Button onClick={onClick} newClassName='btn-danger'>
+    <Button onClick={onClick} color='danger'>
       {children}
     </Button>
   );

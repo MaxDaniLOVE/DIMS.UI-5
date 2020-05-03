@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from './Button';
+import { Button } from 'reactstrap';
 
 const OutlineButton = ({ onClick, children }) => {
   return (
-    <Button onClick={onClick} newClassName='btn-outline'>
+    <Button onClick={onClick} outline className='btn-outline'>
       {children}
     </Button>
   );

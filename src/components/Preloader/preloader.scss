@@ -3,6 +3,7 @@
 .preloader-wrapper {
   display: flex;
   justify-content: center;
+  box-sizing: content-box;
   .preloader {
     display: inline-block;
     position: relative;

@@ -4,15 +4,19 @@ import TableHeader from '../../UI/TableHeader';
 import { LinkButton, SuccessButton, DangerButton } from '../../UI/Buttons';
 import Status from '../../UI/Status';
 import './membersTasksTable.scss';
-import { membersTasksHeaders as headers } from '../../utils/tableHeaders';
+import { membersTasksHeaders } from '../../utils/tableHeaders';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
 import { millisecondsToDate } from '../../utils/convertDate';
 
-const MembersTasksTable = ({ userTasks }) => {
+const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
+  const headers = membersTasksHeaders[role];
   const membersTasksTableBody = userTasks.map((task, idx) => {
     const { tasksInfo, stateId, userTaskId, taskId } = task;
     const { deadlineDate, name, startDate } = tasksInfo;
+    const onSucced = () => onSetMark(userTaskId, 'success');
+    const onFailed = () => onSetMark(userTaskId, 'fail');
+    const isUser = role === 'USER';
     return (
       <tr key={userTaskId}>
         <td>{idx + 1}</td>
@@ -22,13 +26,17 @@ const MembersTasksTable = ({ userTasks }) => {
         <td>
           <Status stateId={stateId} />
         </td>
-        <td>
-          <LinkButton link={`/member/subtasks/${taskId}`}>Track</LinkButton>
-        </td>
-        <td className='admin-btns'>
-          <SuccessButton onClick={() => {}}>Success!</SuccessButton>
-          <DangerButton onClick={() => {}}>Fail!</DangerButton>
-        </td>
+        {!isUser ? null : (
+          <td>
+            <LinkButton link={`/member/subtasks/${taskId}`}>Track</LinkButton>
+          </td>
+        )}
+        {isUser ? null : (
+          <td className='admin-btns'>
+            <SuccessButton onClick={onSucced}>Success!</SuccessButton>
+            <DangerButton onClick={onFailed}>Fail!</DangerButton>
+          </td>
+        )}
       </tr>
     );
   });
@@ -54,6 +62,8 @@ MembersTasksTable.propTypes = {
       ]),
     ),
   ).isRequired,
+  role: PropTypes.string.isRequired,
+  onSetMark: PropTypes.func.isRequired,
 };
 
 export default MembersTasksTable;

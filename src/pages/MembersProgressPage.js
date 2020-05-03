@@ -21,14 +21,17 @@ class MembersProgressPage extends Component {
 
   componentDidMount() {
     const { match } = this.props;
-    db.getUsersProgress(match.params.mid).then((progress) => {
+    const {
+      params: { mid },
+    } = match;
+    db.getUsersProgress(mid).then((progress) => {
       const sortedProgress = sortFromOldToNew(progress);
       this.setState({
         progress: sortedProgress,
         isLoaded: true,
       });
     });
-    db.getUserData(match.params.mid).then(({ name }) => {
+    db.getUserData(mid).then(({ name }) => {
       this.setState({
         memberName: name,
       });

@@ -19,4 +19,6 @@ const millisecondsToAge = (milliseconds) => {
   return new Date(ageMs).getFullYear() - 1970;
 };
 
-export { dateToString, stringToDate, millisecondsToDate, millisecondsToAge };
+const getCurrentYear = () => new Date().getFullYear();
+
+export { dateToString, stringToDate, millisecondsToDate, millisecondsToAge, getCurrentYear };
