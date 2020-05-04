@@ -12,8 +12,7 @@ import { millisecondsToDate } from '../../utils/convertDate';
 const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
   const headers = membersTasksHeaders[role];
   const membersTasksTableBody = userTasks.map((task, idx) => {
-    const { tasksInfo, stateId, userTaskId, taskId } = task;
-    const { deadlineDate, name, startDate } = tasksInfo;
+    const { deadlineDate, name, startDate, stateId, userTaskId, taskId } = task;
     const onSucced = () => onSetMark(userTaskId, 'success');
     const onFailed = () => onSetMark(userTaskId, 'fail');
     const isUser = role === 'USER';

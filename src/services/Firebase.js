@@ -116,7 +116,7 @@ export default class Firebase {
       return allTaskData;
     });
     const tasksInfo = await Promise.all(withAllData);
-    return allData.map((el, idx) => ({ ...el, tasksInfo: tasksInfo[idx] }));
+    return allData.map((el, idx) => ({ ...el, ...tasksInfo[idx] }));
   };
 
   getTasks = async (id) => {
