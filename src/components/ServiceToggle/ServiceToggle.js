@@ -21,8 +21,8 @@ const ServiceToggle = ({ setNewActiveService }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setNewActiveService: (activePage) => {
-      dispatch(setActiveService(activePage));
+    setNewActiveService: (e) => {
+      dispatch(setActiveService(e));
     },
   };
 };
