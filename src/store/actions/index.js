@@ -1,18 +1,7 @@
-import { SET_ACTIVE_SERVICE, FETCH_MEMBERS } from './actionTypes';
+import { FETCH_MEMBERS } from './actionTypes';
 import Azure from '../../services/Azure';
 
 const api = new Azure();
-
-const setActiveService = (event) => {
-  const {
-    target: { value, checked },
-  } = event;
-  const payload = checked ? value : 'firebase';
-  return {
-    type: SET_ACTIVE_SERVICE,
-    payload,
-  };
-};
 
 const getUsers = () => {
   return async (dispatch) => {
@@ -28,4 +17,4 @@ const getUsers = () => {
   };
 };
 
-export { setActiveService, getUsers };
+export { getUsers };
