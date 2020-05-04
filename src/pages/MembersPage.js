@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Modal } from 'reactstrap';
+import { connect } from 'react-redux';
+import { getUsers } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
@@ -16,7 +18,7 @@ import { stringToDate, dateToString } from '../utils/convertDate';
 import AuthContext from '../context';
 import { DangerAlert } from '../UI/Alerts';
 
-export default class MembersPage extends Component {
+class MembersPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -42,6 +44,8 @@ export default class MembersPage extends Component {
     } else {
       this.getMembersData();
     }
+    const { getUsersFromApi } = this.props;
+    getUsersFromApi();
   }
 
   getMembersData = async () => {
@@ -220,3 +224,13 @@ export default class MembersPage extends Component {
 }
 
 MembersPage.contextType = AuthContext;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUsersFromApi: () => {
+      dispatch(getUsers());
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(MembersPage);

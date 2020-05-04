@@ -1,4 +1,7 @@
-import { SET_ACTIVE_SERVICE } from './actionTypes';
+import { SET_ACTIVE_SERVICE, FETCH_MEMBERS } from './actionTypes';
+import Azure from '../../services/Azure';
+
+const api = new Azure();
 
 const setActiveService = (event) => {
   const {
@@ -11,4 +14,24 @@ const setActiveService = (event) => {
   };
 };
 
-export { setActiveService };
+const getUsers = () => {
+  return async (dispatch) => {
+    try {
+      const users = await api.getMembers();
+      console.log(
+        dispatch({
+          type: FETCH_MEMBERS,
+          payload: users,
+        }),
+      );
+      dispatch({
+        type: FETCH_MEMBERS,
+        payload: users,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export { setActiveService, getUsers };

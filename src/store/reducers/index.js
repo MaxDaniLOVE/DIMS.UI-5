@@ -1,7 +1,8 @@
-import { SET_ACTIVE_SERVICE } from '../actions/actionTypes';
+import { SET_ACTIVE_SERVICE, FETCH_MEMBERS } from '../actions/actionTypes';
 
 const initialState = {
   service: 'firebase',
+  members: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -10,6 +11,11 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         service: payload,
+      };
+    case FETCH_MEMBERS:
+      return {
+        ...state,
+        members: payload,
       };
     default:
       return state;
