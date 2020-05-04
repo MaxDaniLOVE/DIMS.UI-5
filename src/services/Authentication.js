@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import Firebase from './Firebase';
+import { addCache } from '../utils/cache';
 
 const db = new Firebase();
 
@@ -39,6 +40,7 @@ export default class Authentication {
         }
       });
     });
+    addCache('members', []);
     return isLoggedIn;
   };
 

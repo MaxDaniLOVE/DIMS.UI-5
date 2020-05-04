@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class Azure {
   api = process.env.REACT_APP_AZURE_API;
 
-  getMembers = async () => {
+  getUsersData = async () => {
     try {
       const members = (await axios.get(`${this.api}/profiles`)).data;
       return this.transformMembersData(members);

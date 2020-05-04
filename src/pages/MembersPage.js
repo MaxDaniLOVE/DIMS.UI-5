@@ -7,7 +7,7 @@ import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
 import { Button } from '../UI/Buttons';
-import { addCache, loadCache } from '../utils/cache';
+import { addCache } from '../utils/cache';
 import ModalContent from '../UI/ModalContent';
 import FormModal from '../components/FormModal';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
@@ -36,36 +36,24 @@ class MembersPage extends Component {
   }
 
   componentDidMount() {
-    const cachedData = loadCache('members');
-    if (cachedData) {
-      this.setState({
-        members: cachedData,
-        isLoaded: true,
-      });
-    } else {
-      this.getMembersData();
-    }
+    this.getMembersData();
     // TODO REMOVE IT
-    const { getUsersFromApi } = this.props;
-    getUsersFromApi();
+    const { getUsersData } = this.props;
+    getUsersData();
   }
 
   static getDerivedStateFromProps(nextProps) {
     const { members } = nextProps;
+    addCache('members', members);
     return {
       members,
     };
   }
 
   getMembersData = async () => {
-    const data = await this.db.getUsersData();
-    const newMembers = [];
-    data.forEach((doc) => {
-      newMembers.push({ ...doc.data(), id: doc.id });
-    });
-    addCache('members', newMembers);
+    const { getUsersData } = this.props;
+    await getUsersData();
     this.setState({
-      members: newMembers,
       isLoaded: true,
     });
   };
@@ -242,14 +230,14 @@ const mapStateToProps = ({ members }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersFromApi: () => {
+    getUsersData: () => {
       dispatch(getUsers());
     },
   };
 };
 
 MembersPage.propTypes = {
-  getUsersFromApi: PropTypes.func.isRequired,
+  getUsersData: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 

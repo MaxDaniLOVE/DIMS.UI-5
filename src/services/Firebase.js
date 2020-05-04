@@ -94,7 +94,10 @@ export default class Firebase {
   getUsersData = async () => {
     try {
       const usersData = await this.database.collection('users').get();
-      return usersData;
+      const allUsers = usersData.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
+      return allUsers;
     } catch (error) {
       console.error("Can't get users data. Try later.");
     }
