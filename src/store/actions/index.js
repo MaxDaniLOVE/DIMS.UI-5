@@ -18,12 +18,6 @@ const getUsers = () => {
   return async (dispatch) => {
     try {
       const users = await api.getMembers();
-      console.log(
-        dispatch({
-          type: FETCH_MEMBERS,
-          payload: users,
-        }),
-      );
       dispatch({
         type: FETCH_MEMBERS,
         payload: users,

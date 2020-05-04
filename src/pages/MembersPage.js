@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Modal } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getUsers } from '../store/actions';
@@ -44,8 +45,16 @@ class MembersPage extends Component {
     } else {
       this.getMembersData();
     }
+    // TODO REMOVE IT
     const { getUsersFromApi } = this.props;
     getUsersFromApi();
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    const { members } = nextProps;
+    return {
+      members,
+    };
   }
 
   getMembersData = async () => {
@@ -225,6 +234,12 @@ class MembersPage extends Component {
 
 MembersPage.contextType = AuthContext;
 
+const mapStateToProps = ({ members }) => {
+  return {
+    members,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsersFromApi: () => {
@@ -233,4 +248,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(MembersPage);
+MembersPage.propTypes = {
+  getUsersFromApi: PropTypes.func.isRequired,
+  members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MembersPage);
