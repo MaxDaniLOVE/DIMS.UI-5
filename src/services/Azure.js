@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { dateToString } from '../utils/convertDate';
+import { dateToString, convertAge, stringToDate } from '../utils/convertDate';
+import convertSexName from '../utils/convertSexName';
 
 export default class Azure {
   api = process.env.REACT_APP_AZURE_API;
@@ -51,7 +52,7 @@ export default class Azure {
         FullName,
         Email: email,
         Direction: directionId,
-        Sex: sex,
+        Sex,
         Education: education,
         Age,
         UniversityAverageScore: universityAverageScore,
@@ -62,9 +63,9 @@ export default class Azure {
         StartDate,
       } = member;
       const [name, lastName] = FullName.split(' ');
-      const startDate = Date.parse(StartDate);
-      const difference = new Date().getFullYear() - Age;
-      const birthDate = new Date().setYear(difference);
+      const startDate = stringToDate(StartDate);
+      const birthDate = convertAge(Age);
+      const sex = convertSexName(Sex);
       return {
         address,
         birthDate,
@@ -96,7 +97,7 @@ export default class Azure {
         newValue = dateToString(value);
       }
       if (newKey === 'Sex') {
-        newValue = value === 'Male' ? 'M' : 'F';
+        newValue = convertSexName(value);
       }
       if (newKey === 'DirectionId') {
         const ids = {
