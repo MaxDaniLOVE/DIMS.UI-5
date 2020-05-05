@@ -1,4 +1,4 @@
-import { FETCH_MEMBERS } from './actionTypes';
+import { FETCH_MEMBERS, ADD_MEMBER } from './actionTypes';
 import Azure from '../../services/Azure';
 import { loadCache } from '../../utils/cache';
 import Firebase from '../../services/Firebase';
@@ -19,4 +19,19 @@ const getUsers = () => {
   };
 };
 
-export { getUsers };
+const addUser = (user) => {
+  return async (dispatch) => {
+    const service = loadCache('service');
+    const api = service === 'azure' ? new Azure() : new Firebase();
+    try {
+      await api.addNewUser(user);
+      dispatch({
+        type: ADD_MEMBER,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export { getUsers, addUser };

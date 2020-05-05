@@ -12,6 +12,10 @@ export default class Azure {
     }
   };
 
+  addNewUser = async (user) => {
+    console.log(user);
+  };
+
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
       const {

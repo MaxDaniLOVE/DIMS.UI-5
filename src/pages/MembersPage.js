@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'reactstrap';
 import { connect } from 'react-redux';
-import { getUsers } from '../store/actions';
+import { getUsers, addUser } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
@@ -97,8 +97,9 @@ class MembersPage extends Component {
 
   onAddNewMember = async (member) => {
     const { birthDate, startDate } = member;
+    const { addNewUser } = this.props;
     const newMember = { ...member, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
-    await this.db.addNewUser(newMember);
+    await addNewUser(newMember);
     const result = await this.getMembersData();
     this.onModalClose();
     return result;
@@ -233,11 +234,15 @@ const mapDispatchToProps = (dispatch) => {
     getUsersData: () => {
       dispatch(getUsers());
     },
+    addNewUser: (user) => {
+      dispatch(addUser(user));
+    },
   };
 };
 
 MembersPage.propTypes = {
   getUsersData: PropTypes.func.isRequired,
+  addNewUser: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
