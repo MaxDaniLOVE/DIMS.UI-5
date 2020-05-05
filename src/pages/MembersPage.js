@@ -37,9 +37,6 @@ class MembersPage extends Component {
 
   componentDidMount() {
     this.getMembersData();
-    // TODO REMOVE IT
-    const { getUsersData } = this.props;
-    getUsersData();
   }
 
   static getDerivedStateFromProps(nextProps) {
@@ -151,7 +148,8 @@ class MembersPage extends Component {
       });
     }
     const { deleteUserData } = this.props;
-    await deleteUserData(userId);
+    const response = await deleteUserData(userId);
+    return response;
   };
 
   onAlertClose = () => {
