@@ -16,10 +16,22 @@ export default class Azure {
   addNewUser = async (user) => {
     try {
       const newUser = this.convertNewUSer(user);
-      const response = await axios.post(`${this.api}/create`, JSON.stringify(newUser));
-      console.log(response);
+      const response = await axios.post(`${this.api}/create`, newUser);
+      return response;
     } catch (error) {
       console.error("Can't add member", error.message);
+    }
+  };
+
+  editUserData = async (user) => {
+    try {
+      const { id, ...data } = user;
+      const convertedData = this.convertNewUSer(data);
+      const editedUser = { id, ...convertedData };
+      const response = await axios.put(`${this.api}/profile/edit/${id}`, editedUser);
+      return response;
+    } catch (error) {
+      console.error("Can't update member", error.message);
     }
   };
 
@@ -80,7 +92,7 @@ export default class Azure {
       if (newKey === 'DirectionId') {
         const ids = {
           React: 1,
-          '.NET': 2,
+          '.Net': 2,
           Angular: 3,
           Java: 4,
         };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'reactstrap';
 import { connect } from 'react-redux';
-import { getUsers, addUser } from '../store/actions';
+import { getUsers, addUser, editUser } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
@@ -100,9 +100,7 @@ class MembersPage extends Component {
     const { addNewUser } = this.props;
     const newMember = { ...member, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
     await addNewUser(newMember);
-    const result = await this.getMembersData();
     this.onModalClose();
-    return result;
   };
 
   onEditMemberModalOpen = (userId) => {
@@ -127,8 +125,9 @@ class MembersPage extends Component {
 
   onSubmitEditUser = async (member) => {
     const { birthDate, startDate } = member;
+    const { editUserData } = this.props;
     const newMember = { ...member, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
-    await this.db.editUserData(newMember);
+    await editUserData(newMember);
     const result = await this.getMembersData();
     this.onModalClose();
     return result;
@@ -237,12 +236,16 @@ const mapDispatchToProps = (dispatch) => {
     addNewUser: (user) => {
       dispatch(addUser(user));
     },
+    editUserData: (user) => {
+      dispatch(editUser(user));
+    },
   };
 };
 
 MembersPage.propTypes = {
   getUsersData: PropTypes.func.isRequired,
   addNewUser: PropTypes.func.isRequired,
+  editUserData: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
