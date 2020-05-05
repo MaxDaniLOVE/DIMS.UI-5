@@ -28,6 +28,7 @@ const addUser = (user) => {
       dispatch({
         type: ADD_MEMBER,
       });
+      dispatch(getUsers());
     } catch (error) {
       console.error(error);
     }
@@ -43,10 +44,10 @@ const editUser = (user) => {
       dispatch({
         type: EDIT_MEMBER,
       });
+      dispatch(getUsers());
     } catch (error) {
       console.error(error);
     }
-    await dispatch(getUsers());
   };
 };
 
@@ -59,6 +60,7 @@ const deleteUser = (id) => {
       dispatch({
         type: DELETE_USER,
       });
+      dispatch(getUsers());
     } catch (error) {
       console.error(error);
     }

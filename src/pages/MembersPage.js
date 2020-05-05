@@ -128,9 +128,7 @@ class MembersPage extends Component {
     const { editUserData } = this.props;
     const newMember = { ...member, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
     await editUserData(newMember);
-    const result = await this.getMembersData();
     this.onModalClose();
-    return result;
   };
 
   onMemberDataOpen = (userId) => {
@@ -154,8 +152,6 @@ class MembersPage extends Component {
     }
     const { deleteUserData } = this.props;
     await deleteUserData(userId);
-    const result = await this.getMembersData();
-    return result;
   };
 
   onAlertClose = () => {
