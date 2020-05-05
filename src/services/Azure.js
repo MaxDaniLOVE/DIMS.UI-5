@@ -35,6 +35,15 @@ export default class Azure {
     }
   };
 
+  deleteUser = async (id) => {
+    try {
+      const response = await axios.delete(`${this.api}/profile/delete/${id}`);
+      return response;
+    } catch (error) {
+      console.error("Can't add member", error.message);
+    }
+  };
+
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
       const {

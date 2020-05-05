@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'reactstrap';
 import { connect } from 'react-redux';
-import { getUsers, addUser, editUser } from '../store/actions';
+import { getUsers, addUser, editUser, deleteUser } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import Firebase from '../services/Firebase';
@@ -152,7 +152,8 @@ class MembersPage extends Component {
         showAlert: true,
       });
     }
-    await this.db.deleteUser(userId);
+    const { deleteUserData } = this.props;
+    await deleteUserData(userId);
     const result = await this.getMembersData();
     return result;
   };
@@ -239,6 +240,9 @@ const mapDispatchToProps = (dispatch) => {
     editUserData: (user) => {
       dispatch(editUser(user));
     },
+    deleteUserData: (id) => {
+      dispatch(deleteUser(id));
+    },
   };
 };
 
@@ -246,6 +250,7 @@ MembersPage.propTypes = {
   getUsersData: PropTypes.func.isRequired,
   addNewUser: PropTypes.func.isRequired,
   editUserData: PropTypes.func.isRequired,
+  deleteUserData: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 

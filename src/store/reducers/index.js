@@ -1,4 +1,4 @@
-import { FETCH_MEMBERS, ADD_MEMBER, EDIT_MEMBER } from '../actions/actionTypes';
+import { FETCH_MEMBERS, ADD_MEMBER, EDIT_MEMBER, DELETE_USER } from '../actions/actionTypes';
 
 const initialState = {
   members: [],
@@ -15,6 +15,9 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state };
     case EDIT_MEMBER:
       return { ...state };
+    case DELETE_USER: {
+      return { ...state };
+    }
     default:
       return state;
   }

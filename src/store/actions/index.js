@@ -1,4 +1,4 @@
-import { FETCH_MEMBERS, ADD_MEMBER, EDIT_MEMBER } from './actionTypes';
+import { FETCH_MEMBERS, ADD_MEMBER, EDIT_MEMBER, DELETE_USER } from './actionTypes';
 import Azure from '../../services/Azure';
 import { loadCache } from '../../utils/cache';
 import Firebase from '../../services/Firebase';
@@ -50,4 +50,20 @@ const editUser = (user) => {
   };
 };
 
-export { getUsers, addUser, editUser };
+const deleteUser = (id) => {
+  return async (dispatch) => {
+    const service = loadCache('service');
+    const api = service === 'azure' ? new Azure() : new Firebase();
+    try {
+      await api.deleteUser(id);
+      dispatch({
+        type: DELETE_USER,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    await dispatch(getUsers());
+  };
+};
+
+export { getUsers, addUser, editUser, deleteUser };
