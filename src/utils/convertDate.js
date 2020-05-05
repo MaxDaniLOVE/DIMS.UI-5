@@ -21,4 +21,9 @@ const millisecondsToAge = (milliseconds) => {
 
 const getCurrentYear = () => new Date().getFullYear();
 
-export { dateToString, stringToDate, millisecondsToDate, millisecondsToAge, getCurrentYear };
+const getCurrentDate = () => {
+  const currentTime = new Date().getTime();
+  return dateToString(currentTime);
+};
+
+export { dateToString, stringToDate, millisecondsToDate, millisecondsToAge, getCurrentYear, getCurrentDate };

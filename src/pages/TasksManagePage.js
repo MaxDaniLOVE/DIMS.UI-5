@@ -31,31 +31,24 @@ class TasksManagePage extends Component {
   }
 
   componentDidMount() {
-    this.getTasksData();
-  }
-
-  async getTasksData() {
     const { match } = this.props;
     const {
       params: { tid },
     } = match;
+    this.getTasksData(tid);
+  }
+
+  async getTasksData(tid) {
     this.db.getAllTasks().then(async (data) => {
       const newData = [];
       data.forEach((doc) => newData.push({ ...doc.data(), taskId: doc.id }));
-      if (tid) {
-        const assignedMembers = await this.db.getAssignedUsers(tid);
-        const editedTask = newData.find(({ taskId }) => taskId === tid);
-        this.setState({
-          taskData: editedTask,
-          assignedMembers,
-          isEditMode: true,
-          showModal: true,
-        });
-      }
       this.setState({
         tasks: newData,
         isLoaded: true,
       });
+      if (tid) {
+        await this.onEditTaskModalOpen(tid);
+      }
     });
   }
 
