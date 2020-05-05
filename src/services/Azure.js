@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { dateToString } from '../utils/convertDate';
 
 export default class Azure {
   api = process.env.REACT_APP_AZURE_API;
@@ -13,7 +14,13 @@ export default class Azure {
   };
 
   addNewUser = async (user) => {
-    console.log(user);
+    try {
+      const newUser = this.convertNewUSer(user);
+      const response = await axios.post(`${this.api}/create`, JSON.stringify(newUser));
+      console.log(response);
+    } catch (error) {
+      console.error("Can't add member", error.message);
+    }
   };
 
   transformMembersData = (members) => {
@@ -55,5 +62,32 @@ export default class Azure {
       };
     });
     return transformed;
+  };
+
+  convertNewUSer = (user) => {
+    const entries = Object.entries(user);
+    const withConvertedFields = {};
+    entries.map((field) => {
+      const [key, value] = field;
+      const newKey = key[0].toUpperCase() + key.substring(1);
+      let newValue = value;
+      if (newKey.includes('Date')) {
+        newValue = dateToString(value);
+      }
+      if (newKey === 'Sex') {
+        newValue = value === 'Male' ? 'M' : 'F';
+      }
+      if (newKey === 'DirectionId') {
+        const ids = {
+          React: 1,
+          '.NET': 2,
+          Angular: 3,
+          Java: 4,
+        };
+        newValue = ids[value];
+      }
+      withConvertedFields[newKey] = newValue;
+    });
+    return withConvertedFields;
   };
 }
