@@ -1,4 +1,12 @@
-import { FETCH_MEMBERS, ADD_MEMBER, EDIT_MEMBER, DELETE_USER, FETCH_TASKS, FETCH_USER_TASKS } from './actionTypes';
+import {
+  FETCH_MEMBERS,
+  ADD_MEMBER,
+  EDIT_MEMBER,
+  DELETE_USER,
+  FETCH_TASKS,
+  FETCH_USER_TASKS,
+  SET_USER_MARK,
+} from './actionTypes';
 import Azure from '../../services/Azure';
 import { loadCache } from '../../utils/cache';
 import Firebase from '../../services/Firebase';
@@ -100,4 +108,19 @@ const getUserTasks = (id) => {
   };
 };
 
-export { getUsers, addUser, editUser, deleteUser, getTasks, getUserTasks };
+const setMark = (state, userTaskId, taskId, userId) => {
+  return async (dispatch) => {
+    const service = loadCache('service');
+    const api = service === 'azure' ? new Azure() : new Firebase();
+    try {
+      await api.onSetUserMark(state, userTaskId, taskId, userId);
+      dispatch({
+        type: SET_USER_MARK,
+      });
+      dispatch(getUserTasks(userId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+export { getUsers, addUser, editUser, deleteUser, getTasks, getUserTasks, setMark };

@@ -355,7 +355,7 @@ export default class Firebase {
     fail: 0,
   };
 
-  onSetUserMark = async (userTaskId, state) => {
+  onSetUserMark = async (state, userTaskId) => {
     try {
       await this.database
         .collection('usersTasks')

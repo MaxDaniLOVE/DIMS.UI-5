@@ -5,6 +5,7 @@ import {
   DELETE_USER,
   FETCH_TASKS,
   FETCH_USER_TASKS,
+  SET_USER_MARK,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -37,6 +38,8 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         userTasks: payload,
       };
+    case SET_USER_MARK:
+      return { ...state };
     default:
       return state;
   }

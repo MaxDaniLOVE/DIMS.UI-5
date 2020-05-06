@@ -65,7 +65,7 @@ export default class Azure {
       const userTasks = (await axios.get(`${this.api}/user/tasks/${userId}`)).data;
       const allUsersTasks = userTasks.map((task, index) => {
         const { state, taskName: name, ...convertedTasks } = this.convertData(task, false, false);
-        const stateId = this.statesIds[state];
+        const stateId = this.statesIdsForUI[state.toLowerCase()];
         const userTaskId = index; // TODO REMOVE IT AFTER UPDATING API
         return { ...convertedTasks, stateId, name, userTaskId };
       });
@@ -74,6 +74,13 @@ export default class Azure {
       console.error("Can't load tasks", error.message);
       return error;
     }
+  };
+
+  onSetUserMark = async (...mark) => {
+    const [state, , TaskId, UserId] = mark;
+    const StatusId = this.statesIdsForBackend[state];
+    const result = { StatusId, TaskId, UserId };
+    console.log({ StatusId, TaskId, UserId });
   };
 
   transformMembersData = (members) => {
@@ -145,9 +152,15 @@ export default class Azure {
     return withConvertedFields;
   };
 
-  statesIds = {
-    Active: 2,
-    Done: 1,
-    Fail: 0,
+  statesIdsForUI = {
+    active: 2,
+    done: 1,
+    failed: 0,
+  };
+
+  statesIdsForBackend = {
+    active: 1,
+    success: 2,
+    fail: 3,
   };
 }

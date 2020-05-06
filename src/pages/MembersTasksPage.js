@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Firebase from '../services/Firebase';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
 import AuthContext from '../context';
-import { getUserTasks } from '../store/actions';
-
-const db = new Firebase();
+import { getUserTasks, setMark } from '../store/actions';
 
 class MembersTasksPage extends Component {
   constructor() {
@@ -42,9 +39,12 @@ class MembersTasksPage extends Component {
     });
   };
 
-  onSetMark = async (userTaskId, state) => {
-    const result = await db.onSetUserMark(userTaskId, state);
-    await this.getUserTasksData();
+  onSetMark = async (userTaskId, state, taskId) => {
+    const { onSetUserMark, match } = this.props;
+    const {
+      params: { mid: userId },
+    } = match;
+    const result = await onSetUserMark(state, userTaskId, taskId, userId);
     return result;
   };
 
@@ -73,6 +73,7 @@ MembersTasksPage.contextType = AuthContext;
 MembersTasksPage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   getAllUserTasks: PropTypes.func.isRequired,
+  onSetUserMark: PropTypes.func.isRequired,
   userTasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])))
     .isRequired,
 };
@@ -87,6 +88,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllUserTasks: (id) => {
       dispatch(getUserTasks(id));
+    },
+    onSetUserMark: (state, userTaskId, taskId, userId) => {
+      dispatch(setMark(state, userTaskId, taskId, userId));
     },
   };
 };
