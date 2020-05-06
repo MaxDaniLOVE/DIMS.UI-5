@@ -17,7 +17,7 @@ export default class Azure {
 
   addNewUser = async (user) => {
     try {
-      const newUser = this.convertNewUSer(user);
+      const newUser = this.convertData(user, true, true);
       const response = await axios.post(`${this.api}/create`, newUser);
       return response;
     } catch (error) {
@@ -29,7 +29,7 @@ export default class Azure {
   editUserData = async (user) => {
     try {
       const { id, ...data } = user;
-      const convertedData = this.convertNewUSer(data);
+      const convertedData = this.convertData(data, true, true);
       const editedUser = { id, ...convertedData };
       const response = await axios.put(`${this.api}/profile/edit/${id}`, editedUser);
       return response;
@@ -45,6 +45,17 @@ export default class Azure {
       return response;
     } catch (error) {
       console.error("Can't add member", error.message);
+      return error;
+    }
+  };
+
+  getAllTasks = async () => {
+    try {
+      const tasks = (await axios.get(`${this.api}/tasks`)).data;
+      const convertedTasks = tasks.map((task) => this.convertData(task, false, false));
+      return convertedTasks;
+    } catch (error) {
+      console.error("Can't load tasks", error.message);
       return error;
     }
   };
@@ -90,15 +101,15 @@ export default class Azure {
     return transformed;
   };
 
-  convertNewUSer = (user) => {
+  convertData = (user, isPascalCase, isDateToString) => {
     const entries = Object.entries(user);
     const withConvertedFields = {};
     entries.map((field) => {
       const [key, value] = field;
-      const newKey = key[0].toUpperCase() + key.substring(1);
+      const newKey = isPascalCase ? key[0].toUpperCase() + key.substring(1) : key[0].toLowerCase() + key.substring(1);
       let newValue = value;
       if (newKey.includes('Date')) {
-        newValue = dateToString(value);
+        newValue = isDateToString ? dateToString(value) : stringToDate(value);
       }
       if (newKey === 'Sex') {
         newValue = convertSexName(value);
