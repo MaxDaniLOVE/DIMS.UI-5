@@ -60,6 +60,22 @@ export default class Azure {
     }
   };
 
+  getUsersTasks = async (userId) => {
+    try {
+      const userTasks = (await axios.get(`${this.api}/user/tasks/${userId}`)).data;
+      const allUsersTasks = userTasks.map((task, index) => {
+        const { state, taskName: name, ...convertedTasks } = this.convertData(task, false, false);
+        const stateId = this.statesIds[state];
+        const userTaskId = index; // TODO REMOVE IT AFTER UPDATING API
+        return { ...convertedTasks, stateId, name, userTaskId };
+      });
+      return allUsersTasks;
+    } catch (error) {
+      console.error("Can't load tasks", error.message);
+      return error;
+    }
+  };
+
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
       const {
@@ -127,5 +143,11 @@ export default class Azure {
       return newValue;
     });
     return withConvertedFields;
+  };
+
+  statesIds = {
+    Active: 2,
+    Done: 1,
+    Fail: 0,
   };
 }
