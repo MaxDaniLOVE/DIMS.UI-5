@@ -91,40 +91,21 @@ export default class Azure {
 
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
-      const {
-        UserId: id,
-        FullName,
-        Email: email,
-        Direction: directionId,
-        Sex,
-        Education: education,
-        Age,
-        UniversityAverageScore: universityAverageScore,
-        MathScore: mathScore,
-        Address: address,
-        MobilePhone: mobilePhone,
-        Skype: skype,
-        StartDate,
-      } = member;
+      const { StartDate, FullName, Sex, Age, UserId: id, Direction: directionId, ...dataToTransform } = member;
       const [name, lastName] = FullName.split(' ');
       const startDate = stringToDate(StartDate);
       const birthDate = convertAge(Age);
       const sex = convertSexName(Sex);
+      const userData = this.convertData(dataToTransform, false, false);
       return {
-        address,
-        birthDate,
-        directionId,
-        education,
-        email,
         id,
+        directionId,
+        birthDate,
         lastName,
-        mathScore,
-        mobilePhone,
         name,
         sex,
-        skype,
         startDate,
-        universityAverageScore,
+        ...userData,
       };
     });
     return transformed;

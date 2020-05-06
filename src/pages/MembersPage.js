@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { getUsers, addUser, editUser, deleteUser } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
-import Firebase from '../services/Firebase';
 import { Button } from '../UI/Buttons';
 import { addCache } from '../utils/cache';
 import ModalContent from '../UI/ModalContent';
@@ -30,7 +29,6 @@ class MembersPage extends Component {
       isDetailMode: false,
       isFormValid: false,
     };
-    this.db = new Firebase();
   }
 
   componentDidMount() {

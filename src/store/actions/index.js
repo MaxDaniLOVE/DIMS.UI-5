@@ -7,14 +7,11 @@ import {
   FETCH_USER_TASKS,
   SET_USER_MARK,
 } from './actionTypes';
-import Azure from '../../services/Azure';
-import { loadCache } from '../../utils/cache';
-import Firebase from '../../services/Firebase';
+import initializeService from '../../utils/initializeService';
 
 const getUsers = () => {
   return async (dispatch) => {
-    const service = loadCache('service');
-    const api = service === 'azure' ? new Azure() : new Firebase();
+    const api = initializeService();
     try {
       const users = await api.getUsersData();
       dispatch({
@@ -29,8 +26,7 @@ const getUsers = () => {
 
 const addUser = (user) => {
   return async (dispatch) => {
-    const service = loadCache('service');
-    const api = service === 'azure' ? new Azure() : new Firebase();
+    const api = initializeService();
     try {
       await api.addNewUser(user);
       dispatch({
@@ -45,8 +41,7 @@ const addUser = (user) => {
 
 const editUser = (user) => {
   return async (dispatch) => {
-    const service = loadCache('service');
-    const api = service === 'azure' ? new Azure() : new Firebase();
+    const api = initializeService();
     try {
       await api.editUserData(user);
       dispatch({
@@ -61,8 +56,7 @@ const editUser = (user) => {
 
 const deleteUser = (id) => {
   return async (dispatch) => {
-    const service = loadCache('service');
-    const api = service === 'azure' ? new Azure() : new Firebase();
+    const api = initializeService();
     try {
       await api.deleteUser(id);
       dispatch({
@@ -78,8 +72,7 @@ const deleteUser = (id) => {
 
 const getTasks = () => {
   return async (dispatch) => {
-    const service = loadCache('service');
-    const api = service === 'azure' ? new Azure() : new Firebase();
+    const api = initializeService();
     try {
       const tasks = await api.getAllTasks();
       dispatch({
@@ -94,8 +87,7 @@ const getTasks = () => {
 
 const getUserTasks = (id) => {
   return async (dispatch) => {
-    const service = loadCache('service');
-    const api = service === 'azure' ? new Azure() : new Firebase();
+    const api = initializeService();
     try {
       const userTasks = await api.getUsersTasks(id);
       dispatch({
@@ -110,8 +102,7 @@ const getUserTasks = (id) => {
 
 const setMark = (state, userTaskId, taskId, userId) => {
   return async (dispatch) => {
-    const service = loadCache('service');
-    const api = service === 'azure' ? new Azure() : new Firebase();
+    const api = initializeService();
     try {
       await api.onSetUserMark(state, userTaskId, taskId, userId);
       dispatch({
