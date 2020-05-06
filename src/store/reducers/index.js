@@ -1,8 +1,16 @@
-import { FETCH_MEMBERS, ADD_MEMBER, EDIT_MEMBER, DELETE_USER, FETCH_TASKS } from '../actions/actionTypes';
+import {
+  FETCH_MEMBERS,
+  ADD_MEMBER,
+  EDIT_MEMBER,
+  DELETE_USER,
+  FETCH_TASKS,
+  FETCH_USER_TASKS,
+} from '../actions/actionTypes';
 
 const initialState = {
   members: [],
   tasks: [],
+  userTasks: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -23,6 +31,11 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         tasks: payload,
+      };
+    case FETCH_USER_TASKS:
+      return {
+        ...state,
+        userTasks: payload,
       };
     default:
       return state;
