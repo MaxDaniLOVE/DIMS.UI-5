@@ -39,17 +39,14 @@ class TasksManagePage extends Component {
   }
 
   async getTasksData(tid) {
-    this.db.getAllTasks().then(async (data) => {
-      const newData = [];
-      data.forEach((doc) => newData.push({ ...doc.data(), taskId: doc.id }));
-      this.setState({
-        tasks: newData,
-        isLoaded: true,
-      });
-      if (tid) {
-        await this.onEditTaskModalOpen(tid);
-      }
+    const tasks = await this.db.getAllTasks();
+    this.setState({
+      tasks,
+      isLoaded: true,
     });
+    if (tid) {
+      await this.onEditTaskModalOpen(tid);
+    }
   }
 
   onModalOpen = () => {

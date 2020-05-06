@@ -180,13 +180,16 @@ export default class Firebase {
   };
 
   getAllTasks = async () => {
-    let tasks;
     try {
-      tasks = await this.database.collection('tasks').get();
+      const tasksData = await this.database.collection('tasks').get();
+      const allTasks = tasksData.docs.map((doc) => {
+        return { ...doc.data(), taskId: doc.id };
+      });
+      return allTasks;
     } catch (error) {
-      throw new Error("Can't load tasks data. Try later.");
+      console.error("Can't load tasks data. Try later.");
+      return error;
     }
-    return tasks;
   };
 
   addNewSubtask = async (subtask) => {
