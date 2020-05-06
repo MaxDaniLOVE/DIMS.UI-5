@@ -55,6 +55,7 @@ export default class Firebase {
       return userRole.docs[0].data();
     } catch (error) {
       console.error("Can't get user role. Try later.");
+      return error;
     }
   };
 
@@ -64,6 +65,7 @@ export default class Firebase {
       return newUser;
     } catch (error) {
       console.error("Can't add new user. Try later.");
+      return error;
     }
   };
 
@@ -76,6 +78,7 @@ export default class Firebase {
       return userData.data().name;
     } catch (error) {
       console.error("Can't add new user. Try later.");
+      return error;
     }
   };
 
@@ -88,6 +91,7 @@ export default class Firebase {
       return userData.data();
     } catch (error) {
       console.error("Can't get user data. Try later.");
+      return error;
     }
   };
 
@@ -100,6 +104,7 @@ export default class Firebase {
       return allUsers;
     } catch (error) {
       console.error("Can't get users data. Try later.");
+      return error;
     }
   };
 
@@ -221,6 +226,7 @@ export default class Firebase {
       return task.id;
     } catch (error) {
       console.error("Can't add new tasks. Try later.");
+      return error;
     }
   };
 
@@ -231,6 +237,7 @@ export default class Firebase {
       return task.id;
     } catch (error) {
       console.error("Can't add new user tasks. Try later.");
+      return error;
     }
   };
 
@@ -264,6 +271,7 @@ export default class Firebase {
       return userTasks.docs.map((task) => task.data().userId);
     } catch (error) {
       console.error("Can't get assigned users. Try later.");
+      return error;
     }
   };
 
@@ -353,6 +361,7 @@ export default class Firebase {
       return 'updated';
     } catch (error) {
       console.error("Can't set mark. Try later.");
+      return error;
     }
   };
 }

@@ -21,7 +21,7 @@ export default class Authentication {
   };
 
   onStatusChanged = async () => {
-    const isLoggedIn = await new Promise((res) => {
+    const isLoggedIn = await new Promise((resolve) => {
       this.auth.onAuthStateChanged(async (user) => {
         if (user) {
           let userRole = await db.getUserRole(user.email);
@@ -29,18 +29,20 @@ export default class Authentication {
             const additionalData = await db.getUserDataByEmail(user.email);
             userRole = { ...userRole, ...additionalData };
           }
-          res({
+          resolve({
             isLoggedIn: true,
             ...userRole,
           });
         } else {
-          res({
+          resolve({
             isLoggedIn: false,
           });
         }
       });
     });
+
     addCache('members', []);
+
     return isLoggedIn;
   };
 
@@ -51,6 +53,7 @@ export default class Authentication {
       return userRole;
     } catch (error) {
       console.error(error.message);
+      return error;
     }
   };
 

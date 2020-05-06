@@ -11,6 +11,7 @@ export default class Azure {
       return this.transformMembersData(members);
     } catch (error) {
       console.error("Can't load members", error.message);
+      return error;
     }
   };
 
@@ -21,6 +22,7 @@ export default class Azure {
       return response;
     } catch (error) {
       console.error("Can't add member", error.message);
+      return error;
     }
   };
 
@@ -33,6 +35,7 @@ export default class Azure {
       return response;
     } catch (error) {
       console.error("Can't update member", error.message);
+      return error;
     }
   };
 
@@ -42,6 +45,7 @@ export default class Azure {
       return response;
     } catch (error) {
       console.error("Can't add member", error.message);
+      return error;
     }
   };
 
@@ -109,6 +113,7 @@ export default class Azure {
         newValue = ids[value];
       }
       withConvertedFields[newKey] = newValue;
+      return newValue;
     });
     return withConvertedFields;
   };

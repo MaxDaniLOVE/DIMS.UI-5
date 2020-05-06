@@ -17,7 +17,6 @@ import { membersInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
 import { stringToDate, dateToString } from '../utils/convertDate';
 import AuthContext from '../context';
-import { DangerAlert } from '../UI/Alerts';
 
 class MembersPage extends Component {
   constructor() {
@@ -30,7 +29,6 @@ class MembersPage extends Component {
       isEditMode: false,
       isDetailMode: false,
       isFormValid: false,
-      showAlert: false,
     };
     this.db = new Firebase();
   }
@@ -56,14 +54,6 @@ class MembersPage extends Component {
   };
 
   onModalOpen = () => {
-    const {
-      user: { role },
-    } = this.context;
-    if (role === 'MENTOR') {
-      return this.setState({
-        showAlert: true,
-      });
-    }
     return this.setState({
       showModal: true,
     });
@@ -101,14 +91,6 @@ class MembersPage extends Component {
   };
 
   onEditMemberModalOpen = (userId) => {
-    const {
-      user: { role },
-    } = this.context;
-    if (role === 'MENTOR') {
-      return this.setState({
-        showAlert: true,
-      });
-    }
     const { members } = this.state;
     const editedUser = members.find(({ id }) => id === userId);
     const { birthDate, startDate } = editedUser;
@@ -139,23 +121,9 @@ class MembersPage extends Component {
   };
 
   onUserDelete = async (userId) => {
-    const {
-      user: { role },
-    } = this.context;
-    if (role === 'MENTOR') {
-      return this.setState({
-        showAlert: true,
-      });
-    }
     const { deleteUserData } = this.props;
     const response = await deleteUserData(userId);
     return response;
-  };
-
-  onAlertClose = () => {
-    this.setState({
-      showAlert: false,
-    });
   };
 
   onSubmit = () => {
@@ -164,8 +132,10 @@ class MembersPage extends Component {
   };
 
   render() {
-    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid, showAlert } = this.state;
-    const btnStyles = { marginBottom: '1rem' };
+    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid } = this.state;
+    const {
+      user: { role },
+    } = this.context;
     const modalHeader =
       isEditMode || isDetailMode ? <h3>{`${registerData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
     return (
@@ -194,18 +164,18 @@ class MembersPage extends Component {
         </Modal>
         {isLoaded ? (
           <>
-            <Button customClass='with-margin' customStyles={btnStyles} onClick={this.onModalOpen}>
-              Register
-            </Button>
+            {role === 'ADMIN' ? (
+              <Button customClass='with-margin' onClick={this.onModalOpen}>
+                Register
+              </Button>
+            ) : null}
             <MembersTable
               members={members}
               onEditMemberModalOpen={this.onEditMemberModalOpen}
               onMemberDataOpen={this.onMemberDataOpen}
               onUserDelete={this.onUserDelete}
+              role={role}
             />
-            <DangerAlert isOpen={showAlert} toggle={this.onAlertClose}>
-              This feature available only for admin
-            </DangerAlert>
           </>
         ) : (
           <Preloader />
