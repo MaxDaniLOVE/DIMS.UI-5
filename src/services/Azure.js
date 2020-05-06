@@ -77,10 +77,16 @@ export default class Azure {
   };
 
   onSetUserMark = async (...mark) => {
-    const [state, , TaskId, UserId] = mark;
-    const StatusId = this.statesIdsForBackend[state];
-    const result = { StatusId, TaskId, UserId };
-    console.log({ StatusId, TaskId, UserId });
+    try {
+      const [state, , TaskId, UserId] = mark;
+      const StatusId = this.statesIdsForBackend[state];
+      const result = { TaskId, UserId, StatusId };
+      const response = axios.put(`${this.api}/user/task`, result);
+      return response;
+    } catch (error) {
+      console.error("Can't set mark", error.message);
+      return error;
+    }
   };
 
   transformMembersData = (members) => {
