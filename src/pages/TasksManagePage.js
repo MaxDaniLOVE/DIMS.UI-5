@@ -193,17 +193,11 @@ TasksManagePage.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ tasks }) => {
-  return {
-    tasks,
-  };
-};
+const mapStateToProps = ({ tasks }) => ({ tasks });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllTasks: () => {
-      dispatch(getTasks());
-    },
+    getAllTasks: () => dispatch(getTasks()),
   };
 };
 

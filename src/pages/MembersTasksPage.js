@@ -78,20 +78,12 @@ MembersTasksPage.propTypes = {
     .isRequired,
 };
 
-const mapStateToProps = ({ userTasks }) => {
-  return {
-    userTasks,
-  };
-};
+const mapStateToProps = ({ userTasks }) => ({ userTasks });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllUserTasks: (id) => {
-      dispatch(getUserTasks(id));
-    },
-    onSetUserMark: (state, userTaskId, taskId, userId) => {
-      dispatch(setMark(state, userTaskId, taskId, userId));
-    },
+    getAllUserTasks: (id) => dispatch(getUserTasks(id)),
+    onSetUserMark: (state, userTaskId, taskId, userId) => dispatch(setMark(state, userTaskId, taskId, userId)),
   };
 };
 

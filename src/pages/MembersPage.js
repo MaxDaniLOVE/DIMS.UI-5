@@ -185,26 +185,14 @@ class MembersPage extends Component {
 
 MembersPage.contextType = AuthContext;
 
-const mapStateToProps = ({ members }) => {
-  return {
-    members,
-  };
-};
+const mapStateToProps = ({ members }) => ({ members });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersData: () => {
-      dispatch(getUsers());
-    },
-    addNewUser: (user) => {
-      dispatch(addUser(user));
-    },
-    editUserData: (user) => {
-      dispatch(editUser(user));
-    },
-    deleteUserData: (id) => {
-      dispatch(deleteUser(id));
-    },
+    getUsersData: () => dispatch(getUsers()),
+    addNewUser: (user) => dispatch(addUser(user)),
+    editUserData: (user) => dispatch(editUser(user)),
+    deleteUserData: (id) => dispatch(deleteUser(id)),
   };
 };
 
