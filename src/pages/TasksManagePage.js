@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Modal } from 'reactstrap';
 import Firebase from '../services/Firebase';
 import Preloader from '../components/Preloader';
@@ -13,6 +14,7 @@ import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { stringToDate, dateToString } from '../utils/convertDate';
+import { getTasks } from '../store/actions';
 
 class TasksManagePage extends Component {
   constructor() {
@@ -38,10 +40,17 @@ class TasksManagePage extends Component {
     this.getTasksData(tid);
   }
 
-  async getTasksData(tid) {
-    const tasks = await this.db.getAllTasks();
-    this.setState({
+  static getDerivedStateFromProps(nextProps) {
+    const { tasks } = nextProps;
+    return {
       tasks,
+    };
+  }
+
+  async getTasksData(tid) {
+    const { getAllTasks } = this.props;
+    await getAllTasks();
+    this.setState({
       isLoaded: true,
     });
     if (tid) {
@@ -180,6 +189,22 @@ class TasksManagePage extends Component {
 
 TasksManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  getAllTasks: PropTypes.func.isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-export default TasksManagePage;
+const mapStateToProps = ({ tasks }) => {
+  return {
+    tasks,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllTasks: () => {
+      dispatch(getTasks());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TasksManagePage);
