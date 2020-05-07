@@ -124,12 +124,13 @@ export default class Azure {
 
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
-      const { StartDate, FullName, Sex, Age, UserId: id, Direction: directionId, ...dataToTransform } = member;
+      const { StartDate, FullName, Sex, Age, UserId, Direction: directionId, ...dataToTransform } = member;
       const [name, lastName] = FullName.split(' ');
       const startDate = stringToDate(StartDate);
       const birthDate = convertAge(Age);
       const sex = convertSexName(Sex);
       const userData = this.convertData(dataToTransform, false, false);
+      const id = `${UserId}`;
       return {
         id,
         directionId,
