@@ -7,6 +7,7 @@ import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
 import AuthContext from '../context';
 import { getUserTasks, setMark } from '../store/actions';
+import EmptyTableMessage from '../UI/EmptyTableMessage';
 
 class MembersTasksPage extends Component {
   constructor() {
@@ -53,6 +54,11 @@ class MembersTasksPage extends Component {
     const {
       user: { role },
     } = this.context;
+    if (!userTasks.length) {
+      return (
+        <EmptyTableMessage>It looks like you have no tasks! Please contact your mentor or admin</EmptyTableMessage>
+      );
+    }
     return (
       <Layout>
         {isLoaded ? (
