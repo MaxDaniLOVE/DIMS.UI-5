@@ -14,7 +14,7 @@ import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { stringToDate, dateToString } from '../utils/convertDate';
-import { getTasks, addTask } from '../store/actions';
+import { getTasks, addTask, deleteTask } from '../store/actions';
 
 class TasksManagePage extends Component {
   constructor() {
@@ -76,7 +76,8 @@ class TasksManagePage extends Component {
   };
 
   onDeleteTask = async (taskId) => {
-    await this.db.deleteTask(taskId);
+    const { deleteTaskById } = this.props;
+    await deleteTaskById(taskId);
     this.getTasksData();
   };
 
@@ -193,6 +194,7 @@ TasksManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   getAllTasks: PropTypes.func.isRequired,
   addNewTask: PropTypes.func.isRequired,
+  deleteTaskById: PropTypes.func.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
@@ -202,6 +204,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllTasks: () => dispatch(getTasks()),
     addNewTask: (task) => dispatch(addTask(task)),
+    deleteTaskById: (id) => dispatch(deleteTask(id)),
   };
 };
 

@@ -44,7 +44,7 @@ export default class Azure {
       const response = await axios.delete(`${this.api}/profile/delete/${id}`);
       return response;
     } catch (error) {
-      console.error("Can't add member", error.message);
+      console.error("Can't delete member", error.message);
       return error;
     }
   };
@@ -96,6 +96,16 @@ export default class Azure {
       return response;
     } catch (error) {
       console.error("Can't add task", error.message);
+      return error;
+    }
+  };
+
+  deleteTask = async (id) => {
+    try {
+      const response = await axios.delete(`${this.api}/task/delete/${id}`);
+      return response;
+    } catch (error) {
+      console.error("Can't delete task", error.message);
       return error;
     }
   };
