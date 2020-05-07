@@ -89,6 +89,17 @@ export default class Azure {
     }
   };
 
+  addNewTask = async (task) => {
+    try {
+      const newTask = this.convertData(task, true, true);
+      const response = await axios.post(`${this.api}/task/create`, newTask);
+      return response;
+    } catch (error) {
+      console.error("Can't add task", error.message);
+      return error;
+    }
+  };
+
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
       const { StartDate, FullName, Sex, Age, UserId: id, Direction: directionId, ...dataToTransform } = member;

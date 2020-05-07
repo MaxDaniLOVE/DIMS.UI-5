@@ -6,6 +6,7 @@ import {
   FETCH_TASKS,
   FETCH_USER_TASKS,
   SET_USER_MARK,
+  ADD_TASK,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 
@@ -114,4 +115,20 @@ const setMark = (state, userTaskId, taskId, userId) => {
     }
   };
 };
-export { getUsers, addUser, editUser, deleteUser, getTasks, getUserTasks, setMark };
+
+const addTask = (task) => {
+  return async (dispatch) => {
+    const api = initializeService();
+    try {
+      await api.addNewTask(task);
+      dispatch({
+        type: ADD_TASK,
+      });
+      dispatch(getTasks());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export { getUsers, addUser, editUser, deleteUser, getTasks, getUserTasks, setMark, addTask };

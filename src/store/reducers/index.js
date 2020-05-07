@@ -6,6 +6,7 @@ import {
   FETCH_TASKS,
   FETCH_USER_TASKS,
   SET_USER_MARK,
+  ADD_TASK,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -39,6 +40,8 @@ const reducer = (state = initialState, { type, payload }) => {
         userTasks: payload,
       };
     case SET_USER_MARK:
+      return { ...state };
+    case ADD_TASK:
       return { ...state };
     default:
       return state;

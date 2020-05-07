@@ -14,7 +14,7 @@ import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { stringToDate, dateToString } from '../utils/convertDate';
-import { getTasks } from '../store/actions';
+import { getTasks, addTask } from '../store/actions';
 
 class TasksManagePage extends Component {
   constructor() {
@@ -100,18 +100,20 @@ class TasksManagePage extends Component {
   };
 
   onAddTask = async (task) => {
+    const { addNewTask } = this.props;
     const { deadlineDate, startDate } = task;
     const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
     this.onModalClose();
-    const taskId = await this.db.addNewTask(newTask);
-    assignedMembers.map(async (userId) => {
-      const userTask = { state: 'active', taskId, userId };
-      const { name } = task;
-      const firstSubtask = await this.db.createFirstSubtask(name, userId, taskId);
-      await this.db.addNewSubtask(firstSubtask);
-      await this.db.addUserTask(userTask);
-    });
+    const taskId = await addNewTask(newTask);
+    // TODO add assigning after api will be updated
+    // assignedMembers.map(async (userId) => {
+    //   const userTask = { state: 'active', taskId, userId };
+    //   const { name } = task;
+    //   const firstSubtask = await this.db.createFirstSubtask(name, userId, taskId);
+    //   await this.db.addNewSubtask(firstSubtask);
+    //   await this.db.addUserTask(userTask);
+    // });
     this.getTasksData();
   };
 
@@ -190,6 +192,7 @@ class TasksManagePage extends Component {
 TasksManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   getAllTasks: PropTypes.func.isRequired,
+  addNewTask: PropTypes.func.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
@@ -198,6 +201,7 @@ const mapStateToProps = ({ tasks }) => ({ tasks });
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllTasks: () => dispatch(getTasks()),
+    addNewTask: (task) => dispatch(addTask(task)),
   };
 };
 
