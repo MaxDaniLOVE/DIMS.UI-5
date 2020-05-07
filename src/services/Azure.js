@@ -122,6 +122,41 @@ export default class Azure {
     }
   };
 
+  isUserExists = async (userEmail) => {
+    try {
+      const userData = await this.getUsersData();
+      const isUserExists = userData.filter(({ email }) => email === userEmail);
+      return true && isUserExists;
+    } catch (error) {
+      console.error('An error occured', error.message);
+      return error;
+    }
+  };
+
+  getUserRole = (email) => {
+    switch (email) {
+      case 'admin@gmail.com':
+        return { email, role: 'ADMIN' };
+      case 'mentor@gmail.com':
+        return { email, role: 'MENTOR' };
+      default:
+        return { email, role: 'USER' };
+    }
+  };
+
+  getUserDataByEmail = async (userEmail) => {
+    try {
+      const userData = await this.getUsersData();
+      const { email, id: userId, name: userName } = userData.filter(
+        ({ email: fetchedMail }) => fetchedMail === userEmail,
+      )[0];
+      return { email, userId, userName };
+    } catch (error) {
+      console.error('An error occured', error.message);
+      return error;
+    }
+  };
+
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
       const { StartDate, FullName, Sex, Age, UserId, Direction: directionId, ...dataToTransform } = member;

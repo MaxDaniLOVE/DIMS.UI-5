@@ -1,18 +1,17 @@
 import firebase from 'firebase';
-import Firebase from './Firebase';
 import { addCache } from '../utils/cache';
-
-const db = new Firebase();
+import initializeService from '../utils/initializeService';
 
 export default class Authentication {
   auth = firebase.auth();
 
   registerNewUser = async ({ email, password }) => {
+    const api = initializeService();
     try {
-      const isUserAddedToDb = await db.isUserExists(email);
+      const isUserAddedToDb = await api.isUserExists(email);
       if (isUserAddedToDb) {
         await this.auth.createUserWithEmailAndPassword(email, password);
-        const userRole = await db.getUserRole(email);
+        const userRole = await api.getUserRole(email);
         return userRole;
       }
     } catch (error) {
@@ -22,11 +21,13 @@ export default class Authentication {
 
   onStatusChanged = async () => {
     const isLoggedIn = await new Promise((resolve) => {
+      const api = initializeService();
+      console.log(api);
       this.auth.onAuthStateChanged(async (user) => {
         if (user) {
-          let userRole = await db.getUserRole(user.email);
+          let userRole = await api.getUserRole(user.email);
           if (userRole.role === 'USER') {
-            const additionalData = await db.getUserDataByEmail(user.email);
+            const additionalData = await api.getUserDataByEmail(user.email);
             userRole = { ...userRole, ...additionalData };
           }
           resolve({
@@ -48,8 +49,9 @@ export default class Authentication {
 
   login = async ({ email, password }) => {
     try {
+      const api = initializeService();
       await this.auth.signInWithEmailAndPassword(email, password);
-      const userRole = await db.getUserRole(email);
+      const userRole = await api.getUserRole(email);
       return userRole;
     } catch (error) {
       console.error(error.message);
