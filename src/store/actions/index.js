@@ -8,6 +8,7 @@ import {
   SET_USER_MARK,
   ADD_TASK,
   DELETE_TASK,
+  EDIT_TASK,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 
@@ -121,13 +122,15 @@ const addTask = (task) => {
   return async (dispatch) => {
     const api = initializeService();
     try {
-      await api.addNewTask(task);
+      const response = await api.addNewTask(task);
       dispatch({
         type: ADD_TASK,
       });
       dispatch(getTasks());
+      return response;
     } catch (error) {
       console.error(error);
+      return error;
     }
   };
 };
@@ -147,4 +150,19 @@ const deleteTask = (task) => {
   };
 };
 
-export { getUsers, addUser, editUser, deleteUser, getTasks, getUserTasks, setMark, addTask, deleteTask };
+const editTask = (newTask, assignedMembers) => {
+  return async (dispatch) => {
+    const api = initializeService();
+    try {
+      await api.editTask(newTask, assignedMembers);
+      dispatch({
+        type: EDIT_TASK,
+      });
+      dispatch(getTasks());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export { getUsers, addUser, editUser, deleteUser, getTasks, getUserTasks, setMark, addTask, deleteTask, editTask };

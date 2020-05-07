@@ -7,6 +7,7 @@ const FETCH_USER_TASKS = 'FETCH_USER_TASKS';
 const SET_USER_MARK = 'SET_USER_MARK';
 const ADD_TASK = 'ADD_TASK';
 const DELETE_TASK = 'DELETE_TASK';
+const EDIT_TASK = 'EDIT_TASK';
 
 export {
   FETCH_MEMBERS,
@@ -18,4 +19,5 @@ export {
   SET_USER_MARK,
   ADD_TASK,
   DELETE_TASK,
+  EDIT_TASK,
 };

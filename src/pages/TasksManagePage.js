@@ -14,7 +14,7 @@ import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { stringToDate, dateToString } from '../utils/convertDate';
-import { getTasks, addTask, deleteTask } from '../store/actions';
+import { getTasks, addTask, deleteTask, editTask } from '../store/actions';
 
 class TasksManagePage extends Component {
   constructor() {
@@ -133,10 +133,11 @@ class TasksManagePage extends Component {
   };
 
   onSubmitEditTask = async (task) => {
+    const { editTaskById } = this.props;
     const { deadlineDate, startDate } = task;
     const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
-    await this.db.editTask(newTask, assignedMembers);
+    await editTaskById(newTask, assignedMembers);
     this.getTasksData();
     this.onModalClose();
   };
@@ -195,6 +196,7 @@ TasksManagePage.propTypes = {
   getAllTasks: PropTypes.func.isRequired,
   addNewTask: PropTypes.func.isRequired,
   deleteTaskById: PropTypes.func.isRequired,
+  editTaskById: PropTypes.func.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
@@ -205,6 +207,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllTasks: () => dispatch(getTasks()),
     addNewTask: (task) => dispatch(addTask(task)),
     deleteTaskById: (id) => dispatch(deleteTask(id)),
+    editTaskById: (id, assignedMembers) => dispatch(editTask(id, assignedMembers)),
   };
 };
 

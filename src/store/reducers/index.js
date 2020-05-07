@@ -8,6 +8,7 @@ import {
   SET_USER_MARK,
   ADD_TASK,
   DELETE_TASK,
+  EDIT_TASK,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -45,6 +46,8 @@ const reducer = (state = initialState, { type, payload }) => {
     case ADD_TASK:
       return { ...state };
     case DELETE_TASK:
+      return { ...state };
+    case EDIT_TASK:
       return { ...state };
     default:
       return state;

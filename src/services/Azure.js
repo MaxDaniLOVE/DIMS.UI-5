@@ -110,6 +110,18 @@ export default class Azure {
     }
   };
 
+  editTask = async (task, assignedMembers) => {
+    try {
+      const newTask = this.convertData(task, true, true);
+      const response = await axios.put(`${this.api}/task/edit`, newTask);
+      console.log(assignedMembers);
+      return response;
+    } catch (error) {
+      console.error("Can't update task", error.message);
+      return error;
+    }
+  };
+
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
       const { StartDate, FullName, Sex, Age, UserId: id, Direction: directionId, ...dataToTransform } = member;
