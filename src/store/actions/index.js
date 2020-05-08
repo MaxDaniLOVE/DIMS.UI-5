@@ -118,11 +118,11 @@ const setMark = (state, userTaskId, taskId, userId) => {
   };
 };
 
-const addTask = (task) => {
+const addTask = (task, assignedMembers) => {
   return async (dispatch) => {
     const api = initializeService();
     try {
-      const response = await api.addNewTask(task);
+      const response = await api.addNewTask(task, assignedMembers);
       dispatch({
         type: ADD_TASK,
       });

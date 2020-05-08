@@ -223,10 +223,18 @@ export default class Firebase {
     }
   };
 
-  addNewTask = async (newTask) => {
+  addNewTask = async (newTask, assignedMembers) => {
     try {
       const task = await this.database.collection('tasks').add(newTask);
-      return task.id;
+      const taskId = task.id;
+      assignedMembers.map(async (userId) => {
+        const userTask = { state: 'active', taskId, userId };
+        const { name } = newTask;
+        const firstSubtask = await this.createFirstSubtask(name, userId, taskId);
+        await this.addNewSubtask(firstSubtask);
+        await this.addUserTask(userTask);
+      });
+      return taskId;
     } catch (error) {
       console.error("Can't add new tasks. Try later.");
       return error;

@@ -106,16 +106,9 @@ class TasksManagePage extends Component {
     const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
     this.onModalClose();
-    const taskId = await addNewTask(newTask);
-    // TODO add assigning after api will be updated
-    // assignedMembers.map(async (userId) => {
-    //   const userTask = { state: 'active', taskId, userId };
-    //   const { name } = task;
-    //   const firstSubtask = await this.db.createFirstSubtask(name, userId, taskId);
-    //   await this.db.addNewSubtask(firstSubtask);
-    //   await this.db.addUserTask(userTask);
-    // });
+    const taskId = await addNewTask(newTask, assignedMembers);
     this.getTasksData();
+    return taskId;
   };
 
   onEditTaskModalOpen = async (id) => {
@@ -205,7 +198,7 @@ const mapStateToProps = ({ tasks }) => ({ tasks });
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllTasks: () => dispatch(getTasks()),
-    addNewTask: (task) => dispatch(addTask(task)),
+    addNewTask: (task, assignedMembers) => dispatch(addTask(task, assignedMembers)),
     deleteTaskById: (id) => dispatch(deleteTask(id)),
     editTaskById: (id, assignedMembers) => dispatch(editTask(id, assignedMembers)),
   };
