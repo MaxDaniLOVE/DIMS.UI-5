@@ -14,18 +14,15 @@ import FormModal from '../components/FormModal';
 import { validation } from '../utils/validation';
 import AuthContext from '../context';
 import { stringToDate, dateToString } from '../utils/convertDate';
+import pagesInitialState from '../utils/pagesInitialState';
 
 class TasksTrackManagePage extends Component {
   constructor() {
     super();
     this.state = {
       progress: [],
-      isLoaded: false,
-      showModal: false,
-      isEditMode: false,
-      isDetailMode: false,
       subtaskData: defaultSubtaskData,
-      isFormValid: false,
+      ...pagesInitialState,
     };
     this.db = new Firebase();
   }

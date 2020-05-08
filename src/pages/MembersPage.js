@@ -16,17 +16,14 @@ import { membersInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
 import { stringToDate, dateToString } from '../utils/convertDate';
 import AuthContext from '../context';
+import pagesInitialState from '../utils/pagesInitialState';
 
 class MembersPage extends Component {
   constructor() {
     super();
     this.state = {
-      isLoaded: false,
-      showModal: false,
       registerData: defaultRegisterData,
-      isEditMode: false,
-      isDetailMode: false,
-      isFormValid: false,
+      ...pagesInitialState,
     };
   }
 

@@ -15,18 +15,15 @@ import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { stringToDate, dateToString } from '../utils/convertDate';
 import { getTasks, addTask, deleteTask, editTask } from '../store/actions';
+import pagesInitialState from '../utils/pagesInitialState';
 
 class TasksManagePage extends Component {
   constructor() {
     super();
     this.state = {
-      isLoaded: false,
-      showModal: false,
-      isEditMode: false,
-      isDetailMode: false,
       taskData: defaultTaskData,
-      isFormValid: false,
       assignedMembers: [],
+      ...pagesInitialState,
     };
     this.db = new Firebase();
   }
