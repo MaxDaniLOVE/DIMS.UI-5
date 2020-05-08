@@ -90,7 +90,7 @@ export default class Azure {
   };
 
   addNewTask = async (task, assignedMembers) => {
-    console.log(assignedMembers);
+    // TODO add assigning members after fixing backend
     try {
       const newTask = this.convertData(task, true, true);
       const response = await axios.post(`${this.api}/task/create`, newTask);

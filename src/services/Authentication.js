@@ -22,7 +22,6 @@ export default class Authentication {
   onStatusChanged = async () => {
     const isLoggedIn = await new Promise((resolve) => {
       const api = initializeService();
-      console.log(api);
       this.auth.onAuthStateChanged(async (user) => {
         if (user) {
           let userRole = await api.getUserRole(user.email);
