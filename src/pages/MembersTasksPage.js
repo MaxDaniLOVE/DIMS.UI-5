@@ -13,20 +13,12 @@ class MembersTasksPage extends Component {
   constructor() {
     super();
     this.state = {
-      userTasks: [],
       isLoaded: false,
     };
   }
 
   componentDidMount() {
     this.getUserTasksData();
-  }
-
-  static getDerivedStateFromProps(nextProps) {
-    const { userTasks } = nextProps;
-    return {
-      userTasks,
-    };
   }
 
   getUserTasksData = async () => {
@@ -50,7 +42,8 @@ class MembersTasksPage extends Component {
   };
 
   render() {
-    const { userTasks, isLoaded } = this.state;
+    const { isLoaded } = this.state;
+    const { userTasks } = this.props;
     const {
       user: { role },
     } = this.context;

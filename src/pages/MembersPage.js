@@ -21,7 +21,6 @@ class MembersPage extends Component {
   constructor() {
     super();
     this.state = {
-      members: [],
       isLoaded: false,
       showModal: false,
       registerData: defaultRegisterData,
@@ -35,12 +34,9 @@ class MembersPage extends Component {
     this.getMembersData();
   }
 
-  static getDerivedStateFromProps(nextProps) {
-    const { members } = nextProps;
+  componentDidUpdate() {
+    const { members } = this.props;
     addCache('members', members);
-    return {
-      members,
-    };
   }
 
   getMembersData = async () => {
@@ -89,7 +85,7 @@ class MembersPage extends Component {
   };
 
   onEditMemberModalOpen = (userId) => {
-    const { members } = this.state;
+    const { members } = this.props;
     const editedUser = members.find(({ id }) => id === userId);
     const { birthDate, startDate } = editedUser;
     this.onModalOpen();
@@ -109,7 +105,7 @@ class MembersPage extends Component {
   };
 
   onMemberDataOpen = (userId) => {
-    const { members } = this.state;
+    const { members } = this.props;
     const editedUser = members.find(({ id }) => id === userId);
     this.setState({
       showModal: true,
@@ -130,10 +126,11 @@ class MembersPage extends Component {
   };
 
   render() {
-    const { members, isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid } = this.state;
+    const { isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid } = this.state;
     const {
       user: { role },
     } = this.context;
+    const { members } = this.props;
     const modalHeader =
       isEditMode || isDetailMode ? <h3>{`${registerData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
     return (

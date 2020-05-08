@@ -20,7 +20,6 @@ class TasksManagePage extends Component {
   constructor() {
     super();
     this.state = {
-      tasks: [],
       isLoaded: false,
       showModal: false,
       isEditMode: false,
@@ -38,13 +37,6 @@ class TasksManagePage extends Component {
       params: { tid },
     } = match;
     this.getTasksData(tid);
-  }
-
-  static getDerivedStateFromProps(nextProps) {
-    const { tasks } = nextProps;
-    return {
-      tasks,
-    };
   }
 
   async getTasksData(tid) {
@@ -112,7 +104,7 @@ class TasksManagePage extends Component {
   };
 
   onEditTaskModalOpen = async (id) => {
-    const { tasks } = this.state;
+    const { tasks } = this.props;
     const editedTask = tasks.find(({ taskId }) => taskId === id);
     const assignedMembers = await this.db.getAssignedUsers(id);
     const { deadlineDate, startDate } = editedTask;
@@ -141,7 +133,8 @@ class TasksManagePage extends Component {
   };
 
   render() {
-    const { tasks, isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData, assignedMembers } = this.state;
+    const { isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData, assignedMembers } = this.state;
+    const { tasks } = this.props;
     const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${taskData.name}:`}</h3> : <h3>Add new task:</h3>;
     return (
       <div className='table-wrapper'>
