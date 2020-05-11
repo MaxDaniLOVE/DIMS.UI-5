@@ -24,13 +24,6 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         members: payload,
       };
-    case ADD_MEMBER:
-      return { ...state };
-    case EDIT_MEMBER:
-      return { ...state };
-    case DELETE_USER: {
-      return { ...state };
-    }
     case FETCH_TASKS:
       return {
         ...state,
@@ -41,12 +34,12 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         userTasks: payload,
       };
+    case ADD_MEMBER:
+    case EDIT_MEMBER:
+    case DELETE_USER:
     case SET_USER_MARK:
-      return { ...state };
     case ADD_TASK:
-      return { ...state };
     case DELETE_TASK:
-      return { ...state };
     case EDIT_TASK:
       return { ...state };
     default:

@@ -7,7 +7,7 @@ export default class Azure {
 
   getUsersData = async () => {
     try {
-      const members = (await axios.get(`${this.api}/profiles`)).data;
+      const { data: members } = await axios.get(`${this.api}/profiles`);
       return this.transformMembersData(members);
     } catch (error) {
       console.error("Can't load members", error.message);
@@ -62,7 +62,7 @@ export default class Azure {
 
   getUsersTasks = async (userId) => {
     try {
-      const userTasks = (await axios.get(`${this.api}/user/tasks/${userId}`)).data;
+      const { data: userTasks } = await axios.get(`${this.api}/user/tasks/${userId}`);
       const allUsersTasks = userTasks.map((task, index) => {
         const { state, taskName: name, ...convertedTasks } = this.convertData(task, false, false);
         const stateId = this.statesIdsForUI[state.toLowerCase()];
@@ -135,10 +135,11 @@ export default class Azure {
   };
 
   getUserRole = (email) => {
+    const { REACT_APP_ADMIN_MAIL, REACT_APP_MENTOR_MAIL } = process.env;
     switch (email) {
-      case 'admin@gmail.com':
+      case REACT_APP_ADMIN_MAIL:
         return { email, role: 'ADMIN' };
-      case 'mentor@gmail.com':
+      case REACT_APP_MENTOR_MAIL:
         return { email, role: 'MENTOR' };
       default:
         return { email, role: 'USER' };

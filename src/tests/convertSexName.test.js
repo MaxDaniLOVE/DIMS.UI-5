@@ -1,7 +1,7 @@
 import convertSexName from '../utils/convertSexName';
 
-describe('Returns sex name', () => {
-  it("should return 'Male'", () => {
+describe('Returns users gender', () => {
+  it("should return 'Male' for 'M'", () => {
     const givenValue = 'M';
 
     const expected = 'Male';
@@ -10,7 +10,7 @@ describe('Returns sex name', () => {
 
     expect(result).toBe(expected);
   });
-  it("should return 'M'", () => {
+  it("should return 'M' for 'Male'", () => {
     const givenValue = 'Male';
 
     const expected = 'M';
@@ -19,7 +19,7 @@ describe('Returns sex name', () => {
 
     expect(result).toBe(expected);
   });
-  it("should return 'Female'", () => {
+  it("should return 'Female' for 'F'", () => {
     const givenValue = 'F';
 
     const expected = 'Female';
@@ -28,7 +28,7 @@ describe('Returns sex name', () => {
 
     expect(result).toBe(expected);
   });
-  it("should return 'F'", () => {
+  it("should return 'F' for 'Female'", () => {
     const givenValue = 'Female';
 
     const expected = 'F';

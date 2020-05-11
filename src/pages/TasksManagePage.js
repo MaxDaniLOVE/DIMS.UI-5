@@ -36,14 +36,14 @@ class TasksManagePage extends Component {
     this.getTasksData(tid);
   }
 
-  async getTasksData(tid) {
+  async getTasksData(taskId) {
     const { getAllTasks } = this.props;
     await getAllTasks();
     this.setState({
       isLoaded: true,
     });
-    if (tid) {
-      await this.onEditTaskModalOpen(tid);
+    if (taskId) {
+      await this.onEditTaskModalOpen(taskId);
     }
   }
 
