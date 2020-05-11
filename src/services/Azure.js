@@ -127,7 +127,7 @@ export default class Azure {
     try {
       const userData = await this.getUsersData();
       const isUserExists = userData.filter(({ email }) => email === userEmail);
-      return true && isUserExists;
+      return isUserExists;
     } catch (error) {
       console.error('An error occured', error.message);
       return error;

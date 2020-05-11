@@ -4,12 +4,9 @@ import { addCache, loadCache } from '../../utils/cache';
 import './serviceToggle.scss';
 
 class ServiceToggle extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isChecked: false,
-    };
-  }
+  state = {
+    isChecked: false,
+  };
 
   componentDidMount() {
     const service = loadCache('service');

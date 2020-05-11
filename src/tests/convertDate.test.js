@@ -6,6 +6,7 @@ import {
   getCurrentYear,
   getCurrentDate,
   convertAge,
+  getCurrentDateInMs,
 } from '../utils/convertDate';
 
 describe('Converting dates', () => {
@@ -87,5 +88,12 @@ describe('Converting dates', () => {
     const result = convertAge(givenAge);
 
     expect(result).toBeGreaterThan(expectedDate);
+  });
+  it('should return current date in ms', () => {
+    const expectedDate = new Date().getTime();
+
+    const result = getCurrentDateInMs();
+
+    expect(result).toBe(expectedDate);
   });
 });

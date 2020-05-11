@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import firebaseConfig from './firebase.config';
+import { getCurrentDateInMs } from '../utils/convertDate';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -333,7 +334,7 @@ export default class Firebase {
 
   createFirstSubtask = async (taskName, userId, taskId) => {
     const userName = await this.getUserName(userId);
-    const trackDate = new Date().getTime();
+    const trackDate = getCurrentDateInMs();
     const trackNote = 'Recieve new task';
     const firstSubtask = {
       userId,
