@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'reactstrap';
+import { UncontrolledAlert } from 'reactstrap';
 
-const DangerAlert = ({ children, isOpen, toggle }) => (
-  <Alert color='danger' isOpen={isOpen} toggle={toggle}>
-    {children}
-  </Alert>
-);
+const DangerAlert = ({ children }) => <UncontrolledAlert color='danger'>{children}</UncontrolledAlert>;
 
 DangerAlert.propTypes = {
-  toggle: PropTypes.func.isRequired,
   children: PropTypes.string.isRequired,
-  isOpen: PropTypes.bool.isRequired,
 };
 
 export default DangerAlert;

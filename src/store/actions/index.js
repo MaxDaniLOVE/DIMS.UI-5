@@ -9,11 +9,14 @@ import {
   ADD_TASK,
   DELETE_TASK,
   EDIT_TASK,
+  FETCH_DATA_FAILURE,
+  FETCH_DATA_START,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 
 const getUsers = () => {
   return async (dispatch) => {
+    dispatch(startFetchingData());
     const api = initializeService();
     try {
       const users = await api.getUsersData();
@@ -22,7 +25,8 @@ const getUsers = () => {
         payload: users,
       });
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
   };
 };
@@ -37,7 +41,8 @@ const addUser = (user) => {
       });
       dispatch(getUsers());
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
   };
 };
@@ -52,7 +57,8 @@ const editUser = (user) => {
       });
       dispatch(getUsers());
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
   };
 };
@@ -67,7 +73,8 @@ const deleteUser = (id) => {
       });
       dispatch(getUsers());
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
     await dispatch(getUsers());
   };
@@ -75,6 +82,7 @@ const deleteUser = (id) => {
 
 const getTasks = () => {
   return async (dispatch) => {
+    dispatch(startFetchingData());
     const api = initializeService();
     try {
       const tasks = await api.getAllTasks();
@@ -83,13 +91,15 @@ const getTasks = () => {
         payload: tasks,
       });
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
   };
 };
 
 const getUserTasks = (id) => {
   return async (dispatch) => {
+    dispatch(startFetchingData());
     const api = initializeService();
     try {
       const userTasks = await api.getUsersTasks(id);
@@ -98,7 +108,8 @@ const getUserTasks = (id) => {
         payload: userTasks,
       });
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
   };
 };
@@ -113,7 +124,8 @@ const setMark = (state, userTaskId, taskId, userId) => {
       });
       dispatch(getUserTasks(userId));
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
   };
 };
@@ -129,7 +141,8 @@ const addTask = (task, assignedMembers) => {
       dispatch(getTasks());
       return response;
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
       return error;
     }
   };
@@ -145,7 +158,8 @@ const deleteTask = (task) => {
       });
       dispatch(getTasks());
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
   };
 };
@@ -160,9 +174,14 @@ const editTask = (newTask, assignedMembers) => {
       });
       dispatch(getTasks());
     } catch (error) {
-      console.error(error);
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
     }
   };
 };
+
+const startFetchingData = () => ({ type: FETCH_DATA_START });
+
+const fetchingDataFailed = (error) => ({ type: FETCH_DATA_FAILURE, payload: error });
 
 export { getUsers, addUser, editUser, deleteUser, getTasks, getUserTasks, setMark, addTask, deleteTask, editTask };

@@ -9,12 +9,15 @@ import {
   ADD_TASK,
   DELETE_TASK,
   EDIT_TASK,
+  FETCH_DATA_FAILURE,
+  FETCH_DATA_START,
 } from '../actions/actionTypes';
 
 const initialState = {
   members: [],
   tasks: [],
   userTasks: [],
+  error: {},
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -42,6 +45,10 @@ const reducer = (state = initialState, { type, payload }) => {
     case DELETE_TASK:
     case EDIT_TASK:
       return { ...state };
+    case FETCH_DATA_START:
+      return { ...state, error: {} };
+    case FETCH_DATA_FAILURE:
+      return { ...state, error: payload };
     default:
       return state;
   }
