@@ -52,7 +52,7 @@ export default class Azure {
   getAllTasks = async () => {
     try {
       const tasks = (await axios.get(`${this.api}/tasks`)).data;
-      const convertedTasks = tasks.map((task) => this.convertData(task, false, false));
+      const convertedTasks = tasks.map((task) => this.convertData(task));
       return convertedTasks;
     } catch (error) {
       console.error("Can't load tasks", error.message);
@@ -64,7 +64,7 @@ export default class Azure {
     try {
       const { data: userTasks } = await axios.get(`${this.api}/user/tasks/${userId}`);
       const allUsersTasks = userTasks.map((task, index) => {
-        const { state, taskName: name, ...convertedTasks } = this.convertData(task, false, false);
+        const { state, taskName: name, ...convertedTasks } = this.convertData(task);
         const stateId = this.statesIdsForUI[state.toLowerCase()];
         const userTaskId = index; // TODO REMOVE IT AFTER UPDATING API
         return { ...convertedTasks, stateId, name, userTaskId };
@@ -166,7 +166,7 @@ export default class Azure {
       const startDate = stringToDate(StartDate);
       const birthDate = convertAge(Age);
       const sex = convertSexName(Sex);
-      const userData = this.convertData(dataToTransform, false, false);
+      const userData = this.convertData(dataToTransform);
       const id = `${UserId}`;
       return {
         id,
@@ -182,7 +182,7 @@ export default class Azure {
     return transformed;
   };
 
-  convertData = (user, isPascalCase, isDateToString) => {
+  convertData = (user, isPascalCase = false, isDateToString = false) => {
     const entries = Object.entries(user);
     const withConvertedFields = {};
     entries.map((field) => {

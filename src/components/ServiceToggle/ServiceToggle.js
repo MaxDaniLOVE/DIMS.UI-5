@@ -21,6 +21,7 @@ class ServiceToggle extends Component {
     const service = isChecked ? value : 'firebase';
     addCache('service', service);
     this.setState({ isChecked });
+    window.location.reload(); // TODO delete after api will be fully integrated
   };
 
   render() {

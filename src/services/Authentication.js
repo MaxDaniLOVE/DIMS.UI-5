@@ -2,11 +2,12 @@ import firebase from 'firebase';
 import { addCache } from '../utils/cache';
 import initializeService from '../utils/initializeService';
 
+const api = initializeService();
+
 export default class Authentication {
   auth = firebase.auth();
 
   registerNewUser = async ({ email, password }) => {
-    const api = initializeService();
     try {
       const isUserAddedToDb = await api.isUserExists(email);
       if (isUserAddedToDb) {
@@ -21,7 +22,6 @@ export default class Authentication {
 
   onStatusChanged = async () => {
     const isLoggedIn = await new Promise((resolve) => {
-      const api = initializeService();
       this.auth.onAuthStateChanged(async (user) => {
         if (user) {
           let userRole = await api.getUserRole(user.email);
@@ -48,7 +48,6 @@ export default class Authentication {
 
   login = async ({ email, password }) => {
     try {
-      const api = initializeService();
       await this.auth.signInWithEmailAndPassword(email, password);
       const userRole = await api.getUserRole(email);
       return userRole;

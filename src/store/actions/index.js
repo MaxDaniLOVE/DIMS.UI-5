@@ -14,10 +14,11 @@ import {
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 
+const api = initializeService();
+
 const getUsers = () => {
   return async (dispatch) => {
     dispatch(startFetchingData());
-    const api = initializeService();
     try {
       const users = await api.getUsersData();
       dispatch({
@@ -33,7 +34,6 @@ const getUsers = () => {
 
 const addUser = (user) => {
   return async (dispatch) => {
-    const api = initializeService();
     try {
       await api.addNewUser(user);
       dispatch({
@@ -49,7 +49,6 @@ const addUser = (user) => {
 
 const editUser = (user) => {
   return async (dispatch) => {
-    const api = initializeService();
     try {
       await api.editUserData(user);
       dispatch({
@@ -65,7 +64,6 @@ const editUser = (user) => {
 
 const deleteUser = (id) => {
   return async (dispatch) => {
-    const api = initializeService();
     try {
       await api.deleteUser(id);
       dispatch({
@@ -83,7 +81,6 @@ const deleteUser = (id) => {
 const getTasks = () => {
   return async (dispatch) => {
     dispatch(startFetchingData());
-    const api = initializeService();
     try {
       const tasks = await api.getAllTasks();
       dispatch({
@@ -100,7 +97,6 @@ const getTasks = () => {
 const getUserTasks = (id) => {
   return async (dispatch) => {
     dispatch(startFetchingData());
-    const api = initializeService();
     try {
       const userTasks = await api.getUsersTasks(id);
       dispatch({
@@ -116,7 +112,6 @@ const getUserTasks = (id) => {
 
 const setMark = (state, userTaskId, taskId, userId) => {
   return async (dispatch) => {
-    const api = initializeService();
     try {
       await api.onSetUserMark(state, userTaskId, taskId, userId);
       dispatch({
@@ -132,7 +127,6 @@ const setMark = (state, userTaskId, taskId, userId) => {
 
 const addTask = (task, assignedMembers) => {
   return async (dispatch) => {
-    const api = initializeService();
     try {
       const response = await api.addNewTask(task, assignedMembers);
       dispatch({
@@ -150,7 +144,6 @@ const addTask = (task, assignedMembers) => {
 
 const deleteTask = (task) => {
   return async (dispatch) => {
-    const api = initializeService();
     try {
       await api.deleteTask(task);
       dispatch({
@@ -166,7 +159,6 @@ const deleteTask = (task) => {
 
 const editTask = (newTask, assignedMembers) => {
   return async (dispatch) => {
-    const api = initializeService();
     try {
       await api.editTask(newTask, assignedMembers);
       dispatch({
