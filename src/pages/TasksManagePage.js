@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Modal } from 'reactstrap';
 import Firebase from '../services/Firebase';
 import Preloader from '../components/Preloader';
@@ -13,50 +14,37 @@ import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { stringToDate, dateToString } from '../utils/convertDate';
+import { getTasks, addTask, deleteTask, editTask } from '../store/actions';
+import pagesInitialState from '../utils/pagesInitialState';
 
 class TasksManagePage extends Component {
   constructor() {
     super();
     this.state = {
-      tasks: [],
-      isLoaded: false,
-      showModal: false,
-      isEditMode: false,
-      isDetailMode: false,
       taskData: defaultTaskData,
-      isFormValid: false,
       assignedMembers: [],
+      ...pagesInitialState,
     };
     this.db = new Firebase();
   }
 
   componentDidMount() {
-    this.getTasksData();
-  }
-
-  async getTasksData() {
     const { match } = this.props;
     const {
       params: { tid },
     } = match;
-    this.db.getAllTasks().then(async (data) => {
-      const newData = [];
-      data.forEach((doc) => newData.push({ ...doc.data(), taskId: doc.id }));
-      if (tid) {
-        const assignedMembers = await this.db.getAssignedUsers(tid);
-        const editedTask = newData.find(({ taskId }) => taskId === tid);
-        this.setState({
-          taskData: editedTask,
-          assignedMembers,
-          isEditMode: true,
-          showModal: true,
-        });
-      }
-      this.setState({
-        tasks: newData,
-        isLoaded: true,
-      });
+    this.getTasksData(tid);
+  }
+
+  async getTasksData(taskId) {
+    const { getAllTasks } = this.props;
+    await getAllTasks();
+    this.setState({
+      isLoaded: true,
     });
+    if (taskId) {
+      await this.onEditTaskModalOpen(taskId);
+    }
   }
 
   onModalOpen = () => {
@@ -77,7 +65,8 @@ class TasksManagePage extends Component {
   };
 
   onDeleteTask = async (taskId) => {
-    await this.db.deleteTask(taskId);
+    const { deleteTaskById } = this.props;
+    await deleteTaskById(taskId);
     this.getTasksData();
   };
 
@@ -101,20 +90,18 @@ class TasksManagePage extends Component {
   };
 
   onAddTask = async (task) => {
+    const { addNewTask } = this.props;
     const { deadlineDate, startDate } = task;
     const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
     this.onModalClose();
-    const taskId = await this.db.addNewTask(newTask);
-    assignedMembers.map(async (userId) => {
-      const userTask = { state: 'active', taskId, userId };
-      await this.db.addUserTask(userTask);
-    });
+    const taskId = await addNewTask(newTask, assignedMembers);
     this.getTasksData();
+    return taskId;
   };
 
   onEditTaskModalOpen = async (id) => {
-    const { tasks } = this.state;
+    const { tasks } = this.props;
     const editedTask = tasks.find(({ taskId }) => taskId === id);
     const assignedMembers = await this.db.getAssignedUsers(id);
     const { deadlineDate, startDate } = editedTask;
@@ -128,10 +115,11 @@ class TasksManagePage extends Component {
   };
 
   onSubmitEditTask = async (task) => {
+    const { editTaskById } = this.props;
     const { deadlineDate, startDate } = task;
     const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
     const { assignedMembers } = this.state;
-    await this.db.editTask(newTask, assignedMembers);
+    await editTaskById(newTask, assignedMembers);
     this.getTasksData();
     this.onModalClose();
   };
@@ -142,7 +130,8 @@ class TasksManagePage extends Component {
   };
 
   render() {
-    const { tasks, isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData, assignedMembers } = this.state;
+    const { isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData, assignedMembers } = this.state;
+    const { tasks } = this.props;
     const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${taskData.name}:`}</h3> : <h3>Add new task:</h3>;
     return (
       <div className='table-wrapper'>
@@ -187,6 +176,22 @@ class TasksManagePage extends Component {
 
 TasksManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  getAllTasks: PropTypes.func.isRequired,
+  addNewTask: PropTypes.func.isRequired,
+  deleteTaskById: PropTypes.func.isRequired,
+  editTaskById: PropTypes.func.isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-export default TasksManagePage;
+const mapStateToProps = ({ tasks }) => ({ tasks });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllTasks: () => dispatch(getTasks()),
+    addNewTask: (task, assignedMembers) => dispatch(addTask(task, assignedMembers)),
+    deleteTaskById: (id) => dispatch(deleteTask(id)),
+    editTaskById: (id, assignedMembers) => dispatch(editTask(id, assignedMembers)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TasksManagePage);

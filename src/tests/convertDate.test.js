@@ -4,6 +4,9 @@ import {
   millisecondsToDate,
   millisecondsToAge,
   getCurrentYear,
+  getCurrentDate,
+  convertAge,
+  getCurrentDateInMs,
 } from '../utils/convertDate';
 
 describe('Converting dates', () => {
@@ -69,5 +72,28 @@ describe('Converting dates', () => {
     const result = getCurrentYear();
 
     expect(result).toBe(expectedYear);
+  });
+  it('should return current date', () => {
+    const currentTime = new Date().getTime();
+    const expectedDate = dateToString(currentTime);
+
+    const result = getCurrentDate();
+
+    expect(result).toBe(expectedDate);
+  });
+  it('should return current date', () => {
+    const givenAge = 33;
+    const expectedDate = 547719460000;
+
+    const result = convertAge(givenAge);
+
+    expect(result).toBeGreaterThan(expectedDate);
+  });
+  it('should return current date in ms', () => {
+    const expectedDate = new Date().getTime();
+
+    const result = getCurrentDateInMs();
+
+    expect(result).toBe(expectedDate);
   });
 });

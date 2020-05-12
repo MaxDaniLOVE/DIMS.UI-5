@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import firebaseConfig from './firebase.config';
+import { getCurrentDateInMs } from '../utils/convertDate';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -55,6 +56,7 @@ export default class Firebase {
       return userRole.docs[0].data();
     } catch (error) {
       console.error("Can't get user role. Try later.");
+      return error;
     }
   };
 
@@ -64,6 +66,7 @@ export default class Firebase {
       return newUser;
     } catch (error) {
       console.error("Can't add new user. Try later.");
+      return error;
     }
   };
 
@@ -76,6 +79,7 @@ export default class Firebase {
       return userData.data().name;
     } catch (error) {
       console.error("Can't add new user. Try later.");
+      return error;
     }
   };
 
@@ -88,15 +92,20 @@ export default class Firebase {
       return userData.data();
     } catch (error) {
       console.error("Can't get user data. Try later.");
+      return error;
     }
   };
 
   getUsersData = async () => {
     try {
       const usersData = await this.database.collection('users').get();
-      return usersData;
+      const allUsers = usersData.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
+      return allUsers;
     } catch (error) {
       console.error("Can't get users data. Try later.");
+      return error;
     }
   };
 
@@ -113,7 +122,7 @@ export default class Firebase {
       return allTaskData;
     });
     const tasksInfo = await Promise.all(withAllData);
-    return allData.map((el, idx) => ({ ...el, tasksInfo: tasksInfo[idx] }));
+    return allData.map((el, idx) => ({ ...el, ...tasksInfo[idx] }));
   };
 
   getTasks = async (id) => {
@@ -172,13 +181,16 @@ export default class Firebase {
   };
 
   getAllTasks = async () => {
-    let tasks;
     try {
-      tasks = await this.database.collection('tasks').get();
+      const tasksData = await this.database.collection('tasks').get();
+      const allTasks = tasksData.docs.map((doc) => {
+        return { ...doc.data(), taskId: doc.id };
+      });
+      return allTasks;
     } catch (error) {
-      throw new Error("Can't load tasks data. Try later.");
+      console.error("Can't load tasks data. Try later.");
+      return error;
     }
-    return tasks;
   };
 
   addNewSubtask = async (subtask) => {
@@ -212,12 +224,21 @@ export default class Firebase {
     }
   };
 
-  addNewTask = async (newTask) => {
+  addNewTask = async (newTask, assignedMembers) => {
     try {
       const task = await this.database.collection('tasks').add(newTask);
-      return task.id;
+      const taskId = task.id;
+      assignedMembers.map(async (userId) => {
+        const userTask = { state: 'active', taskId, userId };
+        const { name } = newTask;
+        const firstSubtask = await this.createFirstSubtask(name, userId, taskId);
+        await this.addNewSubtask(firstSubtask);
+        await this.addUserTask(userTask);
+      });
+      return taskId;
     } catch (error) {
       console.error("Can't add new tasks. Try later.");
+      return error;
     }
   };
 
@@ -228,6 +249,7 @@ export default class Firebase {
       return task.id;
     } catch (error) {
       console.error("Can't add new user tasks. Try later.");
+      return error;
     }
   };
 
@@ -261,6 +283,7 @@ export default class Firebase {
       return userTasks.docs.map((task) => task.data().userId);
     } catch (error) {
       console.error("Can't get assigned users. Try later.");
+      return error;
     }
   };
 
@@ -299,17 +322,7 @@ export default class Firebase {
         const userTask = { state: 'active', taskId, userId };
         this.addUserTask(userTask);
         const { name: taskName } = newTask;
-        const userName = await this.getUserName(userId);
-        const trackDate = new Date().getTime();
-        const trackNote = 'Recieve new task';
-        const firstSubtask = {
-          userId,
-          taskId,
-          taskName,
-          trackDate,
-          trackNote,
-          userName,
-        };
+        const firstSubtask = await this.createFirstSubtask(taskName, userId, taskId);
         await this.addNewSubtask(firstSubtask);
         return userTask;
       });
@@ -317,6 +330,21 @@ export default class Firebase {
     } catch (error) {
       console.error("Can't update assigned users. Try later.", error);
     }
+  };
+
+  createFirstSubtask = async (taskName, userId, taskId) => {
+    const userName = await this.getUserName(userId);
+    const trackDate = getCurrentDateInMs();
+    const trackNote = 'Recieve new task';
+    const firstSubtask = {
+      userId,
+      taskId,
+      taskName,
+      trackDate,
+      trackNote,
+      userName,
+    };
+    return firstSubtask;
   };
 
   deleteUserTask = async (userTaskId) => {
@@ -336,7 +364,7 @@ export default class Firebase {
     fail: 0,
   };
 
-  onSetUserMark = async (userTaskId, state) => {
+  onSetUserMark = async (state, userTaskId) => {
     try {
       await this.database
         .collection('usersTasks')
@@ -345,6 +373,7 @@ export default class Firebase {
       return 'updated';
     } catch (error) {
       console.error("Can't set mark. Try later.");
+      return error;
     }
   };
 }

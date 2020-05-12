@@ -8,7 +8,7 @@ import { millisecondsToDate, millisecondsToAge } from '../../utils/convertDate';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
 
-const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete }) => {
+const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
   const membersTableBody = members.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
     const stringStartDate = millisecondsToDate(startDate);
@@ -26,11 +26,15 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
         <td>{education}</td>
         <td>{stringStartDate}</td>
         <td>{ageInYears}</td>
-        <td className='td-btns'>
+        <td className={`td-btns td-btns__${role}`}>
           <LinkButton link={`/member/${id}/tasks`}>Tasks</LinkButton>
           <LinkButton link={`/member/${id}/progress`}>Progress</LinkButton>
-          <Button onClick={openEditModal}>Edit</Button>
-          <DangerButton onClick={deleteMember}>Delete</DangerButton>
+          {role === 'ADMIN' ? (
+            <>
+              <Button onClick={openEditModal}>Edit</Button>
+              <DangerButton onClick={deleteMember}>Delete</DangerButton>
+            </>
+          ) : null}
         </td>
       </tr>
     );
@@ -48,6 +52,7 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
 };
 
 MembersTable.propTypes = {
+  role: PropTypes.string.isRequired,
   onEditMemberModalOpen: PropTypes.func.isRequired,
   onMemberDataOpen: PropTypes.func.isRequired,
   onUserDelete: PropTypes.func.isRequired,

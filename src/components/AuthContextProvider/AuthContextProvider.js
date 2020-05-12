@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AuthContext from '../../context';
 import Authentication from '../../services/Authentication';
 
@@ -46,18 +47,23 @@ class AuthContextProvider extends Component {
   };
 
   render() {
-    const { context, children } = this.props;
+    const { children } = this.props;
     const { isLoggedIn, user } = this.state;
+    const { onLogIn, onLogOut, onRegister } = this;
     const defaultContextValue = {
       isLoggedIn,
       user,
-      onLogIn: this.onLogIn,
-      onLogOut: this.onLogOut,
-      onRegister: this.onRegister,
+      onLogIn,
+      onLogOut,
+      onRegister,
     };
 
-    return <AuthContext.Provider value={{ ...defaultContextValue, ...context }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={defaultContextValue}>{children}</AuthContext.Provider>;
   }
 }
+
+AuthContextProvider.propTypes = {
+  children: PropTypes.element.isRequired,
+};
 
 export default AuthContextProvider;

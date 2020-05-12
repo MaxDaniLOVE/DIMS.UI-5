@@ -5,6 +5,7 @@ import { defaultAuthData } from '../utils/defaultInputsData';
 import { authInputs as inputs } from '../utils/inputs';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { validation } from '../utils/validation';
+import ServiceToggle from '../components/ServiceToggle';
 
 class AuthPage extends Component {
   constructor(props) {
@@ -45,14 +46,17 @@ class AuthPage extends Component {
   render() {
     const { isFormValid, isRegisterMode } = this.state;
     return (
-      <LoginForm
-        inputs={inputs}
-        onSubmit={this.onSubmit}
-        onFormChange={this.onFormChange}
-        isFormValid={isFormValid}
-        onSwitchMode={this.onSwitchMode}
-        isRegisterMode={isRegisterMode}
-      />
+      <>
+        <LoginForm
+          inputs={inputs}
+          onSubmit={this.onSubmit}
+          onFormChange={this.onFormChange}
+          isFormValid={isFormValid}
+          onSwitchMode={this.onSwitchMode}
+          isRegisterMode={isRegisterMode}
+        />
+        <ServiceToggle />
+      </>
     );
   }
 }

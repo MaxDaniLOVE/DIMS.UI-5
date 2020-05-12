@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Firebase from '../services/Firebase';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
 import AuthContext from '../context';
-
-const db = new Firebase();
+import { getUserTasks, setMark } from '../store/actions';
+import EmptyTableMessage from '../UI/EmptyTableMessage';
+import { DangerAlert } from '../UI/Alerts';
 
 class MembersTasksPage extends Component {
   constructor() {
     super();
     this.state = {
-      userTasks: [],
       isLoaded: false,
-      memberName: '',
     };
   }
 
@@ -24,36 +23,47 @@ class MembersTasksPage extends Component {
   }
 
   getUserTasksData = async () => {
-    const { match } = this.props;
+    const { match, getAllUserTasks } = this.props;
     const {
       params: { mid },
     } = match;
-    const newTasksData = await db.getUsersTasks(mid);
-    const { name } = await db.getUserData(mid);
+    await getAllUserTasks(mid);
     this.setState({
-      userTasks: newTasksData,
       isLoaded: true,
-      memberName: name,
     });
   };
 
-  onSetMark = async (userTaskId, state) => {
-    const result = await db.onSetUserMark(userTaskId, state);
-    await this.getUserTasksData();
+  onSetMark = async (userTaskId, state, taskId) => {
+    const { onSetUserMark, match } = this.props;
+    const {
+      params: { mid: userId },
+    } = match;
+    const result = await onSetUserMark(state, userTaskId, taskId, userId);
     return result;
   };
 
   render() {
-    const { userTasks, isLoaded, memberName } = this.state;
+    const { isLoaded } = this.state;
+    const {
+      userTasks,
+      error: { message },
+    } = this.props;
     const {
       user: { role },
     } = this.context;
+    const alert = message && <DangerAlert>{message}</DangerAlert>;
+    if (!userTasks.length) {
+      return (
+        <EmptyTableMessage>It looks like you have no tasks! Please contact your mentor or admin</EmptyTableMessage>
+      );
+    }
     return (
       <Layout>
         {isLoaded ? (
           <>
-            <h2>{`Hi, dear ${memberName}! This is your current tasks:`}</h2>
+            <h2>Hi! This is your current tasks:</h2>
             <MembersTasksTable userTasks={userTasks} role={role} onSetMark={this.onSetMark} />
+            {alert}
           </>
         ) : (
           <Preloader />
@@ -65,8 +75,26 @@ class MembersTasksPage extends Component {
 
 MembersTasksPage.contextType = AuthContext;
 
-MembersTasksPage.propTypes = {
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
+MembersTasksPage.defaultProps = {
+  error: {},
 };
 
-export default withRouter(MembersTasksPage);
+MembersTasksPage.propTypes = {
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+  error: PropTypes.objectOf(PropTypes.string),
+  getAllUserTasks: PropTypes.func.isRequired,
+  onSetUserMark: PropTypes.func.isRequired,
+  userTasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])))
+    .isRequired,
+};
+
+const mapStateToProps = ({ userTasks, error }) => ({ userTasks, error });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllUserTasks: (id) => dispatch(getUserTasks(id)),
+    onSetUserMark: (state, userTaskId, taskId, userId) => dispatch(setMark(state, userTaskId, taskId, userId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersTasksPage));
