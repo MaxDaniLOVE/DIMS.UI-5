@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import './sideBar.scss';
 
 const SideBar = ({ children, isOpen, onClick }) => {
+  const classNames = isOpen
+    ? { backdropClassName: 'backdrop__open', sideBarClassName: 'side-bar__open' }
+    : { backdropClassName: 'backdrop', sideBarClassName: 'side-bar' };
+  const { backdropClassName, sideBarClassName } = classNames;
   return (
-    isOpen && (
-      <>
-        <div className='backdrop' onClick={onClick} />
-        <aside className='side-bar'>{children}</aside>
-      </>
-    )
+    <>
+      <div className={backdropClassName} onClick={onClick} />
+      <aside className={sideBarClassName}>{children}</aside>
+    </>
   );
 };
 

@@ -21,6 +21,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+.container {
+  position: relative;
+  z-index: 1;
+}
+
 .alert {
   position: fixed;
   right: 2rem;
