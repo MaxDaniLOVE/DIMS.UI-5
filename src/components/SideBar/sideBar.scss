@@ -49,3 +49,9 @@
 .backdrop {
   @include initial-backdrop;
 }
+
+@media screen and (max-width: 425px) {
+  .side-bar__open {
+    width: 100%;
+  }
+}

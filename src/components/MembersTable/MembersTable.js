@@ -41,7 +41,7 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
   });
   return (
     <Layout>
-      <Table>
+      <Table className='members-table'>
         <>
           <TableHeader headers={headers} />
           <tbody>{membersTableBody}</tbody>

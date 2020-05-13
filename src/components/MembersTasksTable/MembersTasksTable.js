@@ -41,7 +41,7 @@ const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
   });
   return (
     <Layout>
-      <Table>
+      <Table className='members-task-table'>
         <>
           <TableHeader headers={headers} />
           <tbody>{membersTasksTableBody}</tbody>
