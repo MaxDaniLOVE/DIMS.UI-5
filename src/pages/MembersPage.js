@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'reactstrap';
 import { connect } from 'react-redux';
-import { getUsers, addUser, editUser, deleteUser } from '../store/actions';
+import { getUsers, addUser, editUser, deleteUser, setRegisterData } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import { Button } from '../UI/Buttons';
@@ -14,7 +14,7 @@ import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
-import { stringToDate, dateToString } from '../utils/convertDate';
+import { dateToString } from '../utils/convertDate';
 import AuthContext from '../context';
 import pagesInitialState from '../utils/pagesInitialState';
 
@@ -22,7 +22,6 @@ class MembersPage extends Component {
   constructor() {
     super();
     this.state = {
-      registerData: defaultRegisterData,
       ...pagesInitialState,
     };
   }
@@ -51,9 +50,10 @@ class MembersPage extends Component {
   };
 
   onModalClose = () => {
+    const { setUserData } = this.props;
+    setUserData(defaultRegisterData);
     this.setState({
       showModal: false,
-      registerData: defaultRegisterData,
       isEditMode: false,
       isDetailMode: false,
       isFormValid: false,
@@ -61,52 +61,45 @@ class MembersPage extends Component {
   };
 
   onFormChange = (e) => {
+    const { setUserData, registerData } = this.props;
     const { value, id } = e.target;
-    this.setState(({ registerData }) => {
-      const updated = inputsChangeHandler(value, id, registerData);
-      const validatedInputs = { ...updated };
-      const isFormValid = validation(validatedInputs, membersInputs);
-      return {
-        registerData: updated,
-        isFormValid,
-      };
-    });
+    const updated = inputsChangeHandler(value, id, registerData);
+    const validatedInputs = { ...updated };
+    const isFormValid = validation(validatedInputs, membersInputs);
+    setUserData(updated);
+    this.setState({ isFormValid });
   };
 
-  onAddNewMember = async (member) => {
-    const { birthDate, startDate } = member;
+  onAddNewMember = async () => {
     const { addNewUser } = this.props;
-    const newMember = { ...member, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
-    await addNewUser(newMember);
+    await addNewUser();
     this.onModalClose();
   };
 
   onEditMemberModalOpen = (userId) => {
-    const { members } = this.props;
+    const { members, setUserData } = this.props;
     const editedUser = members.find(({ id }) => id === userId);
     const { birthDate, startDate } = editedUser;
     this.onModalOpen();
+    setUserData({ ...editedUser, birthDate: dateToString(birthDate), startDate: dateToString(startDate) });
     return this.setState({
-      registerData: { ...editedUser, birthDate: dateToString(birthDate), startDate: dateToString(startDate) },
       isEditMode: true,
       isFormValid: true,
     });
   };
 
-  onSubmitEditUser = async (member) => {
-    const { birthDate, startDate } = member;
+  onSubmitEditUser = async () => {
     const { editUserData } = this.props;
-    const newMember = { ...member, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
-    await editUserData(newMember);
+    await editUserData();
     this.onModalClose();
   };
 
   onMemberDataOpen = (userId) => {
-    const { members } = this.props;
+    const { members, setUserData } = this.props;
     const editedUser = members.find(({ id }) => id === userId);
+    setUserData(editedUser);
     this.setState({
       showModal: true,
-      registerData: { ...editedUser },
       isDetailMode: true,
     });
   };
@@ -118,16 +111,16 @@ class MembersPage extends Component {
   };
 
   onSubmit = () => {
-    const { isEditMode, registerData } = this.state;
-    return isEditMode ? this.onSubmitEditUser(registerData) : this.onAddNewMember(registerData);
+    const { isEditMode } = this.state;
+    return isEditMode ? this.onSubmitEditUser() : this.onAddNewMember();
   };
 
   render() {
-    const { isLoaded, showModal, registerData, isEditMode, isDetailMode, isFormValid } = this.state;
+    const { isLoaded, showModal, isEditMode, isDetailMode, isFormValid } = this.state;
     const {
       user: { role },
     } = this.context;
-    const { members } = this.props;
+    const { members, registerData } = this.props;
     const modalHeader =
       isEditMode || isDetailMode ? <h3>{`${registerData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
     return (
@@ -179,18 +172,21 @@ class MembersPage extends Component {
 
 MembersPage.contextType = AuthContext;
 
-const mapStateToProps = ({ members }) => ({ members });
+const mapStateToProps = ({ members, registerData }) => ({ members, registerData });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsersData: () => dispatch(getUsers()),
-    addNewUser: (user) => dispatch(addUser(user)),
-    editUserData: (user) => dispatch(editUser(user)),
+    addNewUser: () => dispatch(addUser()),
+    editUserData: () => dispatch(editUser()),
     deleteUserData: (id) => dispatch(deleteUser(id)),
+    setUserData: (data) => dispatch(setRegisterData(data)),
   };
 };
 
 MembersPage.propTypes = {
+  registerData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  setUserData: PropTypes.func.isRequired,
   getUsersData: PropTypes.func.isRequired,
   addNewUser: PropTypes.func.isRequired,
   editUserData: PropTypes.func.isRequired,

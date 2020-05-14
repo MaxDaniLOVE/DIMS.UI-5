@@ -11,13 +11,16 @@ import {
   EDIT_TASK,
   FETCH_DATA_FAILURE,
   FETCH_DATA_START,
+  SET_REGISTER_DATA,
 } from '../actions/actionTypes';
+import { defaultRegisterData } from '../../utils/defaultInputsData';
 
 const initialState = {
   members: [],
   tasks: [],
   userTasks: [],
   error: {},
+  registerData: defaultRegisterData,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -36,6 +39,11 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         userTasks: payload,
+      };
+    case SET_REGISTER_DATA:
+      return {
+        ...state,
+        registerData: payload,
       };
     case ADD_MEMBER:
     case EDIT_MEMBER:

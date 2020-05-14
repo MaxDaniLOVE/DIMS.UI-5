@@ -11,8 +11,10 @@ import {
   EDIT_TASK,
   FETCH_DATA_FAILURE,
   FETCH_DATA_START,
+  SET_REGISTER_DATA,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
+import { stringToDate } from '../../utils/convertDate';
 
 const api = initializeService();
 
@@ -32,10 +34,13 @@ const getUsers = () => {
   };
 };
 
-const addUser = (user) => {
-  return async (dispatch) => {
+const addUser = () => {
+  return async (dispatch, getState) => {
     try {
-      await api.addNewUser(user);
+      const { registerData } = getState();
+      const { birthDate, startDate } = registerData; // TODO add helper
+      const newUser = { ...registerData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
+      await api.addNewUser(newUser);
       dispatch({
         type: ADD_MEMBER,
       });
@@ -47,10 +52,13 @@ const addUser = (user) => {
   };
 };
 
-const editUser = (user) => {
-  return async (dispatch) => {
+const editUser = () => {
+  return async (dispatch, getState) => {
     try {
-      await api.editUserData(user);
+      const { registerData } = getState();
+      const { birthDate, startDate } = registerData; // TODO add helper
+      const newUser = { ...registerData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
+      await api.editUserData(newUser);
       dispatch({
         type: EDIT_MEMBER,
       });
@@ -176,4 +184,18 @@ const startFetchingData = () => ({ type: FETCH_DATA_START });
 
 const fetchingDataFailed = (error) => ({ type: FETCH_DATA_FAILURE, payload: error });
 
-export { getUsers, addUser, editUser, deleteUser, getTasks, getUserTasks, setMark, addTask, deleteTask, editTask };
+const setRegisterData = (data) => ({ type: SET_REGISTER_DATA, payload: data });
+
+export {
+  getUsers,
+  addUser,
+  editUser,
+  deleteUser,
+  getTasks,
+  getUserTasks,
+  setMark,
+  addTask,
+  deleteTask,
+  editTask,
+  setRegisterData,
+};
