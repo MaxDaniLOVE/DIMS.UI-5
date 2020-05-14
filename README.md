@@ -1,33 +1,40 @@
-The link to principal idea of design - [design](https://symu.co/freebies/templates-4/merkury-dashboard-psd-template/). **You do not have to follow it, just use it as a guide**
+<h1 align="center">Welcome to DIMS 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+</p>
 
-*In **/docs** you can find all other guides regarding project structure, pan and etc.*
+> DIMS is a system for getting tasks and tracking time. There are several user roles in the DIMS, such as ADMIN, MENTOR and USER.
 
+### ✨ [Demo](https://dims-beta.netlify.app/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Install
 
-## Available Scripts
+```sh
+npm install
+```
 
-In the project directory, you can run:
+## Usage
 
-### `yarn start`
+```sh
+npm start
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Run tests
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```sh
+npm run test
+```
 
-### `yarn test`
+## Author
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+👤 **Maks Danilau**
 
-### `yarn build`
+- Github: [@maxdanilove](https://github.com/maxdanilove)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Show your support
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Give a ⭐️ if this project helped you!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
+
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
