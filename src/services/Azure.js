@@ -113,9 +113,20 @@ export default class Azure {
 
   editTask = async (task, assignedMembers) => {
     try {
+      const { taskId } = task;
       const newTask = this.convertData(task, true, true);
       const response = await axios.put(`${this.api}/task/edit`, newTask);
-      console.log(assignedMembers);
+      await this.assignTaskToUsers(taskId, assignedMembers);
+      return response;
+    } catch (error) {
+      console.error("Can't update task", error.message);
+      return error;
+    }
+  };
+
+  assignTaskToUsers = async (id, users) => {
+    try {
+      const response = await axios.post(`${this.api}/user/task/add/${id}`, users);
       return response;
     } catch (error) {
       console.error("Can't update task", error.message);
