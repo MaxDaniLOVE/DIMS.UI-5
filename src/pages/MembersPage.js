@@ -28,6 +28,8 @@ class MembersPage extends Component {
 
   componentDidMount() {
     this.getMembersData();
+    const { setUserData } = this.props;
+    setUserData(defaultRegisterData);
   }
 
   componentDidUpdate() {
@@ -61,9 +63,9 @@ class MembersPage extends Component {
   };
 
   onFormChange = (e) => {
-    const { setUserData, registerData } = this.props;
+    const { setUserData, formData } = this.props;
     const { value, id } = e.target;
-    const updated = inputsChangeHandler(value, id, registerData);
+    const updated = inputsChangeHandler(value, id, formData);
     const validatedInputs = { ...updated };
     const isFormValid = validation(validatedInputs, membersInputs);
     setUserData(updated);
@@ -120,9 +122,8 @@ class MembersPage extends Component {
     const {
       user: { role },
     } = this.context;
-    const { members, registerData } = this.props;
-    const modalHeader =
-      isEditMode || isDetailMode ? <h3>{`${registerData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
+    const { members, formData } = this.props;
+    const modalHeader = isEditMode || isDetailMode ? <h3>{`${formData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
     return (
       <div className='table-wrapper'>
         <Modal isOpen={showModal} toggle={this.onModalClose}>
@@ -135,11 +136,11 @@ class MembersPage extends Component {
             onSubmit={this.onSubmit}
           >
             {isDetailMode ? (
-              <DataModal header={modalHeader} data={registerData} inputFields={membersInputs} />
+              <DataModal header={modalHeader} data={formData} inputFields={membersInputs} />
             ) : (
               <FormModal
                 inputs={membersInputs}
-                data={registerData}
+                data={formData}
                 onFormChange={this.onFormChange}
                 isEditMode={isEditMode}
                 modalHeader={modalHeader}
@@ -172,7 +173,7 @@ class MembersPage extends Component {
 
 MembersPage.contextType = AuthContext;
 
-const mapStateToProps = ({ members, registerData }) => ({ members, registerData });
+const mapStateToProps = ({ members, formData }) => ({ members, formData });
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -185,7 +186,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 MembersPage.propTypes = {
-  registerData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   setUserData: PropTypes.func.isRequired,
   getUsersData: PropTypes.func.isRequired,
   addNewUser: PropTypes.func.isRequired,

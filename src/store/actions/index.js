@@ -37,9 +37,9 @@ const getUsers = () => {
 const addUser = () => {
   return async (dispatch, getState) => {
     try {
-      const { registerData } = getState();
-      const { birthDate, startDate } = registerData; // TODO add helper
-      const newUser = { ...registerData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
+      const { formData } = getState();
+      const { birthDate, startDate } = formData; // TODO add helper
+      const newUser = { ...formData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
       await api.addNewUser(newUser);
       dispatch({
         type: ADD_MEMBER,
@@ -55,9 +55,9 @@ const addUser = () => {
 const editUser = () => {
   return async (dispatch, getState) => {
     try {
-      const { registerData } = getState();
-      const { birthDate, startDate } = registerData; // TODO add helper
-      const newUser = { ...registerData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
+      const { formData } = getState();
+      const { birthDate, startDate } = formData; // TODO add helper
+      const newUser = { ...formData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
       await api.editUserData(newUser);
       dispatch({
         type: EDIT_MEMBER,
