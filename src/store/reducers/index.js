@@ -12,6 +12,7 @@ import {
   FETCH_DATA_FAILURE,
   FETCH_DATA_START,
   SET_FORM_DATA,
+  SET_ASSIGNED_MEMBERS,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   userTasks: [],
   error: {},
   formData: {},
+  assignedMembers: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -56,6 +58,8 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state, error: {} };
     case FETCH_DATA_FAILURE:
       return { ...state, error: payload };
+    case SET_ASSIGNED_MEMBERS:
+      return { ...state, assignedMembers: payload };
     default:
       return state;
   }

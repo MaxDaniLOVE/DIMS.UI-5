@@ -14,14 +14,13 @@ import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { dateToString } from '../utils/convertDate';
-import { getTasks, addTask, deleteTask, editTask, setFormData } from '../store/actions';
+import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import pagesInitialState from '../utils/pagesInitialState';
 
 class TasksManagePage extends Component {
   constructor() {
     super();
     this.state = {
-      assignedMembers: [],
       ...pagesInitialState,
     };
     this.db = new Firebase();
@@ -61,7 +60,6 @@ class TasksManagePage extends Component {
       isEditMode: false,
       isDetailMode: false,
       isFormValid: false,
-      assignedMembers: [],
     });
   };
 
@@ -81,39 +79,31 @@ class TasksManagePage extends Component {
     this.setState({ isFormValid });
   };
 
-  onCheckboxChange = (newMembers) => {
-    this.setState({
-      assignedMembers: newMembers,
-    });
-  };
-
   onAddTask = async () => {
     const { addNewTask } = this.props;
-    const { assignedMembers } = this.state;
-    const taskId = await addNewTask(assignedMembers);
+    const taskId = await addNewTask();
     this.getTasksData();
     this.onModalClose();
     return taskId;
   };
 
   onEditTaskModalOpen = async (id) => {
-    const { tasks, setTaskData } = this.props;
+    const { tasks, setTaskData, assignUser } = this.props;
     const editedTask = tasks.find(({ taskId }) => taskId === id);
-    const assignedMembers = await this.db.getAssignedUsers(id);
+    const assignedMembers = await this.db.getAssignedUsers(id); // TODO move to the appropriate handler
+    assignUser(assignedMembers);
     const { deadlineDate, startDate } = editedTask;
     setTaskData({ ...editedTask, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) });
     this.setState({
       isEditMode: true,
       isFormValid: true,
-      assignedMembers,
     });
     this.onModalOpen();
   };
 
   onSubmitEditTask = async () => {
     const { editCreatedTask } = this.props;
-    const { assignedMembers } = this.state;
-    await editCreatedTask(assignedMembers);
+    await editCreatedTask();
     this.getTasksData();
     this.onModalClose();
   };
@@ -124,7 +114,7 @@ class TasksManagePage extends Component {
   };
 
   render() {
-    const { isLoaded, isEditMode, showModal, isDetailMode, isFormValid, assignedMembers } = this.state;
+    const { isLoaded, isEditMode, showModal, isDetailMode, isFormValid } = this.state;
     const { tasks, formData } = this.props;
     const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${formData.name}:`}</h3> : <h3>Add new task:</h3>;
     return (
@@ -138,7 +128,6 @@ class TasksManagePage extends Component {
             isFormValid={isFormValid}
             onCheckboxChange={this.onCheckboxChange}
             isCheckboxShow
-            assignedMembers={assignedMembers}
             onSubmit={this.onSubmit}
           >
             {isDetailMode ? (
@@ -169,6 +158,7 @@ class TasksManagePage extends Component {
 }
 
 TasksManagePage.propTypes = {
+  assignUser: PropTypes.func.isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   setTaskData: PropTypes.func.isRequired,
   getAllTasks: PropTypes.func.isRequired,
@@ -179,15 +169,16 @@ TasksManagePage.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ tasks, formData }) => ({ tasks, formData });
+const mapStateToProps = ({ tasks, formData, assignedMembers }) => ({ tasks, formData, assignedMembers });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllTasks: () => dispatch(getTasks()),
-    addNewTask: (assignedMembers) => dispatch(addTask(assignedMembers)),
+    addNewTask: () => dispatch(addTask()),
     deleteTaskById: (id) => dispatch(deleteTask(id)),
-    editCreatedTask: (assignedMembers) => dispatch(editTask(assignedMembers)),
+    editCreatedTask: () => dispatch(editTask()),
     setTaskData: (data) => dispatch(setFormData(data)),
+    assignUser: (users) => dispatch(setAssignedMembers(users)),
   };
 };
 

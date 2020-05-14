@@ -1,27 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { CustomInput, FormGroup, Label } from 'reactstrap';
-import { loadCache } from '../../utils/cache';
+import { setAssignedMembers } from '../../store/actions';
 import './checkboxes.scss';
 
 class Checkboxes extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      members: [],
-    };
-  }
-
-  componentDidMount() {
-    const cachedData = loadCache('members');
-    this.setState({
-      members: cachedData,
-    });
+  componentWillUnmount() {
+    const { assignUser } = this.props;
+    assignUser([]);
   }
 
   onCheckboxChange = (e) => {
     const { id, checked } = e.target;
-    const { onCheckboxChange, assignedMembers } = this.props;
+    const { assignUser, assignedMembers } = this.props;
     const updatedMembers = new Set();
     assignedMembers.map((el) => updatedMembers.add(el));
     if (checked) {
@@ -29,12 +21,11 @@ class Checkboxes extends PureComponent {
     } else {
       updatedMembers.delete(id);
     }
-    onCheckboxChange([...updatedMembers]);
+    assignUser([...updatedMembers]);
   };
 
   render() {
-    const { members } = this.state;
-    const { assignedMembers } = this.props;
+    const { members, assignedMembers } = this.props;
     return (
       <div className='members-checkboxes__wrapper'>
         Assign members:
@@ -63,7 +54,16 @@ class Checkboxes extends PureComponent {
 
 Checkboxes.propTypes = {
   assignedMembers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onCheckboxChange: PropTypes.func.isRequired,
+  assignUser: PropTypes.func.isRequired,
+  members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-export default Checkboxes;
+const mapStateToProps = ({ members, assignedMembers }) => ({ members, assignedMembers });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    assignUser: (users) => dispatch(setAssignedMembers(users)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkboxes);

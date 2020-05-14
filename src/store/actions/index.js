@@ -12,6 +12,7 @@ import {
   FETCH_DATA_FAILURE,
   FETCH_DATA_START,
   SET_FORM_DATA,
+  SET_ASSIGNED_MEMBERS,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
@@ -133,10 +134,10 @@ const setMark = (state, userTaskId, taskId, userId) => {
   };
 };
 
-const addTask = (assignedMembers) => {
+const addTask = () => {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState();
+      const { formData, assignedMembers } = getState();
       const { deadlineDate, startDate } = formData; // TODO add helper
       const newTask = { ...formData, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
       const response = await api.addNewTask(newTask, assignedMembers);
@@ -168,10 +169,10 @@ const deleteTask = (task) => {
   };
 };
 
-const editTask = (assignedMembers) => {
+const editTask = () => {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState();
+      const { formData, assignedMembers } = getState();
       const { deadlineDate, startDate } = formData; // TODO add helper
       const newTask = { ...formData, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
       await api.editTask(newTask, assignedMembers);
@@ -192,6 +193,8 @@ const fetchingDataFailed = (error) => ({ type: FETCH_DATA_FAILURE, payload: erro
 
 const setFormData = (data) => ({ type: SET_FORM_DATA, payload: data });
 
+const setAssignedMembers = (members) => ({ type: SET_ASSIGNED_MEMBERS, payload: members });
+
 export {
   getUsers,
   addUser,
@@ -204,4 +207,5 @@ export {
   deleteTask,
   editTask,
   setFormData,
+  setAssignedMembers,
 };
