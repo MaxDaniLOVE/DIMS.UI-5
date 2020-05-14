@@ -11,7 +11,7 @@ import {
   EDIT_TASK,
   FETCH_DATA_FAILURE,
   FETCH_DATA_START,
-  SET_REGISTER_DATA,
+  SET_FORM_DATA,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
@@ -184,7 +184,7 @@ const startFetchingData = () => ({ type: FETCH_DATA_START });
 
 const fetchingDataFailed = (error) => ({ type: FETCH_DATA_FAILURE, payload: error });
 
-const setRegisterData = (data) => ({ type: SET_REGISTER_DATA, payload: data });
+const setFormData = (data) => ({ type: SET_FORM_DATA, payload: data });
 
 export {
   getUsers,
@@ -197,5 +197,5 @@ export {
   addTask,
   deleteTask,
   editTask,
-  setRegisterData,
+  setFormData,
 };

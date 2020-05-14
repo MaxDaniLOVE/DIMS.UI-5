@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'reactstrap';
 import { connect } from 'react-redux';
-import { getUsers, addUser, editUser, deleteUser, setRegisterData } from '../store/actions';
+import { getUsers, addUser, editUser, deleteUser, setFormData } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import { Button } from '../UI/Buttons';
@@ -181,7 +181,7 @@ const mapDispatchToProps = (dispatch) => {
     addNewUser: () => dispatch(addUser()),
     editUserData: () => dispatch(editUser()),
     deleteUserData: (id) => dispatch(deleteUser(id)),
-    setUserData: (data) => dispatch(setRegisterData(data)),
+    setUserData: (data) => dispatch(setFormData(data)),
   };
 };
 

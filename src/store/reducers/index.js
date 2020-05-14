@@ -11,7 +11,7 @@ import {
   EDIT_TASK,
   FETCH_DATA_FAILURE,
   FETCH_DATA_START,
-  SET_REGISTER_DATA,
+  SET_FORM_DATA,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -39,7 +39,7 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         userTasks: payload,
       };
-    case SET_REGISTER_DATA:
+    case SET_FORM_DATA:
       return {
         ...state,
         formData: payload,
