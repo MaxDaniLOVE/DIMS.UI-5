@@ -133,10 +133,13 @@ const setMark = (state, userTaskId, taskId, userId) => {
   };
 };
 
-const addTask = (task, assignedMembers) => {
-  return async (dispatch) => {
+const addTask = (assignedMembers) => {
+  return async (dispatch, getState) => {
     try {
-      const response = await api.addNewTask(task, assignedMembers);
+      const { formData } = getState();
+      const { deadlineDate, startDate } = formData; // TODO add helper
+      const newTask = { ...formData, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
+      const response = await api.addNewTask(newTask, assignedMembers);
       dispatch({
         type: ADD_TASK,
       });
@@ -165,9 +168,12 @@ const deleteTask = (task) => {
   };
 };
 
-const editTask = (newTask, assignedMembers) => {
-  return async (dispatch) => {
+const editTask = (assignedMembers) => {
+  return async (dispatch, getState) => {
     try {
+      const { formData } = getState();
+      const { deadlineDate, startDate } = formData; // TODO add helper
+      const newTask = { ...formData, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
       await api.editTask(newTask, assignedMembers);
       dispatch({
         type: EDIT_TASK,

@@ -28,8 +28,8 @@ class MembersPage extends Component {
 
   componentDidMount() {
     this.getMembersData();
-    const { setUserData } = this.props;
-    setUserData(defaultRegisterData);
+    const { setRegisterData } = this.props;
+    setRegisterData(defaultRegisterData);
   }
 
   componentDidUpdate() {
@@ -52,8 +52,8 @@ class MembersPage extends Component {
   };
 
   onModalClose = () => {
-    const { setUserData } = this.props;
-    setUserData(defaultRegisterData);
+    const { setRegisterData } = this.props;
+    setRegisterData(defaultRegisterData);
     this.setState({
       showModal: false,
       isEditMode: false,
@@ -63,12 +63,12 @@ class MembersPage extends Component {
   };
 
   onFormChange = (e) => {
-    const { setUserData, formData } = this.props;
+    const { setRegisterData, formData } = this.props;
     const { value, id } = e.target;
     const updated = inputsChangeHandler(value, id, formData);
     const validatedInputs = { ...updated };
     const isFormValid = validation(validatedInputs, membersInputs);
-    setUserData(updated);
+    setRegisterData(updated);
     this.setState({ isFormValid });
   };
 
@@ -79,11 +79,11 @@ class MembersPage extends Component {
   };
 
   onEditMemberModalOpen = (userId) => {
-    const { members, setUserData } = this.props;
+    const { members, setRegisterData } = this.props;
     const editedUser = members.find(({ id }) => id === userId);
     const { birthDate, startDate } = editedUser;
     this.onModalOpen();
-    setUserData({ ...editedUser, birthDate: dateToString(birthDate), startDate: dateToString(startDate) });
+    setRegisterData({ ...editedUser, birthDate: dateToString(birthDate), startDate: dateToString(startDate) });
     return this.setState({
       isEditMode: true,
       isFormValid: true,
@@ -97,9 +97,9 @@ class MembersPage extends Component {
   };
 
   onMemberDataOpen = (userId) => {
-    const { members, setUserData } = this.props;
+    const { members, setRegisterData } = this.props;
     const editedUser = members.find(({ id }) => id === userId);
-    setUserData(editedUser);
+    setRegisterData(editedUser);
     this.setState({
       showModal: true,
       isDetailMode: true,
@@ -181,13 +181,13 @@ const mapDispatchToProps = (dispatch) => {
     addNewUser: () => dispatch(addUser()),
     editUserData: () => dispatch(editUser()),
     deleteUserData: (id) => dispatch(deleteUser(id)),
-    setUserData: (data) => dispatch(setFormData(data)),
+    setRegisterData: (data) => dispatch(setFormData(data)),
   };
 };
 
 MembersPage.propTypes = {
   formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
-  setUserData: PropTypes.func.isRequired,
+  setRegisterData: PropTypes.func.isRequired,
   getUsersData: PropTypes.func.isRequired,
   addNewUser: PropTypes.func.isRequired,
   editUserData: PropTypes.func.isRequired,
