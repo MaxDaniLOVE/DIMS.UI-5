@@ -134,6 +134,7 @@ class TasksManagePage extends Component {
               <DataModal header={modalHeader} data={formData} inputFields={tasksInputs} />
             ) : (
               <FormModal
+                addClassName='tasks-modal'
                 modalHeader={modalHeader}
                 inputs={tasksInputs}
                 data={formData}

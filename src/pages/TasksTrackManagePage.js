@@ -167,6 +167,7 @@ class TasksTrackManagePage extends Component {
               <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />
             ) : (
               <FormModal
+                addClassName='tasks-track-modal'
                 inputs={subtasksInputs}
                 data={subtaskData}
                 onFormChange={this.onFormChange}

@@ -139,6 +139,7 @@ class MembersPage extends Component {
               <DataModal header={modalHeader} data={formData} inputFields={membersInputs} />
             ) : (
               <FormModal
+                addClassName='members-modal'
                 inputs={membersInputs}
                 data={formData}
                 onFormChange={this.onFormChange}
