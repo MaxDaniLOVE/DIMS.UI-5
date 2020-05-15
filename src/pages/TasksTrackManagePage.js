@@ -14,6 +14,7 @@ import { validation } from '../utils/validation';
 import AuthContext from '../context';
 import { dateToString } from '../utils/convertDate';
 import pagesInitialState from '../utils/pagesInitialState';
+import EmptyTableMessage from '../UI/EmptyTableMessage';
 import { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress } from '../store/actions';
 
 class TasksTrackManagePage extends Component {
@@ -150,6 +151,9 @@ class TasksTrackManagePage extends Component {
     const { isLoaded, showModal, isEditMode, isDetailMode, isFormValid } = this.state;
     const { progress, formData } = this.props;
     const modalHeader = <h3>{`Task track - ${formData.taskName}`}</h3>;
+    if (!progress.length) {
+      return <EmptyTableMessage>It looks like you have no subtasks!</EmptyTableMessage>;
+    }
     return (
       <div className='table-wrapper'>
         <Modal isOpen={showModal} toggle={this.onModalClose}>
@@ -179,7 +183,7 @@ class TasksTrackManagePage extends Component {
 
         {isLoaded ? (
           <>
-            <h2>This is your tasks:</h2>
+            <h2>This is your subtasks:</h2>
             <MembersProgressTable
               onAddSubtaskModalOpen={this.onAddSubtaskModalOpen}
               progress={progress}

@@ -8,12 +8,16 @@ import Layout from '../components/Layout';
 import AuthContext from '../context';
 import { getUserTasks, setMark } from '../store/actions';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
+import initializeService from '../utils/initializeService';
+
+const db = initializeService();
 
 class MembersTasksPage extends Component {
   constructor() {
     super();
     this.state = {
       isLoaded: false,
+      memberName: '',
     };
   }
 
@@ -27,9 +31,8 @@ class MembersTasksPage extends Component {
       params: { mid },
     } = match;
     await getAllUserTasks(mid);
-    this.setState({
-      isLoaded: true,
-    });
+    const { name: memberName } = await db.getUserById(mid);
+    this.setState({ memberName, isLoaded: true });
   };
 
   onSetMark = async (userTaskId, state, taskId) => {
@@ -42,7 +45,7 @@ class MembersTasksPage extends Component {
   };
 
   render() {
-    const { isLoaded } = this.state;
+    const { isLoaded, memberName } = this.state;
     const { userTasks } = this.props;
     const {
       user: { role },
@@ -52,11 +55,12 @@ class MembersTasksPage extends Component {
         <EmptyTableMessage>It looks like you have no tasks! Please contact your mentor or admin</EmptyTableMessage>
       );
     }
+    const header = role === 'USER' ? 'Hi! This is your current tasks:' : `All ${memberName}'s tasks:`;
     return (
       <Layout>
         {isLoaded ? (
           <>
-            <h2>Hi! This is your current tasks:</h2>
+            <h2>{header}</h2>
             <MembersTasksTable userTasks={userTasks} role={role} onSetMark={this.onSetMark} />
           </>
         ) : (

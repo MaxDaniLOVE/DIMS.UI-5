@@ -182,6 +182,10 @@ export default class Azure {
     }
   };
 
+  getUsersProgress = async (id) => {
+    throw new Error('Sorry, but feature for this page is still being drafted.');
+  };
+
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
       const { StartDate, FullName, Sex, Age, UserId, Direction: directionId, ...dataToTransform } = member;

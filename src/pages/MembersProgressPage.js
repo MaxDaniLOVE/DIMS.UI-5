@@ -7,6 +7,7 @@ import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
 import { getUserProgress } from '../store/actions';
 import initializeService from '../utils/initializeService';
+import EmptyTableMessage from '../UI/EmptyTableMessage';
 
 const db = initializeService();
 
@@ -32,6 +33,9 @@ class MembersProgressPage extends Component {
   render() {
     const { isLoaded, memberName } = this.state;
     const { progress } = this.props;
+    if (!progress.length) {
+      return <EmptyTableMessage>This user has no subtasks :(</EmptyTableMessage>;
+    }
     return (
       <Layout>
         {isLoaded ? (
