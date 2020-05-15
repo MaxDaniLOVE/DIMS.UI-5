@@ -15,7 +15,7 @@ import { validation } from '../utils/validation';
 import AuthContext from '../context';
 import { stringToDate, dateToString } from '../utils/convertDate';
 import pagesInitialState from '../utils/pagesInitialState';
-import { getUserProgress, setFormData } from '../store/actions';
+import { getUserProgress, setFormData, deleteUserProgress } from '../store/actions';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -119,8 +119,11 @@ class TasksTrackManagePage extends Component {
   };
 
   onSubtaskDelete = async (subtaskId) => {
-    await this.db.deleteSubtask(subtaskId);
-    await this.getTracksData();
+    const { deleteSubtask } = this.props;
+    const {
+      user: { userId },
+    } = this.context;
+    await deleteSubtask(subtaskId, userId);
   };
 
   onEditSubtaskModalOpen = (subtaskId) => {
@@ -207,6 +210,7 @@ TasksTrackManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   getUserSubtasks: PropTypes.func.isRequired,
   setSubtaskData: PropTypes.func.isRequired,
+  deleteSubtask: PropTypes.func.isRequired,
   formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
@@ -217,6 +221,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getUserSubtasks: (id) => dispatch(getUserProgress(id)),
     setSubtaskData: (data) => dispatch(setFormData(data)),
+    deleteSubtask: (subtaskId, userId) => dispatch(deleteUserProgress(subtaskId, userId)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage);

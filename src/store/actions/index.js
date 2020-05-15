@@ -14,6 +14,7 @@ import {
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
   GET_USER_PROGRESS,
+  DELETE_USER_PROGRESS,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
@@ -214,6 +215,21 @@ const getUserProgress = (id) => {
   };
 };
 
+const deleteUserProgress = (subtaskId, userId) => {
+  return async (dispatch) => {
+    try {
+      await api.deleteSubtask(subtaskId);
+      dispatch({
+        type: DELETE_USER_PROGRESS,
+      });
+      dispatch(getUserProgress(userId));
+    } catch (error) {
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
+    }
+  };
+};
+
 export {
   getUsers,
   addUser,
@@ -228,4 +244,5 @@ export {
   setFormData,
   setAssignedMembers,
   getUserProgress,
+  deleteUserProgress,
 };
