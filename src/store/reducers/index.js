@@ -15,6 +15,7 @@ import {
   SET_ASSIGNED_MEMBERS,
   GET_USER_PROGRESS,
   DELETE_USER_PROGRESS,
+  EDIT_USER_PROGRESS,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -61,6 +62,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case ADD_TASK:
     case DELETE_TASK:
     case DELETE_USER_PROGRESS:
+    case EDIT_USER_PROGRESS:
     case EDIT_TASK:
       return { ...state };
     case FETCH_DATA_START:

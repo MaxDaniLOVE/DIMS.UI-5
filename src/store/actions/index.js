@@ -15,6 +15,8 @@ import {
   SET_ASSIGNED_MEMBERS,
   GET_USER_PROGRESS,
   DELETE_USER_PROGRESS,
+  EDIT_USER_PROGRESS,
+  ADD_USER_PROGRESS,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
@@ -230,6 +232,41 @@ const deleteUserProgress = (subtaskId, userId) => {
   };
 };
 
+const editUserProgress = () => {
+  return async (dispatch, getState) => {
+    try {
+      const { formData } = getState();
+      const { trackDate, userId } = formData; // TODO add helper
+      const newTask = { ...formData, trackDate: stringToDate(trackDate) };
+      await api.editUserProgress(newTask);
+      dispatch({
+        type: EDIT_USER_PROGRESS,
+      });
+      dispatch(getUserProgress(userId));
+    } catch (error) {
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
+    }
+  };
+};
+
+const addUserProgress = () => {
+  return async (dispatch, getState) => {
+    try {
+      const { formData } = getState();
+      const { trackDate, userId } = formData; // TODO add helper
+      const newTask = { ...formData, trackDate: stringToDate(trackDate) };
+      await api.addNewSubtask(newTask);
+      dispatch({
+        type: ADD_USER_PROGRESS,
+      });
+      dispatch(getUserProgress(userId));
+    } catch (error) {
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
+    }
+  };
+};
 export {
   getUsers,
   addUser,
@@ -245,4 +282,6 @@ export {
   setAssignedMembers,
   getUserProgress,
   deleteUserProgress,
+  editUserProgress,
+  addUserProgress,
 };

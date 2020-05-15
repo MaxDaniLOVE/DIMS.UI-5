@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal } from 'reactstrap';
-import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
@@ -13,9 +12,9 @@ import { subtasksInputs } from '../utils/inputs';
 import FormModal from '../components/FormModal';
 import { validation } from '../utils/validation';
 import AuthContext from '../context';
-import { stringToDate, dateToString } from '../utils/convertDate';
+import { dateToString } from '../utils/convertDate';
 import pagesInitialState from '../utils/pagesInitialState';
-import { getUserProgress, setFormData, deleteUserProgress } from '../store/actions';
+import { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress } from '../store/actions';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -23,7 +22,6 @@ class TasksTrackManagePage extends Component {
     this.state = {
       ...pagesInitialState,
     };
-    this.db = new Firebase();
   }
 
   componentDidMount() {
@@ -82,24 +80,25 @@ class TasksTrackManagePage extends Component {
     const {
       user: { userId, userName },
     } = this.context;
-    this.setState(() => {
-      const { taskId, taskName } = formData;
-      const inputsValues = inputsChangeHandler(value, id, formData);
-      const newSubtask = {
-        taskId,
-        taskName,
-        userId,
-        userName,
-        ...inputsValues,
-      };
-      const validatedInputs = {
-        trackNote: newSubtask.trackNote,
-        trackDate: newSubtask.trackDate,
-      };
-      const isFormValid = validation(validatedInputs, subtasksInputs);
-      setSubtaskData(newSubtask);
-      return { isFormValid };
-    });
+
+    const { taskId, taskName } = formData;
+    const inputsValues = inputsChangeHandler(value, id, formData);
+    const newSubtask = {
+      taskId,
+      taskName,
+      userId,
+      userName,
+      ...inputsValues,
+    };
+
+    const validatedInputs = {
+      trackNote: newSubtask.trackNote,
+      trackDate: newSubtask.trackDate,
+    };
+
+    const isFormValid = validation(validatedInputs, subtasksInputs);
+    setSubtaskData(newSubtask);
+    this.setState({ isFormValid });
   };
 
   onAddSubtaskModalOpen = (taskId) => {
@@ -110,12 +109,10 @@ class TasksTrackManagePage extends Component {
     setSubtaskData({ ...formData, taskId, taskName });
   };
 
-  onAddSubtask = async (subtask) => {
-    const { trackDate } = subtask;
-    const newSubtask = { ...subtask, trackDate: stringToDate(trackDate) };
+  onAddSubtask = async () => {
+    const { addUserSubtask } = this.props;
+    await addUserSubtask();
     this.onModalClose();
-    await this.db.addNewSubtask(newSubtask);
-    await this.getTracksData();
   };
 
   onSubtaskDelete = async (subtaskId) => {
@@ -138,19 +135,15 @@ class TasksTrackManagePage extends Component {
     });
   };
 
-  onSubmitEditSubtask = async (subtask) => {
-    const { trackDate } = subtask;
-    const newSubtask = { ...subtask, trackDate: stringToDate(trackDate) };
-    await this.db.editUserProgress(newSubtask);
-    const result = await this.getTracksData();
+  onSubmitEditSubtask = async () => {
+    const { editUserSubtask } = this.props;
+    await editUserSubtask();
     this.onModalClose();
-    return result;
   };
 
   onSubmit = () => {
     const { isEditMode } = this.state;
-    const { formData } = this.props;
-    return isEditMode ? this.onSubmitEditSubtask(formData) : this.onAddSubtask(formData);
+    return isEditMode ? this.onSubmitEditSubtask() : this.onAddSubtask();
   };
 
   render() {
@@ -211,6 +204,8 @@ TasksTrackManagePage.propTypes = {
   getUserSubtasks: PropTypes.func.isRequired,
   setSubtaskData: PropTypes.func.isRequired,
   deleteSubtask: PropTypes.func.isRequired,
+  editUserSubtask: PropTypes.func.isRequired,
+  addUserSubtask: PropTypes.func.isRequired,
   formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
@@ -222,6 +217,8 @@ const mapDispatchToProps = (dispatch) => {
     getUserSubtasks: (id) => dispatch(getUserProgress(id)),
     setSubtaskData: (data) => dispatch(setFormData(data)),
     deleteSubtask: (subtaskId, userId) => dispatch(deleteUserProgress(subtaskId, userId)),
+    editUserSubtask: () => dispatch(editUserProgress()),
+    addUserSubtask: () => dispatch(addUserProgress()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage);
