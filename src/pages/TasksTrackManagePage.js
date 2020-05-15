@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Modal } from 'reactstrap';
 import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
@@ -9,18 +10,17 @@ import { defaultSubtaskData } from '../utils/defaultInputsData';
 import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
-import sortFromOldToNew from '../utils/sortFromOldToNew';
 import FormModal from '../components/FormModal';
 import { validation } from '../utils/validation';
 import AuthContext from '../context';
 import { stringToDate, dateToString } from '../utils/convertDate';
 import pagesInitialState from '../utils/pagesInitialState';
+import { getUserProgress } from '../store/actions';
 
 class TasksTrackManagePage extends Component {
   constructor() {
     super();
     this.state = {
-      progress: [],
       subtaskData: defaultSubtaskData,
       ...pagesInitialState,
     };
@@ -39,18 +39,14 @@ class TasksTrackManagePage extends Component {
     const {
       user: { userId },
     } = this.context;
-    this.db.getUsersProgress(userId).then(async (progress) => {
-      const sortedProgress = sortFromOldToNew(progress);
-      if (recievedId) {
-        const editedTask = sortedProgress.find(({ taskId }) => taskId === recievedId);
-        const { taskId, taskName } = editedTask;
-        this.onAddSubtaskModalOpen(taskId, taskName);
-      }
-      this.setState({
-        progress: sortedProgress,
-        isLoaded: true,
-      });
+    const { getUserSubtasks } = this.props;
+    await getUserSubtasks(userId);
+    this.setState({
+      isLoaded: true,
     });
+    if (recievedId) {
+      this.onAddSubtaskModalOpen(recievedId);
+    }
   };
 
   onModalOpen = () => {
@@ -70,7 +66,7 @@ class TasksTrackManagePage extends Component {
   };
 
   onSubtaskDataOpen = (subtaskId) => {
-    const { progress } = this.state;
+    const { progress } = this.props;
     const subtask = progress.find(({ taskTrackId }) => taskTrackId === subtaskId);
     this.onModalOpen();
     this.setState({
@@ -103,7 +99,10 @@ class TasksTrackManagePage extends Component {
     });
   };
 
-  onAddSubtaskModalOpen = (taskId, taskName) => {
+  onAddSubtaskModalOpen = (taskId) => {
+    const { progress } = this.props;
+    const editedTask = progress.find(({ taskId: id }) => id === taskId);
+    const { taskName } = editedTask;
     this.onModalOpen();
     this.setState(({ subtaskData }) => ({
       subtaskData: { ...subtaskData, taskId, taskName },
@@ -124,7 +123,7 @@ class TasksTrackManagePage extends Component {
   };
 
   onEditSubtaskModalOpen = (subtaskId) => {
-    const { progress } = this.state;
+    const { progress } = this.props;
     const editedSubtask = progress.find(({ taskTrackId }) => taskTrackId === subtaskId);
     const { trackDate } = editedSubtask;
     this.onModalOpen();
@@ -150,7 +149,8 @@ class TasksTrackManagePage extends Component {
   };
 
   render() {
-    const { progress, isLoaded, showModal, isEditMode, isDetailMode, subtaskData, isFormValid } = this.state;
+    const { isLoaded, showModal, isEditMode, isDetailMode, subtaskData, isFormValid } = this.state;
+    const { progress } = this.props;
     const modalHeader = <h3>{`Task track - ${subtaskData.taskName}`}</h3>;
     return (
       <div className='table-wrapper'>
@@ -203,6 +203,15 @@ TasksTrackManagePage.contextType = AuthContext;
 
 TasksTrackManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  getUserSubtasks: PropTypes.func.isRequired,
+  progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-export default TasksTrackManagePage;
+const mapStateToProps = ({ progress }) => ({ progress });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserSubtasks: (id) => dispatch(getUserProgress(id)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage);

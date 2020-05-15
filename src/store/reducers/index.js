@@ -13,6 +13,7 @@ import {
   FETCH_DATA_START,
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
+  GET_USER_PROGRESS,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -22,6 +23,7 @@ const initialState = {
   error: {},
   formData: {},
   assignedMembers: [],
+  progress: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -45,6 +47,11 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         formData: payload,
+      };
+    case GET_USER_PROGRESS:
+      return {
+        ...state,
+        progress: payload,
       };
     case ADD_MEMBER:
     case EDIT_MEMBER:

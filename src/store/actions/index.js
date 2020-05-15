@@ -13,9 +13,11 @@ import {
   FETCH_DATA_START,
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
+  GET_USER_PROGRESS,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
+import sortFromOldToNew from '../../utils/sortFromOldToNew';
 
 const api = initializeService();
 
@@ -195,6 +197,23 @@ const setFormData = (data) => ({ type: SET_FORM_DATA, payload: data });
 
 const setAssignedMembers = (members) => ({ type: SET_ASSIGNED_MEMBERS, payload: members });
 
+const getUserProgress = (id) => {
+  return async (dispatch) => {
+    dispatch(startFetchingData());
+    try {
+      const userProgress = await api.getUsersProgress(id);
+      const sortedProgress = sortFromOldToNew(userProgress);
+      dispatch({
+        type: GET_USER_PROGRESS,
+        payload: sortedProgress,
+      });
+    } catch (error) {
+      const { message } = error;
+      dispatch(fetchingDataFailed({ message }));
+    }
+  };
+};
+
 export {
   getUsers,
   addUser,
@@ -208,4 +227,5 @@ export {
   editTask,
   setFormData,
   setAssignedMembers,
+  getUserProgress,
 };
