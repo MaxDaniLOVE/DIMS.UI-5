@@ -170,6 +170,18 @@ export default class Azure {
     }
   };
 
+  getUserById = async (id) => {
+    try {
+      const { data } = await axios.get(`${this.api}/profile/details/${id}`);
+      const { FullName, ...userData } = data;
+      const [name, lastName] = FullName.split(' ');
+      return { name, lastName, ...this.convertData(userData) };
+    } catch (error) {
+      console.error("Can't load members", error.message);
+      return error;
+    }
+  };
+
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
       const { StartDate, FullName, Sex, Age, UserId, Direction: directionId, ...dataToTransform } = member;

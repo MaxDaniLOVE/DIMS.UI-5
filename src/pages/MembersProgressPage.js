@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
 import { getUserProgress } from '../store/actions';
+import initializeService from '../utils/initializeService';
 
-const db = new Firebase();
+const db = initializeService();
 
 class MembersProgressPage extends Component {
   constructor() {
@@ -19,18 +19,14 @@ class MembersProgressPage extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { match, getUserSubtasks } = this.props;
     const {
       params: { mid },
     } = match;
     getUserSubtasks(mid);
-    db.getUserData(mid).then(({ name }) => {
-      this.setState({
-        memberName: name,
-        isLoaded: true,
-      });
-    });
+    const { name: memberName } = await db.getUserById(mid);
+    this.setState({ memberName, isLoaded: true });
   }
 
   render() {
