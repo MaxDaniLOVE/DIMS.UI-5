@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
-import sortFromOldToNew from '../utils/sortFromOldToNew';
+import { getUserProgress } from '../store/actions';
 
 const db = new Firebase();
 
@@ -13,33 +14,28 @@ class MembersProgressPage extends Component {
   constructor() {
     super();
     this.state = {
-      progress: [],
       isLoaded: false,
       memberName: '',
     };
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, getUserSubtasks } = this.props;
     const {
       params: { mid },
     } = match;
-    db.getUsersProgress(mid).then((progress) => {
-      const sortedProgress = sortFromOldToNew(progress);
-      this.setState({
-        progress: sortedProgress,
-        isLoaded: true,
-      });
-    });
+    getUserSubtasks(mid);
     db.getUserData(mid).then(({ name }) => {
       this.setState({
         memberName: name,
+        isLoaded: true,
       });
     });
   }
 
   render() {
-    const { progress, isLoaded, memberName } = this.state;
+    const { isLoaded, memberName } = this.state;
+    const { progress } = this.props;
     return (
       <Layout>
         {isLoaded ? (
@@ -57,6 +53,16 @@ class MembersProgressPage extends Component {
 
 MembersProgressPage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  getUserSubtasks: PropTypes.func.isRequired,
+  progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-export default withRouter(MembersProgressPage);
+const mapStateToProps = ({ progress }) => ({ progress });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserSubtasks: (id) => dispatch(getUserProgress(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersProgressPage));
