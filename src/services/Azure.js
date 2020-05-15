@@ -10,8 +10,7 @@ export default class Azure {
       const { data: members } = await axios.get(`${this.api}/profiles`);
       return this.transformMembersData(members);
     } catch (error) {
-      console.error("Can't load members", error.message);
-      return error;
+      throw new Error("Can't load members. Please, try later.");
     }
   };
 
@@ -21,8 +20,7 @@ export default class Azure {
       const response = await axios.post(`${this.api}/create`, newUser);
       return response;
     } catch (error) {
-      console.error("Can't add member", error.message);
-      return error;
+      throw new Error("Can't add member. Please, try later.");
     }
   };
 
@@ -34,8 +32,7 @@ export default class Azure {
       const response = await axios.put(`${this.api}/profile/edit/${id}`, editedUser);
       return response;
     } catch (error) {
-      console.error("Can't update member", error.message);
-      return error;
+      throw new Error("Can't update member. Please, try later.");
     }
   };
 
@@ -44,8 +41,7 @@ export default class Azure {
       const response = await axios.delete(`${this.api}/profile/delete/${id}`);
       return response;
     } catch (error) {
-      console.error("Can't delete member", error.message);
-      return error;
+      throw new Error("Can't delete member. Please, try later.");
     }
   };
 
@@ -55,8 +51,7 @@ export default class Azure {
       const convertedTasks = tasks.map((task) => this.convertData(task));
       return convertedTasks;
     } catch (error) {
-      console.error("Can't load tasks", error.message);
-      return error;
+      throw new Error("Can't load tasks. Please, try later.");
     }
   };
 
@@ -71,8 +66,7 @@ export default class Azure {
       });
       return allUsersTasks;
     } catch (error) {
-      console.error("Can't load tasks", error.message);
-      return error;
+      throw new Error("Can't load tasks. Please, try later.");
     }
   };
 
@@ -81,11 +75,10 @@ export default class Azure {
       const [state, , TaskId, UserId] = mark;
       const StatusId = this.statesIdsForBackend[state];
       const result = { TaskId, UserId, StatusId };
-      const response = axios.put(`${this.api}/user/task`, result);
+      const response = await axios.put(`${this.api}/user/task`, result);
       return response;
     } catch (error) {
-      console.error("Can't set mark", error.message);
-      return error;
+      throw new Error("Can't set mark. Please, try later.");
     }
   };
 
@@ -96,7 +89,7 @@ export default class Azure {
       const response = await axios.post(`${this.api}/task/create`, newTask);
       return response;
     } catch (error) {
-      console.error("Can't add task", error.message);
+      console.error("Can't add task. Please, try later.", error.message); // TODO change to `Throw new Error()` after fixing backend
       return error;
     }
   };
@@ -106,8 +99,7 @@ export default class Azure {
       const response = await axios.delete(`${this.api}/task/delete/${id}`);
       return response;
     } catch (error) {
-      console.error("Can't delete task", error.message);
-      return error;
+      throw new Error("Can't delete task. Please, try later.");
     }
   };
 
@@ -119,8 +111,7 @@ export default class Azure {
       await this.assignTaskToUsers(taskId, assignedMembers);
       return response;
     } catch (error) {
-      console.error("Can't update task", error.message);
-      return error;
+      throw new Error("Can't update task. Please, try later.");
     }
   };
 
@@ -129,8 +120,7 @@ export default class Azure {
       const response = await axios.post(`${this.api}/user/task/add/${id}`, users);
       return response;
     } catch (error) {
-      console.error("Can't update task", error.message);
-      return error;
+      throw new Error("Can't update task. Please, try later.");
     }
   };
 
@@ -140,8 +130,7 @@ export default class Azure {
       const isUserExists = userData.filter(({ email }) => email === userEmail);
       return isUserExists;
     } catch (error) {
-      console.error('An error occured', error.message);
-      return error;
+      throw new Error('An error occured. Please, try later.');
     }
   };
 
@@ -165,8 +154,7 @@ export default class Azure {
       )[0];
       return { email, userId, userName };
     } catch (error) {
-      console.error('An error occured', error.message);
-      return error;
+      throw new Error('An error occured. Please, try later.');
     }
   };
 
@@ -177,8 +165,7 @@ export default class Azure {
       const [name, lastName] = FullName.split(' ');
       return { name, lastName, ...this.convertData(userData) };
     } catch (error) {
-      console.error("Can't load members", error.message);
-      return error;
+      throw new Error("Can't load members. Please, try later.");
     }
   };
 

@@ -66,7 +66,6 @@ class TasksManagePage extends Component {
   onDeleteTask = async (taskId) => {
     const { deleteTaskById } = this.props;
     await deleteTaskById(taskId);
-    this.getTasksData();
   };
 
   onFormChange = (e) => {
@@ -82,7 +81,6 @@ class TasksManagePage extends Component {
   onAddTask = async () => {
     const { addNewTask } = this.props;
     const taskId = await addNewTask();
-    this.getTasksData();
     this.onModalClose();
     return taskId;
   };
@@ -104,7 +102,6 @@ class TasksManagePage extends Component {
   onSubmitEditTask = async () => {
     const { editCreatedTask } = this.props;
     await editCreatedTask();
-    this.getTasksData();
     this.onModalClose();
   };
 
