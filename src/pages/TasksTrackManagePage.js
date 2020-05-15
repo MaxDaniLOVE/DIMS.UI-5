@@ -15,23 +15,23 @@ import { validation } from '../utils/validation';
 import AuthContext from '../context';
 import { stringToDate, dateToString } from '../utils/convertDate';
 import pagesInitialState from '../utils/pagesInitialState';
-import { getUserProgress } from '../store/actions';
+import { getUserProgress, setFormData } from '../store/actions';
 
 class TasksTrackManagePage extends Component {
   constructor() {
     super();
     this.state = {
-      subtaskData: defaultSubtaskData,
       ...pagesInitialState,
     };
     this.db = new Firebase();
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, setSubtaskData } = this.props;
     const {
       params: { tid },
     } = match;
+    setSubtaskData(defaultSubtaskData);
     this.getTracksData(tid);
   }
 
@@ -56,9 +56,10 @@ class TasksTrackManagePage extends Component {
   };
 
   onModalClose = () => {
+    const { setSubtaskData } = this.props;
+    setSubtaskData(defaultSubtaskData);
     this.setState({
       showModal: false,
-      subtaskData: defaultSubtaskData,
       isEditMode: false,
       isDetailMode: false,
       isFormValid: false,
@@ -66,23 +67,24 @@ class TasksTrackManagePage extends Component {
   };
 
   onSubtaskDataOpen = (subtaskId) => {
-    const { progress } = this.props;
+    const { progress, setSubtaskData } = this.props;
     const subtask = progress.find(({ taskTrackId }) => taskTrackId === subtaskId);
     this.onModalOpen();
+    setSubtaskData(subtask);
     this.setState({
-      subtaskData: { ...subtask },
       isDetailMode: true,
     });
   };
 
   onFormChange = (e) => {
+    const { setSubtaskData, formData } = this.props;
     const { value, id } = e.target;
     const {
       user: { userId, userName },
     } = this.context;
-    this.setState(({ subtaskData }) => {
-      const { taskId, taskName } = subtaskData;
-      const inputsValues = inputsChangeHandler(value, id, subtaskData);
+    this.setState(() => {
+      const { taskId, taskName } = formData;
+      const inputsValues = inputsChangeHandler(value, id, formData);
       const newSubtask = {
         taskId,
         taskName,
@@ -95,18 +97,17 @@ class TasksTrackManagePage extends Component {
         trackDate: newSubtask.trackDate,
       };
       const isFormValid = validation(validatedInputs, subtasksInputs);
-      return { subtaskData: newSubtask, isFormValid };
+      setSubtaskData(newSubtask);
+      return { isFormValid };
     });
   };
 
   onAddSubtaskModalOpen = (taskId) => {
-    const { progress } = this.props;
+    const { progress, setSubtaskData, formData } = this.props;
     const editedTask = progress.find(({ taskId: id }) => id === taskId);
     const { taskName } = editedTask;
     this.onModalOpen();
-    this.setState(({ subtaskData }) => ({
-      subtaskData: { ...subtaskData, taskId, taskName },
-    }));
+    setSubtaskData({ ...formData, taskId, taskName });
   };
 
   onAddSubtask = async (subtask) => {
@@ -123,12 +124,12 @@ class TasksTrackManagePage extends Component {
   };
 
   onEditSubtaskModalOpen = (subtaskId) => {
-    const { progress } = this.props;
+    const { progress, setSubtaskData } = this.props;
     const editedSubtask = progress.find(({ taskTrackId }) => taskTrackId === subtaskId);
     const { trackDate } = editedSubtask;
     this.onModalOpen();
+    setSubtaskData({ ...editedSubtask, trackDate: dateToString(trackDate) });
     this.setState({
-      subtaskData: { ...editedSubtask, trackDate: dateToString(trackDate) },
       isEditMode: true,
       isFormValid: true,
     });
@@ -144,14 +145,15 @@ class TasksTrackManagePage extends Component {
   };
 
   onSubmit = () => {
-    const { isEditMode, subtaskData } = this.state;
-    return isEditMode ? this.onSubmitEditSubtask(subtaskData) : this.onAddSubtask(subtaskData);
+    const { isEditMode } = this.state;
+    const { formData } = this.props;
+    return isEditMode ? this.onSubmitEditSubtask(formData) : this.onAddSubtask(formData);
   };
 
   render() {
-    const { isLoaded, showModal, isEditMode, isDetailMode, subtaskData, isFormValid } = this.state;
-    const { progress } = this.props;
-    const modalHeader = <h3>{`Task track - ${subtaskData.taskName}`}</h3>;
+    const { isLoaded, showModal, isEditMode, isDetailMode, isFormValid } = this.state;
+    const { progress, formData } = this.props;
+    const modalHeader = <h3>{`Task track - ${formData.taskName}`}</h3>;
     return (
       <div className='table-wrapper'>
         <Modal isOpen={showModal} toggle={this.onModalClose}>
@@ -164,12 +166,12 @@ class TasksTrackManagePage extends Component {
             onSubmit={this.onSubmit}
           >
             {isDetailMode ? (
-              <DataModal header={modalHeader} data={subtaskData} inputFields={subtasksInputs} />
+              <DataModal header={modalHeader} data={formData} inputFields={subtasksInputs} />
             ) : (
               <FormModal
                 addClassName='tasks-track-modal'
                 inputs={subtasksInputs}
-                data={subtaskData}
+                data={formData}
                 onFormChange={this.onFormChange}
                 isEditMode={isEditMode}
                 isFormValid={isFormValid}
@@ -204,14 +206,17 @@ TasksTrackManagePage.contextType = AuthContext;
 TasksTrackManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   getUserSubtasks: PropTypes.func.isRequired,
+  setSubtaskData: PropTypes.func.isRequired,
+  formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ progress }) => ({ progress });
+const mapStateToProps = ({ progress, formData }) => ({ progress, formData });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUserSubtasks: (id) => dispatch(getUserProgress(id)),
+    setSubtaskData: (data) => dispatch(setFormData(data)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage);
