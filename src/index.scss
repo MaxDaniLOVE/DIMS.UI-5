@@ -26,6 +26,11 @@ code {
   z-index: 1;
 }
 
+textarea {
+  min-height: 4rem;
+  max-height: 8rem;
+}
+
 @media screen and (max-width: 768px) {
   * {
     font-size: 14px;

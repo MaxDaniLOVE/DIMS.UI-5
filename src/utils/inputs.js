@@ -39,7 +39,7 @@ const membersInputs = [
     label: 'Address:',
     id: 'address',
     type: 'text',
-    validationPattern: '[A-za-z0-9]{8,}',
+    validationPattern: '.{8,}[^\n]',
     errorMessage: 'Address should contain at least 8 characters',
   },
   {
@@ -82,14 +82,14 @@ const membersInputs = [
     id: 'skype',
     type: 'text',
     validationPattern: '.{6,}',
-    errorMessage: 'Please enter valid skype login',
+    errorMessage: 'Your Skype login should contain at least 6 characters',
   },
   {
     label: 'Mobile phone:',
     id: 'mobilePhone',
     type: 'text',
     validationPattern: '^\\+375[0-9]{9}$',
-    errorMessage: 'Please enter valid mobile phone',
+    errorMessage: "Mobile phone should be written in format '+375*********'",
   },
 ];
 
@@ -104,8 +104,8 @@ const subtasksInputs = [
   {
     label: 'Note:',
     id: 'trackNote',
-    type: 'text',
-    validationPattern: '.{10,}',
+    type: 'textarea',
+    validationPattern: '^(.|\\s){10,}$',
     errorMessage: 'Note should contain at least 10 characters',
   },
 ];
@@ -152,8 +152,8 @@ const tasksInputs = [
   {
     label: 'Description:',
     id: 'description',
-    type: 'text',
-    validationPattern: '.{10,}',
+    type: 'textarea',
+    validationPattern: '^(.|\\s){10,}$',
     errorMessage: 'Description should contain at least 10 characters',
   },
 ];
