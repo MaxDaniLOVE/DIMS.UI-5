@@ -10,7 +10,7 @@ const AlertsContainer = ({ alert: { message, type } }) => {
   useEffect(() => {
     if (message && type) {
       onOpenAlert();
-      setTimeout(onCloseAlert, 3000);
+      setTimeout(onCloseAlert, 5000);
     }
   }, [message, type]);
   const alerts = {

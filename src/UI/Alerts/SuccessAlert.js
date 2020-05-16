@@ -4,7 +4,10 @@ import { Alert } from 'reactstrap';
 
 const SuccessAlert = ({ children, isOpen, toggle }) => (
   <Alert color='success' isOpen={isOpen} toggle={toggle}>
-    {children}
+    <>
+      {children}
+      <div className='alert-progress-bar success-progress' />
+    </>
   </Alert>
 );
 
