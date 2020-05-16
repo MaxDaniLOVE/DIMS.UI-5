@@ -9,7 +9,7 @@ import {
   ADD_TASK,
   DELETE_TASK,
   EDIT_TASK,
-  FETCH_DATA_FAILURE,
+  THROW_ALERT,
   FETCH_DATA_START,
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
@@ -35,7 +35,7 @@ const getUsers = () => {
       });
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -53,7 +53,7 @@ const addUser = () => {
       dispatch(getUsers());
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -71,7 +71,7 @@ const editUser = () => {
       dispatch(getUsers());
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -84,11 +84,11 @@ const deleteUser = (id) => {
         type: DELETE_USER,
       });
       dispatch(getUsers());
+      dispatch(throwAlert({ message: 'User was successfully deleted!', type: 'SUCCESS' }));
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
-    await dispatch(getUsers());
   };
 };
 
@@ -103,7 +103,7 @@ const getTasks = () => {
       });
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -119,7 +119,7 @@ const getUserTasks = (id) => {
       });
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -134,7 +134,7 @@ const setMark = (state, userTaskId, taskId, userId) => {
       dispatch(getUserTasks(userId));
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -153,7 +153,7 @@ const addTask = () => {
       return response;
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
       return error;
     }
   };
@@ -167,9 +167,10 @@ const deleteTask = (task) => {
         type: DELETE_TASK,
       });
       dispatch(getTasks());
+      dispatch(throwAlert({ message: 'Task was successfully deleted!', type: 'SUCCESS' }));
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -187,14 +188,14 @@ const editTask = () => {
       dispatch(getTasks());
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
 
 const startFetchingData = () => ({ type: FETCH_DATA_START });
 
-const fetchingDataFailed = (error) => ({ type: FETCH_DATA_FAILURE, payload: error });
+const throwAlert = (alert) => ({ type: THROW_ALERT, payload: alert });
 
 const setFormData = (data) => ({ type: SET_FORM_DATA, payload: data });
 
@@ -212,7 +213,7 @@ const getUserProgress = (id) => {
       });
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -225,9 +226,10 @@ const deleteUserProgress = (subtaskId, userId) => {
         type: DELETE_USER_PROGRESS,
       });
       dispatch(getUserProgress(userId));
+      dispatch(throwAlert({ message: 'Subtask was successfully deleted!', type: 'SUCCESS' }));
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -245,7 +247,7 @@ const editUserProgress = () => {
       dispatch(getUserProgress(userId));
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };
@@ -263,7 +265,7 @@ const addUserProgress = () => {
       dispatch(getUserProgress(userId));
     } catch (error) {
       const { message } = error;
-      dispatch(fetchingDataFailed({ message }));
+      dispatch(throwAlert({ type: 'ERROR', message }));
     }
   };
 };

@@ -1,3 +1,4 @@
 import DangerAlert from './DangerAlert';
+import SuccessAlert from './SuccessAlert';
 
-export { DangerAlert };
+export { DangerAlert, SuccessAlert };

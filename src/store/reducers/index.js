@@ -9,7 +9,7 @@ import {
   ADD_TASK,
   DELETE_TASK,
   EDIT_TASK,
-  FETCH_DATA_FAILURE,
+  THROW_ALERT,
   FETCH_DATA_START,
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
@@ -22,7 +22,7 @@ const initialState = {
   members: [],
   tasks: [],
   userTasks: [],
-  error: {},
+  alert: {},
   formData: {},
   assignedMembers: [],
   progress: [],
@@ -66,9 +66,9 @@ const reducer = (state = initialState, { type, payload }) => {
     case EDIT_TASK:
       return { ...state };
     case FETCH_DATA_START:
-      return { ...state, error: {} };
-    case FETCH_DATA_FAILURE:
-      return { ...state, error: payload };
+      return { ...state, alert: {} };
+    case THROW_ALERT:
+      return { ...state, alert: payload };
     case SET_ASSIGNED_MEMBERS:
       return { ...state, assignedMembers: payload };
     default:

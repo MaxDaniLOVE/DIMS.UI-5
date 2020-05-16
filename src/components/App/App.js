@@ -7,10 +7,11 @@ import Header from '../Navigation';
 import Footer from '../../UI/Footer';
 import AuthContextProvider from '../AuthContextProvider';
 import Routes from '../Routes';
-import { DangerAlert } from '../../UI/Alerts';
+import { DangerAlert, SuccessAlert } from '../../UI/Alerts';
 import './app.scss';
 
-const App = ({ error: { message } }) => {
+const App = ({ alert: { message, type } }) => {
+  const alert = type === 'ERROR' ? <DangerAlert>{message}</DangerAlert> : <SuccessAlert>{message}</SuccessAlert>;
   return (
     <AuthContextProvider>
       <Router>
@@ -21,16 +22,16 @@ const App = ({ error: { message } }) => {
           </Switch>
         </Container>
         <Footer />
-        {message && <DangerAlert>{message}</DangerAlert>}
+        {message && alert}
       </Router>
     </AuthContextProvider>
   );
 };
 
 App.propTypes = {
-  error: PropTypes.objectOf(PropTypes.string).isRequired,
+  alert: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({ error }) => ({ error });
+const mapStateToProps = ({ alert }) => ({ alert });
 
 export default connect(mapStateToProps)(App);
