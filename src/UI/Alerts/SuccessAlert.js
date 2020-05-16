@@ -1,11 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { UncontrolledAlert } from 'reactstrap';
+import { Alert } from 'reactstrap';
 
-const SuccessAlert = ({ children }) => <UncontrolledAlert color='success'>{children}</UncontrolledAlert>;
+const SuccessAlert = ({ children, isOpen, toggle }) => (
+  <Alert color='success' isOpen={isOpen} toggle={toggle}>
+    {children}
+  </Alert>
+);
+
+SuccessAlert.defaultProps = {
+  children: '',
+};
 
 SuccessAlert.propTypes = {
-  children: PropTypes.string.isRequired,
+  toggle: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  children: PropTypes.string,
 };
 
 export default SuccessAlert;
