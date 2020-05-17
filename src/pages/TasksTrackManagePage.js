@@ -16,6 +16,7 @@ import { dateToString } from '../utils/convertDate';
 import pagesInitialState from '../utils/pagesInitialState';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
 import { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress } from '../store/actions';
+import { Subtitle } from '../UI/Titles';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -183,7 +184,7 @@ class TasksTrackManagePage extends Component {
 
         {isLoaded ? (
           <>
-            <h2>This is your subtasks:</h2>
+            <Subtitle>This is your subtasks:</Subtitle>
             <MembersProgressTable
               onAddSubtaskModalOpen={this.onAddSubtaskModalOpen}
               progress={progress}

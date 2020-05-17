@@ -8,6 +8,7 @@ import Layout from '../components/Layout';
 import { getUserProgress } from '../store/actions';
 import initializeService from '../utils/initializeService';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
+import { Subtitle } from '../UI/Titles';
 
 const db = initializeService();
 
@@ -40,7 +41,7 @@ class MembersProgressPage extends Component {
       <Layout>
         {isLoaded ? (
           <>
-            <h2>{`${memberName}'s progress:`}</h2>
+            <Subtitle>{`${memberName}'s progress:`}</Subtitle>
             <MembersProgressTable progress={progress} />
           </>
         ) : (

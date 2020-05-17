@@ -9,6 +9,7 @@ import AuthContext from '../context';
 import { getUserTasks, setMark } from '../store/actions';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
 import initializeService from '../utils/initializeService';
+import { Subtitle } from '../UI/Titles';
 
 const db = initializeService();
 
@@ -60,7 +61,7 @@ class MembersTasksPage extends Component {
       <Layout>
         {isLoaded ? (
           <>
-            <h2>{header}</h2>
+            <Subtitle>{header}</Subtitle>
             <MembersTasksTable userTasks={userTasks} role={role} onSetMark={this.onSetMark} />
           </>
         ) : (
