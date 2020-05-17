@@ -15,8 +15,10 @@ export default class Authentication {
         const userRole = await api.getUserRole(email);
         return userRole;
       }
+      return {};
     } catch (error) {
       console.error(error.message);
+      return error;
     }
   };
 

@@ -170,6 +170,7 @@ export default class Azure {
   };
 
   getUsersProgress = async (id) => {
+    // TODO add feature after backend will be ready
     throw new Error('Sorry, but feature for this page is still being drafted.');
   };
 
