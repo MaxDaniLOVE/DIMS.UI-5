@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import TasksTrackManagePage from '../../pages/TasksTrackManagePage';
-import MembersTasksPage from '../../pages/MembersTasksPage';
-import MembersPage from '../../pages/MembersPage';
-import MembersProgressPage from '../../pages/MembersProgressPage';
-import TasksManagePage from '../../pages/TasksManagePage';
+import {
+  AboutPage,
+  AuthPage,
+  MembersPage,
+  MembersProgressPage,
+  MembersTasksPage,
+  TasksManagePage,
+  TasksTrackManagePage,
+} from '../../pages';
 import AuthContext from '../../context';
-import AuthPage from '../../pages/AuthPage';
 
 const Routes = () => {
   const { user } = useContext(AuthContext);
@@ -14,26 +17,41 @@ const Routes = () => {
   if (!role) {
     return (
       <>
+        <Route exact path='/'>
+          <Redirect to='/auth' />
+        </Route>
         <Route path='/auth'>
           <AuthPage />
         </Route>
-        <Redirect to='/auth' />
+        <Route path='/about'>
+          <AboutPage />
+        </Route>
+        <Redirect to='/' />
       </>
     );
   }
   if (role === 'USER') {
     return (
       <>
+        <Route exact path='/'>
+          <Redirect to={`/member/${userId}/tasks`} />
+        </Route>
         <Route path='/member/subtasks/:tid?' component={TasksTrackManagePage} />
         <Route path='/member/:mid/tasks'>
           <MembersTasksPage />
         </Route>
-        <Redirect to={`/member/${userId}/tasks`} />
+        <Route path='/about'>
+          <AboutPage />
+        </Route>
+        <Redirect to='/' />
       </>
     );
   }
   return (
     <>
+      <Route exact path='/'>
+        <Redirect to='/members' />
+      </Route>
       <Route path='/members'>
         <MembersPage />
       </Route>
@@ -44,7 +62,10 @@ const Routes = () => {
         <MembersTasksPage />
       </Route>
       <Route path='/tasks/:tid?' component={TasksManagePage} />
-      <Redirect to='/members' />
+      <Route path='/about'>
+        <AboutPage />
+      </Route>
+      <Redirect to='/' />
     </>
   );
 };
