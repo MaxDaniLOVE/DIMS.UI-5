@@ -3,7 +3,7 @@ import { Subtitle, Paragraph } from '../../UI/Titles';
 
 const AboutAuthor = () => (
   <>
-    <Subtitle>Author</Subtitle>
+    <Subtitle>About author</Subtitle>
     <Paragraph>Will be added later</Paragraph>
   </>
 );
