@@ -2,9 +2,9 @@ import React from 'react';
 import { MainTitle, Subtitle, Paragraph } from '../UI/Titles';
 import Table from '../UI/Table';
 import TableHeader from '../UI/TableHeader';
-import { LinkButton } from '../UI/Buttons';
 import infoTableFields from '../utils/infoTableFields';
 import Layout from '../components/Layout';
+import { infoTableHeaders as headers } from '../utils/tableHeaders';
 
 const AboutPage = () => {
   const tableBody = infoTableFields.map(({ actions, admin, mentor, member }) => (
@@ -33,15 +33,13 @@ const AboutPage = () => {
       <Layout>
         <Table className='info-table'>
           <>
-            <TableHeader headers={['Actions', 'Admin', 'Mentor', 'Member']} />
+            <TableHeader headers={headers} />
             <tbody>{tableBody}</tbody>
           </>
         </Table>
       </Layout>
       <Subtitle>How to use DIMS?</Subtitle>
       <Paragraph>I don&apos;t know...</Paragraph>
-      <Subtitle>Are you excited? Click button bellow to start using DIMS!</Subtitle>
-      <LinkButton link='/'>GO</LinkButton>
     </div>
   );
 };

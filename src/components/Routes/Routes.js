@@ -17,25 +17,19 @@ const Routes = () => {
   if (!role) {
     return (
       <>
-        <Route exact path='/'>
-          <Redirect to='/auth' />
-        </Route>
         <Route path='/auth'>
           <AuthPage />
         </Route>
         <Route path='/about'>
           <AboutPage />
         </Route>
-        <Redirect to='/' />
+        <Redirect to='/auth' />
       </>
     );
   }
   if (role === 'USER') {
     return (
       <>
-        <Route exact path='/'>
-          <Redirect to={`/member/${userId}/tasks`} />
-        </Route>
         <Route path='/member/subtasks/:tid?' component={TasksTrackManagePage} />
         <Route path='/member/:mid/tasks'>
           <MembersTasksPage />
@@ -43,15 +37,12 @@ const Routes = () => {
         <Route path='/about'>
           <AboutPage />
         </Route>
-        <Redirect to='/' />
+        <Redirect to={`/member/${userId}/tasks`} />
       </>
     );
   }
   return (
     <>
-      <Route exact path='/'>
-        <Redirect to='/members' />
-      </Route>
       <Route path='/members'>
         <MembersPage />
       </Route>
@@ -65,7 +56,7 @@ const Routes = () => {
       <Route path='/about'>
         <AboutPage />
       </Route>
-      <Redirect to='/' />
+      <Redirect to='/members' />
     </>
   );
 };

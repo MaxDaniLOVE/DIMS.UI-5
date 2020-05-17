@@ -24,6 +24,11 @@ import sortFromOldToNew from '../../utils/sortFromOldToNew';
 
 const api = initializeService();
 
+const errorCallback = (dispatch, error) => {
+  const { message } = error;
+  dispatch(throwAlert({ type: 'ERROR', message }));
+};
+
 const getUsers = () => {
   return async (dispatch) => {
     dispatch(startFetchingData());
@@ -34,8 +39,7 @@ const getUsers = () => {
         payload: users,
       });
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -52,8 +56,7 @@ const addUser = () => {
       });
       dispatch(getUsers());
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -70,8 +73,7 @@ const editUser = () => {
       });
       dispatch(getUsers());
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -86,8 +88,7 @@ const deleteUser = (id) => {
       dispatch(getUsers());
       dispatch(throwAlert({ message: 'User was successfully deleted!', type: 'SUCCESS' }));
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -102,8 +103,7 @@ const getTasks = () => {
         payload: tasks,
       });
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -118,8 +118,7 @@ const getUserTasks = (id) => {
         payload: userTasks,
       });
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -133,8 +132,7 @@ const setMark = (state, userTaskId, taskId, userId) => {
       });
       dispatch(getUserTasks(userId));
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -152,8 +150,7 @@ const addTask = () => {
       dispatch(getTasks());
       return response;
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
       return error;
     }
   };
@@ -169,8 +166,7 @@ const deleteTask = (task) => {
       dispatch(getTasks());
       dispatch(throwAlert({ message: 'Task was successfully deleted!', type: 'SUCCESS' }));
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -187,8 +183,7 @@ const editTask = () => {
       });
       dispatch(getTasks());
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -212,8 +207,7 @@ const getUserProgress = (id) => {
         payload: sortedProgress,
       });
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -228,8 +222,7 @@ const deleteUserProgress = (subtaskId, userId) => {
       dispatch(getUserProgress(userId));
       dispatch(throwAlert({ message: 'Subtask was successfully deleted!', type: 'SUCCESS' }));
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -246,8 +239,7 @@ const editUserProgress = () => {
       });
       dispatch(getUserProgress(userId));
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -264,8 +256,7 @@ const addUserProgress = () => {
       });
       dispatch(getUserProgress(userId));
     } catch (error) {
-      const { message } = error;
-      dispatch(throwAlert({ type: 'ERROR', message }));
+      errorCallback(dispatch, error);
     }
   };
 };
