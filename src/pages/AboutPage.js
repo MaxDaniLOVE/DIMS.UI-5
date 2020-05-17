@@ -14,7 +14,7 @@ const AboutPage = () => {
   const links = tabs.map(({ tabId, tabLabel }) => {
     const onClick = () => switchTab(tabId);
     return (
-      <NavLink key={tabId} onClick={onClick}>
+      <NavLink active={activeTab === tabId} key={tabId} onClick={onClick}>
         {tabLabel}
       </NavLink>
     );

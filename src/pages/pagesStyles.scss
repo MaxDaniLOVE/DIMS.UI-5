@@ -6,6 +6,24 @@
     font-weight: 300;
     font-size: 1.2rem;
   }
+  .nav {
+    display: flex;
+    .nav-link {
+      flex: 1 1 auto;
+      background-color: $charcoal;
+      color: #fff;
+      font-weight: 300;
+      transition: all 0.3s ease-in;
+      &:hover {
+        background-color: $teal-green;
+        transition: all 0.3s ease-in;
+        cursor: pointer;
+      }
+    }
+    .active {
+      background-color: $teal-green;
+    }
+  }
 }
 .svg-inline--fa {
   height: 1rem;
