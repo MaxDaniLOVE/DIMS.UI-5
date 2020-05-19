@@ -8,13 +8,17 @@ import Layout from '../components/Layout';
 import AuthContext from '../context';
 import { getUserTasks, setMark } from '../store/actions';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
-import { DangerAlert } from '../UI/Alerts';
+import initializeService from '../utils/initializeService';
+import { Subtitle } from '../UI/Titles';
+
+const db = initializeService();
 
 class MembersTasksPage extends Component {
   constructor() {
     super();
     this.state = {
       isLoaded: false,
+      memberName: '',
     };
   }
 
@@ -28,9 +32,8 @@ class MembersTasksPage extends Component {
       params: { mid },
     } = match;
     await getAllUserTasks(mid);
-    this.setState({
-      isLoaded: true,
-    });
+    const { name: memberName } = await db.getUserById(mid);
+    this.setState({ memberName, isLoaded: true });
   };
 
   onSetMark = async (userTaskId, state, taskId) => {
@@ -43,27 +46,23 @@ class MembersTasksPage extends Component {
   };
 
   render() {
-    const { isLoaded } = this.state;
-    const {
-      userTasks,
-      error: { message },
-    } = this.props;
+    const { isLoaded, memberName } = this.state;
+    const { userTasks } = this.props;
     const {
       user: { role },
     } = this.context;
-    const alert = message && <DangerAlert>{message}</DangerAlert>;
     if (!userTasks.length) {
       return (
         <EmptyTableMessage>It looks like you have no tasks! Please contact your mentor or admin</EmptyTableMessage>
       );
     }
+    const header = role === 'USER' ? 'Hi! This is your current tasks:' : `All ${memberName}'s tasks:`;
     return (
       <Layout>
         {isLoaded ? (
           <>
-            <h2>Hi! This is your current tasks:</h2>
+            <Subtitle>{header}</Subtitle>
             <MembersTasksTable userTasks={userTasks} role={role} onSetMark={this.onSetMark} />
-            {alert}
           </>
         ) : (
           <Preloader />
@@ -75,20 +74,15 @@ class MembersTasksPage extends Component {
 
 MembersTasksPage.contextType = AuthContext;
 
-MembersTasksPage.defaultProps = {
-  error: {},
-};
-
 MembersTasksPage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  error: PropTypes.objectOf(PropTypes.string),
   getAllUserTasks: PropTypes.func.isRequired,
   onSetUserMark: PropTypes.func.isRequired,
   userTasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])))
     .isRequired,
 };
 
-const mapStateToProps = ({ userTasks, error }) => ({ userTasks, error });
+const mapStateToProps = ({ userTasks }) => ({ userTasks });
 
 const mapDispatchToProps = (dispatch) => {
   return {

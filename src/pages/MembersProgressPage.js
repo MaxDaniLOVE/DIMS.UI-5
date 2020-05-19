@@ -1,50 +1,47 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Firebase from '../services/Firebase';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
-import sortFromOldToNew from '../utils/sortFromOldToNew';
+import { getUserProgress } from '../store/actions';
+import initializeService from '../utils/initializeService';
+import EmptyTableMessage from '../UI/EmptyTableMessage';
+import { Subtitle } from '../UI/Titles';
 
-const db = new Firebase();
+const db = initializeService();
 
 class MembersProgressPage extends Component {
   constructor() {
     super();
     this.state = {
-      progress: [],
       isLoaded: false,
       memberName: '',
     };
   }
 
-  componentDidMount() {
-    const { match } = this.props;
+  async componentDidMount() {
+    const { match, getUserSubtasks } = this.props;
     const {
       params: { mid },
     } = match;
-    db.getUsersProgress(mid).then((progress) => {
-      const sortedProgress = sortFromOldToNew(progress);
-      this.setState({
-        progress: sortedProgress,
-        isLoaded: true,
-      });
-    });
-    db.getUserData(mid).then(({ name }) => {
-      this.setState({
-        memberName: name,
-      });
-    });
+    getUserSubtasks(mid);
+    const { name: memberName } = await db.getUserById(mid);
+    this.setState({ memberName, isLoaded: true });
   }
 
   render() {
-    const { progress, isLoaded, memberName } = this.state;
+    const { isLoaded, memberName } = this.state;
+    const { progress } = this.props;
+    if (!progress.length) {
+      return <EmptyTableMessage>This user has no subtasks :(</EmptyTableMessage>;
+    }
     return (
       <Layout>
         {isLoaded ? (
           <>
-            <h2>{`${memberName}'s progress:`}</h2>
+            <Subtitle>{`${memberName}'s progress:`}</Subtitle>
             <MembersProgressTable progress={progress} />
           </>
         ) : (
@@ -57,6 +54,16 @@ class MembersProgressPage extends Component {
 
 MembersProgressPage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  getUserSubtasks: PropTypes.func.isRequired,
+  progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-export default withRouter(MembersProgressPage);
+const mapStateToProps = ({ progress }) => ({ progress });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserSubtasks: (id) => dispatch(getUserProgress(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersProgressPage));

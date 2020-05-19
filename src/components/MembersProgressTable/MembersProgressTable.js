@@ -53,9 +53,9 @@ const MembersProgressTable = ({
   });
   return (
     <Layout>
-      <Table>
+      <Table className='members-progress-table'>
         <>
-          <TableHeader headers={isMemberTasks ? [...headers, ''] : headers} />
+          <TableHeader headers={isMemberTasks ? [...headers, 'Manage'] : headers} />
           <tbody>{progressBody}</tbody>
         </>
       </Table>

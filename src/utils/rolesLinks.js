@@ -37,7 +37,12 @@ const rolesLinks = (role, userId) => {
       },
     ],
   };
-  return links[role] || links.AUTH;
+  const aboutPageLink = {
+    link: `/about`,
+    label: 'About',
+  };
+  const linksWithRole = links[role] || links.AUTH;
+  return [...linksWithRole, aboutPageLink];
 };
 
 export default rolesLinks;

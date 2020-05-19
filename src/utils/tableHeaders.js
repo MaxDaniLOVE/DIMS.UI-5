@@ -5,6 +5,7 @@ const membersTasksHeaders = {
   ADMIN: ['#', 'Name', 'Start', 'Deadline', 'Status', 'Mark'],
   MENTOR: ['#', 'Name', 'Start', 'Deadline', 'Status', 'Mark'],
 };
-const taskTableHeaders = ['#', 'Name', 'Start', 'Deadline', ''];
+const taskTableHeaders = ['#', 'Name', 'Start', 'Deadline', 'Manage'];
+const infoTableHeaders = ['Actions', 'Admin', 'Mentor', 'Member'];
 
-export { membersProgressHeaders, membersHeaders, membersTasksHeaders, taskTableHeaders };
+export { membersProgressHeaders, membersHeaders, membersTasksHeaders, taskTableHeaders, infoTableHeaders };

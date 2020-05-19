@@ -1,0 +1,8 @@
+.radio-btns__wrapper {
+  width: 60%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  .radio-label:hover {
+    cursor: pointer;
+  }
+}

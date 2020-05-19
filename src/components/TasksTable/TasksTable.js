@@ -28,7 +28,7 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen }) => {
   });
   return (
     <Layout>
-      <Table>
+      <Table className='task-table'>
         <>
           <TableHeader headers={headers} />
           <tbody>{tasksTableBody}</tbody>

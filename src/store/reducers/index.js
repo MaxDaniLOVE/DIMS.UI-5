@@ -9,15 +9,23 @@ import {
   ADD_TASK,
   DELETE_TASK,
   EDIT_TASK,
-  FETCH_DATA_FAILURE,
+  THROW_ALERT,
   FETCH_DATA_START,
+  SET_FORM_DATA,
+  SET_ASSIGNED_MEMBERS,
+  GET_USER_PROGRESS,
+  DELETE_USER_PROGRESS,
+  EDIT_USER_PROGRESS,
 } from '../actions/actionTypes';
 
 const initialState = {
   members: [],
   tasks: [],
   userTasks: [],
-  error: {},
+  alert: {},
+  formData: {},
+  assignedMembers: [],
+  progress: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -37,18 +45,32 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         userTasks: payload,
       };
+    case SET_FORM_DATA:
+      return {
+        ...state,
+        formData: payload,
+      };
+    case GET_USER_PROGRESS:
+      return {
+        ...state,
+        progress: payload,
+      };
     case ADD_MEMBER:
     case EDIT_MEMBER:
     case DELETE_USER:
     case SET_USER_MARK:
     case ADD_TASK:
     case DELETE_TASK:
+    case DELETE_USER_PROGRESS:
+    case EDIT_USER_PROGRESS:
     case EDIT_TASK:
       return { ...state };
     case FETCH_DATA_START:
-      return { ...state, error: {} };
-    case FETCH_DATA_FAILURE:
-      return { ...state, error: payload };
+      return { ...state, alert: {} };
+    case THROW_ALERT:
+      return { ...state, alert: payload };
+    case SET_ASSIGNED_MEMBERS:
+      return { ...state, assignedMembers: payload };
     default:
       return state;
   }

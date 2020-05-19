@@ -13,26 +13,25 @@ import { validation } from '../utils/validation';
 import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
-import { stringToDate, dateToString } from '../utils/convertDate';
-import { getTasks, addTask, deleteTask, editTask } from '../store/actions';
+import { dateToString } from '../utils/convertDate';
+import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import pagesInitialState from '../utils/pagesInitialState';
 
 class TasksManagePage extends Component {
   constructor() {
     super();
     this.state = {
-      taskData: defaultTaskData,
-      assignedMembers: [],
       ...pagesInitialState,
     };
     this.db = new Firebase();
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, setTaskData } = this.props;
     const {
       params: { tid },
     } = match;
+    setTaskData(defaultTaskData);
     this.getTasksData(tid);
   }
 
@@ -54,85 +53,67 @@ class TasksManagePage extends Component {
   };
 
   onModalClose = () => {
+    const { setTaskData } = this.props;
+    setTaskData(defaultTaskData);
     this.setState({
       showModal: false,
-      taskData: defaultTaskData,
       isEditMode: false,
       isDetailMode: false,
       isFormValid: false,
-      assignedMembers: [],
     });
   };
 
   onDeleteTask = async (taskId) => {
     const { deleteTaskById } = this.props;
     await deleteTaskById(taskId);
-    this.getTasksData();
   };
 
   onFormChange = (e) => {
     const { value, id } = e.target;
-    this.setState(({ taskData }) => {
-      const updated = inputsChangeHandler(value, id, taskData);
-      const validatedInputs = { ...updated };
-      const isFormValid = validation(validatedInputs, tasksInputs);
-      return {
-        taskData: updated,
-        isFormValid,
-      };
-    });
+    const { setTaskData, formData } = this.props;
+    const updated = inputsChangeHandler(value, id, formData);
+    const validatedInputs = { ...updated };
+    const isFormValid = validation(validatedInputs, tasksInputs);
+    setTaskData(updated);
+    this.setState({ isFormValid });
   };
 
-  onCheckboxChange = (newMembers) => {
-    this.setState({
-      assignedMembers: newMembers,
-    });
-  };
-
-  onAddTask = async (task) => {
+  onAddTask = async () => {
     const { addNewTask } = this.props;
-    const { deadlineDate, startDate } = task;
-    const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
-    const { assignedMembers } = this.state;
+    const taskId = await addNewTask();
     this.onModalClose();
-    const taskId = await addNewTask(newTask, assignedMembers);
-    this.getTasksData();
     return taskId;
   };
 
   onEditTaskModalOpen = async (id) => {
-    const { tasks } = this.props;
+    const { tasks, setTaskData, assignUser } = this.props;
     const editedTask = tasks.find(({ taskId }) => taskId === id);
-    const assignedMembers = await this.db.getAssignedUsers(id);
+    const assignedMembers = await this.db.getAssignedUsers(id); // TODO move to the appropriate handler
+    assignUser(assignedMembers);
     const { deadlineDate, startDate } = editedTask;
+    setTaskData({ ...editedTask, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) });
     this.setState({
-      taskData: { ...editedTask, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) },
       isEditMode: true,
       isFormValid: true,
-      assignedMembers,
     });
     this.onModalOpen();
   };
 
-  onSubmitEditTask = async (task) => {
-    const { editTaskById } = this.props;
-    const { deadlineDate, startDate } = task;
-    const newTask = { ...task, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
-    const { assignedMembers } = this.state;
-    await editTaskById(newTask, assignedMembers);
-    this.getTasksData();
+  onSubmitEditTask = async () => {
+    const { editCreatedTask } = this.props;
+    await editCreatedTask();
     this.onModalClose();
   };
 
   onSubmit = () => {
-    const { isEditMode, taskData } = this.state;
-    return isEditMode ? this.onSubmitEditTask(taskData) : this.onAddTask(taskData);
+    const { isEditMode } = this.state;
+    return isEditMode ? this.onSubmitEditTask() : this.onAddTask();
   };
 
   render() {
-    const { isLoaded, isEditMode, showModal, isDetailMode, isFormValid, taskData, assignedMembers } = this.state;
-    const { tasks } = this.props;
-    const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${taskData.name}:`}</h3> : <h3>Add new task:</h3>;
+    const { isLoaded, isEditMode, showModal, isDetailMode, isFormValid } = this.state;
+    const { tasks, formData } = this.props;
+    const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${formData.name}:`}</h3> : <h3>Add new task:</h3>;
     return (
       <div className='table-wrapper'>
         <Modal isOpen={showModal} toggle={this.onModalClose}>
@@ -144,16 +125,16 @@ class TasksManagePage extends Component {
             isFormValid={isFormValid}
             onCheckboxChange={this.onCheckboxChange}
             isCheckboxShow
-            assignedMembers={assignedMembers}
             onSubmit={this.onSubmit}
           >
             {isDetailMode ? (
-              <DataModal header={modalHeader} data={taskData} inputFields={tasksInputs} />
+              <DataModal header={modalHeader} data={formData} inputFields={tasksInputs} />
             ) : (
               <FormModal
+                addClassName='tasks-modal'
                 modalHeader={modalHeader}
                 inputs={tasksInputs}
-                data={taskData}
+                data={formData}
                 onFormChange={this.onFormChange}
                 isEditMode={isEditMode}
                 isFormValid={isFormValid}
@@ -175,22 +156,27 @@ class TasksManagePage extends Component {
 }
 
 TasksManagePage.propTypes = {
+  assignUser: PropTypes.func.isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  setTaskData: PropTypes.func.isRequired,
   getAllTasks: PropTypes.func.isRequired,
   addNewTask: PropTypes.func.isRequired,
   deleteTaskById: PropTypes.func.isRequired,
-  editTaskById: PropTypes.func.isRequired,
+  editCreatedTask: PropTypes.func.isRequired,
+  formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ tasks }) => ({ tasks });
+const mapStateToProps = ({ tasks, formData, assignedMembers }) => ({ tasks, formData, assignedMembers });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllTasks: () => dispatch(getTasks()),
-    addNewTask: (task, assignedMembers) => dispatch(addTask(task, assignedMembers)),
+    addNewTask: () => dispatch(addTask()),
     deleteTaskById: (id) => dispatch(deleteTask(id)),
-    editTaskById: (id, assignedMembers) => dispatch(editTask(id, assignedMembers)),
+    editCreatedTask: () => dispatch(editTask()),
+    setTaskData: (data) => dispatch(setFormData(data)),
+    assignUser: (users) => dispatch(setAssignedMembers(users)),
   };
 };
 

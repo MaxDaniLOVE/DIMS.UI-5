@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   &-dialog {
-    max-width: 50vw;
+    max-width: 75vw;
   }
   &-content {
     background-color: transparent;
@@ -15,8 +15,8 @@
   border-radius: 1rem;
   padding: 1rem;
   height: fit-content;
-  width: 50vw;
-  max-width: 640px;
+  width: 75vw;
+  min-width: 640px;
   background-color: $baby-blue;
   display: inherit;
   flex-direction: column;

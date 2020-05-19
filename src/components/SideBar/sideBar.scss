@@ -1,20 +1,57 @@
 @import '../../scss/variables';
-.side-bar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 3;
-  height: 100vh;
+.side-bar__open {
+  @include initial-sidebar;
   width: 70%;
-  background-color: $charcoal;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .btn-danger {
-    position: absolute;
-    right: 3rem;
-    top: 2rem;
+  a,
+  .btn-logout {
+    @include inactive-link;
+    height: 4rem;
+    width: 100%;
+    transform: scale(1, 1);
+    animation: transform 0.1s linear;
+    &:hover {
+      @include active-link;
+      height: 4rem;
+    }
+  }
+  .active-link {
+    @include active-link;
+    transform: scale(1, 1);
+    animation: transform 0.1s linear;
+    height: 4rem;
+  }
+}
+
+.side-bar {
+  @include initial-sidebar;
+  a,
+  .btn-logout {
+    @include inactive-link;
+    height: 4rem;
+    width: 0;
+    transform: scale(0, 1);
+    animation: transform 0.1s linear;
+  }
+  .active-link {
+    @include active-link;
+    height: 4rem;
+    transform: scale(0, 1);
+    animation: transform 0.1s linear;
+  }
+}
+
+.backdrop__open {
+  @include initial-backdrop;
+  z-index: 2;
+  width: 100vw;
+}
+
+.backdrop {
+  @include initial-backdrop;
+}
+
+@media screen and (max-width: 425px) {
+  .side-bar__open {
+    width: 100%;
   }
 }

@@ -83,7 +83,7 @@ export default class Firebase {
     }
   };
 
-  getUserData = async (userId) => {
+  getUserById = async (userId) => {
     try {
       const userData = await this.database
         .collection('users')

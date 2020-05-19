@@ -15,15 +15,15 @@ const membersInputs = [
     errorMessage: 'Last name should contain at least 2 characters',
   },
   {
-    label: 'Direction:',
-    id: 'directionId',
-    type: 'radio',
-    options: ['Java', 'Frontend', '.Net', 'Saleforce'],
-    validationPattern: '\\Java|\\.Net|\\Frontend|\\Saleforce',
-  },
-  {
     label: 'Birth date:',
     id: 'birthDate',
+    type: 'date',
+    validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
+    errorMessage: 'Enter valid date',
+  },
+  {
+    label: 'Start date:',
+    id: 'startDate',
     type: 'date',
     validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
     errorMessage: 'Enter valid date',
@@ -36,11 +36,11 @@ const membersInputs = [
     errorMessage: 'Name of university should contain at least 3 characters',
   },
   {
-    label: 'E-mail:',
-    id: 'email',
-    type: 'email',
-    validationPattern: '^\\S+@\\S+\\.\\S+$',
-    errorMessage: 'Please enter valid email',
+    label: 'Address:',
+    id: 'address',
+    type: 'text',
+    validationPattern: '.{8,}[^\n]',
+    errorMessage: 'Address should contain at least 8 characters',
   },
   {
     label: 'Math score:',
@@ -50,18 +50,11 @@ const membersInputs = [
     errorMessage: 'Please enter valid number',
   },
   {
-    label: 'University average score:',
+    label: 'Average score:',
     id: 'universityAverageScore',
     type: 'number',
     validationPattern: '[0-9]{1}',
     errorMessage: 'Please enter valid number',
-  },
-  {
-    label: 'Start date:',
-    id: 'startDate',
-    type: 'date',
-    validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
-    errorMessage: 'Enter valid date',
   },
   {
     label: 'Sex:',
@@ -71,25 +64,32 @@ const membersInputs = [
     validationPattern: '\\Male|\\Female',
   },
   {
+    label: 'Direction:',
+    id: 'directionId',
+    type: 'radio',
+    options: ['Java', 'Frontend', '.Net', 'Saleforce'],
+    validationPattern: '\\Java|\\.Net|\\Frontend|\\Saleforce',
+  },
+  {
+    label: 'E-mail:',
+    id: 'email',
+    type: 'email',
+    validationPattern: '^\\S+@\\S+\\.\\S+$',
+    errorMessage: 'Please enter valid email',
+  },
+  {
     label: 'Skype:',
     id: 'skype',
     type: 'text',
     validationPattern: '.{6,}',
-    errorMessage: 'Please enter valid skype login',
-  },
-  {
-    label: 'Address:',
-    id: 'address',
-    type: 'text',
-    validationPattern: '[A-za-z0-9]{8,}',
-    errorMessage: 'Address should contain at least 8 characters',
+    errorMessage: 'Your Skype login should contain at least 6 characters',
   },
   {
     label: 'Mobile phone:',
     id: 'mobilePhone',
     type: 'text',
     validationPattern: '^\\+375[0-9]{9}$',
-    errorMessage: 'Please enter valid mobile phone',
+    errorMessage: "Mobile phone should be written in format '+375*********'",
   },
 ];
 
@@ -104,8 +104,8 @@ const subtasksInputs = [
   {
     label: 'Note:',
     id: 'trackNote',
-    type: 'text',
-    validationPattern: '.{10,}',
+    type: 'textarea',
+    validationPattern: '^(.|\\s){10,}$',
     errorMessage: 'Note should contain at least 10 characters',
   },
 ];
@@ -152,8 +152,8 @@ const tasksInputs = [
   {
     label: 'Description:',
     id: 'description',
-    type: 'text',
-    validationPattern: '.{10,}',
+    type: 'textarea',
+    validationPattern: '^(.|\\s){10,}$',
     errorMessage: 'Description should contain at least 10 characters',
   },
 ];
