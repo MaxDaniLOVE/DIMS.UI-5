@@ -21,4 +21,26 @@ const millisecondsToAge = (milliseconds) => {
 
 const getCurrentYear = () => new Date().getFullYear();
 
-export { dateToString, stringToDate, millisecondsToDate, millisecondsToAge, getCurrentYear };
+const getCurrentDate = () => {
+  const currentTime = new Date().getTime();
+  return dateToString(currentTime);
+};
+
+const getCurrentDateInMs = () => new Date().getTime();
+
+const convertAge = (Age) => {
+  const difference = new Date().getFullYear() - Age;
+  const birthDate = new Date().setYear(difference);
+  return birthDate;
+};
+
+export {
+  convertAge,
+  dateToString,
+  stringToDate,
+  millisecondsToDate,
+  millisecondsToAge,
+  getCurrentYear,
+  getCurrentDate,
+  getCurrentDateInMs,
+};

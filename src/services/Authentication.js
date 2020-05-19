@@ -1,52 +1,61 @@
 import firebase from 'firebase';
-import Firebase from './Firebase';
+import { addCache } from '../utils/cache';
+import initializeService from '../utils/initializeService';
 
-export default class Authentication extends Firebase {
+const api = initializeService();
+
+export default class Authentication {
   auth = firebase.auth();
 
   registerNewUser = async ({ email, password }) => {
     try {
-      const isUserAddedToDb = await this.isUserExists(email);
+      const isUserAddedToDb = await api.isUserExists(email);
       if (isUserAddedToDb) {
         await this.auth.createUserWithEmailAndPassword(email, password);
-        const userRole = await this.getUserRole(email);
+        const userRole = await api.getUserRole(email);
         return userRole;
       }
+      return {};
     } catch (error) {
       console.error(error.message);
+      return error;
     }
   };
 
   onStatusChanged = async () => {
-    const isLoggedIn = await new Promise((res) => {
+    const isLoggedIn = await new Promise((resolve) => {
       this.auth.onAuthStateChanged(async (user) => {
         if (user) {
-          let userRole = await this.getUserRole(user.email);
+          let userRole = await api.getUserRole(user.email);
           if (userRole.role === 'USER') {
-            const additionalData = await this.getUserDataByEmail(user.email);
+            const additionalData = await api.getUserDataByEmail(user.email);
             userRole = { ...userRole, ...additionalData };
           }
-          res({
+          resolve({
             isLoggedIn: true,
             ...userRole,
           });
         } else {
-          res({
+          resolve({
             isLoggedIn: false,
           });
         }
       });
     });
+
+    addCache('members', []);
+
     return isLoggedIn;
   };
 
   login = async ({ email, password }) => {
     try {
       await this.auth.signInWithEmailAndPassword(email, password);
-      const userRole = await this.getUserRole(email);
+      const userRole = await api.getUserRole(email);
       return userRole;
     } catch (error) {
       console.error(error.message);
+      return error;
     }
   };
 

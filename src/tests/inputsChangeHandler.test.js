@@ -43,4 +43,18 @@ describe('Change inputs value', () => {
 
     expect(result).toMatchObject(expected);
   });
+  it('should return object with direction', () => {
+    const givenValue = 'Java';
+    const givenId = 'directionId_Java';
+    const previousData = { directionId: '', name: 'Max' };
+
+    const expected = {
+      directionId: 'Java',
+      name: 'Max',
+    };
+
+    const result = inputsChangeHandler(givenValue, givenId, previousData);
+
+    expect(result).toMatchObject(expected);
+  });
 });

@@ -42,7 +42,7 @@ class Navigation extends Component {
     } = this.context;
     return (
       <>
-        <SideBar isOpen={isSideBarOpen}>
+        <SideBar isOpen={isSideBarOpen} onClick={this.onCloseSideBar}>
           <>
             <DangerButton onClick={this.onCloseSideBar}>X</DangerButton>
             <CreateRolesLink

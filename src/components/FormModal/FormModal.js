@@ -7,7 +7,7 @@ import { fieldValidation } from '../../utils/validation';
 
 import './formModal.scss';
 
-const FormModal = ({ onFormChange, isEditMode, data, inputs, modalHeader }) => {
+const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modalHeader }) => {
   const inputsLabels = inputs.map(({ label, id, type, options, validationPattern, errorMessage }) => {
     if (type === 'radio') {
       return (
@@ -37,12 +37,13 @@ const FormModal = ({ onFormChange, isEditMode, data, inputs, modalHeader }) => {
   return (
     <>
       {modalHeader}
-      <div className='modal__content_container'>{inputsLabels}</div>
+      <div className={`modal__content_container ${addClassName}`}>{inputsLabels}</div>
     </>
   );
 };
 
 FormModal.propTypes = {
+  addClassName: PropTypes.string.isRequired,
   onFormChange: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
   data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,

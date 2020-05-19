@@ -1,3 +1,5 @@
+import { getCurrentDate } from './convertDate';
+
 const defaultRegisterData = {
   directionId: '',
   name: '',
@@ -15,7 +17,7 @@ const defaultRegisterData = {
 };
 
 const defaultSubtaskData = {
-  trackDate: '',
+  trackDate: getCurrentDate(),
   trackNote: '',
 };
 

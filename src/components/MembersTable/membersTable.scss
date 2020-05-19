@@ -1,6 +1,5 @@
 @import '../../scss/variables';
 .table-wrapper {
-  width: 100%;
   border-radius: 0.5rem;
   .table {
     margin-top: 1rem;
@@ -29,5 +28,35 @@
       grid-template-rows: 1fr 1fr;
       grid-gap: 5px;
     }
+    .td-btns__MENTOR {
+      grid-template-rows: 1fr;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .members-table {
+    th:nth-child(4),
+    td:nth-child(4),
+    th:nth-child(6),
+    td:nth-child(6) {
+      display: none;
+    }
+  }
+  .members-task-table {
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(4),
+    td:nth-child(4) {
+      display: none;
+    }
+  }
+  .task-table {
+    .admin-btns {
+      grid-template-columns: min-content;
+    }
+  }
+  .user-btns {
+    grid-template-columns: min-content;
   }
 }

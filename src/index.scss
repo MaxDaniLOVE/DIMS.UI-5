@@ -21,17 +21,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.alert {
-  position: fixed;
-  right: 2rem;
-  bottom: 3rem;
-  font-size: 2rem;
-  font-weight: 300;
-  &-danger {
-    color: #fff;
-    background-color: $honeysuckle;
-  }
-  button {
-    height: 100%;
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+textarea {
+  min-height: 4rem;
+  max-height: 8rem;
+}
+
+@media screen and (max-width: 768px) {
+  * {
+    font-size: 14px;
   }
 }

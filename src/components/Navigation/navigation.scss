@@ -9,6 +9,7 @@
   height: 4rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
   padding: 0;
+  z-index: 2;
   &__header-nav {
     display: flex;
   }
@@ -46,22 +47,7 @@
     height: 100%;
   }
 }
-.side-bar {
-  a,
-  .btn-logout {
-    @include inactive-link;
-    height: 4rem;
-    width: 100%;
-    &:hover {
-      @include active-link;
-      height: 4rem;
-    }
-  }
-  .active-link {
-    @include active-link;
-    height: 4rem;
-  }
-}
+
 @media only screen and (max-width: 768px) {
   .navigation {
     justify-content: space-between;
