@@ -1,31 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { DangerAlert, SuccessAlert } from '../../UI/Alerts';
+import useAlert from '../../hooks/useAlert';
 
-const AlertsContainer = ({ alert: { message, type } }) => {
-  const [isOpen, onSetIsOpen] = useState(false);
-  const onCloseAlert = () => onSetIsOpen(false);
-  const onOpenAlert = () => onSetIsOpen(true);
-  useEffect(() => {
-    if (message && type) {
-      onOpenAlert();
-      setTimeout(onCloseAlert, 5000);
-    }
-  }, [message, type]);
-  const alerts = {
-    ERROR: (
-      <DangerAlert isOpen={isOpen} toggle={onCloseAlert}>
-        {message}
-      </DangerAlert>
-    ),
-    SUCCESS: (
-      <SuccessAlert isOpen={isOpen} toggle={onCloseAlert}>
-        {message}
-      </SuccessAlert>
-    ),
-  };
-  return <div>{alerts[type]}</div>;
+const AlertsContainer = ({ alert }) => {
+  const newAlert = useAlert(alert);
+  return <div>{newAlert}</div>;
 };
 
 AlertsContainer.propTypes = {
