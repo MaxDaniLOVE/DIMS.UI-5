@@ -1,6 +1,8 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Modal } from 'reactstrap';
 import Firebase from '../services/Firebase';
 import Preloader from '../components/Preloader';
@@ -27,17 +29,17 @@ class TasksManagePage extends Component {
   }
 
   componentDidMount() {
-    const { match, setTaskData } = this.props;
+    const { match, setFormData } = this.props;
     const {
       params: { tid },
     } = match;
-    setTaskData(defaultTaskData);
+    setFormData(defaultTaskData);
     this.getTasksData(tid);
   }
 
   async getTasksData(taskId) {
-    const { getAllTasks } = this.props;
-    await getAllTasks();
+    const { getTasks } = this.props;
+    await getTasks();
     this.setState({
       isLoaded: true,
     });
@@ -53,8 +55,8 @@ class TasksManagePage extends Component {
   };
 
   onModalClose = () => {
-    const { setTaskData } = this.props;
-    setTaskData(defaultTaskData);
+    const { setFormData } = this.props;
+    setFormData(defaultTaskData);
     this.setState({
       showModal: false,
       isEditMode: false,
@@ -64,34 +66,34 @@ class TasksManagePage extends Component {
   };
 
   onDeleteTask = async (taskId) => {
-    const { deleteTaskById } = this.props;
-    await deleteTaskById(taskId);
+    const { deleteTask } = this.props;
+    await deleteTask(taskId);
   };
 
   onFormChange = (e) => {
     const { value, id } = e.target;
-    const { setTaskData, formData } = this.props;
+    const { setFormData, formData } = this.props;
     const updated = inputsChangeHandler(value, id, formData);
     const validatedInputs = { ...updated };
     const isFormValid = validation(validatedInputs, tasksInputs);
-    setTaskData(updated);
+    setFormData(updated);
     this.setState({ isFormValid });
   };
 
   onAddTask = async () => {
-    const { addNewTask } = this.props;
-    const taskId = await addNewTask();
+    const { addTask } = this.props;
+    const taskId = await addTask();
     this.onModalClose();
     return taskId;
   };
 
   onEditTaskModalOpen = async (id) => {
-    const { tasks, setTaskData, assignUser } = this.props;
+    const { tasks, setFormData, setAssignedMembers } = this.props;
     const editedTask = tasks.find(({ taskId }) => taskId === id);
     const assignedMembers = await this.db.getAssignedUsers(id); // TODO move to the appropriate handler
-    assignUser(assignedMembers);
+    setAssignedMembers(assignedMembers);
     const { deadlineDate, startDate } = editedTask;
-    setTaskData({ ...editedTask, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) });
+    setFormData({ ...editedTask, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) });
     this.setState({
       isEditMode: true,
       isFormValid: true,
@@ -100,8 +102,8 @@ class TasksManagePage extends Component {
   };
 
   onSubmitEditTask = async () => {
-    const { editCreatedTask } = this.props;
-    await editCreatedTask();
+    const { editTask } = this.props;
+    await editTask();
     this.onModalClose();
   };
 
@@ -156,28 +158,20 @@ class TasksManagePage extends Component {
 }
 
 TasksManagePage.propTypes = {
-  assignUser: PropTypes.func.isRequired,
+  setAssignedMembers: PropTypes.func.isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  setTaskData: PropTypes.func.isRequired,
-  getAllTasks: PropTypes.func.isRequired,
-  addNewTask: PropTypes.func.isRequired,
-  deleteTaskById: PropTypes.func.isRequired,
-  editCreatedTask: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  getTasks: PropTypes.func.isRequired,
+  addTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
   formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
 const mapStateToProps = ({ tasks, formData, assignedMembers }) => ({ tasks, formData, assignedMembers });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getAllTasks: () => dispatch(getTasks()),
-    addNewTask: () => dispatch(addTask()),
-    deleteTaskById: (id) => dispatch(deleteTask(id)),
-    editCreatedTask: () => dispatch(editTask()),
-    setTaskData: (data) => dispatch(setFormData(data)),
-    assignUser: (users) => dispatch(setAssignedMembers(users)),
-  };
-};
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TasksManagePage);

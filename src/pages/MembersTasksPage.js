@@ -1,6 +1,8 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
@@ -27,21 +29,21 @@ class MembersTasksPage extends Component {
   }
 
   getUserTasksData = async () => {
-    const { match, getAllUserTasks } = this.props;
+    const { match, getUserTasks } = this.props;
     const {
       params: { mid },
     } = match;
-    await getAllUserTasks(mid);
+    await getUserTasks(mid);
     const { name: memberName } = await db.getUserById(mid);
     this.setState({ memberName, isLoaded: true });
   };
 
   onSetMark = async (userTaskId, state, taskId) => {
-    const { onSetUserMark, match } = this.props;
+    const { setMark, match } = this.props;
     const {
       params: { mid: userId },
     } = match;
-    const result = await onSetUserMark(state, userTaskId, taskId, userId);
+    const result = await setMark(state, userTaskId, taskId, userId);
     return result;
   };
 
@@ -76,19 +78,14 @@ MembersTasksPage.contextType = AuthContext;
 
 MembersTasksPage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  getAllUserTasks: PropTypes.func.isRequired,
-  onSetUserMark: PropTypes.func.isRequired,
+  getUserTasks: PropTypes.func.isRequired,
+  setMark: PropTypes.func.isRequired,
   userTasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])))
     .isRequired,
 };
 
 const mapStateToProps = ({ userTasks }) => ({ userTasks });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getAllUserTasks: (id) => dispatch(getUserTasks(id)),
-    onSetUserMark: (state, userTaskId, taskId, userId) => dispatch(setMark(state, userTaskId, taskId, userId)),
-  };
-};
+const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserTasks, setMark }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersTasksPage));

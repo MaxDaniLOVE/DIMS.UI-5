@@ -12,6 +12,10 @@ describe('Roles links', () => {
         link: '/tasks',
         label: 'All tasks',
       },
+      {
+        label: 'About',
+        link: '/about',
+      },
     ];
 
     const result = rolesLinks(givenStr);
@@ -28,6 +32,10 @@ describe('Roles links', () => {
       {
         link: '/tasks',
         label: 'All tasks',
+      },
+      {
+        label: 'About',
+        link: '/about',
       },
     ];
 
@@ -47,6 +55,10 @@ describe('Roles links', () => {
         link: `/member/uid1/tasks`,
         label: 'My tasks',
       },
+      {
+        label: 'About',
+        link: '/about',
+      },
     ];
 
     const result = rolesLinks(givenStr, givenId);
@@ -60,6 +72,10 @@ describe('Roles links', () => {
       {
         link: '/auth',
         label: 'Login',
+      },
+      {
+        label: 'About',
+        link: '/about',
       },
     ];
 

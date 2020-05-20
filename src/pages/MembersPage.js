@@ -1,7 +1,9 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'reactstrap';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getUsers, addUser, editUser, deleteUser, setFormData } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
@@ -28,8 +30,8 @@ class MembersPage extends Component {
 
   componentDidMount() {
     this.getMembersData();
-    const { setRegisterData } = this.props;
-    setRegisterData(defaultRegisterData);
+    const { setFormData } = this.props;
+    setFormData(defaultRegisterData);
   }
 
   componentDidUpdate() {
@@ -38,8 +40,8 @@ class MembersPage extends Component {
   }
 
   getMembersData = async () => {
-    const { getUsersData } = this.props;
-    await getUsersData();
+    const { getUsers } = this.props;
+    await getUsers();
     this.setState({
       isLoaded: true,
     });
@@ -52,8 +54,8 @@ class MembersPage extends Component {
   };
 
   onModalClose = () => {
-    const { setRegisterData } = this.props;
-    setRegisterData(defaultRegisterData);
+    const { setFormData } = this.props;
+    setFormData(defaultRegisterData);
     this.setState({
       showModal: false,
       isEditMode: false,
@@ -63,27 +65,27 @@ class MembersPage extends Component {
   };
 
   onFormChange = (e) => {
-    const { setRegisterData, formData } = this.props;
+    const { setFormData, formData } = this.props;
     const { value, id } = e.target;
     const updated = inputsChangeHandler(value, id, formData);
     const validatedInputs = { ...updated };
     const isFormValid = validation(validatedInputs, membersInputs);
-    setRegisterData(updated);
+    setFormData(updated);
     this.setState({ isFormValid });
   };
 
   onAddNewMember = async () => {
-    const { addNewUser } = this.props;
-    await addNewUser();
+    const { addUser } = this.props;
+    await addUser();
     this.onModalClose();
   };
 
   onEditMemberModalOpen = (userId) => {
-    const { members, setRegisterData } = this.props;
+    const { members, setFormData } = this.props;
     const editedUser = members.find(({ id }) => id === userId);
     const { birthDate, startDate } = editedUser;
     this.onModalOpen();
-    setRegisterData({ ...editedUser, birthDate: dateToString(birthDate), startDate: dateToString(startDate) });
+    setFormData({ ...editedUser, birthDate: dateToString(birthDate), startDate: dateToString(startDate) });
     return this.setState({
       isEditMode: true,
       isFormValid: true,
@@ -91,15 +93,15 @@ class MembersPage extends Component {
   };
 
   onSubmitEditUser = async () => {
-    const { editUserData } = this.props;
-    await editUserData();
+    const { editUser } = this.props;
+    await editUser();
     this.onModalClose();
   };
 
   onMemberDataOpen = (userId) => {
-    const { members, setRegisterData } = this.props;
+    const { members, setFormData } = this.props;
     const editedUser = members.find(({ id }) => id === userId);
-    setRegisterData(editedUser);
+    setFormData(editedUser);
     this.setState({
       showModal: true,
       isDetailMode: true,
@@ -107,8 +109,8 @@ class MembersPage extends Component {
   };
 
   onUserDelete = async (userId) => {
-    const { deleteUserData } = this.props;
-    const response = await deleteUserData(userId);
+    const { deleteUser } = this.props;
+    const response = await deleteUser(userId);
     return response;
   };
 
@@ -176,23 +178,16 @@ MembersPage.contextType = AuthContext;
 
 const mapStateToProps = ({ members, formData }) => ({ members, formData });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getUsersData: () => dispatch(getUsers()),
-    addNewUser: () => dispatch(addUser()),
-    editUserData: () => dispatch(editUser()),
-    deleteUserData: (id) => dispatch(deleteUser(id)),
-    setRegisterData: (data) => dispatch(setFormData(data)),
-  };
-};
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ getUsers, addUser, editUser, deleteUser, setFormData }, dispatch);
 
 MembersPage.propTypes = {
   formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
-  setRegisterData: PropTypes.func.isRequired,
-  getUsersData: PropTypes.func.isRequired,
-  addNewUser: PropTypes.func.isRequired,
-  editUserData: PropTypes.func.isRequired,
-  deleteUserData: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  getUsers: PropTypes.func.isRequired,
+  addUser: PropTypes.func.isRequired,
+  editUser: PropTypes.func.isRequired,
+  deleteUser: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
