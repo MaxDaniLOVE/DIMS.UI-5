@@ -174,11 +174,10 @@ class MembersPage extends Component {
   }
 }
 
-const mapStateToProps = ({ data: { members, formData }, auth: { user, isLoggedIn } }) => ({
+const mapStateToProps = ({ data: { members, formData }, auth: { user } }) => ({
   members,
   formData,
   user,
-  isLoggedIn,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -192,6 +191,7 @@ MembersPage.propTypes = {
   editUser: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MembersPage);

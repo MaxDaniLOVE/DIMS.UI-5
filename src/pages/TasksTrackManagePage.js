@@ -213,13 +213,13 @@ TasksTrackManagePage.propTypes = {
   addUserProgress: PropTypes.func.isRequired,
   formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({ data: { progress, formData }, auth: { user, isLoggedIn } }) => ({
+const mapStateToProps = ({ data: { progress, formData }, auth: { user } }) => ({
   progress,
   formData,
   user,
-  isLoggedIn,
 });
 
 const mapDispatchToProps = (dispatch) =>

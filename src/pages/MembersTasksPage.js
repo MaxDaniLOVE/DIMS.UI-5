@@ -79,9 +79,10 @@ MembersTasksPage.propTypes = {
   setMark: PropTypes.func.isRequired,
   userTasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])))
     .isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({ data: { userTasks }, auth: { user, isLoggedIn } }) => ({ userTasks, user, isLoggedIn });
+const mapStateToProps = ({ data: { userTasks }, auth: { user } }) => ({ userTasks, user });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserTasks, setMark }, dispatch);
 

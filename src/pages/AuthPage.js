@@ -1,6 +1,8 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import { logIn, registerUser } from '../store/actions';
 import LoginForm from '../components/LoginForm';
 import { defaultAuthData } from '../utils/defaultInputsData';
@@ -62,6 +64,11 @@ class AuthPage extends Component {
     );
   }
 }
+
+AuthPage.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  logIn: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ logIn, registerUser }, dispatch);
 

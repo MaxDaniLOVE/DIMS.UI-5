@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   AboutPage,
   AuthPage,
@@ -58,6 +59,10 @@ const Routes = ({ user }) => {
       <Redirect to='/members' />
     </>
   );
+};
+
+Routes.propTypes = {
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = ({ auth: { user } }) => ({ user });

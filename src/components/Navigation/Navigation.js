@@ -1,7 +1,9 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
-import { DangerButton, BurgerButton } from '../../UI/Buttons';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { DangerButton, BurgerButton } from '../../UI/Buttons';
 import { logOut } from '../../store/actions';
 import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
@@ -69,6 +71,12 @@ class Navigation extends Component {
     );
   }
 }
+
+Navigation.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  logOut: PropTypes.func.isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
+};
 
 const mapStateToProps = ({ auth: { user, isLoggedIn } }) => ({ user, isLoggedIn });
 
