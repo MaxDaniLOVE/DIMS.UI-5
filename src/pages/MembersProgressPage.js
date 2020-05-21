@@ -60,7 +60,7 @@ MembersProgressPage.propTypes = {
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ progress }) => ({ progress });
+const mapStateToProps = ({ data: { progress } }) => ({ progress });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserProgress }, dispatch);
 

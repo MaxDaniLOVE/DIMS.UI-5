@@ -217,7 +217,7 @@ TasksTrackManagePage.propTypes = {
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ progress, formData }) => ({ progress, formData });
+const mapStateToProps = ({ data: { progress, formData } }) => ({ progress, formData });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress }, dispatch);

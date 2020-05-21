@@ -176,7 +176,7 @@ class MembersPage extends Component {
 
 MembersPage.contextType = AuthContext;
 
-const mapStateToProps = ({ members, formData }) => ({ members, formData });
+const mapStateToProps = ({ data: { members, formData } }) => ({ members, formData });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ getUsers, addUser, editUser, deleteUser, setFormData }, dispatch);

@@ -47,7 +47,9 @@ const getUsers = () => {
 const addUser = () => {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState();
+      const {
+        data: { formData },
+      } = getState();
       const { birthDate, startDate } = formData; // TODO add helper
       const newUser = { ...formData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
       await api.addNewUser(newUser);
@@ -64,7 +66,9 @@ const addUser = () => {
 const editUser = () => {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState();
+      const {
+        data: { formData },
+      } = getState();
       const { birthDate, startDate } = formData; // TODO add helper
       const newUser = { ...formData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
       await api.editUserData(newUser);
@@ -140,7 +144,9 @@ const setMark = (state, userTaskId, taskId, userId) => {
 const addTask = () => {
   return async (dispatch, getState) => {
     try {
-      const { formData, assignedMembers } = getState();
+      const {
+        data: { formData, assignedMembers },
+      } = getState();
       const { deadlineDate, startDate } = formData; // TODO add helper
       const newTask = { ...formData, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
       const response = await api.addNewTask(newTask, assignedMembers);
@@ -174,7 +180,9 @@ const deleteTask = (task) => {
 const editTask = () => {
   return async (dispatch, getState) => {
     try {
-      const { formData, assignedMembers } = getState();
+      const {
+        data: { formData, assignedMembers },
+      } = getState();
       const { deadlineDate, startDate } = formData; // TODO add helper
       const newTask = { ...formData, deadlineDate: stringToDate(deadlineDate), startDate: stringToDate(startDate) };
       await api.editTask(newTask, assignedMembers);
@@ -230,7 +238,9 @@ const deleteUserProgress = (subtaskId, userId) => {
 const editUserProgress = () => {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState();
+      const {
+        data: { formData },
+      } = getState();
       const { trackDate, userId } = formData; // TODO add helper
       const newTask = { ...formData, trackDate: stringToDate(trackDate) };
       await api.editUserProgress(newTask);
@@ -247,7 +257,9 @@ const editUserProgress = () => {
 const addUserProgress = () => {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState();
+      const {
+        data: { formData },
+      } = getState();
       const { trackDate, userId } = formData; // TODO add helper
       const newTask = { ...formData, trackDate: stringToDate(trackDate) };
       await api.addNewSubtask(newTask);

@@ -169,7 +169,7 @@ TasksManagePage.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ tasks, formData, assignedMembers }) => ({ tasks, formData, assignedMembers });
+const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => ({ tasks, formData, assignedMembers });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers }, dispatch);

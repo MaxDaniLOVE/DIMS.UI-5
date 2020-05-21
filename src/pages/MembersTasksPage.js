@@ -84,7 +84,7 @@ MembersTasksPage.propTypes = {
     .isRequired,
 };
 
-const mapStateToProps = ({ userTasks }) => ({ userTasks });
+const mapStateToProps = ({ data: { userTasks } }) => ({ userTasks });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserTasks, setMark }, dispatch);
 

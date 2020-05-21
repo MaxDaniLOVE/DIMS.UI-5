@@ -12,6 +12,6 @@ AlertsContainer.propTypes = {
   alert: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({ alert }) => ({ alert });
+const mapStateToProps = ({ data: { alert } }) => ({ alert });
 
 export default connect(mapStateToProps)(AlertsContainer);

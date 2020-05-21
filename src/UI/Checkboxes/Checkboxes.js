@@ -1,19 +1,21 @@
+/* eslint-disable no-shadow */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { CustomInput, FormGroup, Label } from 'reactstrap';
 import { setAssignedMembers } from '../../store/actions';
 import './checkboxes.scss';
 
 class Checkboxes extends PureComponent {
   componentWillUnmount() {
-    const { assignUser } = this.props;
-    assignUser([]);
+    const { setAssignedMembers } = this.props;
+    setAssignedMembers([]);
   }
 
   onCheckboxChange = (e) => {
     const { id, checked } = e.target;
-    const { assignUser, assignedMembers } = this.props;
+    const { setAssignedMembers, assignedMembers } = this.props;
     const updatedMembers = new Set();
     assignedMembers.map((el) => updatedMembers.add(el));
     if (checked) {
@@ -21,7 +23,7 @@ class Checkboxes extends PureComponent {
     } else {
       updatedMembers.delete(id);
     }
-    assignUser([...updatedMembers]);
+    setAssignedMembers([...updatedMembers]);
   };
 
   render() {
@@ -54,16 +56,12 @@ class Checkboxes extends PureComponent {
 
 Checkboxes.propTypes = {
   assignedMembers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  assignUser: PropTypes.func.isRequired,
+  setAssignedMembers: PropTypes.func.isRequired,
   members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ members, assignedMembers }) => ({ members, assignedMembers });
+const mapStateToProps = ({ data: { members, assignedMembers } }) => ({ members, assignedMembers });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    assignUser: (users) => dispatch(setAssignedMembers(users)),
-  };
-};
+const mapDispatchToProps = (dispatch) => bindActionCreators({ setAssignedMembers }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkboxes);
