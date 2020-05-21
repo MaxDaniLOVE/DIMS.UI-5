@@ -1,11 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { NavLink } from 'react-router-dom';
+import { logOut } from '../../store/actions';
 import { LogoutButton } from '../../UI/Buttons';
 import rolesLinks from '../../utils/rolesLinks';
 
-const CreateRolesLink = ({ onClick, onLogOut, role, userId, isLoggedIn }) => {
+const CreateRolesLink = ({ onClick, onLogOut, role, userId, isLoggedIn, logOut }) => {
   const links = rolesLinks(role, userId);
+  const onClickLogOut = () => {
+    // TODO delete it
+    onLogOut();
+    logOut();
+  };
   return (
     <>
       {links.map(({ link, label }) => (
@@ -13,7 +21,7 @@ const CreateRolesLink = ({ onClick, onLogOut, role, userId, isLoggedIn }) => {
           {label}
         </NavLink>
       ))}
-      {isLoggedIn ? <LogoutButton onClick={onLogOut}>LogOut</LogoutButton> : null}
+      {isLoggedIn ? <LogoutButton onClick={onClickLogOut}>LogOut</LogoutButton> : null}
     </>
   );
 };
@@ -32,4 +40,6 @@ CreateRolesLink.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
-export default CreateRolesLink;
+const mapDispatchToProps = (dispatch) => bindActionCreators({ logOut }, dispatch);
+
+export default connect(null, mapDispatchToProps)(CreateRolesLink);

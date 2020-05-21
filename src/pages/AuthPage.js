@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import AuthContext from '../context';
+import { logIn, registerUser } from '../store/actions';
 import LoginForm from '../components/LoginForm';
 import { defaultAuthData } from '../utils/defaultInputsData';
 import { authInputs as inputs } from '../utils/inputs';
@@ -36,10 +39,12 @@ class AuthPage extends Component {
   onSubmit = () => {
     const { authData, isRegisterMode } = this.state;
     const { onLogIn, onRegister } = this.context;
+    const { logIn, registerUser } = this.props;
     this.setState({
       authData: defaultAuthData,
       isFormValid: false,
     });
+    logIn(authData);
     return isRegisterMode ? onRegister(authData) : onLogIn(authData);
   };
 
@@ -61,4 +66,7 @@ class AuthPage extends Component {
   }
 }
 AuthPage.contextType = AuthContext;
-export default AuthPage;
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({ logIn, registerUser }, dispatch);
+
+export default connect(null, mapDispatchToProps)(AuthPage);
