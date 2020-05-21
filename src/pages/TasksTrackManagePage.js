@@ -13,7 +13,6 @@ import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
 import FormModal from '../components/FormModal';
 import { validation } from '../utils/validation';
-import AuthContext from '../context';
 import { dateToString } from '../utils/convertDate';
 import pagesInitialState from '../utils/pagesInitialState';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
@@ -39,9 +38,9 @@ class TasksTrackManagePage extends Component {
 
   getTracksData = async (recievedId) => {
     const {
+      getUserProgress,
       user: { userId },
-    } = this.context;
-    const { getUserProgress } = this.props;
+    } = this.props;
     await getUserProgress(userId);
     this.setState({
       isLoaded: true,
@@ -79,11 +78,12 @@ class TasksTrackManagePage extends Component {
   };
 
   onFormChange = (e) => {
-    const { setFormData, formData } = this.props;
-    const { value, id } = e.target;
     const {
+      setFormData,
+      formData,
       user: { userId, userName },
-    } = this.context;
+    } = this.props;
+    const { value, id } = e.target;
 
     const { taskId, taskName } = formData;
     const inputsValues = inputsChangeHandler(value, id, formData);
@@ -120,10 +120,10 @@ class TasksTrackManagePage extends Component {
   };
 
   onSubtaskDelete = async (subtaskId) => {
-    const { deleteUserProgress } = this.props;
     const {
+      deleteUserProgress,
       user: { userId },
-    } = this.context;
+    } = this.props;
     await deleteUserProgress(subtaskId, userId);
   };
 
@@ -204,8 +204,6 @@ class TasksTrackManagePage extends Component {
   }
 }
 
-TasksTrackManagePage.contextType = AuthContext;
-
 TasksTrackManagePage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   getUserProgress: PropTypes.func.isRequired,
@@ -217,7 +215,12 @@ TasksTrackManagePage.propTypes = {
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ data: { progress, formData } }) => ({ progress, formData });
+const mapStateToProps = ({ data: { progress, formData }, auth: { user, isLoggedIn } }) => ({
+  progress,
+  formData,
+  user,
+  isLoggedIn,
+});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress }, dispatch);

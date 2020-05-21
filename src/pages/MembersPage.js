@@ -17,7 +17,6 @@ import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
 import { dateToString } from '../utils/convertDate';
-import AuthContext from '../context';
 import pagesInitialState from '../utils/pagesInitialState';
 
 class MembersPage extends Component {
@@ -122,9 +121,10 @@ class MembersPage extends Component {
   render() {
     const { isLoaded, showModal, isEditMode, isDetailMode, isFormValid } = this.state;
     const {
+      members,
+      formData,
       user: { role },
-    } = this.context;
-    const { members, formData } = this.props;
+    } = this.props;
     const modalHeader = isEditMode || isDetailMode ? <h3>{`${formData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
     return (
       <div className='table-wrapper'>
@@ -174,9 +174,12 @@ class MembersPage extends Component {
   }
 }
 
-MembersPage.contextType = AuthContext;
-
-const mapStateToProps = ({ data: { members, formData } }) => ({ members, formData });
+const mapStateToProps = ({ data: { members, formData }, auth: { user, isLoggedIn } }) => ({
+  members,
+  formData,
+  user,
+  isLoggedIn,
+});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ getUsers, addUser, editUser, deleteUser, setFormData }, dispatch);

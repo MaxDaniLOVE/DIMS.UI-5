@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { DangerButton, BurgerButton } from '../../UI/Buttons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { logOut } from '../../store/actions';
 import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
 import CreateRolesLink from '../CreateRolesLink';
-import AuthContext from '../../context';
 import CurrentUser from '../../UI/CurrentUser';
 import './navigation.scss';
 
@@ -28,18 +30,18 @@ class Navigation extends Component {
   };
 
   onLogOutHandle = () => {
-    const { onLogOut } = this.context;
-    onLogOut();
+    const { logOut } = this.props;
+    logOut();
     this.onCloseSideBar();
   };
 
   render() {
     const { isSideBarOpen } = this.state;
     const {
-      onLogOut,
+      logOut,
       isLoggedIn,
       user: { role, userId, email },
-    } = this.context;
+    } = this.props;
     return (
       <>
         <SideBar isOpen={isSideBarOpen} onClick={this.onCloseSideBar}>
@@ -59,7 +61,7 @@ class Navigation extends Component {
             <CurrentUser>{email}</CurrentUser>
             <BurgerButton onClick={this.onOpenSideBar} />
             <nav className='navigation__header-nav'>
-              <CreateRolesLink onLogOut={onLogOut} isLoggedIn={isLoggedIn} role={role} userId={userId} />
+              <CreateRolesLink onLogOut={logOut} isLoggedIn={isLoggedIn} role={role} userId={userId} />
             </nav>
           </>
         </MainHeader>
@@ -68,6 +70,8 @@ class Navigation extends Component {
   }
 }
 
-Navigation.contextType = AuthContext;
+const mapStateToProps = ({ auth: { user, isLoggedIn } }) => ({ user, isLoggedIn });
 
-export default Navigation;
+const mapDispatchToProps = (dispatch) => bindActionCreators({ logOut }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

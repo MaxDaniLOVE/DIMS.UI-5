@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
-import AuthContext from '../context';
 import { getUserTasks, setMark } from '../store/actions';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
 import initializeService from '../utils/initializeService';
@@ -49,10 +48,10 @@ class MembersTasksPage extends Component {
 
   render() {
     const { isLoaded, memberName } = this.state;
-    const { userTasks } = this.props;
     const {
+      userTasks,
       user: { role },
-    } = this.context;
+    } = this.props;
     if (!userTasks.length) {
       return (
         <EmptyTableMessage>It looks like you have no tasks! Please contact your mentor or admin</EmptyTableMessage>
@@ -74,8 +73,6 @@ class MembersTasksPage extends Component {
   }
 }
 
-MembersTasksPage.contextType = AuthContext;
-
 MembersTasksPage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   getUserTasks: PropTypes.func.isRequired,
@@ -84,7 +81,7 @@ MembersTasksPage.propTypes = {
     .isRequired,
 };
 
-const mapStateToProps = ({ data: { userTasks } }) => ({ userTasks });
+const mapStateToProps = ({ data: { userTasks }, auth: { user, isLoggedIn } }) => ({ userTasks, user, isLoggedIn });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserTasks, setMark }, dispatch);
 
