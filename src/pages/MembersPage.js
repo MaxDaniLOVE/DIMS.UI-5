@@ -18,6 +18,7 @@ import { membersInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
 import { dateToString } from '../utils/convertDate';
 import pagesInitialState from '../utils/pagesInitialState';
+import closingModalDelay from '../utils/closingModalDelay';
 
 class MembersPage extends Component {
   constructor() {
@@ -54,13 +55,7 @@ class MembersPage extends Component {
 
   onModalClose = () => {
     const { setFormData } = this.props;
-    setFormData(defaultRegisterData);
-    this.setState({
-      showModal: false,
-      isEditMode: false,
-      isDetailMode: false,
-      isFormValid: false,
-    });
+    closingModalDelay(this, defaultRegisterData, setFormData);
   };
 
   onFormChange = (e) => {

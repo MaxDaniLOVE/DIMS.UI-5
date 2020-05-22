@@ -18,6 +18,7 @@ import pagesInitialState from '../utils/pagesInitialState';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
 import { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress } from '../store/actions';
 import { Subtitle } from '../UI/Titles';
+import closingModalDelay from '../utils/closingModalDelay';
 
 class TasksTrackManagePage extends Component {
   constructor() {
@@ -58,13 +59,7 @@ class TasksTrackManagePage extends Component {
 
   onModalClose = () => {
     const { setFormData } = this.props;
-    setFormData(defaultSubtaskData);
-    this.setState({
-      showModal: false,
-      isEditMode: false,
-      isDetailMode: false,
-      isFormValid: false,
-    });
+    closingModalDelay(this, defaultSubtaskData, setFormData);
   };
 
   onSubtaskDataOpen = (subtaskId) => {

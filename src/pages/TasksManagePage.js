@@ -18,6 +18,7 @@ import FormModal from '../components/FormModal';
 import { dateToString } from '../utils/convertDate';
 import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import pagesInitialState from '../utils/pagesInitialState';
+import closingModalDelay from '../utils/closingModalDelay';
 
 class TasksManagePage extends Component {
   constructor() {
@@ -56,13 +57,7 @@ class TasksManagePage extends Component {
 
   onModalClose = () => {
     const { setFormData } = this.props;
-    setFormData(defaultTaskData);
-    this.setState({
-      showModal: false,
-      isEditMode: false,
-      isDetailMode: false,
-      isFormValid: false,
-    });
+    closingModalDelay(this, defaultTaskData, setFormData);
   };
 
   onDeleteTask = async (taskId) => {
