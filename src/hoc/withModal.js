@@ -16,11 +16,15 @@ import {
   deleteTask,
   editTask,
   setAssignedMembers,
+  getUserProgress,
+  deleteUserProgress,
+  editUserProgress,
+  addUserProgress,
 } from '../store/actions/dataActions';
 import closingModalDelay from '../utils/closingModalDelay';
-import { defaultRegisterData, defaultTaskData } from '../utils/defaultInputsData';
+import { defaultRegisterData, defaultTaskData, defaultSubtaskData } from '../utils/defaultInputsData';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
-import { membersInputs, tasksInputs } from '../utils/inputs';
+import { membersInputs, tasksInputs, subtasksInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
 import { dateToString } from '../utils/convertDate';
 import Firebase from '../services/Firebase';
@@ -41,6 +45,10 @@ const withModal = (WrappedComponent, pageType) =>
         deleteTask,
         editTask,
         setAssignedMembers,
+        getUserProgress,
+        deleteUserProgress,
+        editUserProgress,
+        addUserProgress,
       } = props;
       switch (pageType) {
         case 'MEMBERS_PAGE':
@@ -60,6 +68,12 @@ const withModal = (WrappedComponent, pageType) =>
           this.dataInputs = tasksInputs;
           break;
         case 'TRACK_PAGE':
+          this.getData = getUserProgress;
+          this.addData = addUserProgress;
+          this.editData = editUserProgress;
+          this.deleteData = deleteUserProgress;
+          this.defaultInputsData = defaultSubtaskData;
+          this.dataInputs = subtasksInputs;
           break;
         default:
           break;
@@ -72,11 +86,14 @@ const withModal = (WrappedComponent, pageType) =>
     }
 
     componentDidMount() {
-      const { match } = this.props;
+      const {
+        match,
+        user: { userId },
+      } = this.props;
       const {
         params: { tid },
       } = match;
-      this.fetchData(tid);
+      this.fetchData(tid, userId);
     }
 
     static getDerivedStateFromProps(nextProps) {
@@ -90,17 +107,28 @@ const withModal = (WrappedComponent, pageType) =>
       return { pageData };
     }
 
-    fetchData = async (tid) => {
-      await this.getData();
+    fetchData = async (tid, userId) => {
+      await this.getData(userId);
       this.setState({
         isLoaded: true,
       });
       if (tid) {
-        await this.onEditDataModalOpen(tid);
+        return pageType === 'TRACK_PAGE' ? this.onSubtaskModalOpen(tid) : this.onEditDataModalOpen(tid);
       }
     };
 
     onModalOpen = () => {
+      this.setState({
+        showModal: true,
+      });
+    };
+
+    onSubtaskModalOpen = (taskId) => {
+      const { progress, setFormData, formData } = this.props;
+      const editedTask = progress.find(({ taskId: id }) => id === taskId);
+      const { taskName } = editedTask;
+      setFormData({ ...formData, taskId, taskName });
+      this.onModalOpen();
       this.setState({
         showModal: true,
       });
@@ -112,13 +140,36 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     onFormChange = (e) => {
-      const { setFormData, formData } = this.props;
+      const {
+        setFormData,
+        formData,
+        user: { userId, userName },
+      } = this.props;
       const { value, id } = e.target;
+      const { taskId, taskName } = formData;
       const updated = inputsChangeHandler(value, id, formData);
-      const validatedInputs = { ...updated };
-      const isFormValid = validation(validatedInputs, this.dataInputs);
-      setFormData(updated);
-      this.setState({ isFormValid });
+      if (pageType === 'TRACK_PAGE') {
+        const newSubtask = {
+          taskId,
+          taskName,
+          userId,
+          userName,
+          ...updated,
+        };
+
+        const validatedInputs = {
+          trackNote: newSubtask.trackNote,
+          trackDate: newSubtask.trackDate,
+        };
+        const isFormValid = validation(validatedInputs, subtasksInputs);
+        setFormData(newSubtask);
+        this.setState({ isFormValid });
+      } else {
+        const validatedInputs = { ...updated };
+        const isFormValid = validation(validatedInputs, this.dataInputs);
+        setFormData(updated);
+        this.setState({ isFormValid });
+      }
     };
 
     onAddData = async () => {
@@ -127,7 +178,10 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     onDeleteData = async (id) => {
-      const response = await this.deleteData(id);
+      const {
+        user: { userId },
+      } = this.props;
+      const response = await this.deleteData(id, userId);
       return response;
     };
 
@@ -148,16 +202,25 @@ const withModal = (WrappedComponent, pageType) =>
         this.onModalOpen();
         setFormData({ ...editedData, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) });
       }
-
+      if (pageType === 'TRACK_PAGE') {
+        const editedData = pageData.find(({ taskTrackId }) => taskTrackId === recievedId);
+        const { trackDate } = editedData;
+        this.onModalOpen();
+        setFormData({ ...editedData, trackDate: dateToString(trackDate) });
+      }
       return this.setState({
         isEditMode: true,
         isFormValid: true,
       });
     };
 
-    onDataOpen = (userId) => {
-      const { members, setFormData } = this.props;
-      const editedUser = members.find(({ id }) => id === userId); // TODO FIX
+    onDataOpen = (recievedId) => {
+      const { setFormData } = this.props;
+      const { pageData } = this.state;
+      const editedUser =
+        pageType === 'MEMBERS_PAGE'
+          ? pageData.find(({ id }) => id === recievedId)
+          : pageData.find(({ taskTrackId }) => taskTrackId === recievedId);
       setFormData(editedUser);
       this.setState({
         showModal: true,
@@ -192,6 +255,7 @@ const withModal = (WrappedComponent, pageType) =>
           onSubmit={this.onSubmit}
           onEditDataModalOpen={this.onEditDataModalOpen}
           onDataOpen={this.onDataOpen}
+          onSubtaskModalOpen={this.onSubtaskModalOpen}
         />
       );
     }
@@ -219,6 +283,10 @@ const mapDispatchToProps = (dispatch) =>
       deleteTask,
       editTask,
       setAssignedMembers,
+      getUserProgress,
+      deleteUserProgress,
+      editUserProgress,
+      addUserProgress,
     },
     dispatch,
   );
