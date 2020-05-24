@@ -26,8 +26,8 @@ import { defaultRegisterData, defaultTaskData, defaultSubtaskData } from '../uti
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { membersInputs, tasksInputs, subtasksInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
-import { dateToString } from '../utils/convertDate';
 import Firebase from '../services/Firebase';
+import transformEditData from '../utils/transformEditData';
 
 const db = new Firebase();
 
@@ -115,6 +115,7 @@ const withModal = (WrappedComponent, pageType) =>
       if (tid) {
         return pageType === 'TRACK_PAGE' ? this.onSubtaskModalOpen(tid) : this.onEditDataModalOpen(tid);
       }
+      return null;
     };
 
     onModalOpen = () => {
@@ -186,28 +187,15 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     onEditDataModalOpen = async (recievedId) => {
-      const { setFormData, setAssignedMembers } = this.props; // TODO FIX
+      const { setFormData, setAssignedMembers } = this.props;
       const { pageData } = this.state;
-      if (pageType === 'MEMBERS_PAGE') {
-        const editedData = pageData.find(({ id }) => id === recievedId);
-        const { birthDate, startDate } = editedData;
-        this.onModalOpen();
-        setFormData({ ...editedData, birthDate: dateToString(birthDate), startDate: dateToString(startDate) });
-      }
+      const formData = transformEditData(pageType, pageData, recievedId);
       if (pageType === 'TASK_PAGE') {
-        const editedData = pageData.find(({ taskId }) => taskId === recievedId);
         const assignedMembers = await db.getAssignedUsers(recievedId); // TODO move to the appropriate handler
         setAssignedMembers(assignedMembers);
-        const { deadlineDate, startDate } = editedData;
-        this.onModalOpen();
-        setFormData({ ...editedData, deadlineDate: dateToString(deadlineDate), startDate: dateToString(startDate) });
       }
-      if (pageType === 'TRACK_PAGE') {
-        const editedData = pageData.find(({ taskTrackId }) => taskTrackId === recievedId);
-        const { trackDate } = editedData;
-        this.onModalOpen();
-        setFormData({ ...editedData, trackDate: dateToString(trackDate) });
-      }
+      setFormData(formData);
+      this.onModalOpen();
       return this.setState({
         isEditMode: true,
         isFormValid: true,
