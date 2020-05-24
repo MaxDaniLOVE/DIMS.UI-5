@@ -36,7 +36,7 @@ const MembersPage = ({
   useEffect(() => {
     setFormData(defaultRegisterData);
   }, [setFormData]);
-  const modalHeader = isEditMode || isDetailMode ? <h3>{`${formData.name}'s details:`}</h3> : <h3>Add new user:</h3>;
+  const modalHeader = isEditMode || isDetailMode ? <h3>User&apos;s details:</h3> : <h3>Add new user:</h3>;
   return (
     <div className='table-wrapper'>
       <Modal isOpen={showModal} toggle={onModalClose}>

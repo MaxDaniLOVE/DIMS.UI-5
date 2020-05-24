@@ -34,7 +34,7 @@ const TasksManagePage = ({
   useEffect(() => {
     setFormData(defaultTaskData);
   }, [setFormData]);
-  const modalHeader = isEditMode || isDetailMode ? <h3>{`Task - ${formData.name}:`}</h3> : <h3>Add new task:</h3>;
+  const modalHeader = isEditMode || isDetailMode ? <h3>Task&apos;s details:</h3> : <h3>Add new task:</h3>;
   return (
     <div className='table-wrapper'>
       <Modal isOpen={showModal} toggle={onModalClose}>
