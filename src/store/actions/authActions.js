@@ -1,7 +1,13 @@
 import { AUTH_LOG_IN, CHANGE_AUTH_STATUS, AUTH_LOG_OUT, AUTH_REGISTER } from './actionTypes';
 import Authentication from '../../services/Authentication';
+import { throwAlert } from './dataActions';
 
 const auth = new Authentication();
+
+const errorCallback = (dispatch, error) => {
+  const { message } = error;
+  dispatch(throwAlert({ type: 'ERROR', message }));
+};
 
 const logIn = (authData) => {
   return async (dispatch) => {
@@ -12,7 +18,7 @@ const logIn = (authData) => {
       });
       dispatch(changeStatus());
     } catch (error) {
-      // errorCallback(dispatch, error);
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -31,7 +37,7 @@ const changeStatus = () => {
         payload: { user, isLoggedIn },
       });
     } catch (error) {
-      // errorCallback(dispatch, error);
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -45,7 +51,7 @@ const logOut = () => {
       });
       dispatch(changeStatus());
     } catch (error) {
-      // errorCallback(dispatch, error);
+      errorCallback(dispatch, error);
     }
   };
 };
@@ -59,7 +65,7 @@ const registerUser = (authData) => {
       });
       dispatch(changeStatus());
     } catch (error) {
-      // errorCallback(dispatch, error);
+      errorCallback(dispatch, error);
     }
   };
 };

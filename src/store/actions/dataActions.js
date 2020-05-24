@@ -289,4 +289,5 @@ export {
   deleteUserProgress,
   editUserProgress,
   addUserProgress,
+  throwAlert,
 };
