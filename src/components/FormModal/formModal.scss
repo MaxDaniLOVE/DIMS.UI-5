@@ -38,7 +38,21 @@
     grid-area: 7 / 1;
   }
 }
-.tasks-track-modal,
-.tasks-modal {
+.tasks-track-modal {
   grid-template-columns: 1fr;
+}
+.tasks-modal {
+  grid-template-columns: 1fr 1fr;
+  .form-inputs:first-child {
+    grid-area: 1 / 1 / 2 / 3;
+    .form-group {
+      width: 80%;
+    }
+  }
+  .form-inputs:last-child {
+    grid-area: 3 / 3 / 3 / 1;
+    .form-group {
+      width: 80%;
+    }
+  }
 }
