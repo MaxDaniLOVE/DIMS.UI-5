@@ -36,7 +36,7 @@ const MembersProgressTable = ({
         </td>
         <td>
           {isMemberTasks ? (
-            <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote)}</OutlineButton>
+            <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote, 20)}</OutlineButton>
           ) : (
             trackNote
           )}
