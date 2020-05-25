@@ -7,6 +7,7 @@ import { membersHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate, millisecondsToAge } from '../../utils/convertDate';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
+import noteConverter from '../../utils/noteConverter';
 
 const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
   const membersTableBody = members.map((member, idx) => {
@@ -16,11 +17,12 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
     const openDataModal = () => onMemberDataOpen(id);
     const openEditModal = () => onEditMemberModalOpen(id);
     const deleteMember = () => onUserDelete(id);
+    const userName = noteConverter(`${name} ${lastName}`, 10);
     return (
       <tr key={id}>
         <td>{idx + 1}</td>
         <td>
-          <OutlineButton onClick={openDataModal}>{`${name} ${lastName}`}</OutlineButton>
+          <OutlineButton onClick={openDataModal}>{userName}</OutlineButton>
         </td>
         <td>{directionId}</td>
         <td>{education}</td>

@@ -14,14 +14,43 @@
       color: #fff;
       font-weight: 300;
       transition: all 0.3s ease-in;
+      margin: 0 0.1rem;
+      &:first-child {
+        margin: 0 0.1rem 0 0;
+      }
+      &:last-child {
+        margin: 0 0 0 0.1rem;
+      }
       &:hover {
         background-color: $teal-green;
         transition: all 0.3s ease-in;
         cursor: pointer;
+        border: none;
       }
     }
     .active {
       background-color: $teal-green;
+      font-size: 1rem;
+      border: none;
+    }
+  }
+  .tab-pane {
+    padding: 1rem 2rem;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.75);
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    height: 65vh;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      padding: 3rem;
+      background-color: $teal-green;
+      border-radius: 0.25rem;
     }
   }
 }

@@ -1,5 +1,9 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
-import AuthContext from '../context';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+import { logIn, registerUser } from '../store/actions';
 import LoginForm from '../components/LoginForm';
 import { defaultAuthData } from '../utils/defaultInputsData';
 import { authInputs as inputs } from '../utils/inputs';
@@ -35,12 +39,8 @@ class AuthPage extends Component {
 
   onSubmit = () => {
     const { authData, isRegisterMode } = this.state;
-    const { onLogIn, onRegister } = this.context;
-    this.setState({
-      authData: defaultAuthData,
-      isFormValid: false,
-    });
-    return isRegisterMode ? onRegister(authData) : onLogIn(authData);
+    const { logIn, registerUser } = this.props;
+    return isRegisterMode ? registerUser(authData) : logIn(authData);
   };
 
   render() {
@@ -60,5 +60,12 @@ class AuthPage extends Component {
     );
   }
 }
-AuthPage.contextType = AuthContext;
-export default AuthPage;
+
+AuthPage.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  logIn: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({ logIn, registerUser }, dispatch);
+
+export default connect(null, mapDispatchToProps)(AuthPage);
