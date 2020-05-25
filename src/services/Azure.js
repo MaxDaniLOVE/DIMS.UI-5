@@ -128,6 +128,9 @@ export default class Azure {
     try {
       const userData = await this.getUsersData();
       const isUserExists = userData.filter(({ email }) => email === userEmail);
+      if (!isUserExists.length) {
+        throw new Error('User is not added to database. Try later.');
+      }
       return isUserExists;
     } catch (error) {
       throw new Error('An error occured. Please, try later.');
@@ -149,10 +152,12 @@ export default class Azure {
   getUserDataByEmail = async (userEmail) => {
     try {
       const userData = await this.getUsersData();
-      const { email, id: userId, name: userName } = userData.filter(
-        ({ email: fetchedMail }) => fetchedMail === userEmail,
-      )[0];
-      return { email, userId, userName };
+      const user = userData.filter(({ email: fetchedMail }) => fetchedMail === userEmail)[0];
+      if (user) {
+        const { email, id: userId, name: userName } = user;
+        return { email, userId, userName };
+      }
+      return null;
     } catch (error) {
       throw new Error('An error occured. Please, try later.');
     }

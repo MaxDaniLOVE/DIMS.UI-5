@@ -47,6 +47,7 @@
   border: 1px solid $charcoal;
   transition: all 0.3s ease-in-out;
   color: $charcoal;
+  padding: 0 0.5rem;
   &:hover {
     cursor: pointer;
     background-color: $charcoal;
@@ -56,9 +57,6 @@
 }
 .menu-btn {
   cursor: pointer;
-}
-.btn-return {
-  width: 10rem;
 }
 .btn-logout {
   @include inactive-link;

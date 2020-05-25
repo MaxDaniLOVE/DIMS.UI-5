@@ -15,10 +15,9 @@ export default class Authentication {
         const userRole = await api.getUserRole(email);
         return userRole;
       }
-      return {};
+      throw new Error();
     } catch (error) {
-      console.error(error.message);
-      return error;
+      throw new Error('User is not added to database. Please contact your mentor or admin');
     }
   };
 
@@ -54,8 +53,7 @@ export default class Authentication {
       const userRole = await api.getUserRole(email);
       return userRole;
     } catch (error) {
-      console.error(error.message);
-      return error;
+      throw new Error('Check your login and password');
     }
   };
 
@@ -63,7 +61,7 @@ export default class Authentication {
     try {
       await this.auth.signOut();
     } catch (error) {
-      console.error(error.message);
+      throw new Error('An error occured during logout. Try later.');
     }
   };
 }

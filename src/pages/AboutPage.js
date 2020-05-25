@@ -8,7 +8,9 @@ const AboutPage = () => {
   const [activeTab, setActiveTab] = useState('dimsTab');
 
   const switchTab = (tab) => {
-    if (activeTab !== tab) setActiveTab(tab);
+    if (activeTab !== tab) {
+      setActiveTab(tab);
+    }
   };
 
   const links = tabs.map(({ tabId, tabLabel }) => {

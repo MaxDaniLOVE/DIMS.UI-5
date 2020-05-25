@@ -1,5 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   AboutPage,
   AuthPage,
@@ -9,10 +11,8 @@ import {
   TasksManagePage,
   TasksTrackManagePage,
 } from '../../pages';
-import AuthContext from '../../context';
 
-const Routes = () => {
-  const { user } = useContext(AuthContext);
+const Routes = ({ user }) => {
   const { userId, role } = user;
   if (!role) {
     return (
@@ -61,4 +61,10 @@ const Routes = () => {
   );
 };
 
-export default Routes;
+Routes.propTypes = {
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
+};
+
+const mapStateToProps = ({ auth: { user } }) => ({ user });
+
+export default connect(mapStateToProps)(Routes);

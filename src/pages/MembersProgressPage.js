@@ -1,6 +1,8 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
@@ -22,11 +24,11 @@ class MembersProgressPage extends Component {
   }
 
   async componentDidMount() {
-    const { match, getUserSubtasks } = this.props;
+    const { match, getUserProgress } = this.props;
     const {
       params: { mid },
     } = match;
-    getUserSubtasks(mid);
+    getUserProgress(mid);
     const { name: memberName } = await db.getUserById(mid);
     this.setState({ memberName, isLoaded: true });
   }
@@ -54,16 +56,12 @@ class MembersProgressPage extends Component {
 
 MembersProgressPage.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  getUserSubtasks: PropTypes.func.isRequired,
+  getUserProgress: PropTypes.func.isRequired,
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ progress }) => ({ progress });
+const mapStateToProps = ({ data: { progress } }) => ({ progress });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getUserSubtasks: (id) => dispatch(getUserProgress(id)),
-  };
-};
+const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserProgress }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersProgressPage));
