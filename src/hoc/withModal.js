@@ -22,12 +22,13 @@ import {
   addUserProgress,
 } from '../store/actions/dataActions';
 import closingModalDelay from '../utils/closingModalDelay';
-import { defaultRegisterData, defaultTaskData, defaultSubtaskData } from '../utils/defaultInputsData';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
-import { membersInputs, tasksInputs, subtasksInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
 import Firebase from '../services/Firebase';
 import transformEditData from '../utils/transformEditData';
+import setModalPageData from '../utils/setModalPageData';
+import findModalPageData from '../utils/findModalPageData';
+import setMethods from '../utils/setMethods';
 
 const db = new Firebase();
 
@@ -35,50 +36,12 @@ const withModal = (WrappedComponent, pageType) =>
   class ModalContainer extends Component {
     constructor(props) {
       super(props);
-      const {
-        getUsers,
-        addUser,
-        editUser,
-        deleteUser,
-        getTasks,
-        addTask,
-        deleteTask,
-        editTask,
-        setAssignedMembers,
-        getUserProgress,
-        deleteUserProgress,
-        editUserProgress,
-        addUserProgress,
-      } = props;
-      switch (pageType) {
-        case 'MEMBERS_PAGE':
-          this.getData = getUsers;
-          this.addData = addUser;
-          this.editData = editUser;
-          this.deleteData = deleteUser;
-          this.defaultInputsData = defaultRegisterData;
-          this.dataInputs = membersInputs;
-          break;
-        case 'TASK_PAGE':
-          this.getData = getTasks;
-          this.addData = addTask;
-          this.editData = editTask;
-          this.deleteData = deleteTask;
-          this.defaultInputsData = defaultTaskData;
-          this.dataInputs = tasksInputs;
-          break;
-        case 'TRACK_PAGE':
-          this.getData = getUserProgress;
-          this.addData = addUserProgress;
-          this.editData = editUserProgress;
-          this.deleteData = deleteUserProgress;
-          this.defaultInputsData = defaultSubtaskData;
-          this.dataInputs = subtasksInputs;
-          break;
-        default:
-          break;
-      }
-      this.setAssignedMembers = setAssignedMembers;
+      this.getData = setMethods(props, pageType).GET;
+      this.addData = setMethods(props, pageType).ADD;
+      this.editData = setMethods(props, pageType).EDIT;
+      this.deleteData = setMethods(props, pageType).DELETE;
+      this.defaultInputsData = setMethods(props, pageType).DEFAULT_INPUTS;
+      this.dataInputs = setMethods(props, pageType).DATA_INPUTS;
       this.state = {
         ...pagesInitialState,
         pageData: [],
@@ -96,13 +59,7 @@ const withModal = (WrappedComponent, pageType) =>
     }
 
     static getDerivedStateFromProps(nextProps) {
-      const { members, tasks, progress } = nextProps;
-      const mainData = {
-        MEMBERS_PAGE: members,
-        TASK_PAGE: tasks,
-        TRACK_PAGE: progress,
-      };
-      const pageData = mainData[pageType];
+      const pageData = setModalPageData(nextProps, pageType);
       return { pageData };
     }
 
@@ -159,7 +116,7 @@ const withModal = (WrappedComponent, pageType) =>
           trackNote: newSubtask.trackNote,
           trackDate: newSubtask.trackDate,
         };
-        isFormValid = validation(validatedInputs, subtasksInputs);
+        isFormValid = validation(validatedInputs, this.dataInputs);
         setFormData(newSubtask);
       } else {
         const validatedInputs = { ...updated };
@@ -201,11 +158,8 @@ const withModal = (WrappedComponent, pageType) =>
     onDataOpen = (recievedId) => {
       const { setFormData } = this.props;
       const { pageData } = this.state;
-      const editedUser =
-        pageType === 'MEMBERS_PAGE'
-          ? pageData.find(({ id }) => id === recievedId)
-          : pageData.find(({ taskTrackId }) => taskTrackId === recievedId);
-      setFormData(editedUser);
+      const dataToDisplay = findModalPageData(pageType, pageData, recievedId);
+      setFormData(dataToDisplay);
       this.setState({
         showModal: true,
         isDetailMode: true,
