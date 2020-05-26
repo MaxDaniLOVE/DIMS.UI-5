@@ -9,7 +9,7 @@ const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case AUTH_LOG_IN:
     case AUTH_LOG_OUT:
-      return { ...state };
+      return state;
     case CHANGE_AUTH_STATUS:
       const { isLoggedIn, user } = payload;
       return {

@@ -87,12 +87,11 @@ const withModal = (WrappedComponent, pageType) =>
 
     componentDidMount() {
       const {
-        match,
         user: { userId },
+        match: {
+          params: { tid },
+        },
       } = this.props;
-      const {
-        params: { tid },
-      } = match;
       this.fetchData(tid, userId);
     }
 
@@ -130,9 +129,6 @@ const withModal = (WrappedComponent, pageType) =>
       const { taskName } = editedTask;
       setFormData({ ...formData, taskId, taskName });
       this.onModalOpen();
-      this.setState({
-        showModal: true,
-      });
     };
 
     onModalClose = () => {
@@ -149,6 +145,7 @@ const withModal = (WrappedComponent, pageType) =>
       const { value, id } = e.target;
       const { taskId, taskName } = formData;
       const updated = inputsChangeHandler(value, id, formData);
+      let isFormValid;
       if (pageType === 'TRACK_PAGE') {
         const newSubtask = {
           taskId,
@@ -162,15 +159,14 @@ const withModal = (WrappedComponent, pageType) =>
           trackNote: newSubtask.trackNote,
           trackDate: newSubtask.trackDate,
         };
-        const isFormValid = validation(validatedInputs, subtasksInputs);
+        isFormValid = validation(validatedInputs, subtasksInputs);
         setFormData(newSubtask);
-        this.setState({ isFormValid });
       } else {
         const validatedInputs = { ...updated };
-        const isFormValid = validation(validatedInputs, this.dataInputs);
+        isFormValid = validation(validatedInputs, this.dataInputs);
         setFormData(updated);
-        this.setState({ isFormValid });
       }
+      this.setState({ isFormValid });
     };
 
     onAddData = async () => {
