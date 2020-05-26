@@ -37,7 +37,7 @@ const TasksTrackManagePage = ({
     setFormData(defaultSubtaskData);
   }, [setFormData]);
   const modalHeader = <h3>{`Task track - ${formData.taskName}`}</h3>;
-  if (!progress.length) {
+  if (!progress.length && isLoaded) {
     return <EmptyTableMessage>It looks like you have no subtasks!</EmptyTableMessage>;
   }
   return (

@@ -52,7 +52,7 @@ class MembersTasksPage extends Component {
       userTasks,
       user: { role },
     } = this.props;
-    if (!userTasks.length) {
+    if (!userTasks.length && isLoaded) {
       return (
         <EmptyTableMessage>It looks like you have no tasks! Please contact your mentor or admin</EmptyTableMessage>
       );

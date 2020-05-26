@@ -36,7 +36,7 @@ class MembersProgressPage extends Component {
   render() {
     const { isLoaded, memberName } = this.state;
     const { progress } = this.props;
-    if (!progress.length) {
+    if (!progress.length && isLoaded) {
       return <EmptyTableMessage>This user has no subtasks :(</EmptyTableMessage>;
     }
     return (
