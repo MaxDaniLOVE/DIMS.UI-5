@@ -3,7 +3,7 @@ import { membersInputs, tasksInputs, subtasksInputs } from './inputs';
 import { defaultRegisterData, defaultTaskData, defaultSubtaskData } from './defaultInputsData';
 
 const setMethods = (props, pageType) => {
-  const lib = {
+  const pagesMethods = {
     MEMBERS_PAGE: {
       GET: props.getUsers,
       ADD: props.addUser,
@@ -29,7 +29,7 @@ const setMethods = (props, pageType) => {
       DATA_INPUTS: subtasksInputs,
     },
   };
-  return lib[pageType];
+  return pagesMethods[pageType];
 };
 
 export default setMethods;
