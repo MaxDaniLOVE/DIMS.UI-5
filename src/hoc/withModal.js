@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
+import DeletingModal from '../components/DeletingModal';
 import pagesInitialState from '../utils/pagesInitialState';
 import {
   getUsers,
@@ -45,6 +46,8 @@ const withModal = (WrappedComponent, pageType) =>
       this.state = {
         ...pagesInitialState,
         pageData: [],
+        isOpenDeleteModal: false,
+        deleteId: '',
       };
     }
 
@@ -131,11 +134,21 @@ const withModal = (WrappedComponent, pageType) =>
       this.onModalClose();
     };
 
-    onDeleteData = async (id) => {
+    onDeleteModalOpen = (deleteId) => {
+      this.setState({ isOpenDeleteModal: true, deleteId });
+    };
+
+    onDeleteModalClose = () => {
+      this.setState({ isOpenDeleteModal: false, deleteId: '' });
+    };
+
+    onDeleteData = async () => {
       const {
         user: { userId },
       } = this.props;
-      const response = await this.deleteData(id, userId);
+      const { deleteId } = this.state;
+      const response = await this.deleteData(deleteId, userId);
+      this.onDeleteModalClose();
       return response;
     };
 
@@ -177,24 +190,33 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     render() {
-      const { showModal, isEditMode, isDetailMode, isFormValid, isLoaded } = this.state;
+      const { showModal, isEditMode, isDetailMode, isFormValid, isLoaded, isOpenDeleteModal } = this.state;
       return (
-        <WrappedComponent
-          onModalClose={this.onModalClose}
-          showModal={showModal}
-          isLoaded={isLoaded}
-          isEditMode={isEditMode}
-          isDetailMode={isDetailMode}
-          isFormValid={isFormValid}
-          onModalOpen={this.onModalOpen}
-          onFormChange={this.onFormChange}
-          onAddData={this.onAddData}
-          onDeleteData={this.onDeleteData}
-          onSubmit={this.onSubmit}
-          onEditDataModalOpen={this.onEditDataModalOpen}
-          onDataOpen={this.onDataOpen}
-          onSubtaskModalOpen={this.onSubtaskModalOpen}
-        />
+        <>
+          <DeletingModal
+            isOpen={isOpenDeleteModal}
+            onCloseModal={this.onDeleteModalClose}
+            onDeleteData={this.onDeleteData}
+          >
+            Are you sure that want to delete this field?
+          </DeletingModal>
+          <WrappedComponent
+            onModalClose={this.onModalClose}
+            showModal={showModal}
+            isLoaded={isLoaded}
+            isEditMode={isEditMode}
+            isDetailMode={isDetailMode}
+            isFormValid={isFormValid}
+            onModalOpen={this.onModalOpen}
+            onFormChange={this.onFormChange}
+            onAddData={this.onAddData}
+            onDeleteData={this.onDeleteModalOpen}
+            onSubmit={this.onSubmit}
+            onEditDataModalOpen={this.onEditDataModalOpen}
+            onDataOpen={this.onDataOpen}
+            onSubtaskModalOpen={this.onSubtaskModalOpen}
+          />
+        </>
       );
     }
   };

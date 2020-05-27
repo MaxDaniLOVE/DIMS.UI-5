@@ -1,0 +1,14 @@
+@import '../../scss/variables';
+
+.delete-modal-window {
+  padding: 2rem;
+  width: 20rem;
+  min-width: min-content;
+  .modal-window__footer {
+    justify-content: center;
+    .btn {
+      width: 33%;
+      margin: 0 1rem;
+    }
+  }
+}
