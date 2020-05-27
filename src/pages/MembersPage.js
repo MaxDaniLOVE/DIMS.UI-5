@@ -84,13 +84,17 @@ const MembersPage = ({
   );
 };
 
-const mapStateToProps = ({ data: { members, formData }, auth: { user } }) => ({
-  members,
-  formData,
-  user,
-});
+const mapStateToProps = ({ data: { members, formData }, auth: { user } }) => {
+  return {
+    members,
+    formData,
+    user,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ setFormData }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ setFormData }, dispatch);
+};
 
 MembersPage.propTypes = {
   formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,

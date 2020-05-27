@@ -34,6 +34,8 @@ App.propTypes = {
   changeStatus: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ changeStatus }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ changeStatus }, dispatch);
+};
 
 export default connect(null, mapDispatchToProps)(App);

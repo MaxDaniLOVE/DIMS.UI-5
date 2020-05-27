@@ -91,9 +91,12 @@ TasksManagePage.propTypes = {
   onModalOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => ({ tasks, formData, assignedMembers });
+const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {
+  return { tasks, formData, assignedMembers };
+};
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers }, dispatch);
+};
 
 export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(TasksManagePage), 'TASK_PAGE');

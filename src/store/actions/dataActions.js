@@ -196,13 +196,21 @@ const editTask = () => {
   };
 };
 
-const startFetchingData = () => ({ type: FETCH_DATA_START });
+const startFetchingData = () => {
+  return { type: FETCH_DATA_START };
+};
 
-const throwAlert = (alert) => ({ type: THROW_ALERT, payload: alert });
+const throwAlert = (alert) => {
+  return { type: THROW_ALERT, payload: alert };
+};
 
-const setFormData = (data) => ({ type: SET_FORM_DATA, payload: data });
+const setFormData = (data) => {
+  return { type: SET_FORM_DATA, payload: data };
+};
 
-const setAssignedMembers = (members) => ({ type: SET_ASSIGNED_MEMBERS, payload: members });
+const setAssignedMembers = (members) => {
+  return { type: SET_ASSIGNED_MEMBERS, payload: members };
+};
 
 const getUserProgress = (id) => {
   return async (dispatch) => {

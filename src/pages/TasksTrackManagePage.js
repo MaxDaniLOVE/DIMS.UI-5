@@ -104,13 +104,19 @@ TasksTrackManagePage.propTypes = {
   onSubtaskModalOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ data: { progress, formData }, auth: { user } }) => ({
-  progress,
-  formData,
-  user,
-});
+const mapStateToProps = ({ data: { progress, formData }, auth: { user } }) => {
+  return {
+    progress,
+    formData,
+    user,
+  };
+};
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress },
+    dispatch,
+  );
+};
 
 export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage), 'TRACK_PAGE');

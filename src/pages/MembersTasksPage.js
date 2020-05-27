@@ -82,8 +82,12 @@ MembersTasksPage.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({ data: { userTasks }, auth: { user } }) => ({ userTasks, user });
+const mapStateToProps = ({ data: { userTasks }, auth: { user } }) => {
+  return { userTasks, user };
+};
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserTasks, setMark }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ getUserTasks, setMark }, dispatch);
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersTasksPage));

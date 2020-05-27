@@ -55,6 +55,12 @@ const dataReducer = (state = initialState, { type, payload }) => {
         ...state,
         progress: payload,
       };
+    case FETCH_DATA_START:
+      return { ...state, alert: {} };
+    case THROW_ALERT:
+      return { ...state, alert: payload };
+    case SET_ASSIGNED_MEMBERS:
+      return { ...state, assignedMembers: payload };
     case ADD_MEMBER:
     case EDIT_MEMBER:
     case DELETE_USER:
@@ -64,13 +70,6 @@ const dataReducer = (state = initialState, { type, payload }) => {
     case DELETE_USER_PROGRESS:
     case EDIT_USER_PROGRESS:
     case EDIT_TASK:
-      return { ...state };
-    case FETCH_DATA_START:
-      return { ...state, alert: {} };
-    case THROW_ALERT:
-      return { ...state, alert: payload };
-    case SET_ASSIGNED_MEMBERS:
-      return { ...state, assignedMembers: payload };
     default:
       return state;
   }
