@@ -12,10 +12,15 @@ import Routes from '../Routes';
 import AlertsContainer from '../AlertsContainer';
 import './app.scss';
 
-const App = ({ changeStatus }) => {
+const App = ({ changeStatus, isDarkMode }) => {
   useEffect(() => {
     changeStatus();
   }, [changeStatus]);
+  if (isDarkMode) {
+    document.body.style.backgroundColor = '#414754';
+  } else {
+    document.body.style.backgroundColor = '#e3e8f0';
+  }
   return (
     <Router>
       <Header />
@@ -32,10 +37,15 @@ const App = ({ changeStatus }) => {
 
 App.propTypes = {
   changeStatus: PropTypes.func.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = ({ data: { isDarkMode } }) => {
+  return { isDarkMode };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ changeStatus }, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

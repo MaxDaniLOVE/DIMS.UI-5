@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { setFormData } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
-import { Button } from '../UI/Buttons';
+import { SuccessButton } from '../UI/Buttons';
 import ModalContent from '../UI/ModalContent';
 import FormModal from '../components/FormModal';
 import { defaultRegisterData } from '../utils/defaultInputsData';
@@ -65,9 +65,9 @@ const MembersPage = ({
       {isLoaded ? (
         <>
           {role === 'ADMIN' ? (
-            <Button customClass='with-margin' onClick={onModalOpen}>
+            <SuccessButton customClass='with-margin' onClick={onModalOpen}>
               Register
-            </Button>
+            </SuccessButton>
           ) : null}
           <MembersTable
             members={members}

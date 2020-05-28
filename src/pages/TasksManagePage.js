@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Modal } from 'reactstrap';
 import Preloader from '../components/Preloader';
-import { Button } from '../UI/Buttons';
+import { SuccessButton } from '../UI/Buttons';
 import TasksTable from '../components/TasksTable';
 import { defaultTaskData } from '../utils/defaultInputsData';
 import { tasksInputs } from '../utils/inputs';
@@ -64,7 +64,7 @@ const TasksManagePage = ({
       </Modal>
       {isLoaded ? (
         <>
-          <Button onClick={onModalOpen}>Create</Button>
+          <SuccessButton onClick={onModalOpen}>Create</SuccessButton>
           <TasksTable tasks={tasks} onDeleteTask={onDeleteData} onEditTaskModalOpen={onEditDataModalOpen} />
         </>
       ) : (
