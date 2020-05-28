@@ -17,6 +17,7 @@ import {
   DELETE_USER_PROGRESS,
   EDIT_USER_PROGRESS,
   ADD_USER_PROGRESS,
+  TOGGLE_DARK_MODE,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
@@ -280,6 +281,11 @@ const addUserProgress = () => {
     }
   };
 };
+
+const switchDarkMode = ({ target: { checked } }) => {
+  return { type: TOGGLE_DARK_MODE, payload: checked };
+};
+
 export {
   getUsers,
   addUser,
@@ -298,4 +304,5 @@ export {
   editUserProgress,
   addUserProgress,
   throwAlert,
+  switchDarkMode,
 };

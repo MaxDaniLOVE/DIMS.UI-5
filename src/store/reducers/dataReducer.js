@@ -16,6 +16,7 @@ import {
   GET_USER_PROGRESS,
   DELETE_USER_PROGRESS,
   EDIT_USER_PROGRESS,
+  TOGGLE_DARK_MODE,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
   formData: {},
   assignedMembers: [],
   progress: [],
+  isDarkMode: false,
 };
 
 const dataReducer = (state = initialState, { type, payload }) => {
@@ -61,6 +63,8 @@ const dataReducer = (state = initialState, { type, payload }) => {
       return { ...state, alert: payload };
     case SET_ASSIGNED_MEMBERS:
       return { ...state, assignedMembers: payload };
+    case TOGGLE_DARK_MODE:
+      return { ...state, isDarkMode: payload };
     case ADD_MEMBER:
     case EDIT_MEMBER:
     case DELETE_USER:

@@ -15,6 +15,7 @@ import {
   deleteUserProgress,
   editUserProgress,
   addUserProgress,
+  switchDarkMode,
 } from './dataActions';
 import { logIn, changeStatus, logOut, registerUser } from './authActions';
 
@@ -39,4 +40,5 @@ export {
   changeStatus,
   logOut,
   registerUser,
+  switchDarkMode,
 };
