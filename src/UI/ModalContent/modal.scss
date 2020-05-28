@@ -31,6 +31,30 @@
     }
   }
 }
+.dark-modal {
+  background-color: $charcoal;
+  color: #fff;
+  td,
+  th {
+    color: #fff;
+  }
+  tr:first-child {
+    td,
+    th {
+      border-top: none;
+    }
+  }
+  input,
+  textarea,
+  input:focus,
+  textarea:focus {
+    background-color: $charcoal;
+    color: #fff;
+  }
+  .btn-return {
+    background-color: $black;
+  }
+}
 .invalid-feedback {
   position: absolute;
   width: fit-content;

@@ -1,13 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AvForm } from 'availity-reactstrap-validation';
+import { connect } from 'react-redux';
 import { GoBackButton, SubmitButton } from '../Buttons';
 import Checkboxes from '../Checkboxes';
 import './modal.scss';
 
-const ModalContent = ({ children, onModalClose, onSubmit, isDetailMode, isFormValid, isCheckboxShow, isEditMode }) => {
+const ModalContent = ({
+  isDarkMode,
+  children,
+  onModalClose,
+  onSubmit,
+  isDetailMode,
+  isFormValid,
+  isCheckboxShow,
+  isEditMode,
+}) => {
+  const formClassName = isDarkMode ? 'modal-window dark-modal' : 'modal-window';
   return (
-    <AvForm className='modal-window' onSubmit={onSubmit}>
+    <AvForm className={formClassName} onSubmit={onSubmit}>
       <div className='modal-window__content'>
         {children}
         {isCheckboxShow ? <Checkboxes isEditMode={isEditMode} /> : null}
@@ -36,6 +47,11 @@ ModalContent.propTypes = {
   isDetailMode: PropTypes.bool.isRequired,
   isCheckboxShow: PropTypes.bool,
   isEditMode: PropTypes.bool.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
-export default ModalContent;
+const mapStateToPRops = ({ data: { isDarkMode } }) => {
+  return { isDarkMode };
+};
+
+export default connect(mapStateToPRops, null)(ModalContent);
