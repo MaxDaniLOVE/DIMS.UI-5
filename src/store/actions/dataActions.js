@@ -22,6 +22,7 @@ import {
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
 import sortFromOldToNew from '../../utils/sortFromOldToNew';
+import { addCache, removeCache } from '../../utils/cache';
 
 const api = initializeService();
 
@@ -283,6 +284,11 @@ const addUserProgress = () => {
 };
 
 const switchDarkMode = ({ target: { checked } }) => {
+  if (checked) {
+    addCache('isDarkMode', checked);
+  } else {
+    removeCache('isDarkMode');
+  }
   return { type: TOGGLE_DARK_MODE, payload: checked };
 };
 

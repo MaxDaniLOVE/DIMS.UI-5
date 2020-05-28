@@ -18,6 +18,9 @@ import {
   EDIT_USER_PROGRESS,
   TOGGLE_DARK_MODE,
 } from '../actions/actionTypes';
+import { loadCache } from '../../utils/cache';
+
+const isDarkMode = loadCache('isDarkMode');
 
 const initialState = {
   members: [],
@@ -27,7 +30,7 @@ const initialState = {
   formData: {},
   assignedMembers: [],
   progress: [],
-  isDarkMode: false,
+  isDarkMode,
 };
 
 const dataReducer = (state = initialState, { type, payload }) => {
