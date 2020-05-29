@@ -2,9 +2,6 @@
 import React from 'react';
 import { FormGroup, CustomInput } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { switchDarkMode } from '../../store/actions';
 
 import './darkModeToggle.scss';
 
@@ -28,12 +25,4 @@ DarkModeToggle.propTypes = {
   switchDarkMode: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ data: { isDarkMode } }) => {
-  return { isDarkMode };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ switchDarkMode }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DarkModeToggle);
+export default DarkModeToggle;
