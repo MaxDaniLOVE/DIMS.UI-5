@@ -28,6 +28,9 @@
         border: none;
       }
     }
+    .dark-link {
+      background-color: $charcoal-hover;
+    }
     .active {
       background-color: $teal-green;
       font-size: 1rem;

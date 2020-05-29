@@ -25,3 +25,14 @@
     width: 100%;
   }
 }
+.dark-form {
+  input,
+  input:focus,
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px $charcoal inset;
+    -webkit-text-fill-color: #fff !important;
+    background-color: $charcoal;
+    color: #fff;
+  }
+}

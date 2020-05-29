@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { TabContent, TabPane, Nav, NavLink } from 'reactstrap';
 import { MainTitle } from '../UI/Titles';
 
 import tabs from '../utils/aboutPageTabs';
 
-const AboutPage = () => {
+const AboutPage = ({ isDarkMode }) => {
   const [activeTab, setActiveTab] = useState('dimsTab');
 
   const switchTab = (tab) => {
@@ -13,10 +14,12 @@ const AboutPage = () => {
     }
   };
 
+  const linksClassNames = isDarkMode ? 'dark-link' : '';
+
   const links = tabs.map(({ tabId, tabLabel }) => {
     const onClick = () => switchTab(tabId);
     return (
-      <NavLink active={activeTab === tabId} key={tabId} onClick={onClick}>
+      <NavLink className={linksClassNames} active={activeTab === tabId} key={tabId} onClick={onClick}>
         {tabLabel}
       </NavLink>
     );
@@ -37,4 +40,8 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+const mapStateToProps = ({ data: { isDarkMode } }) => {
+  return { isDarkMode };
+};
+
+export default connect(mapStateToProps, null)(AboutPage);

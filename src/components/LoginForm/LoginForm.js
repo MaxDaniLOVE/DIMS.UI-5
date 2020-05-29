@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
 import { SubmitButton, SuccessButton } from '../../UI/Buttons';
@@ -7,7 +8,7 @@ import { fieldValidation } from '../../utils/validation';
 
 import './loginForm.scss';
 
-const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode, onSwitchMode }) => {
+const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode, onSwitchMode, isDarkMode }) => {
   const inputsField = inputs.map(({ label, id, type, validationPattern, errorMessage }) => {
     const pattern = fieldValidation(validationPattern, errorMessage);
     return (
@@ -19,9 +20,12 @@ const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode
       </AvGroup>
     );
   });
+
+  const formClassName = isDarkMode ? 'login-form dark-form' : 'login-form';
+
   return (
     <div className='login-form-wrapper'>
-      <AvForm className='login-form' onSubmit={onSubmit}>
+      <AvForm className={formClassName} onSubmit={onSubmit}>
         <h3>{isRegisterMode ? 'Register:' : 'Login:'}</h3>
         {inputsField}
         <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
@@ -40,6 +44,11 @@ LoginForm.propTypes = {
   isFormValid: PropTypes.bool.isRequired,
   isRegisterMode: PropTypes.bool.isRequired,
   onSwitchMode: PropTypes.func.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
-export default LoginForm;
+const mapStateToProps = ({ data: { isDarkMode } }) => {
+  return { isDarkMode };
+};
+
+export default connect(mapStateToProps, null)(LoginForm);
