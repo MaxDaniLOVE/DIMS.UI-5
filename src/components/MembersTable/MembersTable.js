@@ -8,6 +8,10 @@ import { millisecondsToDate, millisecondsToAge } from '../../utils/convertDate';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
 import noteConverter from '../../utils/noteConverter';
+import { ReactComponent as EditUserIcon } from '../../assets/icons/user-edit-solid.svg';
+import { ReactComponent as DeleteUserIcon } from '../../assets/icons/trash-alt-solid.svg';
+import { ReactComponent as UserTasksIcon } from '../../assets/icons/tasks-solid.svg';
+import { ReactComponent as UserProgressIcon } from '../../assets/icons/sticky-note-solid.svg';
 
 const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
   const membersTableBody = members.map((member, idx) => {
@@ -29,12 +33,20 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
         <td>{stringStartDate}</td>
         <td>{ageInYears}</td>
         <td className={`td-btns td-btns__${role}`}>
-          <LinkButton link={`/member/${id}/tasks`}>Tasks</LinkButton>
-          <LinkButton link={`/member/${id}/progress`}>Progress</LinkButton>
+          <LinkButton link={`/member/${id}/tasks`}>
+            <UserTasksIcon />
+          </LinkButton>
+          <LinkButton link={`/member/${id}/progress`}>
+            <UserProgressIcon />
+          </LinkButton>
           {role === 'ADMIN' ? (
             <>
-              <Button onClick={openEditModal}>Edit</Button>
-              <DangerButton onClick={deleteMember}>Delete</DangerButton>
+              <Button onClick={openEditModal}>
+                <EditUserIcon />
+              </Button>
+              <DangerButton onClick={deleteMember}>
+                <DeleteUserIcon />
+              </DangerButton>
             </>
           ) : null}
         </td>

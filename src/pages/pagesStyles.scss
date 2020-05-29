@@ -64,3 +64,12 @@
 .fa-check {
   fill: $teal-green;
 }
+
+.btn {
+  svg {
+    fill: #fff;
+    margin: 0.4rem 0;
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+}

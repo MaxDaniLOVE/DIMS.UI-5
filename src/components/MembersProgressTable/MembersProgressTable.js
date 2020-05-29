@@ -9,6 +9,8 @@ import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
 import noteConverter from '../../utils/noteConverter';
 import './membersProgressTable.scss';
+import { ReactComponent as EditTrackIcon } from '../../assets/icons/edit-solid.svg';
+import { ReactComponent as DeleteTrackIcon } from '../../assets/icons/trash-alt-solid.svg';
 
 const MembersProgressTable = ({
   progress,
@@ -44,8 +46,12 @@ const MembersProgressTable = ({
         <td>{millisecondsToDate(trackDate)}</td>
         {isMemberTasks ? (
           <td className='user-btns'>
-            <Button onClick={onEditHandler}>Edit</Button>
-            <DangerButton onClick={onDeleteHandler}>Delete</DangerButton>
+            <Button onClick={onEditHandler}>
+              <EditTrackIcon />
+            </Button>
+            <DangerButton onClick={onDeleteHandler}>
+              <DeleteTrackIcon />
+            </DangerButton>
           </td>
         ) : null}
       </tr>

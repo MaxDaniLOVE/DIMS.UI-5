@@ -14,6 +14,7 @@ import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import composedModalHOC from '../hoc/withModal';
+import { ReactComponent as AddTaskIcon } from '../assets/icons/calendar-plus-solid.svg';
 
 const TasksManagePage = ({
   tasks,
@@ -64,7 +65,9 @@ const TasksManagePage = ({
       </Modal>
       {isLoaded ? (
         <>
-          <SuccessButton onClick={onModalOpen}>Create</SuccessButton>
+          <SuccessButton onClick={onModalOpen}>
+            <AddTaskIcon />
+          </SuccessButton>
           <TasksTable tasks={tasks} onDeleteTask={onDeleteData} onEditTaskModalOpen={onEditDataModalOpen} />
         </>
       ) : (

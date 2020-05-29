@@ -14,6 +14,7 @@ import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
 import composedModalHOC from '../hoc/withModal';
+import { ReactComponent as AddUserIcon } from '../assets/icons/user-plus-solid.svg';
 
 const MembersPage = ({
   members,
@@ -66,7 +67,7 @@ const MembersPage = ({
         <>
           {role === 'ADMIN' ? (
             <SuccessButton customClass='with-margin' onClick={onModalOpen}>
-              Register
+              <AddUserIcon />
             </SuccessButton>
           ) : null}
           <MembersTable

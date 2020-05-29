@@ -4,6 +4,8 @@ import { AvForm } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { GoBackButton, SubmitButton } from '../Buttons';
 import Checkboxes from '../Checkboxes';
+import { ReactComponent as SaveIcon } from '../../assets/icons/save-solid.svg';
+
 import './modal.scss';
 
 const ModalContent = ({
@@ -26,7 +28,7 @@ const ModalContent = ({
       <div className='modal-window__footer'>
         {isDetailMode ? null : (
           <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
-            Save
+            <SaveIcon />
           </SubmitButton>
         )}
         <GoBackButton onClick={onModalClose} />
