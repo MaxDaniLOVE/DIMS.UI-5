@@ -12,3 +12,11 @@
     }
   }
 }
+.dark-modal {
+  .btn-secondary {
+    background-color: $black;
+    &:hover {
+      background-color: #000;
+    }
+  }
+}

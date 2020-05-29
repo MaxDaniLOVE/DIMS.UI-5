@@ -21,10 +21,11 @@ const App = ({ changeStatus, isDarkMode }) => {
   } else {
     document.body.style.backgroundColor = '#e3e8f0';
   }
+  const containerClassName = isDarkMode ? 'dark-mode-container' : '';
   return (
     <Router>
       <Header />
-      <Container>
+      <Container className={containerClassName}>
         <Switch>
           <Routes />
         </Switch>

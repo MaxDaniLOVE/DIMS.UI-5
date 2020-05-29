@@ -5,10 +5,13 @@ import { Button, DangerButton } from '../../UI/Buttons';
 import { DangerSubtitle } from '../../UI/Titles';
 import './deletingModal.scss';
 
-const DeletingModal = ({ isOpen, onCloseModal, onDeleteData, children }) => {
+const DeletingModal = ({ isOpen, onCloseModal, onDeleteData, children, isDarkMode }) => {
+  const modalClassName = isDarkMode
+    ? 'modal-window delete-modal-window dark-modal'
+    : 'modal-window delete-modal-window';
   return (
     <Modal isOpen={isOpen} toggle={onCloseModal}>
-      <div className='modal-window delete-modal-window'>
+      <div className={modalClassName}>
         <DangerSubtitle>{children}</DangerSubtitle>
         <div className='modal-window__footer'>
           <Button onClick={onCloseModal}>Exit</Button>
@@ -24,6 +27,7 @@ DeletingModal.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
   onDeleteData: PropTypes.func.isRequired,
   children: PropTypes.string.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
 export default DeletingModal;

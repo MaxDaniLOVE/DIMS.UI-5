@@ -191,12 +191,14 @@ const withModal = (WrappedComponent, pageType) =>
 
     render() {
       const { showModal, isEditMode, isDetailMode, isFormValid, isLoaded, isOpenDeleteModal } = this.state;
+      const { isDarkMode } = this.props;
       return (
         <>
           <DeletingModal
             isOpen={isOpenDeleteModal}
             onCloseModal={this.onDeleteModalClose}
             onDeleteData={this.onDeleteData}
+            isDarkMode={isDarkMode}
           >
             Are you sure that want to delete this field?
           </DeletingModal>
@@ -221,13 +223,17 @@ const withModal = (WrappedComponent, pageType) =>
     }
   };
 
-const mapStateToProps = ({ data: { members, formData, tasks, assignedMembers, progress }, auth: { user } }) => ({
+const mapStateToProps = ({
+  data: { members, isDarkMode, formData, tasks, assignedMembers, progress },
+  auth: { user },
+}) => ({
   members,
   formData,
   user,
   tasks,
   assignedMembers,
   progress,
+  isDarkMode,
 });
 
 const mapDispatchToProps = (dispatch) =>

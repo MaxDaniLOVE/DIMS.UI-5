@@ -6,3 +6,12 @@
   justify-content: center;
   flex-direction: column;
 }
+.dark-mode-container {
+  .main-title,
+  .title,
+  .subtitle,
+  .paragraph,
+  .active {
+    color: #fff;
+  }
+}

@@ -20,7 +20,7 @@ import {
 } from '../actions/actionTypes';
 import { loadCache } from '../../utils/cache';
 
-const isDarkMode = loadCache('isDarkMode');
+const isDarkMode = !!loadCache('isDarkMode');
 
 const initialState = {
   members: [],
