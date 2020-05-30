@@ -2,8 +2,17 @@
   display: flex;
   justify-content: space-between;
   .members-checkboxes {
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     height: 10rem;
     width: 60%;
     overflow: auto;
+    input {
+      margin: 0;
+    }
+    @media screen and (max-width: 425px) {
+      grid-template-columns: 1fr;
+    }
   }
 }

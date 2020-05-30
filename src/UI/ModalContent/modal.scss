@@ -16,7 +16,7 @@
   padding: 1rem;
   height: fit-content;
   width: 75vw;
-  min-width: 640px;
+  min-width: 320px;
   background-color: $baby-blue;
   display: inherit;
   flex-direction: column;
@@ -63,4 +63,34 @@
   position: absolute;
   width: fit-content;
   margin: 3px;
+}
+@media screen and (max-width: 768px) {
+  .modal {
+    max-width: 100%;
+    width: 100%;
+    &-dialog {
+      margin: 1rem;
+      width: 100%;
+      max-width: 100%;
+    }
+    &-window {
+      width: 100%;
+    }
+  }
+}
+@media screen and (max-width: 375px) {
+  .modal {
+    &-dialog {
+      margin: 0;
+      height: 100%;
+    }
+    &-window {
+      height: 100%;
+      justify-content: center;
+      border-radius: 0;
+    }
+    &-content {
+      height: 100%;
+    }
+  }
 }

@@ -11,6 +11,10 @@
       margin: 0 1rem;
     }
   }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    align-self: center;
+  }
 }
 .dark-modal {
   .btn-secondary {
