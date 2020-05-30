@@ -21,10 +21,12 @@ const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode
     );
   });
 
-  const formClassName = isDarkMode ? 'login-form dark-form' : 'login-form';
-
+  const classNames = isDarkMode
+    ? { formClassName: 'login-form dark-form', wrapperClassName: 'login-form-wrapper dark-wrapper' }
+    : { formClassName: 'login-form', wrapperClassName: 'login-form-wrapper' };
+  const { formClassName, wrapperClassName } = classNames;
   return (
-    <div className='login-form-wrapper'>
+    <div className={wrapperClassName}>
       <AvForm className={formClassName} onSubmit={onSubmit}>
         <h3>{isRegisterMode ? 'Register:' : 'Login:'}</h3>
         {inputsField}

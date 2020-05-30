@@ -9,11 +9,13 @@
     position: relative;
     height: 5.5rem;
     width: 5.5rem;
+    left: -2.25rem;
     &__first-child,
     &__second-child {
       position: absolute;
-      border: 0.5rem solid $charcoal;
+      border: 0.5rem solid $black;
       animation: spinner 1s ease-in-out infinite;
+      box-sizing: initial;
     }
     &__second-child {
       animation-delay: -0.7s;
