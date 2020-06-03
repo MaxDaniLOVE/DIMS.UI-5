@@ -175,8 +175,41 @@ export default class Azure {
   };
 
   getUsersProgress = async (id) => {
-    // TODO add feature after backend will be ready
-    throw new Error('Sorry, but feature for this page is still being drafted.');
+    try {
+      const { data } = await axios.get(`${this.api}/user/tracks/${id}`);
+      return data.map((track) => this.convertData(track));
+    } catch (error) {
+      throw new Error("Can't load user progress. Please, try later.");
+    }
+  };
+
+  addNewSubtask = async (track) => {
+    try {
+      const newTrack = this.convertData(track, true, true);
+      const response = await axios.post(`${this.api}/track/create`, newTrack);
+      return response;
+    } catch (error) {
+      throw new Error("Can't add user progress. Please, try later.");
+    }
+  };
+
+  editUserProgress = async (newTrack) => {
+    try {
+      const updatedTrack = this.convertData(newTrack, true, true);
+      const response = await axios.put(`${this.api}/user/tracks`, updatedTrack);
+      return response;
+    } catch (error) {
+      throw new Error("Can't update track. Please, try later.");
+    }
+  };
+
+  deleteSubtask = async (id) => {
+    try {
+      const response = await axios.delete(`${this.api}/user/tracks/delete/${id}`);
+      return response;
+    } catch (error) {
+      throw new Error("Can't delete track. Please, try later.");
+    }
   };
 
   transformMembersData = (members) => {
