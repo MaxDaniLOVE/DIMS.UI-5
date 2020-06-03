@@ -16,7 +16,11 @@ import {
   GET_USER_PROGRESS,
   DELETE_USER_PROGRESS,
   EDIT_USER_PROGRESS,
+  TOGGLE_DARK_MODE,
 } from '../actions/actionTypes';
+import { loadCache } from '../../utils/cache';
+
+const isDarkMode = !!loadCache('isDarkMode');
 
 const initialState = {
   members: [],
@@ -26,6 +30,7 @@ const initialState = {
   formData: {},
   assignedMembers: [],
   progress: [],
+  isDarkMode,
 };
 
 const dataReducer = (state = initialState, { type, payload }) => {
@@ -55,6 +60,14 @@ const dataReducer = (state = initialState, { type, payload }) => {
         ...state,
         progress: payload,
       };
+    case FETCH_DATA_START:
+      return { ...state, alert: {} };
+    case THROW_ALERT:
+      return { ...state, alert: payload };
+    case SET_ASSIGNED_MEMBERS:
+      return { ...state, assignedMembers: payload };
+    case TOGGLE_DARK_MODE:
+      return { ...state, isDarkMode: payload };
     case ADD_MEMBER:
     case EDIT_MEMBER:
     case DELETE_USER:
@@ -64,13 +77,6 @@ const dataReducer = (state = initialState, { type, payload }) => {
     case DELETE_USER_PROGRESS:
     case EDIT_USER_PROGRESS:
     case EDIT_TASK:
-      return { ...state };
-    case FETCH_DATA_START:
-      return { ...state, alert: {} };
-    case THROW_ALERT:
-      return { ...state, alert: payload };
-    case SET_ASSIGNED_MEMBERS:
-      return { ...state, assignedMembers: payload };
     default:
       return state;
   }

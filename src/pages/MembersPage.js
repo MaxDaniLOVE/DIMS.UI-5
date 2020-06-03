@@ -7,13 +7,14 @@ import { bindActionCreators } from 'redux';
 import { setFormData } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
-import { Button } from '../UI/Buttons';
+import { SuccessButton } from '../UI/Buttons';
 import ModalContent from '../UI/ModalContent';
 import FormModal from '../components/FormModal';
 import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
 import composedModalHOC from '../hoc/withModal';
+import { ReactComponent as AddUserIcon } from '../assets/icons/user-plus-solid.svg';
 
 const MembersPage = ({
   members,
@@ -65,9 +66,9 @@ const MembersPage = ({
       {isLoaded ? (
         <>
           {role === 'ADMIN' ? (
-            <Button customClass='with-margin' onClick={onModalOpen}>
-              Register
-            </Button>
+            <SuccessButton customClass='with-margin' onClick={onModalOpen}>
+              <AddUserIcon />
+            </SuccessButton>
           ) : null}
           <MembersTable
             members={members}
@@ -84,13 +85,17 @@ const MembersPage = ({
   );
 };
 
-const mapStateToProps = ({ data: { members, formData }, auth: { user } }) => ({
-  members,
-  formData,
-  user,
-});
+const mapStateToProps = ({ data: { members, formData }, auth: { user } }) => {
+  return {
+    members,
+    formData,
+    user,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ setFormData }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ setFormData }, dispatch);
+};
 
 MembersPage.propTypes = {
   formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,

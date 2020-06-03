@@ -37,7 +37,7 @@ const TasksTrackManagePage = ({
     setFormData(defaultSubtaskData);
   }, [setFormData]);
   const modalHeader = <h3>{`Task track - ${formData.taskName}`}</h3>;
-  if (!progress.length) {
+  if (!progress.length && isLoaded) {
     return <EmptyTableMessage>It looks like you have no subtasks!</EmptyTableMessage>;
   }
   return (
@@ -104,13 +104,19 @@ TasksTrackManagePage.propTypes = {
   onSubtaskModalOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ data: { progress, formData }, auth: { user } }) => ({
-  progress,
-  formData,
-  user,
-});
+const mapStateToProps = ({ data: { progress, formData }, auth: { user } }) => {
+  return {
+    progress,
+    formData,
+    user,
+  };
+};
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress },
+    dispatch,
+  );
+};
 
 export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage), 'TRACK_PAGE');

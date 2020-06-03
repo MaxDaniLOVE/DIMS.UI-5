@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
+import DeletingModal from '../components/DeletingModal';
 import pagesInitialState from '../utils/pagesInitialState';
 import {
   getUsers,
@@ -22,12 +23,13 @@ import {
   addUserProgress,
 } from '../store/actions/dataActions';
 import closingModalDelay from '../utils/closingModalDelay';
-import { defaultRegisterData, defaultTaskData, defaultSubtaskData } from '../utils/defaultInputsData';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
-import { membersInputs, tasksInputs, subtasksInputs } from '../utils/inputs';
 import { validation } from '../utils/validation';
 import Firebase from '../services/Firebase';
 import transformEditData from '../utils/transformEditData';
+import setModalPageData from '../utils/setModalPageData';
+import findModalPageData from '../utils/findModalPageData';
+import setMethods from '../utils/setMethods';
 
 const db = new Firebase();
 
@@ -35,75 +37,32 @@ const withModal = (WrappedComponent, pageType) =>
   class ModalContainer extends Component {
     constructor(props) {
       super(props);
-      const {
-        getUsers,
-        addUser,
-        editUser,
-        deleteUser,
-        getTasks,
-        addTask,
-        deleteTask,
-        editTask,
-        setAssignedMembers,
-        getUserProgress,
-        deleteUserProgress,
-        editUserProgress,
-        addUserProgress,
-      } = props;
-      switch (pageType) {
-        case 'MEMBERS_PAGE':
-          this.getData = getUsers;
-          this.addData = addUser;
-          this.editData = editUser;
-          this.deleteData = deleteUser;
-          this.defaultInputsData = defaultRegisterData;
-          this.dataInputs = membersInputs;
-          break;
-        case 'TASK_PAGE':
-          this.getData = getTasks;
-          this.addData = addTask;
-          this.editData = editTask;
-          this.deleteData = deleteTask;
-          this.defaultInputsData = defaultTaskData;
-          this.dataInputs = tasksInputs;
-          break;
-        case 'TRACK_PAGE':
-          this.getData = getUserProgress;
-          this.addData = addUserProgress;
-          this.editData = editUserProgress;
-          this.deleteData = deleteUserProgress;
-          this.defaultInputsData = defaultSubtaskData;
-          this.dataInputs = subtasksInputs;
-          break;
-        default:
-          break;
-      }
-      this.setAssignedMembers = setAssignedMembers;
+      this.getData = setMethods(props, pageType).GET;
+      this.addData = setMethods(props, pageType).ADD;
+      this.editData = setMethods(props, pageType).EDIT;
+      this.deleteData = setMethods(props, pageType).DELETE;
+      this.defaultInputsData = setMethods(props, pageType).DEFAULT_INPUTS;
+      this.dataInputs = setMethods(props, pageType).DATA_INPUTS;
       this.state = {
         ...pagesInitialState,
         pageData: [],
+        isOpenDeleteModal: false,
+        deleteId: '',
       };
     }
 
     componentDidMount() {
       const {
-        match,
         user: { userId },
+        match: {
+          params: { tid },
+        },
       } = this.props;
-      const {
-        params: { tid },
-      } = match;
       this.fetchData(tid, userId);
     }
 
     static getDerivedStateFromProps(nextProps) {
-      const { members, tasks, progress } = nextProps;
-      const mainData = {
-        MEMBERS_PAGE: members,
-        TASK_PAGE: tasks,
-        TRACK_PAGE: progress,
-      };
-      const pageData = mainData[pageType];
+      const pageData = setModalPageData(nextProps, pageType);
       return { pageData };
     }
 
@@ -130,9 +89,6 @@ const withModal = (WrappedComponent, pageType) =>
       const { taskName } = editedTask;
       setFormData({ ...formData, taskId, taskName });
       this.onModalOpen();
-      this.setState({
-        showModal: true,
-      });
     };
 
     onModalClose = () => {
@@ -149,6 +105,7 @@ const withModal = (WrappedComponent, pageType) =>
       const { value, id } = e.target;
       const { taskId, taskName } = formData;
       const updated = inputsChangeHandler(value, id, formData);
+      let isFormValid;
       if (pageType === 'TRACK_PAGE') {
         const newSubtask = {
           taskId,
@@ -162,15 +119,14 @@ const withModal = (WrappedComponent, pageType) =>
           trackNote: newSubtask.trackNote,
           trackDate: newSubtask.trackDate,
         };
-        const isFormValid = validation(validatedInputs, subtasksInputs);
+        isFormValid = validation(validatedInputs, this.dataInputs);
         setFormData(newSubtask);
-        this.setState({ isFormValid });
       } else {
         const validatedInputs = { ...updated };
-        const isFormValid = validation(validatedInputs, this.dataInputs);
+        isFormValid = validation(validatedInputs, this.dataInputs);
         setFormData(updated);
-        this.setState({ isFormValid });
       }
+      this.setState({ isFormValid });
     };
 
     onAddData = async () => {
@@ -178,11 +134,21 @@ const withModal = (WrappedComponent, pageType) =>
       this.onModalClose();
     };
 
-    onDeleteData = async (id) => {
+    onDeleteModalOpen = (deleteId) => {
+      this.setState({ isOpenDeleteModal: true, deleteId });
+    };
+
+    onDeleteModalClose = () => {
+      this.setState({ isOpenDeleteModal: false, deleteId: '' });
+    };
+
+    onDeleteData = async () => {
       const {
         user: { userId },
       } = this.props;
-      const response = await this.deleteData(id, userId);
+      const { deleteId } = this.state;
+      const response = await this.deleteData(deleteId, userId);
+      this.onDeleteModalClose();
       return response;
     };
 
@@ -205,11 +171,8 @@ const withModal = (WrappedComponent, pageType) =>
     onDataOpen = (recievedId) => {
       const { setFormData } = this.props;
       const { pageData } = this.state;
-      const editedUser =
-        pageType === 'MEMBERS_PAGE'
-          ? pageData.find(({ id }) => id === recievedId)
-          : pageData.find(({ taskTrackId }) => taskTrackId === recievedId);
-      setFormData(editedUser);
+      const dataToDisplay = findModalPageData(pageType, pageData, recievedId);
+      setFormData(dataToDisplay);
       this.setState({
         showModal: true,
         isDetailMode: true,
@@ -227,35 +190,50 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     render() {
-      const { showModal, isEditMode, isDetailMode, isFormValid, isLoaded } = this.state;
+      const { showModal, isEditMode, isDetailMode, isFormValid, isLoaded, isOpenDeleteModal } = this.state;
+      const { isDarkMode } = this.props;
       return (
-        <WrappedComponent
-          onModalClose={this.onModalClose}
-          showModal={showModal}
-          isLoaded={isLoaded}
-          isEditMode={isEditMode}
-          isDetailMode={isDetailMode}
-          isFormValid={isFormValid}
-          onModalOpen={this.onModalOpen}
-          onFormChange={this.onFormChange}
-          onAddData={this.onAddData}
-          onDeleteData={this.onDeleteData}
-          onSubmit={this.onSubmit}
-          onEditDataModalOpen={this.onEditDataModalOpen}
-          onDataOpen={this.onDataOpen}
-          onSubtaskModalOpen={this.onSubtaskModalOpen}
-        />
+        <>
+          <DeletingModal
+            isOpen={isOpenDeleteModal}
+            onCloseModal={this.onDeleteModalClose}
+            onDeleteData={this.onDeleteData}
+            isDarkMode={isDarkMode}
+          >
+            Are you sure that want to delete this field?
+          </DeletingModal>
+          <WrappedComponent
+            onModalClose={this.onModalClose}
+            showModal={showModal}
+            isLoaded={isLoaded}
+            isEditMode={isEditMode}
+            isDetailMode={isDetailMode}
+            isFormValid={isFormValid}
+            onModalOpen={this.onModalOpen}
+            onFormChange={this.onFormChange}
+            onAddData={this.onAddData}
+            onDeleteData={this.onDeleteModalOpen}
+            onSubmit={this.onSubmit}
+            onEditDataModalOpen={this.onEditDataModalOpen}
+            onDataOpen={this.onDataOpen}
+            onSubtaskModalOpen={this.onSubtaskModalOpen}
+          />
+        </>
       );
     }
   };
 
-const mapStateToProps = ({ data: { members, formData, tasks, assignedMembers, progress }, auth: { user } }) => ({
+const mapStateToProps = ({
+  data: { members, isDarkMode, formData, tasks, assignedMembers, progress },
+  auth: { user },
+}) => ({
   members,
   formData,
   user,
   tasks,
   assignedMembers,
   progress,
+  isDarkMode,
 });
 
 const mapDispatchToProps = (dispatch) =>

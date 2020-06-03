@@ -56,3 +56,24 @@
     }
   }
 }
+@media screen and (max-width: 768px) {
+  .modal__content_container {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+  .tasks-modal {
+    grid-template-columns: 1fr;
+    .form-inputs:first-child {
+      grid-area: auto;
+      .form-group {
+        width: 65%;
+      }
+    }
+    .form-inputs:last-child {
+      grid-area: auto;
+      .form-group {
+        width: 65%;
+      }
+    }
+  }
+}

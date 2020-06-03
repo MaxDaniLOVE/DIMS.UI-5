@@ -40,6 +40,16 @@
   }
 }
 
+.dark-sidebar {
+  background-color: $black;
+  a:hover {
+    background-color: $freesia;
+  }
+  .active-link {
+    background-color: $freesia;
+  }
+}
+
 .backdrop__open {
   @include initial-backdrop;
   z-index: 2;

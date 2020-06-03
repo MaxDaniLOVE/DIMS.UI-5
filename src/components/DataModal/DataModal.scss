@@ -1,4 +1,10 @@
-.data {
-  display: flex;
-  justify-content: space-between;
+.data-modal-table {
+  width: 80%;
+  margin-left: 10%;
+  th {
+    padding: 0.2rem 0;
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0.2rem 0;
+  }
 }

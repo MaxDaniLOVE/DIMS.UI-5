@@ -66,6 +66,8 @@ AuthPage.propTypes = {
   logIn: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ logIn, registerUser }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ logIn, registerUser }, dispatch);
+};
 
 export default connect(null, mapDispatchToProps)(AuthPage);

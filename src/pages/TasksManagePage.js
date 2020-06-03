@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Modal } from 'reactstrap';
 import Preloader from '../components/Preloader';
-import { Button } from '../UI/Buttons';
+import { SuccessButton } from '../UI/Buttons';
 import TasksTable from '../components/TasksTable';
 import { defaultTaskData } from '../utils/defaultInputsData';
 import { tasksInputs } from '../utils/inputs';
@@ -14,6 +14,7 @@ import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import composedModalHOC from '../hoc/withModal';
+import { ReactComponent as AddTaskIcon } from '../assets/icons/calendar-plus-solid.svg';
 
 const TasksManagePage = ({
   tasks,
@@ -64,7 +65,9 @@ const TasksManagePage = ({
       </Modal>
       {isLoaded ? (
         <>
-          <Button onClick={onModalOpen}>Create</Button>
+          <SuccessButton onClick={onModalOpen}>
+            <AddTaskIcon />
+          </SuccessButton>
           <TasksTable tasks={tasks} onDeleteTask={onDeleteData} onEditTaskModalOpen={onEditDataModalOpen} />
         </>
       ) : (
@@ -91,9 +94,12 @@ TasksManagePage.propTypes = {
   onModalOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => ({ tasks, formData, assignedMembers });
+const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {
+  return { tasks, formData, assignedMembers };
+};
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers }, dispatch);
+};
 
 export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(TasksManagePage), 'TASK_PAGE');

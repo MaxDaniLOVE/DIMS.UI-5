@@ -6,6 +6,8 @@ import Layout from '../Layout';
 import Table from '../../UI/Table';
 import { taskTableHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
+import { ReactComponent as EditTaskIcon } from '../../assets/icons/edit-solid.svg';
+import { ReactComponent as DeleteTaskIcon } from '../../assets/icons/trash-alt-solid.svg';
 
 const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen }) => {
   const tasksTableBody = tasks.map(({ deadlineDate, name, startDate, taskId }, idx) => {
@@ -20,8 +22,12 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen }) => {
         <td>{startString}</td>
         <td>{deadlineString}</td>
         <td className='admin-btns'>
-          <Button onClick={onEditTaskHandler}>Edit</Button>
-          <DangerButton onClick={onDeleteTaskHandler}>Delete</DangerButton>
+          <Button onClick={onEditTaskHandler}>
+            <EditTaskIcon />
+          </Button>
+          <DangerButton onClick={onDeleteTaskHandler}>
+            <DeleteTaskIcon />
+          </DangerButton>
         </td>
       </tr>
     );

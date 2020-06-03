@@ -12,7 +12,7 @@ const SubmitButton = ({ onClick, children, isFormValid }) => {
 
 SubmitButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   isFormValid: PropTypes.bool.isRequired,
 };
 

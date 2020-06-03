@@ -12,7 +12,7 @@ const DataModal = ({ data, inputFields, header }) => {
   return (
     <>
       {header}
-      <Table>
+      <Table className='data-modal-table'>
         <tbody>
           {dataStrings.map(({ label, value }) => {
             const newValue = label.includes('date') ? millisecondsToDate(value) : value;

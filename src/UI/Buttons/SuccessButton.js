@@ -12,7 +12,7 @@ const SuccessButton = ({ onClick, children }) => {
 
 SuccessButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
 };
 
 export default SuccessButton;
