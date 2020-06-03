@@ -13,6 +13,13 @@
     border-top-right-radius: 0.5rem;
   }
 }
+
+.dark-header {
+  th {
+    background-color: $black;
+  }
+}
+
 th,
 td {
   font-weight: 300;

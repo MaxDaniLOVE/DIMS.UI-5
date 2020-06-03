@@ -48,6 +48,16 @@
   }
 }
 
+.dark-navigation {
+  background-color: $black;
+  a:hover {
+    background-color: $freesia;
+  }
+  .active-link {
+    background-color: $freesia;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .navigation {
     justify-content: space-between;

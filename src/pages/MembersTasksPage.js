@@ -52,7 +52,7 @@ class MembersTasksPage extends Component {
       userTasks,
       user: { role },
     } = this.props;
-    if (!userTasks.length) {
+    if (!userTasks.length && isLoaded) {
       return (
         <EmptyTableMessage>It looks like you have no tasks! Please contact your mentor or admin</EmptyTableMessage>
       );
@@ -82,8 +82,12 @@ MembersTasksPage.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({ data: { userTasks }, auth: { user } }) => ({ userTasks, user });
+const mapStateToProps = ({ data: { userTasks }, auth: { user } }) => {
+  return { userTasks, user };
+};
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserTasks, setMark }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ getUserTasks, setMark }, dispatch);
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersTasksPage));

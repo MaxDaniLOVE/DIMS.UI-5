@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import './tableHeader.scss';
 
-const TableHeader = ({ headers }) => {
+const TableHeader = ({ headers, isDarkMode }) => {
+  const headerClassName = isDarkMode ? 'table-header dark-header' : 'table-header';
   return (
-    <thead className='table-header'>
+    <thead className={headerClassName}>
       <tr>
         {headers.map((header) => (
           <th key={header}>{header}</th>
@@ -16,6 +19,11 @@ const TableHeader = ({ headers }) => {
 
 TableHeader.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
-export default TableHeader;
+const mapStateToPRops = ({ data: { isDarkMode } }) => {
+  return { isDarkMode };
+};
+
+export default connect(mapStateToPRops, null)(TableHeader);

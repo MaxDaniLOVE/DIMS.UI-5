@@ -1,3 +1,4 @@
+@import '../../scss/variables';
 .container {
   padding: 5rem 3rem;
   box-sizing: border-box;
@@ -5,4 +6,27 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.dark-mode-container {
+  .main-title,
+  .title,
+  .subtitle,
+  .paragraph,
+  .active {
+    color: #fff;
+  }
+  .custom-control-label {
+    color: #fff;
+  }
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: $teal-green;
+  border-color: $teal-green;
+}
+input[type='checkbox'] + label {
+  cursor: pointer;
 }

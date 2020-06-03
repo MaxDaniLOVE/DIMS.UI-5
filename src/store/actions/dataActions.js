@@ -17,10 +17,12 @@ import {
   DELETE_USER_PROGRESS,
   EDIT_USER_PROGRESS,
   ADD_USER_PROGRESS,
+  TOGGLE_DARK_MODE,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
 import sortFromOldToNew from '../../utils/sortFromOldToNew';
+import { addCache, removeCache } from '../../utils/cache';
 
 const api = initializeService();
 
@@ -196,13 +198,21 @@ const editTask = () => {
   };
 };
 
-const startFetchingData = () => ({ type: FETCH_DATA_START });
+const startFetchingData = () => {
+  return { type: FETCH_DATA_START };
+};
 
-const throwAlert = (alert) => ({ type: THROW_ALERT, payload: alert });
+const throwAlert = (alert) => {
+  return { type: THROW_ALERT, payload: alert };
+};
 
-const setFormData = (data) => ({ type: SET_FORM_DATA, payload: data });
+const setFormData = (data) => {
+  return { type: SET_FORM_DATA, payload: data };
+};
 
-const setAssignedMembers = (members) => ({ type: SET_ASSIGNED_MEMBERS, payload: members });
+const setAssignedMembers = (members) => {
+  return { type: SET_ASSIGNED_MEMBERS, payload: members };
+};
 
 const getUserProgress = (id) => {
   return async (dispatch) => {
@@ -272,6 +282,16 @@ const addUserProgress = () => {
     }
   };
 };
+
+const switchDarkMode = ({ target: { checked } }) => {
+  if (checked) {
+    addCache('isDarkMode', checked);
+  } else {
+    removeCache('isDarkMode');
+  }
+  return { type: TOGGLE_DARK_MODE, payload: checked };
+};
+
 export {
   getUsers,
   addUser,
@@ -290,4 +310,5 @@ export {
   editUserProgress,
   addUserProgress,
   throwAlert,
+  switchDarkMode,
 };

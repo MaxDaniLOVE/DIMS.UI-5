@@ -1,0 +1,29 @@
+@import '../../scss/variables';
+
+.delete-modal-window {
+  padding: 2rem;
+  width: 20rem;
+  min-width: min-content;
+  .modal-window__footer {
+    justify-content: center;
+    .btn {
+      width: 33%;
+      margin: 0 1rem;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    align-self: center;
+  }
+  @media screen and (max-width: 375px) {
+    width: 100%;
+  }
+}
+.dark-modal {
+  .btn-secondary {
+    background-color: $black;
+    &:hover {
+      background-color: #000;
+    }
+  }
+}

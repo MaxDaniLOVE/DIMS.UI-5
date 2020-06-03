@@ -12,14 +12,20 @@ import Routes from '../Routes';
 import AlertsContainer from '../AlertsContainer';
 import './app.scss';
 
-const App = ({ changeStatus }) => {
+const App = ({ changeStatus, isDarkMode }) => {
   useEffect(() => {
     changeStatus();
   }, [changeStatus]);
+  if (isDarkMode) {
+    document.body.style.backgroundColor = '#414754';
+  } else {
+    document.body.style.backgroundColor = '#e3e8f0';
+  }
+  const containerClassName = isDarkMode ? 'dark-mode-container' : '';
   return (
     <Router>
       <Header />
-      <Container>
+      <Container className={containerClassName}>
         <Switch>
           <Routes />
         </Switch>
@@ -32,8 +38,15 @@ const App = ({ changeStatus }) => {
 
 App.propTypes = {
   changeStatus: PropTypes.func.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ changeStatus }, dispatch);
+const mapStateToProps = ({ data: { isDarkMode } }) => {
+  return { isDarkMode };
+};
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ changeStatus }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -12,7 +12,7 @@ const LinkButton = ({ children, link }) => {
 };
 
 LinkButton.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   link: PropTypes.string.isRequired,
 };
 

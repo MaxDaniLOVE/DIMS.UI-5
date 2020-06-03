@@ -28,8 +28,12 @@ export default class Firebase {
         .collection('users')
         .where('email', '==', email)
         .get();
-      await this.createUserRole(email);
-      return user.docs[0].exists;
+      const isExists = user.docs[0].exists;
+      if (isExists) {
+        await this.createUserRole(email);
+        return isExists;
+      }
+      return isExists;
     } catch (error) {
       console.error('User is not added to database. Try later.');
       return false;

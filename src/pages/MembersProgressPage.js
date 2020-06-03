@@ -36,7 +36,7 @@ class MembersProgressPage extends Component {
   render() {
     const { isLoaded, memberName } = this.state;
     const { progress } = this.props;
-    if (!progress.length) {
+    if (!progress.length && isLoaded) {
       return <EmptyTableMessage>This user has no subtasks :(</EmptyTableMessage>;
     }
     return (
@@ -60,8 +60,12 @@ MembersProgressPage.propTypes = {
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ data: { progress } }) => ({ progress });
+const mapStateToProps = ({ data: { progress } }) => {
+  return { progress };
+};
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ getUserProgress }, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ getUserProgress }, dispatch);
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersProgressPage));
