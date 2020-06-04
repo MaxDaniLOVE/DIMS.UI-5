@@ -260,9 +260,9 @@ export default class Azure {
       }
       if (newKey === 'DirectionId') {
         const ids = {
-          React: 1,
+          Frontend: 1,
           '.Net': 2,
-          Angular: 3,
+          Salesforce: 3,
           Java: 4,
         };
         newValue = ids[value];

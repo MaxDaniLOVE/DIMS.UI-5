@@ -67,8 +67,8 @@ const membersInputs = [
     label: 'Direction:',
     id: 'directionId',
     type: 'radio',
-    options: ['Java', 'Frontend', '.Net', 'Saleforce'],
-    validationPattern: '\\Java|\\.Net|\\Frontend|\\Saleforce',
+    options: ['Java', 'Frontend', '.Net', 'Salesforce'],
+    validationPattern: '\\Java|\\.Net|\\Frontend|\\Salesforce',
   },
   {
     label: 'E-mail:',
