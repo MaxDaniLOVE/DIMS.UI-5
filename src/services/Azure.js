@@ -83,14 +83,15 @@ export default class Azure {
   };
 
   addNewTask = async (task, assignedMembers) => {
-    // TODO add assigning members after fixing backend
     try {
       const newTask = this.convertData(task, true, true);
-      const response = await axios.post(`${this.api}/task/create`, newTask);
-      return response;
+      const {
+        data: { TaskId },
+      } = await axios.post(`${this.api}/task/create`, newTask);
+      await this.assignTaskToUsers(TaskId, assignedMembers);
+      return TaskId;
     } catch (error) {
-      console.error("Can't add task. Please, try later.", error.message); // TODO change to `Throw new Error()` after fixing backend
-      return error;
+      throw new Error("Can't add task. Please, try later.");
     }
   };
 
@@ -121,6 +122,15 @@ export default class Azure {
       return response;
     } catch (error) {
       throw new Error("Can't update task. Please, try later.");
+    }
+  };
+
+  getAssignedUsers = async (taskId) => {
+    try {
+      const { data } = await axios.get(`${this.api}/task/users/${taskId}`);
+      return data;
+    } catch (error) {
+      throw new Error("Can't load users. Please, try later.");
     }
   };
 
