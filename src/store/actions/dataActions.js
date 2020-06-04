@@ -292,6 +292,18 @@ const switchDarkMode = ({ target: { checked } }) => {
   return { type: TOGGLE_DARK_MODE, payload: checked };
 };
 
+const getAssignedMembers = (taskId) => {
+  return async (dispatch) => {
+    dispatch(startFetchingData());
+    try {
+      const users = await api.getAssignedUsers(taskId);
+      dispatch(setAssignedMembers(users));
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
+
 export {
   getUsers,
   addUser,
@@ -311,4 +323,5 @@ export {
   addUserProgress,
   throwAlert,
   switchDarkMode,
+  getAssignedMembers,
 };

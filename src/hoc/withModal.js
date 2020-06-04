@@ -21,17 +21,15 @@ import {
   deleteUserProgress,
   editUserProgress,
   addUserProgress,
+  getAssignedMembers,
 } from '../store/actions/dataActions';
 import closingModalDelay from '../utils/closingModalDelay';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { validation } from '../utils/validation';
-import Firebase from '../services/Firebase';
 import transformEditData from '../utils/transformEditData';
 import setModalPageData from '../utils/setModalPageData';
 import findModalPageData from '../utils/findModalPageData';
 import setMethods from '../utils/setMethods';
-
-const db = new Firebase();
 
 const withModal = (WrappedComponent, pageType) =>
   class ModalContainer extends Component {
@@ -153,12 +151,11 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     onEditDataModalOpen = async (recievedId) => {
-      const { setFormData, setAssignedMembers } = this.props;
+      const { setFormData, getAssignedMembers } = this.props;
       const { pageData } = this.state;
       const formData = transformEditData(pageType, pageData, recievedId);
       if (pageType === 'TASK_PAGE') {
-        const assignedMembers = await db.getAssignedUsers(recievedId); // TODO move to the appropriate handler
-        setAssignedMembers(assignedMembers);
+        getAssignedMembers(recievedId);
       }
       setFormData(formData);
       this.onModalOpen();
@@ -253,6 +250,7 @@ const mapDispatchToProps = (dispatch) =>
       deleteUserProgress,
       editUserProgress,
       addUserProgress,
+      getAssignedMembers,
     },
     dispatch,
   );
