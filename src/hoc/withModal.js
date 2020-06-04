@@ -82,9 +82,9 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     onSubtaskModalOpen = (taskId) => {
-      const { progress, setFormData, formData } = this.props;
-      const editedTask = progress.find(({ taskId: id }) => id === taskId);
-      const { taskName } = editedTask;
+      const { setFormData, formData, userTasks } = this.props;
+      const editedTask = userTasks.find(({ taskId: id }) => id === taskId);
+      const { name: taskName } = editedTask;
       setFormData({ ...formData, taskId, taskName });
       this.onModalOpen();
     };
@@ -221,7 +221,7 @@ const withModal = (WrappedComponent, pageType) =>
   };
 
 const mapStateToProps = ({
-  data: { members, isDarkMode, formData, tasks, assignedMembers, progress },
+  data: { members, isDarkMode, formData, tasks, assignedMembers, progress, userTasks },
   auth: { user },
 }) => ({
   members,
@@ -231,6 +231,7 @@ const mapStateToProps = ({
   assignedMembers,
   progress,
   isDarkMode,
+  userTasks,
 });
 
 const mapDispatchToProps = (dispatch) =>

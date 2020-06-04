@@ -7,6 +7,7 @@ import OutlineButton from './OutlineButton';
 import BurgerButton from './BurgerButton';
 import SubmitButton from './SubmitButton';
 import LogoutButton from './LogoutButton';
+import AddProgressButton from './AddProgressButton';
 
 export {
   Button,
@@ -18,4 +19,5 @@ export {
   BurgerButton,
   SubmitButton,
   LogoutButton,
+  AddProgressButton,
 };

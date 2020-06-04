@@ -12,9 +12,17 @@ import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
 import FormModal from '../components/FormModal';
 import EmptyTableMessage from '../UI/EmptyTableMessage';
-import { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress } from '../store/actions';
+import {
+  getUserProgress,
+  setFormData,
+  deleteUserProgress,
+  editUserProgress,
+  addUserProgress,
+  getUserTasks,
+} from '../store/actions';
 import { Subtitle } from '../UI/Titles';
 import composedModalHOC from '../hoc/withModal';
+import { AddProgressButton } from '../UI/Buttons';
 
 const TasksTrackManagePage = ({
   progress,
@@ -32,10 +40,13 @@ const TasksTrackManagePage = ({
   onDataOpen,
   onSubtaskModalOpen,
   setFormData,
+  getUserTasks,
+  userId,
 }) => {
   useEffect(() => {
     setFormData(defaultSubtaskData);
-  }, [setFormData]);
+    getUserTasks(userId);
+  }, [getUserTasks, setFormData, userId]);
   const modalHeader = <h3>{`Task track - ${formData.taskName}`}</h3>;
   if (!progress.length && isLoaded) {
     return <EmptyTableMessage>It looks like you have no subtasks!</EmptyTableMessage>;
@@ -69,6 +80,7 @@ const TasksTrackManagePage = ({
 
       {isLoaded ? (
         <>
+          <AddProgressButton onAddSubtaskModalOpen={onSubtaskModalOpen} />
           <Subtitle>This is your subtasks:</Subtitle>
           <MembersProgressTable
             onAddSubtaskModalOpen={onSubtaskModalOpen}
@@ -102,19 +114,27 @@ TasksTrackManagePage.propTypes = {
   onDataOpen: PropTypes.func.isRequired,
   onModalClose: PropTypes.func.isRequired,
   onSubtaskModalOpen: PropTypes.func.isRequired,
+  getUserTasks: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({ data: { progress, formData }, auth: { user } }) => {
+const mapStateToProps = ({
+  data: { progress, formData, userTasks },
+  auth: {
+    user: { userId },
+  },
+}) => {
   return {
     progress,
     formData,
-    user,
+    userId,
+    userTasks,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress },
+    { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress, getUserTasks },
     dispatch,
   );
 };
