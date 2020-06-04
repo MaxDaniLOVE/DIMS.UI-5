@@ -11,7 +11,6 @@ import ModalContent from '../UI/ModalContent';
 import DataModal from '../components/DataModal';
 import { subtasksInputs } from '../utils/inputs';
 import FormModal from '../components/FormModal';
-import EmptyTableMessage from '../UI/EmptyTableMessage';
 import {
   getUserProgress,
   setFormData,
@@ -20,7 +19,7 @@ import {
   addUserProgress,
   getUserTasks,
 } from '../store/actions';
-import { Subtitle } from '../UI/Titles';
+import { Subtitle, DangerSubtitle } from '../UI/Titles';
 import composedModalHOC from '../hoc/withModal';
 import { AddProgressButton } from '../UI/Buttons';
 
@@ -49,7 +48,7 @@ const TasksTrackManagePage = ({
   }, [getUserTasks, setFormData, userId]);
   const modalHeader = <h3>{`Task track - ${formData.taskName}`}</h3>;
   if (!progress.length && isLoaded) {
-    return <EmptyTableMessage>It looks like you have no subtasks!</EmptyTableMessage>;
+    return <DangerSubtitle>It looks like you have no subtasks!</DangerSubtitle>;
   }
   return (
     <div className='table-wrapper'>

@@ -8,9 +8,8 @@ import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
 import { getUserTasks, setMark } from '../store/actions';
-import EmptyTableMessage from '../UI/EmptyTableMessage';
 import initializeService from '../utils/initializeService';
-import { Subtitle } from '../UI/Titles';
+import { Subtitle, DangerSubtitle } from '../UI/Titles';
 
 const db = initializeService();
 
@@ -53,9 +52,7 @@ class MembersTasksPage extends Component {
       user: { role },
     } = this.props;
     if (!userTasks.length && isLoaded) {
-      return (
-        <EmptyTableMessage>It looks like you have no tasks! Please contact your mentor or admin</EmptyTableMessage>
-      );
+      return <DangerSubtitle>It looks like you have no tasks! Please contact your mentor or admin</DangerSubtitle>;
     }
     const header = role === 'USER' ? 'Hi! This is your current tasks:' : `All ${memberName}'s tasks:`;
     return (

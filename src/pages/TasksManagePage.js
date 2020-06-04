@@ -15,6 +15,7 @@ import FormModal from '../components/FormModal';
 import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import composedModalHOC from '../hoc/withModal';
 import { AddTaskIcon } from '../assets/icons';
+import { DangerSubtitle } from '../UI/Titles';
 
 const TasksManagePage = ({
   tasks,
@@ -37,6 +38,9 @@ const TasksManagePage = ({
     setFormData(defaultTaskData);
   }, [setFormData]);
   const modalHeader = isEditMode || isDetailMode ? <h3>Task&apos;s details:</h3> : <h3>Add new task:</h3>;
+  if (!tasks.length && isLoaded) {
+    return <DangerSubtitle>Create your first task!</DangerSubtitle>;
+  }
   return (
     <div className='table-wrapper'>
       <Modal isOpen={showModal} toggle={onModalClose}>
