@@ -8,9 +8,7 @@ import { membersTasksHeaders } from '../../utils/tableHeaders';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
 import { millisecondsToDate } from '../../utils/convertDate';
-import { ReactComponent as SuccessIcon } from '../../assets/icons/thumbs-up-solid.svg';
-import { ReactComponent as FailureIcon } from '../../assets/icons/thumbs-down-solid.svg';
-import { ReactComponent as AddTrackIcon } from '../../assets/icons/sticky-note-solid.svg';
+import { SuccessIcon, FailureIcon, AddTrackIcon } from '../../assets/icons';
 
 const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
   const headers = membersTasksHeaders[role];

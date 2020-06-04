@@ -14,7 +14,7 @@ import DataModal from '../components/DataModal';
 import FormModal from '../components/FormModal';
 import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import composedModalHOC from '../hoc/withModal';
-import { ReactComponent as AddTaskIcon } from '../assets/icons/calendar-plus-solid.svg';
+import { AddTaskIcon } from '../assets/icons';
 
 const TasksManagePage = ({
   tasks,

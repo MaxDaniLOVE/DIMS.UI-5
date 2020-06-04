@@ -9,8 +9,7 @@ import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
 import noteConverter from '../../utils/noteConverter';
 import './membersProgressTable.scss';
-import { ReactComponent as EditTrackIcon } from '../../assets/icons/edit-solid.svg';
-import { ReactComponent as DeleteTrackIcon } from '../../assets/icons/trash-alt-solid.svg';
+import { EditIcon, DeleteIcon } from '../../assets/icons';
 
 const MembersProgressTable = ({
   progress,
@@ -47,10 +46,10 @@ const MembersProgressTable = ({
         {isMemberTasks ? (
           <td className='user-btns'>
             <Button onClick={onEditHandler}>
-              <EditTrackIcon />
+              <EditIcon />
             </Button>
             <DangerButton onClick={onDeleteHandler}>
-              <DeleteTrackIcon />
+              <DeleteIcon />
             </DangerButton>
           </td>
         ) : null}

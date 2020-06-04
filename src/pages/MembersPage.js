@@ -14,7 +14,7 @@ import { defaultRegisterData } from '../utils/defaultInputsData';
 import DataModal from '../components/DataModal';
 import { membersInputs } from '../utils/inputs';
 import composedModalHOC from '../hoc/withModal';
-import { ReactComponent as AddUserIcon } from '../assets/icons/user-plus-solid.svg';
+import { AddUserIcon } from '../assets/icons';
 
 const MembersPage = ({
   members,

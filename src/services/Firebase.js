@@ -31,7 +31,6 @@ export default class Firebase {
       const isExists = user.docs[0].exists;
       if (isExists) {
         await this.createUserRole(email);
-        return isExists;
       }
       return isExists;
     } catch (error) {
