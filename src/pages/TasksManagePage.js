@@ -31,6 +31,7 @@ const TasksManagePage = ({
   onModalClose,
   onModalOpen,
   setFormData,
+  onDataOpen,
 }) => {
   useEffect(() => {
     setFormData(defaultTaskData);
@@ -45,7 +46,7 @@ const TasksManagePage = ({
           isDetailMode={isDetailMode}
           onModalClose={onModalClose}
           isFormValid={isFormValid}
-          isCheckboxShow
+          isCheckboxShow={!isDetailMode}
           onSubmit={onSubmit}
         >
           {isDetailMode ? (
@@ -68,7 +69,12 @@ const TasksManagePage = ({
           <SuccessButton onClick={onModalOpen}>
             <AddTaskIcon />
           </SuccessButton>
-          <TasksTable tasks={tasks} onDeleteTask={onDeleteData} onEditTaskModalOpen={onEditDataModalOpen} />
+          <TasksTable
+            onDataOpen={onDataOpen}
+            tasks={tasks}
+            onDeleteTask={onDeleteData}
+            onEditTaskModalOpen={onEditDataModalOpen}
+          />
         </>
       ) : (
         <Preloader />
@@ -92,6 +98,7 @@ TasksManagePage.propTypes = {
   onEditDataModalOpen: PropTypes.func.isRequired,
   onModalClose: PropTypes.func.isRequired,
   onModalOpen: PropTypes.func.isRequired,
+  onDataOpen: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {

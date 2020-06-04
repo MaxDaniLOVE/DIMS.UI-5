@@ -16,9 +16,9 @@ class ServiceToggle extends Component {
 
   changeService = (event) => {
     const {
-      target: { value, checked: isChecked },
+      target: { checked: isChecked },
     } = event;
-    const service = isChecked ? value : 'firebase';
+    const service = isChecked ? 'azure' : 'firebase';
     addCache('service', service);
     this.setState({ isChecked });
     window.location.reload(); // TODO delete after api will be fully integrated
@@ -32,8 +32,7 @@ class ServiceToggle extends Component {
           type='switch'
           id='exampleCustomSwitch'
           name='customSwitch'
-          label='Use Azure as service'
-          value='azure'
+          label='Use Heroku as service'
           checked={isChecked}
           onChange={this.changeService}
         />
