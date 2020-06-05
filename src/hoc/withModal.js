@@ -34,6 +34,7 @@ import setMethods from '../utils/setMethods';
 import DataModal from '../components/DataModal';
 import ModalContent from '../UI/ModalContent';
 import FormModal from '../components/FormModal';
+import modalHeaders from '../utils/modalHeaders';
 
 const withModal = (WrappedComponent, pageType) =>
   class ModalContainer extends Component {
@@ -193,6 +194,12 @@ const withModal = (WrappedComponent, pageType) =>
     render() {
       const { showModal, isEditMode, isDetailMode, isFormValid, isLoaded, isOpenDeleteModal } = this.state;
       const { isDarkMode, formData } = this.props;
+      const modalHeader = modalHeaders(pageType, isEditMode, isDetailMode, formData);
+      const formClassNames = {
+        MEMBERS_PAGE: 'members-modal',
+        TASK_PAGE: 'tasks-modal',
+        TRACK_PAGE: 'tasks-track-modal',
+      };
       return (
         <>
           <Modal isOpen={showModal} toggle={this.onModalClose}>
@@ -206,16 +213,16 @@ const withModal = (WrappedComponent, pageType) =>
               isCheckboxShow={!isDetailMode && pageType === 'TASK_PAGE'}
             >
               {isDetailMode ? (
-                <DataModal header='modalHeader' data={formData} inputFields={this.dataInputs} />
+                <DataModal header={modalHeader} data={formData} inputFields={this.dataInputs} />
               ) : (
                 <FormModal
-                  addClassName='tasks-track-modal'
+                  addClassName={formClassNames[pageType]}
                   inputs={this.dataInputs}
                   data={formData}
                   onFormChange={this.onFormChange}
                   isEditMode={isEditMode}
                   isFormValid={isFormValid}
-                  modalHeader='modalHeader'
+                  modalHeader={modalHeader}
                 />
               )}
             </ModalContent>

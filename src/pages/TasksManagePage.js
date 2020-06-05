@@ -24,7 +24,6 @@ const TasksManagePage = ({
   useEffect(() => {
     setFormData(defaultTaskData);
   }, [setFormData]);
-  // const modalHeader = isEditMode || isDetailMode ? <h3>Task&apos;s details:</h3> : <h3>Add new task:</h3>;
   if (!tasks.length && isLoaded) {
     return <DangerSubtitle>Create your first task!</DangerSubtitle>;
   }

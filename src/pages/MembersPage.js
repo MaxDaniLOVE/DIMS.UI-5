@@ -25,7 +25,6 @@ const MembersPage = ({
   useEffect(() => {
     setFormData(defaultRegisterData);
   }, [setFormData]);
-  // const modalHeader = isEditMode || isDetailMode ? <h3>User&apos;s details:</h3> : <h3>Add new user:</h3>;
   if (!members.length && isLoaded) {
     return <DangerSubtitle>Add your first student!</DangerSubtitle>;
   }
