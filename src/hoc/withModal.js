@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
+import { Modal } from 'reactstrap';
 import DeletingModal from '../components/DeletingModal';
 import pagesInitialState from '../utils/pagesInitialState';
 import {
@@ -30,6 +31,9 @@ import transformEditData from '../utils/transformEditData';
 import setModalPageData from '../utils/setModalPageData';
 import findModalPageData from '../utils/findModalPageData';
 import setMethods from '../utils/setMethods';
+import DataModal from '../components/DataModal';
+import ModalContent from '../UI/ModalContent';
+import FormModal from '../components/FormModal';
 
 const withModal = (WrappedComponent, pageType) =>
   class ModalContainer extends Component {
@@ -188,9 +192,34 @@ const withModal = (WrappedComponent, pageType) =>
 
     render() {
       const { showModal, isEditMode, isDetailMode, isFormValid, isLoaded, isOpenDeleteModal } = this.state;
-      const { isDarkMode } = this.props;
+      const { isDarkMode, formData } = this.props;
       return (
         <>
+          <Modal isOpen={showModal} toggle={this.onModalClose}>
+            <ModalContent
+              showModal={showModal}
+              isEditMode={isEditMode}
+              isDetailMode={isDetailMode}
+              onModalClose={this.onModalClose}
+              isFormValid={isFormValid}
+              onSubmit={this.onSubmit}
+              isCheckboxShow={!isDetailMode && pageType === 'TASK_PAGE'}
+            >
+              {isDetailMode ? (
+                <DataModal header='modalHeader' data={formData} inputFields={this.dataInputs} />
+              ) : (
+                <FormModal
+                  addClassName='tasks-track-modal'
+                  inputs={this.dataInputs}
+                  data={formData}
+                  onFormChange={this.onFormChange}
+                  isEditMode={isEditMode}
+                  isFormValid={isFormValid}
+                  modalHeader='modalHeader'
+                />
+              )}
+            </ModalContent>
+          </Modal>
           <DeletingModal
             isOpen={isOpenDeleteModal}
             onCloseModal={this.onDeleteModalClose}
