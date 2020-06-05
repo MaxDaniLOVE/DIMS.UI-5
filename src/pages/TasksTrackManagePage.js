@@ -34,7 +34,12 @@ const TasksTrackManagePage = ({
     getUserTasks(userId);
   }, [getUserTasks, setFormData, userId]);
   if (!progress.length && isLoaded) {
-    return <DangerSubtitle>It looks like you have no subtasks!</DangerSubtitle>;
+    return (
+      <>
+        <DangerSubtitle>It looks like you have no subtasks!</DangerSubtitle>
+        <AddProgressButton onAddSubtaskModalOpen={onSubtaskModalOpen} />
+      </>
+    );
   }
   return (
     <div className='table-wrapper'>

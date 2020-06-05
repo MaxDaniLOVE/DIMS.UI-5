@@ -26,14 +26,21 @@ const MembersPage = ({
     setFormData(defaultRegisterData);
   }, [setFormData]);
   if (!members.length && isLoaded) {
-    return <DangerSubtitle>Add your first student!</DangerSubtitle>;
+    return (
+      <>
+        <DangerSubtitle>Add your first student!</DangerSubtitle>
+        <SuccessButton onClick={onModalOpen}>
+          <AddUserIcon />
+        </SuccessButton>
+      </>
+    );
   }
   return (
     <div className='table-wrapper'>
       {isLoaded ? (
         <>
           {role === 'ADMIN' ? (
-            <SuccessButton customClass='with-margin' onClick={onModalOpen}>
+            <SuccessButton onClick={onModalOpen}>
               <AddUserIcon />
             </SuccessButton>
           ) : null}

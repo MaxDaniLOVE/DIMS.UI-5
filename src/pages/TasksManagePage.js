@@ -25,7 +25,14 @@ const TasksManagePage = ({
     setFormData(defaultTaskData);
   }, [setFormData]);
   if (!tasks.length && isLoaded) {
-    return <DangerSubtitle>Create your first task!</DangerSubtitle>;
+    return (
+      <>
+        <DangerSubtitle>Create your first task!</DangerSubtitle>
+        <SuccessButton onClick={onModalOpen}>
+          <AddTaskIcon />
+        </SuccessButton>
+      </>
+    );
   }
   return (
     <div className='table-wrapper'>

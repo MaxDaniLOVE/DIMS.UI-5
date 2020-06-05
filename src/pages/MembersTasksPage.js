@@ -52,7 +52,11 @@ class MembersTasksPage extends Component {
       user: { role },
     } = this.props;
     if (!userTasks.length && isLoaded) {
-      return <DangerSubtitle>It looks like you have no tasks! Please contact your mentor or admin</DangerSubtitle>;
+      const title =
+        role === 'USER'
+          ? 'It looks like you have no tasks! Please contact your mentor or admin'
+          : "Visit 'All tasks' page and assign task to this user";
+      return <DangerSubtitle>{title}</DangerSubtitle>;
     }
     const header = role === 'USER' ? 'Hi! This is your current tasks:' : `All ${memberName}'s tasks:`;
     return (
