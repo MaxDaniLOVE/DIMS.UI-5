@@ -28,14 +28,16 @@ class Checkboxes extends PureComponent {
   };
 
   render() {
-    const { members, assignedMembers } = this.props;
+    const { members, assignedMembers, isDarkMode } = this.props;
     if (!members.length) {
       return <DangerSubtitle>To assign tasks to users, add them!</DangerSubtitle>;
     }
+    const defaultClassName = 'members-checkboxes';
+    const checkboxClassName = isDarkMode ? `${defaultClassName} dark-checkbox` : defaultClassName;
     return (
       <div className='members-checkboxes__wrapper'>
         Assign members:
-        <div className='members-checkboxes'>
+        <div className={checkboxClassName}>
           {members.map(({ name, lastName, id }) => {
             return (
               <FormGroup className='form-inputs' key={id}>
@@ -61,10 +63,15 @@ class Checkboxes extends PureComponent {
 Checkboxes.propTypes = {
   assignedMembers: PropTypes.arrayOf(PropTypes.string).isRequired,
   setAssignedMembers: PropTypes.func.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
   members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-const mapStateToProps = ({ data: { members, assignedMembers } }) => ({ members, assignedMembers });
+const mapStateToProps = ({ data: { members, assignedMembers, isDarkMode } }) => ({
+  members,
+  assignedMembers,
+  isDarkMode,
+});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ setAssignedMembers }, dispatch);
 
