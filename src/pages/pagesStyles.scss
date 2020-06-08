@@ -71,6 +71,12 @@
     }
   }
 }
+.dark-mode-container .tab-pane .social-links a svg {
+  fill: $baby-blue;
+  &:hover {
+    fill: $teal-green;
+  }
+}
 .svg-inline--fa {
   height: 1rem;
   width: 1rem;
