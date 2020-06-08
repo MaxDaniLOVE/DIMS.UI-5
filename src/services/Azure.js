@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { dateToString, convertAge, stringToDate } from '../utils/convertDate';
+import { dateToString, stringToDate } from '../utils/convertDate';
 import convertSexName from '../utils/convertSexName';
 
 export default class Azure {
@@ -136,9 +136,8 @@ export default class Azure {
 
   isUserExists = async (userEmail) => {
     try {
-      const userData = await this.getUsersData();
-      const isUserExists = userData.filter(({ email }) => email === userEmail);
-      if (!isUserExists.length) {
+      const { data: isUserExists } = await axios.get(`${this.api}/profile/exists/${userEmail}`);
+      if (!isUserExists) {
         throw new Error('User is not added to database. Try later.');
       }
       return isUserExists;
@@ -224,10 +223,10 @@ export default class Azure {
 
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
-      const { StartDate, FullName, Sex, Age, UserId, Direction: directionId, ...dataToTransform } = member;
+      const { StartDate, FullName, Sex, BirthDate, UserId, Direction: directionId, ...dataToTransform } = member;
       const [name, lastName] = FullName.split(' ');
       const startDate = stringToDate(StartDate);
-      const birthDate = convertAge(Age);
+      const birthDate = stringToDate(BirthDate);
       const sex = convertSexName(Sex);
       const userData = this.convertData(dataToTransform);
       const id = `${UserId}`;
