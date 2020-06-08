@@ -7,6 +7,7 @@ import Table from '../../UI/Table';
 import { taskTableHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
 import { EditIcon, DeleteIcon } from '../../assets/icons';
+import noteConverter from '../../utils/noteConverter';
 
 const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) => {
   const tasksTableBody = tasks.map(({ deadlineDate, name, startDate, taskId }, idx) => {
@@ -19,7 +20,7 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) =>
       <tr key={taskId}>
         <td>{idx + 1}</td>
         <td>
-          <OutlineButton onClick={onOpenData}>{name}</OutlineButton>
+          <OutlineButton onClick={onOpenData}>{noteConverter(name, 8)}</OutlineButton>
         </td>
         <td>{startString}</td>
         <td>{deadlineString}</td>

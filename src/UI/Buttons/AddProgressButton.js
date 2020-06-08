@@ -23,7 +23,9 @@ const AddProgressButton = ({ userTasks, onAddSubtaskModalOpen }) => {
         Track
       </DropdownToggle>
       <DropdownMenu>
-        <DropdownItem header>Availiable tasks for you:</DropdownItem>
+        <DropdownItem header>
+          {dropdownItems.length ? 'Availiable tasks for you:' : 'You have no availiable tasks'}
+        </DropdownItem>
         {dropdownItems}
       </DropdownMenu>
     </ButtonDropdown>

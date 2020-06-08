@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { CustomInput, FormGroup, Label } from 'reactstrap';
 import { setAssignedMembers } from '../../store/actions';
+import { DangerSubtitle } from '../Titles';
 import './checkboxes.scss';
 
 class Checkboxes extends PureComponent {
@@ -28,6 +29,9 @@ class Checkboxes extends PureComponent {
 
   render() {
     const { members, assignedMembers } = this.props;
+    if (!members.length) {
+      return <DangerSubtitle>To assign tasks to users, add them!</DangerSubtitle>;
+    }
     return (
       <div className='members-checkboxes__wrapper'>
         Assign members:

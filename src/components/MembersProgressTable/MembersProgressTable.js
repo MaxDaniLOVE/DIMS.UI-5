@@ -26,7 +26,7 @@ const MembersProgressTable = ({
     return (
       <tr key={taskTrackId}>
         <td>{idx + 1}</td>
-        <td>{isMemberTasks ? taskName : <Link to={`/tasks/${taskId}`}>{taskName}</Link>}</td>
+        <td>{isMemberTasks ? taskName : <Link to={`/tasks/${taskId}`}>{noteConverter(taskName, 7)}</Link>}</td>
         <td>
           {isMemberTasks ? (
             <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote, 20)}</OutlineButton>

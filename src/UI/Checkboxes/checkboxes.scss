@@ -1,15 +1,29 @@
 .members-checkboxes__wrapper {
   display: flex;
   justify-content: space-between;
+  margin: 1rem;
   .members-checkboxes {
     margin-bottom: 1rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     height: 10rem;
-    width: 60%;
+    width: 80%;
     overflow: auto;
+    border: 1px solid #ced4da;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 0.25rem;
+    .form-inputs {
+      padding: 0 0 1rem 0;
+      label {
+        justify-content: space-around;
+      }
+    }
     input {
       margin: 0;
+    }
+    @media screen and (max-width: 768px) {
+      width: 65%;
     }
     @media screen and (max-width: 425px) {
       grid-template-columns: 1fr;
