@@ -11,7 +11,7 @@ import { ReactComponent as AddTaskIcon } from './calendar-plus-solid.svg';
 import { ReactComponent as SaveIcon } from './save-solid.svg';
 import { ReactComponent as GoBackIcon } from './cross.svg';
 import { ReactComponent as GithubIcon } from './github.svg';
-
+import { ReactComponent as LinkedInIcon } from './linkedin-brands.svg';
 export {
   EditIcon,
   DeleteIcon,
@@ -26,4 +26,5 @@ export {
   SaveIcon,
   GoBackIcon,
   GithubIcon,
+  LinkedInIcon,
 };
