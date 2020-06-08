@@ -1,10 +1,13 @@
 import React from 'react';
+import { Subtitle } from '../UI/Titles';
 
 const modalHeaders = (pageType, isEditMode, isDetailMode, { taskName }) => {
   const headers = {
-    MEMBERS_PAGE: isEditMode || isDetailMode ? <h3>User&apos;s details:</h3> : <h3>Add new user:</h3>,
-    TASK_PAGE: isEditMode || isDetailMode ? <h3>Task&apos;s details:</h3> : <h3>Add new task:</h3>,
-    TRACK_PAGE: <h3>{`Task track - ${taskName}`}</h3>,
+    MEMBERS_PAGE:
+      isEditMode || isDetailMode ? <Subtitle>User&apos;s details:</Subtitle> : <Subtitle>Add new user:</Subtitle>,
+    TASK_PAGE:
+      isEditMode || isDetailMode ? <Subtitle>Task&apos;s details:</Subtitle> : <Subtitle>Add new task:</Subtitle>,
+    TRACK_PAGE: <Subtitle>{`Task track - ${taskName}`}</Subtitle>,
   };
   return headers[pageType];
 };

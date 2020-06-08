@@ -2,29 +2,45 @@
 import { membersInputs, tasksInputs, subtasksInputs } from './inputs';
 import { defaultRegisterData, defaultTaskData, defaultSubtaskData } from './defaultInputsData';
 
-const setMethods = (props, pageType) => {
+const setMethods = (
+  {
+    getUsers,
+    addUser,
+    editUser,
+    deleteUser,
+    getTasks,
+    addTask,
+    editTask,
+    deleteTask,
+    getUserProgress,
+    addUserProgress,
+    editUserProgress,
+    deleteUserProgress,
+  },
+  pageType,
+) => {
   const pagesMethods = {
     MEMBERS_PAGE: {
-      GET: props.getUsers,
-      ADD: props.addUser,
-      EDIT: props.editUser,
-      DELETE: props.deleteUser,
+      GET: getUsers,
+      ADD: addUser,
+      EDIT: editUser,
+      DELETE: deleteUser,
       DEFAULT_INPUTS: defaultRegisterData,
       DATA_INPUTS: membersInputs,
     },
     TASK_PAGE: {
-      GET: props.getTasks,
-      ADD: props.addTask,
-      EDIT: props.editTask,
-      DELETE: props.deleteTask,
+      GET: getTasks,
+      ADD: addTask,
+      EDIT: editTask,
+      DELETE: deleteTask,
       DEFAULT_INPUTS: defaultTaskData,
       DATA_INPUTS: tasksInputs,
     },
     TRACK_PAGE: {
-      GET: props.getUserProgress,
-      ADD: props.addUserProgress,
-      EDIT: props.editUserProgress,
-      DELETE: props.deleteUserProgress,
+      GET: getUserProgress,
+      ADD: addUserProgress,
+      EDIT: editUserProgress,
+      DELETE: deleteUserProgress,
       DEFAULT_INPUTS: defaultSubtaskData,
       DATA_INPUTS: subtasksInputs,
     },

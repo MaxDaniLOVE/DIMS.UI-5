@@ -10,7 +10,7 @@ import { SuccessButton } from '../UI/Buttons';
 import { defaultRegisterData } from '../utils/defaultInputsData';
 import composedModalHOC from '../hoc/withModal';
 import { AddUserIcon } from '../assets/icons';
-import { DangerSubtitle } from '../UI/Titles';
+import { DangerSubtitle, Subtitle } from '../UI/Titles';
 
 const MembersPage = ({
   members,
@@ -44,6 +44,7 @@ const MembersPage = ({
               <AddUserIcon />
             </SuccessButton>
           ) : null}
+          <Subtitle>All Dev-Incubator students:</Subtitle>
           <MembersTable
             members={members}
             onEditMemberModalOpen={onEditDataModalOpen}

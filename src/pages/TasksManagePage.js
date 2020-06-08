@@ -10,7 +10,7 @@ import { defaultTaskData } from '../utils/defaultInputsData';
 import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import composedModalHOC from '../hoc/withModal';
 import { AddTaskIcon } from '../assets/icons';
-import { DangerSubtitle } from '../UI/Titles';
+import { DangerSubtitle, Subtitle } from '../UI/Titles';
 
 const TasksManagePage = ({
   tasks,
@@ -41,6 +41,7 @@ const TasksManagePage = ({
           <SuccessButton onClick={onModalOpen}>
             <AddTaskIcon />
           </SuccessButton>
+          <Subtitle>All availiable tasks:</Subtitle>
           <TasksTable
             onDataOpen={onDataOpen}
             tasks={tasks}
