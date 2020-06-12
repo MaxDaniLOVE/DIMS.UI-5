@@ -17,6 +17,7 @@ import {
   DELETE_USER_PROGRESS,
   EDIT_USER_PROGRESS,
   TOGGLE_DARK_MODE,
+  SEND_MAIL,
 } from '../actions/actionTypes';
 import { loadCache } from '../../utils/cache';
 
@@ -77,6 +78,7 @@ const dataReducer = (state = initialState, { type, payload }) => {
     case DELETE_USER_PROGRESS:
     case EDIT_USER_PROGRESS:
     case EDIT_TASK:
+    case SEND_MAIL:
     default:
       return state;
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Subtitle, Paragraph } from '../../UI/Titles';
 import { GithubIcon, LinkedInIcon } from '../../assets/icons';
+import InTouchForm from '../InTouchForm';
 
 const AboutAuthor = () => (
   <>
@@ -22,6 +23,7 @@ const AboutAuthor = () => (
       >
         <LinkedInIcon />
       </a>
+      <InTouchForm />
     </div>
   </>
 );

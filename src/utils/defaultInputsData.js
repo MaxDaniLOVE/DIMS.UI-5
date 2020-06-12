@@ -33,4 +33,10 @@ const defaultTaskData = {
   startDate: '',
 };
 
-export { defaultRegisterData, defaultSubtaskData, defaultAuthData, defaultTaskData };
+const defaultInTouchData = {
+  email: '',
+  fullName: '',
+  message: '',
+};
+
+export { defaultRegisterData, defaultSubtaskData, defaultAuthData, defaultTaskData, defaultInTouchData };
