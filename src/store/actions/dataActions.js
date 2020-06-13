@@ -310,8 +310,8 @@ const sendMail = (mailData) => {
   return async (dispatch) => {
     dispatch(startFetchingData());
     try {
-      console.log(api instanceof Azure);
-      await api.sendMail(mailData);
+      const sendMailApi = api instanceof Azure ? api : new Azure();
+      await sendMailApi.sendMail(mailData);
       dispatch({
         type: SEND_MAIL,
       });

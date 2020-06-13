@@ -1,36 +1,55 @@
 /* eslint-disable no-shadow */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Label } from 'reactstrap';
+import { Label, Modal } from 'reactstrap';
 import { AvGroup, AvField, AvForm } from 'availity-reactstrap-validation';
 import { inTouchInputs } from '../../utils/inputs';
 import { fieldValidation, validation } from '../../utils/validation';
 import { defaultInTouchData } from '../../utils/defaultInputsData';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
-import { SubmitButton } from '../../UI/Buttons';
+import { SubmitButton, SuccessButton } from '../../UI/Buttons';
 import { sendMail } from '../../store/actions/dataActions';
+import { Subtitle } from '../../UI/Titles';
+import Preloader from '../Preloader';
 
-const InTouchForm = ({ sendMail }) => {
+import './inTouchForm.scss';
+
+const InTouchForm = ({ sendMail, isDarkMode }) => {
   const [formData, setFormData] = useState(defaultInTouchData);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+
+  const openModal = () => setIsShowModal(true);
+  const closeModal = () => setIsShowModal(false);
+
+  const startSending = () => setIsSending(true);
+  const stopSending = () => setIsSending(false);
 
   const onChange = ({ target: { value, id } }) => {
-    let isMounted = true;
     const updated = inputsChangeHandler(value, id, formData);
 
     const isValid = validation(updated, inTouchInputs);
-    if (isMounted) {
-      setFormData(updated);
-      setIsFormValid(isValid);
-    }
 
-    return () => {
-      isMounted = false;
-    };
+    setFormData(updated);
+    setIsFormValid(isValid);
   };
 
-  const sendMessageToAuthor = () => sendMail(formData);
+  const sendMessageToAuthor = async () => {
+    startSending();
+    try {
+      await sendMail(formData);
+    } catch (error) {
+      stopSending();
+    }
+    stopSending();
+    closeModal();
+    setTimeout(() => {
+      setFormData(defaultInTouchData);
+    }, 150);
+  };
 
   const inputs = inTouchInputs.map(({ label, id, type, validationPattern, errorMessage }) => {
     const pattern = fieldValidation(validationPattern, errorMessage);
@@ -44,15 +63,37 @@ const InTouchForm = ({ sendMail }) => {
       </AvGroup>
     );
   });
+
+  const defaultClassName = 'modal-window intouch-form';
+  const formClassName = isDarkMode ? `${defaultClassName} dark-modal` : defaultClassName;
+
   return (
-    <AvForm>
-      {inputs}
-      <SubmitButton isFormValid={isFormValid} onClick={sendMessageToAuthor}>
-        SEND MAIL
-      </SubmitButton>
-    </AvForm>
+    <>
+      <Modal isOpen={isShowModal} toggle={closeModal} className='modal-content'>
+        <AvForm className={formClassName}>
+          {isSending ? (
+            <Preloader />
+          ) : (
+            <>
+              <Subtitle>Please, fill this form:</Subtitle>
+              {inputs}
+              <SubmitButton isFormValid={isFormValid} onClick={sendMessageToAuthor}>
+                Hire!
+              </SubmitButton>
+            </>
+          )}
+        </AvForm>
+      </Modal>
+      <SuccessButton onClick={openModal}>Send me mail!</SuccessButton>
+    </>
   );
 };
+
+InTouchForm.propTypes = {
+  sendMail: PropTypes.func.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
+};
+
 const mapStateToProps = ({ data: { isDarkMode } }) => ({ isDarkMode });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ sendMail }, dispatch);
