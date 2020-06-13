@@ -164,7 +164,7 @@ const inTouchInputs = [
     id: 'fullName',
     type: 'text',
     validationPattern: '.{5,}',
-    errorMessage: 'Full name should contain 5 characters',
+    errorMessage: 'Full name should contain at least 5 characters',
   },
   {
     label: 'Email:',
@@ -177,8 +177,8 @@ const inTouchInputs = [
     label: 'Message:',
     id: 'message',
     type: 'textarea',
-    validationPattern: '.{10,}',
-    errorMessage: 'Message should contain 10 characters',
+    validationPattern: '^(.|\\s){10,}$',
+    errorMessage: 'Message should contain at least 10 characters',
   },
 ];
 

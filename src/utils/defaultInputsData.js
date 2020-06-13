@@ -1,4 +1,4 @@
-import { getCurrentDate } from './convertDate';
+import { getCurrentDate, getDateInWeek } from './convertDate';
 
 const defaultRegisterData = {
   directionId: '',
@@ -7,13 +7,13 @@ const defaultRegisterData = {
   lastName: '',
   sex: '',
   education: '',
-  birthDate: '',
+  birthDate: getCurrentDate(),
   universityAverageScore: '',
   mathScore: '',
   address: '',
   mobilePhone: '',
   skype: '',
-  startDate: '',
+  startDate: getCurrentDate(),
 };
 
 const defaultSubtaskData = {
@@ -27,10 +27,10 @@ const defaultAuthData = {
 };
 
 const defaultTaskData = {
-  deadlineDate: '',
+  deadlineDate: getDateInWeek(),
   description: '',
   name: '',
-  startDate: '',
+  startDate: getCurrentDate(),
 };
 
 const defaultInTouchData = {
