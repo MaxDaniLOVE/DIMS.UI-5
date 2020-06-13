@@ -26,6 +26,9 @@
   label {
     align-items: center;
   }
+  &__content {
+    overflow: auto;
+  }
   &__footer {
     display: flex;
     justify-content: flex-end;
@@ -62,11 +65,16 @@
     background-color: $black;
   }
 }
-.invalid-feedback {
-  position: absolute;
-  width: fit-content;
-  margin: 3px;
+
+.text-danger {
+  position: relative;
+  .invalid-feedback {
+    position: absolute;
+    width: fit-content;
+    margin: 3px;
+  }
 }
+
 @media screen and (max-width: 768px) {
   .modal {
     max-width: 100%;
