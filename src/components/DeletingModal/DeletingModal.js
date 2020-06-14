@@ -6,12 +6,11 @@ import { DangerSubtitle } from '../../UI/Titles';
 import './deletingModal.scss';
 
 const DeletingModal = ({ isOpen, onCloseModal, onDeleteData, children, isDarkMode }) => {
-  const modalClassName = isDarkMode
-    ? 'modal-window delete-modal-window dark-modal'
-    : 'modal-window delete-modal-window';
+  const defaultClassName = 'modal-window';
+  const modalClassName = isDarkMode ? `${defaultClassName} dark-modal` : defaultClassName;
   return (
     <Modal isOpen={isOpen} toggle={onCloseModal}>
-      <div className={modalClassName}>
+      <div className={modalClassName} id='delete-modal-window'>
         <DangerSubtitle>{children}</DangerSubtitle>
         <div className='modal-window__footer'>
           <Button onClick={onCloseModal}>Exit</Button>

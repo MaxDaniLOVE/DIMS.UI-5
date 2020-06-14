@@ -9,8 +9,7 @@ import Preloader from '../components/Preloader';
 import Layout from '../components/Layout';
 import { getUserProgress } from '../store/actions';
 import initializeService from '../utils/initializeService';
-import EmptyTableMessage from '../UI/EmptyTableMessage';
-import { Subtitle } from '../UI/Titles';
+import { Subtitle, DangerSubtitle } from '../UI/Titles';
 
 const db = initializeService();
 
@@ -37,7 +36,7 @@ class MembersProgressPage extends Component {
     const { isLoaded, memberName } = this.state;
     const { progress } = this.props;
     if (!progress.length && isLoaded) {
-      return <EmptyTableMessage>This user has no subtasks :(</EmptyTableMessage>;
+      return <DangerSubtitle>This user has no subtasks :(</DangerSubtitle>;
     }
     return (
       <Layout>

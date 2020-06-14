@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import { ReactComponent as GoBackIcon } from '../../assets/icons/cross.svg';
+import { GoBackIcon } from '../../assets/icons';
 
 const GoBackButton = ({ onClick }) => (
   <Button onClick={onClick} className='btn-return'>

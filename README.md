@@ -1,9 +1,10 @@
-<h1 align="center">Welcome to DIMS 👋</h1>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
-</p>
+# Welcome to DIMS-5 👋
 
-> DIMS is a system for getting tasks and tracking time. There are several user roles in the DIMS, such as ADMIN, MENTOR and USER.
+![Version](<https://img.shields.io/badge/version-(1.0.0)-blue.svg?cacheSeconds=2592000>)
+
+> DIMS stands for 'Dev Incubator Management System'. In the few words, it is a system for getting tasks and tracking time.
+
+### 🏠 [Homepage](https://github.com/Dev-incubator/DIMS.UI-5)
 
 ### ✨ [Demo](https://dims-beta.netlify.app/)
 
@@ -16,7 +17,7 @@ npm install
 ## Usage
 
 ```sh
-npm start
+npm run start
 ```
 
 ## Run tests
@@ -30,6 +31,7 @@ npm run test
 👤 **Maks Danilau**
 
 - Github: [@maxdanilove](https://github.com/maxdanilove)
+- LinkedIn: [@maksim-danilau-js](https://linkedin.com/in/maksim-danilau-js)
 
 ## Show your support
 

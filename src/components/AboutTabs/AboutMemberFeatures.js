@@ -12,7 +12,7 @@ const AboutMemberFeatures = () => (
       First of all you have to contact your Mentor or Admin. They will add your profile to the database. After this you
       can register on DIMS. If you try to register in DIMS before adding your profile to the databse you will fail.
       After registration you will automatically log-in to the managment system. Use toggle switch bellow form to set
-      Azure as service to use. By default it will be Firebase.
+      Heroku as service to use. By default it will be Firebase.
     </Paragraph>
     <Paragraph>
       Was you successfull? Of course you were! Now you see your tasks page. There will be shown all your tasks from
@@ -22,14 +22,14 @@ const AboutMemberFeatures = () => (
       <img src={membersTasksExample} alt='members_tasks_page' />
     </ImageWrapper>
     <Paragraph>
-      Click track button to add new track of your task. (By now feature availiable only for Fireabse service). You will
-      be redirected to track page, where automatically will be opened pop-up form to add track.
+      Click track button to add new track of your task. You will be redirected to track page, where automatically will
+      be opened pop-up form to add track.
     </Paragraph>
     <ImageWrapper>
       <img src={trackModalExample} alt='track_modal' />
     </ImageWrapper>
     <Paragraph>
-      Click save button to add new track. It&rsquo;s pretty simple. Now you can see Tracking page. Click task name to
+      Click save button to add new track. It&rsquo;s pretty simple. Now you can see Tracking page. Click track button to
       add new track or click track note to read more about it. On this page you can also delete unneccesary tracks and
       edit previously added tracks. Example of page:
     </Paragraph>

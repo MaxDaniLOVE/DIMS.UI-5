@@ -3,72 +3,51 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Modal } from 'reactstrap';
 import Preloader from '../components/Preloader';
 import { SuccessButton } from '../UI/Buttons';
 import TasksTable from '../components/TasksTable';
 import { defaultTaskData } from '../utils/defaultInputsData';
-import { tasksInputs } from '../utils/inputs';
-import ModalContent from '../UI/ModalContent';
-import DataModal from '../components/DataModal';
-import FormModal from '../components/FormModal';
 import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
 import composedModalHOC from '../hoc/withModal';
-import { ReactComponent as AddTaskIcon } from '../assets/icons/calendar-plus-solid.svg';
+import { AddTaskIcon } from '../assets/icons';
+import { DangerSubtitle, Subtitle } from '../UI/Titles';
 
 const TasksManagePage = ({
   tasks,
-  formData,
   isLoaded,
-  showModal,
-  isEditMode,
-  isDetailMode,
-  isFormValid,
-  onFormChange,
   onDeleteData,
-  onSubmit,
   onEditDataModalOpen,
-  onModalClose,
   onModalOpen,
   setFormData,
+  onDataOpen,
 }) => {
   useEffect(() => {
     setFormData(defaultTaskData);
   }, [setFormData]);
-  const modalHeader = isEditMode || isDetailMode ? <h3>Task&apos;s details:</h3> : <h3>Add new task:</h3>;
+  if (!tasks.length && isLoaded) {
+    return (
+      <>
+        <DangerSubtitle>Create your first task!</DangerSubtitle>
+        <SuccessButton onClick={onModalOpen}>
+          <AddTaskIcon />
+        </SuccessButton>
+      </>
+    );
+  }
   return (
     <div className='table-wrapper'>
-      <Modal isOpen={showModal} toggle={onModalClose}>
-        <ModalContent
-          showModal={showModal}
-          isEditMode={isEditMode}
-          isDetailMode={isDetailMode}
-          onModalClose={onModalClose}
-          isFormValid={isFormValid}
-          isCheckboxShow
-          onSubmit={onSubmit}
-        >
-          {isDetailMode ? (
-            <DataModal header={modalHeader} data={formData} inputFields={tasksInputs} />
-          ) : (
-            <FormModal
-              addClassName='tasks-modal'
-              modalHeader={modalHeader}
-              inputs={tasksInputs}
-              data={formData}
-              onFormChange={onFormChange}
-              isEditMode={isEditMode}
-              isFormValid={isFormValid}
-            />
-          )}
-        </ModalContent>
-      </Modal>
       {isLoaded ? (
         <>
           <SuccessButton onClick={onModalOpen}>
             <AddTaskIcon />
           </SuccessButton>
-          <TasksTable tasks={tasks} onDeleteTask={onDeleteData} onEditTaskModalOpen={onEditDataModalOpen} />
+          <Subtitle>All availiable tasks:</Subtitle>
+          <TasksTable
+            onDataOpen={onDataOpen}
+            tasks={tasks}
+            onDeleteTask={onDeleteData}
+            onEditTaskModalOpen={onEditDataModalOpen}
+          />
         </>
       ) : (
         <Preloader />
@@ -79,19 +58,12 @@ const TasksManagePage = ({
 
 TasksManagePage.propTypes = {
   setFormData: PropTypes.func.isRequired,
-  formData: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   tasks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
   isLoaded: PropTypes.bool.isRequired,
-  showModal: PropTypes.bool.isRequired,
-  isEditMode: PropTypes.bool.isRequired,
-  isDetailMode: PropTypes.bool.isRequired,
-  isFormValid: PropTypes.bool.isRequired,
-  onFormChange: PropTypes.func.isRequired,
   onDeleteData: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   onEditDataModalOpen: PropTypes.func.isRequired,
-  onModalClose: PropTypes.func.isRequired,
   onModalOpen: PropTypes.func.isRequired,
+  onDataOpen: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {

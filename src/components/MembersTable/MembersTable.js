@@ -8,10 +8,7 @@ import { millisecondsToDate, millisecondsToAge } from '../../utils/convertDate';
 import Layout from '../Layout';
 import Table from '../../UI/Table';
 import noteConverter from '../../utils/noteConverter';
-import { ReactComponent as EditUserIcon } from '../../assets/icons/user-edit-solid.svg';
-import { ReactComponent as DeleteUserIcon } from '../../assets/icons/trash-alt-solid.svg';
-import { ReactComponent as UserTasksIcon } from '../../assets/icons/tasks-solid.svg';
-import { ReactComponent as UserProgressIcon } from '../../assets/icons/sticky-note-solid.svg';
+import { EditUserIcon, DeleteIcon, UserTasksIcon, UserProgressIcon } from '../../assets/icons';
 
 const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
   const membersTableBody = members.map((member, idx) => {
@@ -45,7 +42,7 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
                 <EditUserIcon />
               </Button>
               <DangerButton onClick={deleteMember}>
-                <DeleteUserIcon />
+                <DeleteIcon />
               </DangerButton>
             </>
           ) : null}

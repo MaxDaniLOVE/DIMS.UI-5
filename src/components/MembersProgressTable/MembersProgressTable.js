@@ -9,14 +9,12 @@ import { membersProgressHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
 import noteConverter from '../../utils/noteConverter';
 import './membersProgressTable.scss';
-import { ReactComponent as EditTrackIcon } from '../../assets/icons/edit-solid.svg';
-import { ReactComponent as DeleteTrackIcon } from '../../assets/icons/trash-alt-solid.svg';
+import { EditIcon, DeleteIcon } from '../../assets/icons';
 
 const MembersProgressTable = ({
   progress,
   isMemberTasks,
   onSubtaskDataOpen,
-  onAddSubtaskModalOpen,
   onSubtaskDelete,
   onEditSubtaskModalOpen,
 }) => {
@@ -24,18 +22,11 @@ const MembersProgressTable = ({
     const { taskName, trackDate, trackNote, taskTrackId, taskId } = task;
     const onDeleteHandler = () => onSubtaskDelete(taskTrackId);
     const onEditHandler = () => onEditSubtaskModalOpen(taskTrackId);
-    const omAddHandler = () => onAddSubtaskModalOpen(taskId, taskName);
     const onDataOpenHandler = () => onSubtaskDataOpen(taskTrackId);
     return (
       <tr key={taskTrackId}>
         <td>{idx + 1}</td>
-        <td>
-          {isMemberTasks ? (
-            <OutlineButton onClick={omAddHandler}>{taskName}</OutlineButton>
-          ) : (
-            <Link to={`/tasks/${taskId}`}>{taskName}</Link>
-          )}
-        </td>
+        <td>{isMemberTasks ? taskName : <Link to={`/tasks/${taskId}`}>{noteConverter(taskName, 7)}</Link>}</td>
         <td>
           {isMemberTasks ? (
             <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote, 20)}</OutlineButton>
@@ -47,10 +38,10 @@ const MembersProgressTable = ({
         {isMemberTasks ? (
           <td className='user-btns'>
             <Button onClick={onEditHandler}>
-              <EditTrackIcon />
+              <EditIcon />
             </Button>
             <DangerButton onClick={onDeleteHandler}>
-              <DeleteTrackIcon />
+              <DeleteIcon />
             </DangerButton>
           </td>
         ) : null}
@@ -72,7 +63,6 @@ const MembersProgressTable = ({
 MembersProgressTable.defaultProps = {
   isMemberTasks: false,
   onSubtaskDataOpen: () => {},
-  onAddSubtaskModalOpen: () => {},
   onSubtaskDelete: () => {},
   onEditSubtaskModalOpen: () => {},
 };
@@ -81,7 +71,6 @@ MembersProgressTable.propTypes = {
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
   isMemberTasks: PropTypes.bool,
   onSubtaskDataOpen: PropTypes.func,
-  onAddSubtaskModalOpen: PropTypes.func,
   onSubtaskDelete: PropTypes.func,
   onEditSubtaskModalOpen: PropTypes.func,
 };
