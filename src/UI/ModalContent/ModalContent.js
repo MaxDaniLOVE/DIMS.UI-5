@@ -4,7 +4,7 @@ import { AvForm } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { GoBackButton, SubmitButton } from '../Buttons';
 import Checkboxes from '../Checkboxes';
-import { ReactComponent as SaveIcon } from '../../assets/icons/save-solid.svg';
+import { SaveIcon } from '../../assets/icons';
 
 import './modal.scss';
 

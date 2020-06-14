@@ -26,3 +26,28 @@
     grid-template-columns: min-content;
   }
 }
+@media screen and (max-width: 475px) {
+  .members-table {
+    th:nth-child(5),
+    td:nth-child(5) {
+      display: none;
+    }
+    .td-btns {
+      grid-template-columns: min-content !important;
+    }
+  }
+  .members-task-table {
+    .admin-btns {
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr;
+    }
+  }
+  .task-table {
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(4),
+    td:nth-child(4) {
+      display: none;
+    }
+  }
+}

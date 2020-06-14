@@ -56,6 +56,25 @@
       background-color: $teal-green;
       border-radius: 0.25rem;
     }
+    .social-links {
+      display: flex;
+      justify-content: space-around;
+      svg {
+        height: 5rem;
+        width: 5rem;
+        fill: $charcoal;
+        transition: all 0.3s ease;
+        &:hover {
+          fill: $teal-green;
+        }
+      }
+    }
+  }
+}
+.dark-mode-container .tab-pane .social-links a svg {
+  fill: $baby-blue;
+  &:hover {
+    fill: $teal-green;
   }
 }
 .svg-inline--fa {

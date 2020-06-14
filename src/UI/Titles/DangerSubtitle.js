@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Subtitle from './Subtitle';
 
-const DangerSubtitle = ({ children }) => <h3 className='subtitle danger-subtitle'>{children}</h3>;
+const DangerSubtitle = ({ children }) => <Subtitle additionalClass='danger-subtitle'>{children}</Subtitle>;
 
 DangerSubtitle.propTypes = {
   children: PropTypes.string.isRequired,

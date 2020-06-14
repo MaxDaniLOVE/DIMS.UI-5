@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
+import { Modal } from 'reactstrap';
 import DeletingModal from '../components/DeletingModal';
 import pagesInitialState from '../utils/pagesInitialState';
 import {
@@ -21,17 +22,19 @@ import {
   deleteUserProgress,
   editUserProgress,
   addUserProgress,
+  getAssignedMembers,
 } from '../store/actions/dataActions';
 import closingModalDelay from '../utils/closingModalDelay';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { validation } from '../utils/validation';
-import Firebase from '../services/Firebase';
 import transformEditData from '../utils/transformEditData';
 import setModalPageData from '../utils/setModalPageData';
 import findModalPageData from '../utils/findModalPageData';
 import setMethods from '../utils/setMethods';
-
-const db = new Firebase();
+import DataModal from '../components/DataModal';
+import ModalContent from '../UI/ModalContent';
+import FormModal from '../components/FormModal';
+import modalHeaders from '../utils/modalHeaders';
 
 const withModal = (WrappedComponent, pageType) =>
   class ModalContainer extends Component {
@@ -84,9 +87,9 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     onSubtaskModalOpen = (taskId) => {
-      const { progress, setFormData, formData } = this.props;
-      const editedTask = progress.find(({ taskId: id }) => id === taskId);
-      const { taskName } = editedTask;
+      const { setFormData, formData, userTasks } = this.props;
+      const editedTask = userTasks.find(({ taskId: id }) => id === taskId);
+      const { name: taskName } = editedTask;
       setFormData({ ...formData, taskId, taskName });
       this.onModalOpen();
     };
@@ -153,12 +156,11 @@ const withModal = (WrappedComponent, pageType) =>
     };
 
     onEditDataModalOpen = async (recievedId) => {
-      const { setFormData, setAssignedMembers } = this.props;
+      const { setFormData, getAssignedMembers } = this.props;
       const { pageData } = this.state;
       const formData = transformEditData(pageType, pageData, recievedId);
       if (pageType === 'TASK_PAGE') {
-        const assignedMembers = await db.getAssignedUsers(recievedId); // TODO move to the appropriate handler
-        setAssignedMembers(assignedMembers);
+        getAssignedMembers(recievedId);
       }
       setFormData(formData);
       this.onModalOpen();
@@ -191,9 +193,40 @@ const withModal = (WrappedComponent, pageType) =>
 
     render() {
       const { showModal, isEditMode, isDetailMode, isFormValid, isLoaded, isOpenDeleteModal } = this.state;
-      const { isDarkMode } = this.props;
+      const { isDarkMode, formData } = this.props;
+      const modalHeader = modalHeaders(pageType, isEditMode, isDetailMode, formData);
+      const formClassNames = {
+        MEMBERS_PAGE: 'members-modal',
+        TASK_PAGE: 'tasks-modal',
+        TRACK_PAGE: 'tasks-track-modal',
+      };
       return (
         <>
+          <Modal isOpen={showModal} toggle={this.onModalClose}>
+            <ModalContent
+              showModal={showModal}
+              isEditMode={isEditMode}
+              isDetailMode={isDetailMode}
+              onModalClose={this.onModalClose}
+              isFormValid={isFormValid}
+              onSubmit={this.onSubmit}
+              isCheckboxShow={!isDetailMode && pageType === 'TASK_PAGE'}
+            >
+              {isDetailMode ? (
+                <DataModal header={modalHeader} data={formData} inputFields={this.dataInputs} />
+              ) : (
+                <FormModal
+                  addClassName={formClassNames[pageType]}
+                  inputs={this.dataInputs}
+                  data={formData}
+                  onFormChange={this.onFormChange}
+                  isEditMode={isEditMode}
+                  isFormValid={isFormValid}
+                  modalHeader={modalHeader}
+                />
+              )}
+            </ModalContent>
+          </Modal>
           <DeletingModal
             isOpen={isOpenDeleteModal}
             onCloseModal={this.onDeleteModalClose}
@@ -224,7 +257,7 @@ const withModal = (WrappedComponent, pageType) =>
   };
 
 const mapStateToProps = ({
-  data: { members, isDarkMode, formData, tasks, assignedMembers, progress },
+  data: { members, isDarkMode, formData, tasks, assignedMembers, progress, userTasks },
   auth: { user },
 }) => ({
   members,
@@ -234,6 +267,7 @@ const mapStateToProps = ({
   assignedMembers,
   progress,
   isDarkMode,
+  userTasks,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -253,6 +287,7 @@ const mapDispatchToProps = (dispatch) =>
       deleteUserProgress,
       editUserProgress,
       addUserProgress,
+      getAssignedMembers,
     },
     dispatch,
   );

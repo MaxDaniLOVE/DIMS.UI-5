@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { dateToString, convertAge, stringToDate } from '../utils/convertDate';
+import { dateToString, stringToDate } from '../utils/convertDate';
 import convertSexName from '../utils/convertSexName';
 
 export default class Azure {
@@ -83,14 +83,15 @@ export default class Azure {
   };
 
   addNewTask = async (task, assignedMembers) => {
-    // TODO add assigning members after fixing backend
     try {
       const newTask = this.convertData(task, true, true);
-      const response = await axios.post(`${this.api}/task/create`, newTask);
-      return response;
+      const {
+        data: { TaskId },
+      } = await axios.post(`${this.api}/task/create`, newTask);
+      await this.assignTaskToUsers(TaskId, assignedMembers);
+      return TaskId;
     } catch (error) {
-      console.error("Can't add task. Please, try later.", error.message); // TODO change to `Throw new Error()` after fixing backend
-      return error;
+      throw new Error("Can't add task. Please, try later.");
     }
   };
 
@@ -124,11 +125,19 @@ export default class Azure {
     }
   };
 
+  getAssignedUsers = async (taskId) => {
+    try {
+      const { data } = await axios.get(`${this.api}/task/users/${taskId}`);
+      return data;
+    } catch (error) {
+      throw new Error("Can't load users. Please, try later.");
+    }
+  };
+
   isUserExists = async (userEmail) => {
     try {
-      const userData = await this.getUsersData();
-      const isUserExists = userData.filter(({ email }) => email === userEmail);
-      if (!isUserExists.length) {
+      const { data: isUserExists } = await axios.get(`${this.api}/profile/exists/${userEmail}`);
+      if (!isUserExists) {
         throw new Error('User is not added to database. Try later.');
       }
       return isUserExists;
@@ -175,16 +184,49 @@ export default class Azure {
   };
 
   getUsersProgress = async (id) => {
-    // TODO add feature after backend will be ready
-    throw new Error('Sorry, but feature for this page is still being drafted.');
+    try {
+      const { data } = await axios.get(`${this.api}/user/tracks/${id}`);
+      return data.map((track) => this.convertData(track));
+    } catch (error) {
+      throw new Error("Can't load user progress. Please, try later.");
+    }
+  };
+
+  addNewSubtask = async (track) => {
+    try {
+      const newTrack = this.convertData(track, true, true);
+      const response = await axios.post(`${this.api}/track/create`, newTrack);
+      return response;
+    } catch (error) {
+      throw new Error("Can't add user progress. Please, try later.");
+    }
+  };
+
+  editUserProgress = async (newTrack) => {
+    try {
+      const updatedTrack = this.convertData(newTrack, true, true);
+      const response = await axios.put(`${this.api}/user/tracks`, updatedTrack);
+      return response;
+    } catch (error) {
+      throw new Error("Can't update track. Please, try later.");
+    }
+  };
+
+  deleteSubtask = async (id) => {
+    try {
+      const response = await axios.delete(`${this.api}/user/tracks/delete/${id}`);
+      return response;
+    } catch (error) {
+      throw new Error("Can't delete track. Please, try later.");
+    }
   };
 
   transformMembersData = (members) => {
     const transformed = members.map((member) => {
-      const { StartDate, FullName, Sex, Age, UserId, Direction: directionId, ...dataToTransform } = member;
+      const { StartDate, FullName, Sex, BirthDate, UserId, Direction: directionId, ...dataToTransform } = member;
       const [name, lastName] = FullName.split(' ');
       const startDate = stringToDate(StartDate);
-      const birthDate = convertAge(Age);
+      const birthDate = stringToDate(BirthDate);
       const sex = convertSexName(Sex);
       const userData = this.convertData(dataToTransform);
       const id = `${UserId}`;
@@ -217,9 +259,9 @@ export default class Azure {
       }
       if (newKey === 'DirectionId') {
         const ids = {
-          React: 1,
+          Frontend: 1,
           '.Net': 2,
-          Angular: 3,
+          Salesforce: 3,
           Java: 4,
         };
         newValue = ids[value];
