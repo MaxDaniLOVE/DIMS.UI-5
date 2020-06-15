@@ -46,15 +46,13 @@
     height: 65vh;
     overflow-y: auto;
     &::-webkit-scrollbar {
-      width: 5px;
+      @include scrollbar;
     }
     &::-webkit-scrollbar-track {
-      background-color: transparent;
+      @include scrollbar-track;
     }
     &::-webkit-scrollbar-thumb {
-      padding: 3rem;
-      background-color: $teal-green;
-      border-radius: 0.25rem;
+      @include scrollbar-thumb;
     }
     .social-links {
       display: flex;
