@@ -12,6 +12,8 @@ import { ReactComponent as SaveIcon } from './save-solid.svg';
 import { ReactComponent as GoBackIcon } from './cross.svg';
 import { ReactComponent as GithubIcon } from './github.svg';
 import { ReactComponent as LinkedInIcon } from './linkedin-brands.svg';
+import { ReactComponent as MailIcon } from './envelope-regular.svg';
+
 export {
   EditIcon,
   DeleteIcon,
@@ -27,4 +29,5 @@ export {
   GoBackIcon,
   GithubIcon,
   LinkedInIcon,
+  MailIcon,
 };

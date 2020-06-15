@@ -9,11 +9,11 @@ import { inTouchInputs } from '../../utils/inputs';
 import { fieldValidation, validation } from '../../utils/validation';
 import { defaultInTouchData } from '../../utils/defaultInputsData';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
-import { SubmitButton, SuccessButton } from '../../UI/Buttons';
+import { SubmitButton, SuccessButton, GoBackButton } from '../../UI/Buttons';
 import { sendMail } from '../../store/actions/dataActions';
 import { Subtitle } from '../../UI/Titles';
 import Preloader from '../Preloader';
-
+import { MailIcon } from '../../assets/icons';
 import './inTouchForm.scss';
 
 const InTouchForm = ({ sendMail, isDarkMode }) => {
@@ -22,11 +22,22 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
-  const openModal = () => setIsShowModal(true);
-  const closeModal = () => setIsShowModal(false);
+  const openModal = () => {
+    setIsShowModal(true);
+  };
+  const closeModal = () => {
+    setIsShowModal(false);
+    setTimeout(() => {
+      setFormData(defaultInTouchData);
+    }, 150);
+  };
 
-  const startSending = () => setIsSending(true);
-  const stopSending = () => setIsSending(false);
+  const startSending = () => {
+    setIsSending(true);
+  };
+  const stopSending = () => {
+    setIsSending(false);
+  };
 
   const onChange = ({ target: { value, id } }) => {
     const updated = inputsChangeHandler(value, id, formData);
@@ -46,9 +57,6 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
     }
     stopSending();
     closeModal();
-    setTimeout(() => {
-      setFormData(defaultInTouchData);
-    }, 150);
   };
 
   const inputs = inTouchInputs.map(({ label, id, type, validationPattern, errorMessage }) => {
@@ -77,14 +85,18 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
             <>
               <Subtitle>Please, fill this form:</Subtitle>
               {inputs}
-              <SubmitButton isFormValid={isFormValid} onClick={sendMessageToAuthor}>
-                Hire!
-              </SubmitButton>
+
+              <div className='modal-window__footer'>
+                <SubmitButton isFormValid={isFormValid} onClick={sendMessageToAuthor}>
+                  <MailIcon />
+                </SubmitButton>
+                <GoBackButton onClick={closeModal} />
+              </div>
             </>
           )}
         </AvForm>
       </Modal>
-      <SuccessButton onClick={openModal}>Send me mail!</SuccessButton>
+      <SuccessButton onClick={openModal}>Hire me!</SuccessButton>
     </>
   );
 };
