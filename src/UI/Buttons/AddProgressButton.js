@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -6,7 +6,9 @@ import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reac
 const AddProgressButton = ({ userTasks, onAddSubtaskModalOpen }) => {
   const [isOpen, setOpen] = useState(false);
 
-  const toggle = () => setOpen(!isOpen);
+  const toggle = useCallback(() => {
+    setOpen(!isOpen);
+  }, [isOpen]);
 
   const dropdownItems = userTasks.map(({ name, taskId }) => {
     const onClick = () => onAddSubtaskModalOpen(taskId);
