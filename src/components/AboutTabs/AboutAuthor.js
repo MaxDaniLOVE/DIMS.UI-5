@@ -2,6 +2,7 @@ import React from 'react';
 import { Subtitle, Paragraph } from '../../UI/Titles';
 import { GithubIcon, LinkedInIcon } from '../../assets/icons';
 import InTouchForm from '../InTouchForm';
+import { SocialNetworksLink } from '../../UI/CustomLinks';
 
 const AboutAuthor = () => (
   <>
@@ -12,17 +13,12 @@ const AboutAuthor = () => (
       want to watch some of my projects click the Github logo, If you want to hire me click LinkedIn logo and text me!
     </Paragraph>
     <div className='social-links'>
-      <a id='github-link' href='https://github.com/MaxDaniLOVE' target='_blank' rel='noopener noreferrer'>
+      <SocialNetworksLink href='https://github.com/MaxDaniLOVE'>
         <GithubIcon />
-      </a>
-      <a
-        id='github-link'
-        href='https://www.linkedin.com/in/maksim-danilau-js/'
-        target='_blank'
-        rel='noopener noreferrer'
-      >
+      </SocialNetworksLink>
+      <SocialNetworksLink href='https://www.linkedin.com/in/maksim-danilau-js/'>
         <LinkedInIcon />
-      </a>
+      </SocialNetworksLink>
       <InTouchForm />
     </div>
   </>
