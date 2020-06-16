@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { TabContent, TabPane, Nav, NavLink } from 'reactstrap';
+import PropTypes from 'prop-types';
 import { MainTitle } from '../UI/Titles';
 
 import tabs from '../utils/aboutPageTabs';
@@ -38,6 +39,10 @@ const AboutPage = ({ isDarkMode }) => {
       <TabContent activeTab={activeTab}>{tabPanes}</TabContent>
     </div>
   );
+};
+
+AboutPage.propTypes = {
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = ({ data: { isDarkMode } }) => {
