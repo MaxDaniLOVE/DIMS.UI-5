@@ -158,4 +158,28 @@ const tasksInputs = [
   },
 ];
 
-export { membersInputs, subtasksInputs, authInputs, tasksInputs };
+const inTouchInputs = [
+  {
+    label: 'Full name:',
+    id: 'fullName',
+    type: 'text',
+    validationPattern: '.{5,}',
+    errorMessage: 'Full name should contain at least 5 characters',
+  },
+  {
+    label: 'Email:',
+    id: 'email',
+    type: 'email',
+    validationPattern: '^\\S+@\\S+\\.\\S+$',
+    errorMessage: 'Please enter valid email',
+  },
+  {
+    label: 'Message:',
+    id: 'message',
+    type: 'textarea',
+    validationPattern: '^(.|\\s){10,}$',
+    errorMessage: 'Message should contain at least 10 characters',
+  },
+];
+
+export { membersInputs, subtasksInputs, authInputs, tasksInputs, inTouchInputs };

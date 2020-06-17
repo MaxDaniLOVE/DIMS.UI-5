@@ -46,15 +46,13 @@
     height: 65vh;
     overflow-y: auto;
     &::-webkit-scrollbar {
-      width: 5px;
+      @include scrollbar;
     }
     &::-webkit-scrollbar-track {
-      background-color: transparent;
+      @include scrollbar-track;
     }
     &::-webkit-scrollbar-thumb {
-      padding: 3rem;
-      background-color: $teal-green;
-      border-radius: 0.25rem;
+      @include scrollbar-thumb;
     }
     .social-links {
       display: flex;
@@ -69,6 +67,12 @@
         }
       }
     }
+  }
+}
+.about-author__footer {
+  .btn {
+    margin: 1rem 0;
+    width: 100%;
   }
 }
 .dark-mode-container .tab-pane .social-links a svg {
@@ -94,6 +98,20 @@
     margin: 0.4rem 0;
     height: 1.2rem;
     width: 1.2rem;
+  }
+}
+@media screen and (max-width: 1279px) {
+  .nav {
+    .nav-link {
+      border-radius: 0;
+      margin: 0 !important;
+      &:first-child {
+        margin: 0 !important;
+      }
+      &:last-child {
+        margin: 0 !important;
+      }
+    }
   }
 }
 @media screen and (max-width: 768px) {

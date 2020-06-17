@@ -22,8 +22,8 @@ export default class Authentication {
   };
 
   onStatusChanged = async () => {
-    const isLoggedIn = await new Promise((resolve) => {
-      this.auth.onAuthStateChanged(async (user) => {
+    const isLoggedIn = await new Promise((resolve, reject) => {
+      const unsubscribe = this.auth.onAuthStateChanged(async (user) => {
         if (user) {
           let userRole = await api.getUserRole(user.email);
           if (userRole.role === 'USER') {
@@ -39,7 +39,8 @@ export default class Authentication {
             isLoggedIn: false,
           });
         }
-      });
+        unsubscribe();
+      }, reject);
     });
 
     addCache('members', []);
@@ -50,8 +51,6 @@ export default class Authentication {
   login = async ({ email, password }) => {
     try {
       await this.auth.signInWithEmailAndPassword(email, password);
-      const userRole = await api.getUserRole(email);
-      return userRole;
     } catch (error) {
       throw new Error('Check your login and password');
     }

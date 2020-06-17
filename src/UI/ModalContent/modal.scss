@@ -23,8 +23,21 @@
   background-color: $baby-blue;
   display: inherit;
   flex-direction: column;
+  max-height: 95vh;
   label {
     align-items: center;
+  }
+  &__content {
+    overflow: auto;
+    &::-webkit-scrollbar {
+      @include scrollbar;
+    }
+    &::-webkit-scrollbar-track {
+      @include scrollbar-track;
+    }
+    &::-webkit-scrollbar-thumb {
+      @include scrollbar-thumb;
+    }
   }
   &__footer {
     display: flex;
@@ -62,11 +75,16 @@
     background-color: $black;
   }
 }
-.invalid-feedback {
-  position: absolute;
-  width: fit-content;
-  margin: 3px;
+
+.text-danger {
+  position: relative;
+  .invalid-feedback {
+    position: absolute;
+    width: fit-content;
+    margin: 3px;
+  }
 }
+
 @media screen and (max-width: 768px) {
   .modal {
     max-width: 100%;
@@ -88,6 +106,7 @@
       height: 100%;
     }
     &-window {
+      max-height: 100%;
       height: 100%;
       justify-content: center;
       border-radius: 0;

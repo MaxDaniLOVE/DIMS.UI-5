@@ -1,4 +1,4 @@
-import { AUTH_LOG_IN, CHANGE_AUTH_STATUS, AUTH_LOG_OUT, AUTH_REGISTER } from './actionTypes';
+import { AUTH_LOG_IN, CHANGE_AUTH_STATUS, AUTH_LOG_OUT, AUTH_REGISTER, AUTH_STARTED, AUTH_ENDED } from './actionTypes';
 import Authentication from '../../services/Authentication';
 import { throwAlert } from './dataActions';
 
@@ -39,6 +39,7 @@ const changeStatus = () => {
     } catch (error) {
       errorCallback(dispatch, error);
     }
+    dispatch(endAuth());
   };
 };
 
@@ -69,4 +70,13 @@ const registerUser = (authData) => {
     }
   };
 };
-export { logIn, changeStatus, logOut, registerUser };
+
+const startAuth = () => {
+  return { type: AUTH_STARTED };
+};
+
+const endAuth = () => {
+  return { type: AUTH_ENDED };
+};
+
+export { logIn, changeStatus, logOut, registerUser, startAuth, endAuth };

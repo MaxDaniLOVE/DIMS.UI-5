@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { logIn, registerUser } from '../store/actions';
+import { logIn, registerUser, startAuth } from '../store/actions';
 import LoginForm from '../components/LoginForm';
 import { defaultAuthData } from '../utils/defaultInputsData';
 import { authInputs as inputs } from '../utils/inputs';
 import inputsChangeHandler from '../utils/inputsChangeHandler';
 import { validation } from '../utils/validation';
 import ServiceToggle from '../components/ServiceToggle';
+import Preloader from '../components/Preloader';
 
 class AuthPage extends Component {
   constructor(props) {
@@ -39,13 +40,17 @@ class AuthPage extends Component {
 
   onSubmit = () => {
     const { authData, isRegisterMode } = this.state;
-    const { logIn, registerUser } = this.props;
+    const { logIn, registerUser, startAuth } = this.props;
+    startAuth();
     return isRegisterMode ? registerUser(authData) : logIn(authData);
   };
 
   render() {
     const { isFormValid, isRegisterMode } = this.state;
-    return (
+    const { isAuthStarted } = this.props;
+    return isAuthStarted ? (
+      <Preloader />
+    ) : (
       <>
         <LoginForm
           inputs={inputs}
@@ -64,10 +69,16 @@ class AuthPage extends Component {
 AuthPage.propTypes = {
   registerUser: PropTypes.func.isRequired,
   logIn: PropTypes.func.isRequired,
+  isAuthStarted: PropTypes.bool.isRequired,
+  startAuth: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ auth: { isAuthStarted } }) => {
+  return { isAuthStarted };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ logIn, registerUser }, dispatch);
+  return bindActionCreators({ logIn, registerUser, startAuth }, dispatch);
 };
 
-export default connect(null, mapDispatchToProps)(AuthPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthPage);

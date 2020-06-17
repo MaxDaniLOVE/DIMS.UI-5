@@ -34,6 +34,12 @@ const convertAge = (Age) => {
   return birthDate;
 };
 
+const getDateInWeek = () => {
+  const currenatDate = new Date();
+  const nextWeek = new Date(currenatDate.getTime() + 7 * 24 * 60 * 60 * 1000).getTime();
+  return dateToString(nextWeek);
+};
+
 export {
   convertAge,
   dateToString,
@@ -43,4 +49,5 @@ export {
   getCurrentYear,
   getCurrentDate,
   getCurrentDateInMs,
+  getDateInWeek,
 };

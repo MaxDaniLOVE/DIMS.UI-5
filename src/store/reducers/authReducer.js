@@ -1,6 +1,7 @@
-import { AUTH_LOG_IN, CHANGE_AUTH_STATUS, AUTH_LOG_OUT } from '../actions/actionTypes';
+import { AUTH_LOG_IN, CHANGE_AUTH_STATUS, AUTH_LOG_OUT, AUTH_STARTED, AUTH_ENDED } from '../actions/actionTypes';
 
 const initialState = {
+  isAuthStarted: true,
   isLoggedIn: false,
   user: {},
 };
@@ -17,6 +18,10 @@ const authReducer = (state = initialState, { type, payload }) => {
         isLoggedIn,
         user,
       };
+    case AUTH_STARTED:
+      return { ...state, isAuthStarted: true };
+    case AUTH_ENDED:
+      return { ...state, isAuthStarted: false };
     default:
       return state;
   }

@@ -283,4 +283,12 @@ export default class Azure {
     success: 2,
     fail: 3,
   };
+
+  sendMail = async (mailData) => {
+    try {
+      await axios.post(`https://dims-5.herokuapp.com/api/intouch`, mailData);
+    } catch (error) {
+      throw new Error("Can't send message. Please, try later.");
+    }
+  };
 }

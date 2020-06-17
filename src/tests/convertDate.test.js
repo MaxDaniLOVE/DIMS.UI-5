@@ -7,6 +7,7 @@ import {
   getCurrentDate,
   convertAge,
   getCurrentDateInMs,
+  getDateInWeek,
 } from '../utils/convertDate';
 
 describe('Converting dates', () => {
@@ -93,6 +94,15 @@ describe('Converting dates', () => {
     const expectedDate = new Date().getTime();
 
     const result = getCurrentDateInMs();
+
+    expect(result).toBe(expectedDate);
+  });
+  it('should return date in a week', () => {
+    const currenatDate = new Date();
+    const nextWeek = new Date(currenatDate.getTime() + 7 * 24 * 60 * 60 * 1000).getTime();
+    const expectedDate = dateToString(nextWeek);
+
+    const result = getDateInWeek();
 
     expect(result).toBe(expectedDate);
   });

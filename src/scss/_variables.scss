@@ -74,3 +74,15 @@ $black: #16191a !default;
     padding: 0 1rem 0 1rem;
   }
 }
+
+@mixin scrollbar {
+  width: 5px;
+}
+@mixin scrollbar-track {
+  background-color: transparent;
+}
+@mixin scrollbar-thumb {
+  padding: 3rem;
+  background-color: $teal-green;
+  border-radius: 0.25rem;
+}

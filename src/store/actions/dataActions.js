@@ -18,11 +18,13 @@ import {
   EDIT_USER_PROGRESS,
   ADD_USER_PROGRESS,
   TOGGLE_DARK_MODE,
+  SEND_MAIL,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
 import sortFromOldToNew from '../../utils/sortFromOldToNew';
 import { addCache, removeCacheItemByKey } from '../../utils/cache';
+import Azure from '../../services/Azure';
 
 const api = initializeService();
 
@@ -304,6 +306,22 @@ const getAssignedMembers = (taskId) => {
   };
 };
 
+const sendMail = (mailData) => {
+  return async (dispatch) => {
+    dispatch(startFetchingData());
+    try {
+      const sendMailApi = api instanceof Azure ? api : new Azure();
+      await sendMailApi.sendMail(mailData);
+      dispatch({
+        type: SEND_MAIL,
+      });
+      dispatch(throwAlert({ message: 'Message was send!', type: 'SUCCESS' }));
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
+
 export {
   getUsers,
   addUser,
@@ -324,4 +342,5 @@ export {
   throwAlert,
   switchDarkMode,
   getAssignedMembers,
+  sendMail,
 };
