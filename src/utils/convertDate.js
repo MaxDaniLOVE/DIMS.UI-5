@@ -40,6 +40,12 @@ const getDateInWeek = () => {
   return dateToString(nextWeek);
 };
 
+const stringDateToLocaleString = (date) => new Date(date).toLocaleDateString();
+
+const compareDates = (lesserDate, biggerDate) => {
+  return stringToDate(lesserDate) <= stringToDate(biggerDate);
+};
+
 export {
   convertAge,
   dateToString,
@@ -50,4 +56,6 @@ export {
   getCurrentDate,
   getCurrentDateInMs,
   getDateInWeek,
+  stringDateToLocaleString,
+  compareDates,
 };

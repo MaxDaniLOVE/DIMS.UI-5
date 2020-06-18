@@ -27,6 +27,7 @@ const membersInputs = [
     type: 'date',
     validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
     errorMessage: 'Enter valid date',
+    dateToCompare: 'birthDate',
   },
   {
     label: 'Education:',
@@ -148,6 +149,7 @@ const tasksInputs = [
     type: 'date',
     validationPattern: '([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))',
     errorMessage: 'Enter valid date',
+    dateToCompare: 'startDate',
   },
   {
     label: 'Description:',

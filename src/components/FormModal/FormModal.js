@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RadioInput from '../../UI/RadioInput';
-import { fieldValidation } from '../../utils/validation';
+import { fieldValidation, dateValidation } from '../../utils/validation';
 import InputGroup from '../InputGroup';
 
 import './formModal.scss';
 
 const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modalHeader }) => {
-  const inputsLabels = inputs.map(({ label, id, type, options, validationPattern, errorMessage }) => {
+  const inputsLabels = inputs.map(({ label, id, type, options, validationPattern, errorMessage, dateToCompare }) => {
     if (type === 'radio') {
       return (
         <RadioInput
@@ -23,7 +23,11 @@ const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modal
       );
     }
     const inputPlaceholder = data[id];
-    const pattern = fieldValidation(validationPattern, errorMessage);
+    let pattern = fieldValidation(validationPattern, errorMessage);
+    if (dateToCompare) {
+      const startDate = data[dateToCompare];
+      pattern = dateValidation(pattern, startDate);
+    }
     return (
       <InputGroup key={id} id={id} value={inputPlaceholder} type={type} onChange={onFormChange} validate={pattern}>
         {label}
