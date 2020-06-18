@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Label, Modal } from 'reactstrap';
-import { AvGroup, AvField, AvForm } from 'availity-reactstrap-validation';
+import { Modal } from 'reactstrap';
+import { AvForm } from 'availity-reactstrap-validation';
 import { inTouchInputs } from '../../utils/inputs';
 import { fieldValidation, validation } from '../../utils/validation';
 import { defaultInTouchData } from '../../utils/defaultInputsData';
@@ -14,6 +14,7 @@ import { sendMail } from '../../store/actions/dataActions';
 import { Subtitle } from '../../UI/Titles';
 import Preloader from '../Preloader';
 import { MailIcon } from '../../assets/icons';
+import InputGroup from '../InputGroup';
 import './inTouchForm.scss';
 
 const InTouchForm = ({ sendMail, isDarkMode }) => {
@@ -63,12 +64,9 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
     const pattern = fieldValidation(validationPattern, errorMessage);
     const value = formData[id];
     return (
-      <AvGroup className='form-inputs' key={id}>
-        <Label htmlFor={id}>
-          {label}
-          <AvField name={id} value={value} type={type} id={id} onChange={onChange} validate={pattern} />
-        </Label>
-      </AvGroup>
+      <InputGroup key={id} id={id} value={value} type={type} onChange={onChange} validate={pattern}>
+        {label}
+      </InputGroup>
     );
   });
 

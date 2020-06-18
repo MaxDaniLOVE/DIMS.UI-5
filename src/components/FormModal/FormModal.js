@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Label } from 'reactstrap';
-import { AvGroup, AvField } from 'availity-reactstrap-validation';
 import RadioInput from '../../UI/RadioInput';
 import { fieldValidation } from '../../utils/validation';
+import InputGroup from '../InputGroup';
 
 import './formModal.scss';
 
@@ -26,12 +25,9 @@ const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modal
     const inputPlaceholder = data[id];
     const pattern = fieldValidation(validationPattern, errorMessage);
     return (
-      <AvGroup className='form-inputs' key={id}>
-        <Label htmlFor={id}>
-          {label}
-          <AvField name={id} value={inputPlaceholder} type={type} id={id} onChange={onFormChange} validate={pattern} />
-        </Label>
-      </AvGroup>
+      <InputGroup key={id} id={id} value={inputPlaceholder} type={type} onChange={onFormChange} validate={pattern}>
+        {label}
+      </InputGroup>
     );
   });
   return (
