@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -26,12 +26,12 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
   const openModal = () => {
     setIsShowModal(true);
   };
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsShowModal(false);
     setTimeout(() => {
       setFormData(defaultInTouchData);
     }, 150);
-  };
+  }, []);
 
   const startSending = () => {
     setIsSending(true);
@@ -49,16 +49,18 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
     setIsFormValid(isValid);
   };
 
-  const sendMessageToAuthor = async () => {
-    startSending();
-    try {
-      await sendMail(formData);
-    } catch (error) {
+  const sendMessageToAuthor = useMemo(() => {
+    return async () => {
+      startSending();
+      try {
+        await sendMail(formData);
+      } catch (error) {
+        stopSending();
+      }
       stopSending();
-    }
-    stopSending();
-    closeModal();
-  };
+      closeModal();
+    };
+  }, [closeModal, formData, sendMail]);
 
   const inputs = inTouchInputs.map(({ label, id, type, validationPattern, errorMessage }) => {
     const pattern = fieldValidation(validationPattern, errorMessage);
