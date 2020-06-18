@@ -33,6 +33,10 @@ const errorCallback = (dispatch, error) => {
   dispatch(throwAlert({ type: 'ERROR', message }));
 };
 
+const successCallback = (dispatch, message) => {
+  dispatch(throwAlert({ type: 'SUCCESS', message }));
+};
+
 const getUsers = () => {
   return async (dispatch) => {
     dispatch(startFetchingData());
@@ -61,6 +65,7 @@ const addUser = () => {
         type: ADD_MEMBER,
       });
       dispatch(getUsers());
+      successCallback(dispatch, 'User was successfully added!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -80,6 +85,7 @@ const editUser = () => {
         type: EDIT_MEMBER,
       });
       dispatch(getUsers());
+      successCallback(dispatch, 'User was successfully updated!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -94,7 +100,7 @@ const deleteUser = (id) => {
         type: DELETE_USER,
       });
       dispatch(getUsers());
-      dispatch(throwAlert({ message: 'User was successfully deleted!', type: 'SUCCESS' }));
+      successCallback(dispatch, 'User was successfully deleted!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -158,6 +164,7 @@ const addTask = () => {
         type: ADD_TASK,
       });
       dispatch(getTasks());
+      successCallback(dispatch, 'Task was successfully added!');
       return response;
     } catch (error) {
       errorCallback(dispatch, error);
@@ -174,7 +181,7 @@ const deleteTask = (task) => {
         type: DELETE_TASK,
       });
       dispatch(getTasks());
-      dispatch(throwAlert({ message: 'Task was successfully deleted!', type: 'SUCCESS' }));
+      successCallback(dispatch, 'Task was successfully deleted!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -194,6 +201,7 @@ const editTask = () => {
         type: EDIT_TASK,
       });
       dispatch(getTasks());
+      successCallback(dispatch, 'Task was successfully edited!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -240,7 +248,7 @@ const deleteUserProgress = (subtaskId, userId) => {
         type: DELETE_USER_PROGRESS,
       });
       dispatch(getUserProgress(userId));
-      dispatch(throwAlert({ message: 'Subtask was successfully deleted!', type: 'SUCCESS' }));
+      successCallback(dispatch, 'Subtask was successfully deleted!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -260,6 +268,7 @@ const editUserProgress = () => {
         type: EDIT_USER_PROGRESS,
       });
       dispatch(getUserProgress(userId));
+      successCallback(dispatch, 'Subtask was successfully edited!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -279,6 +288,7 @@ const addUserProgress = () => {
         type: ADD_USER_PROGRESS,
       });
       dispatch(getUserProgress(userId));
+      successCallback(dispatch, 'Subtask was successfully added!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -315,7 +325,7 @@ const sendMail = (mailData) => {
       dispatch({
         type: SEND_MAIL,
       });
-      dispatch(throwAlert({ message: 'Message was send!', type: 'SUCCESS' }));
+      successCallback(dispatch, 'Message was send!');
     } catch (error) {
       errorCallback(dispatch, error);
     }
