@@ -8,6 +8,7 @@ import {
   convertAge,
   getCurrentDateInMs,
   getDateInWeek,
+  compareDates,
 } from '../utils/convertDate';
 
 describe('Converting dates', () => {
@@ -51,9 +52,9 @@ describe('Converting dates', () => {
 
     expect(result).toBe(expectedAge);
   });
-  it('should return 22 years for given 0ms', () => {
+  it('should return 23 years for given 0ms', () => {
     const givenMs = 866235600000;
-    const expectedAge = 22;
+    const expectedAge = 23;
 
     const result = millisecondsToAge(givenMs);
 
@@ -105,5 +106,32 @@ describe('Converting dates', () => {
     const result = getDateInWeek();
 
     expect(result).toBe(expectedDate);
+  });
+  it("should return true for start date '2020-06-19' and deadline '2020-06-26'", () => {
+    const startDate = '2020-06-19';
+    const deadlineDate = '2020-06-26';
+    const expected = true;
+
+    const result = compareDates(startDate, deadlineDate);
+
+    expect(result).toBe(expected);
+  });
+  it("should return false for start date '2020-06-26' and deadline '2020-06-19'", () => {
+    const startDate = '2020-06-26';
+    const deadlineDate = '2020-06-19';
+    const expected = false;
+
+    const result = compareDates(startDate, deadlineDate);
+
+    expect(result).toBe(expected);
+  });
+  it('should return true for equal dates', () => {
+    const startDate = '2020-06-19';
+    const deadlineDate = '2020-06-19';
+    const expected = true;
+
+    const result = compareDates(startDate, deadlineDate);
+
+    expect(result).toBe(expected);
   });
 });
