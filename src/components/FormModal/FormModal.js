@@ -7,7 +7,7 @@ import InputGroup from '../InputGroup';
 import './formModal.scss';
 
 const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modalHeader }) => {
-  const inputsLabels = inputs.map(({ label, id, type, options, validationPattern, errorMessage, dateToCompare }) => {
+  const inputsLabels = inputs.map(({ label, id, type, options, validationPattern, dateToCompare }) => {
     if (type === 'radio') {
       return (
         <RadioInput
@@ -23,7 +23,7 @@ const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modal
       );
     }
     const inputPlaceholder = data[id];
-    let pattern = fieldValidation(validationPattern, errorMessage);
+    let pattern = fieldValidation(validationPattern);
     if (dateToCompare) {
       const startDate = data[dateToCompare];
       pattern = dateValidation(pattern, startDate);

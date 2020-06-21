@@ -62,8 +62,8 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
     };
   }, [closeModal, formData, sendMail]);
 
-  const inputs = inTouchInputs.map(({ label, id, type, validationPattern, errorMessage }) => {
-    const pattern = fieldValidation(validationPattern, errorMessage);
+  const inputs = inTouchInputs.map(({ label, id, type, validationPattern }) => {
+    const pattern = fieldValidation(validationPattern);
     const value = formData[id];
     return (
       <InputGroup key={id} id={id} value={value} type={type} onChange={onChange} validate={pattern}>

@@ -4,7 +4,12 @@ const validation = (data, inputs) => {
   const keys = Object.keys(data);
   const isValidArray = keys.map((key) => {
     if (key === 'id' || key === 'taskId') return true;
-    const { validationPattern, dateToCompare } = inputs.find(({ id }) => id === key);
+    const {
+      validationPattern: { pattern, min, max },
+      dateToCompare,
+    } = inputs.find(({ id }) => id === key);
+
+    const { value: patternValue } = pattern;
 
     if (dateToCompare) {
       const lesserDate = data[dateToCompare];
@@ -12,28 +17,31 @@ const validation = (data, inputs) => {
       return compareDates(lesserDate, biggerDate);
     }
 
-    const regExp = new RegExp(validationPattern);
+    if (min && max) {
+      const { value: minValue } = min;
+      const { value: maxValue } = max;
+      return data[key] >= minValue && data[key] <= maxValue;
+    }
+
+    const regExp = new RegExp(patternValue);
     return regExp.test(data[key]);
   });
   return isValidArray.every((el) => el);
 };
 
-const fieldValidation = (value, errorMessage) => ({
+const fieldValidation = (pattern) => ({
   required: { value: true, errorMessage: "You can't leave empty field" },
-  pattern: {
-    value,
-    errorMessage,
-  },
+  ...pattern,
 });
 
-const dateValidation = (validationPatter, startDate) => {
+const dateValidation = (validationPattern, startDate) => {
   const datePattern = {
     min: {
       value: stringToDate(startDate),
       errorMessage: `It can't be lesser than ${stringDateToLocaleString(startDate)}`,
     },
   };
-  return { ...validationPatter, ...datePattern };
+  return { ...validationPattern, ...datePattern };
 };
 
 export { validation, fieldValidation, dateValidation };
