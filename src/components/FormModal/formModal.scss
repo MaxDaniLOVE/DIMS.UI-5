@@ -50,6 +50,11 @@
       width: 80%;
     }
   }
+  .form-inputs:nth-child(2) {
+    .form-group {
+      padding-left: 7%;
+    }
+  }
   .form-inputs:last-child {
     grid-area: 3 / 3 / 3 / 1;
     .form-group {
@@ -68,6 +73,11 @@
       grid-area: auto;
       .form-group {
         width: 65%;
+      }
+    }
+    .form-inputs:nth-child(2) {
+      .form-group {
+        padding-left: 0;
       }
     }
     .form-inputs:last-child {
