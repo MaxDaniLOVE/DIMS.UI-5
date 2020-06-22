@@ -1,3 +1,9 @@
+.members-task-table {
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 30% !important;
+  }
+}
 .admin-btns {
   display: grid;
   grid-gap: 5px;

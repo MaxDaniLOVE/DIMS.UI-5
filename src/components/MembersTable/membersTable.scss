@@ -10,6 +10,10 @@
     }
   }
   .members-task-table {
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 50% !important;
+    }
     th:nth-child(3),
     td:nth-child(3),
     th:nth-child(4),
@@ -24,6 +28,12 @@
   }
   .user-btns {
     grid-template-columns: min-content;
+  }
+}
+.task-table {
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 50% !important;
   }
 }
 @media screen and (max-width: 475px) {
