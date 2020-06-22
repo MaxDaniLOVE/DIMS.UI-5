@@ -51,13 +51,15 @@ const MembersProgressTable = ({
         </td>
         <td>{millisecondsToDate(trackDate)}</td>
         {isMemberTasks ? (
-          <td className='user-btns'>
-            <Button onClick={onEditHandler}>
-              <EditIcon />
-            </Button>
-            <DangerButton onClick={onDeleteHandler}>
-              <DeleteIcon />
-            </DangerButton>
+          <td>
+            <div className='user-btns'>
+              <Button onClick={onEditHandler}>
+                <EditIcon />
+              </Button>
+              <DangerButton onClick={onDeleteHandler}>
+                <DeleteIcon />
+              </DangerButton>
+            </div>
           </td>
         ) : null}
       </tr>

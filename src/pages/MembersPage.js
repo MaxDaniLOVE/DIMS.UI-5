@@ -11,6 +11,7 @@ import { defaultRegisterData } from '../utils/defaultInputsData';
 import composedModalHOC from '../hoc/withModal';
 import { AddUserIcon } from '../assets/icons';
 import { DangerSubtitle, Subtitle } from '../UI/Titles';
+import PageWrapper from '../UI/PageWrapper';
 
 const MembersPage = ({
   members,
@@ -36,7 +37,7 @@ const MembersPage = ({
     );
   }
   return (
-    <div className='table-wrapper'>
+    <PageWrapper>
       {isLoaded ? (
         <>
           {role === 'ADMIN' ? (
@@ -56,7 +57,7 @@ const MembersPage = ({
       ) : (
         <Preloader />
       )}
-    </div>
+    </PageWrapper>
   );
 };
 

@@ -17,6 +17,7 @@ import {
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
 import composedModalHOC from '../hoc/withModal';
 import { AddProgressButton } from '../UI/Buttons';
+import PageWrapper from '../UI/PageWrapper';
 
 const TasksTrackManagePage = ({
   progress,
@@ -42,7 +43,7 @@ const TasksTrackManagePage = ({
     );
   }
   return (
-    <div className='table-wrapper'>
+    <PageWrapper>
       {isLoaded ? (
         <>
           <AddProgressButton onAddSubtaskModalOpen={onSubtaskModalOpen} />
@@ -59,7 +60,7 @@ const TasksTrackManagePage = ({
       ) : (
         <Preloader />
       )}
-    </div>
+    </PageWrapper>
   );
 };
 

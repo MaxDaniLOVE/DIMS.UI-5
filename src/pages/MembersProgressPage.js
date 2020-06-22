@@ -6,10 +6,10 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
-import Layout from '../components/Layout';
 import { getUserProgress } from '../store/actions';
 import initializeService from '../utils/initializeService';
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
+import PageWrapper from '../UI/PageWrapper';
 
 const db = initializeService();
 
@@ -27,7 +27,7 @@ class MembersProgressPage extends Component {
     const {
       params: { mid },
     } = match;
-    getUserProgress(mid);
+    await getUserProgress(mid);
     const { name: memberName } = await db.getUserById(mid);
     this.setState({ memberName, isLoaded: true });
   }
@@ -39,7 +39,7 @@ class MembersProgressPage extends Component {
       return <DangerSubtitle>This user has no subtasks :(</DangerSubtitle>;
     }
     return (
-      <Layout>
+      <PageWrapper>
         {isLoaded ? (
           <>
             <Subtitle>{`${memberName}'s progress:`}</Subtitle>
@@ -48,7 +48,7 @@ class MembersProgressPage extends Component {
         ) : (
           <Preloader />
         )}
-      </Layout>
+      </PageWrapper>
     );
   }
 }

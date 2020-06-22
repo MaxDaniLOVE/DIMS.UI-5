@@ -6,10 +6,10 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
-import Layout from '../components/Layout';
 import { getUserTasks, setMark } from '../store/actions';
 import initializeService from '../utils/initializeService';
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
+import PageWrapper from '../UI/PageWrapper';
 
 const db = initializeService();
 
@@ -60,7 +60,7 @@ class MembersTasksPage extends Component {
     }
     const header = role === 'USER' ? 'Hi! This is your current tasks:' : `All ${memberName}'s tasks:`;
     return (
-      <Layout>
+      <PageWrapper>
         {isLoaded ? (
           <>
             <Subtitle>{header}</Subtitle>
@@ -69,7 +69,7 @@ class MembersTasksPage extends Component {
         ) : (
           <Preloader />
         )}
-      </Layout>
+      </PageWrapper>
     );
   }
 }
