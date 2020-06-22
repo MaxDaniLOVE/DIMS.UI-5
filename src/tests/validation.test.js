@@ -77,17 +77,18 @@ describe('Validation', () => {
     expect(result).toBe(expected);
   });
   it('should return object with patterns for validation', () => {
-    const value = /[a-zA-z]/;
-    const errorMessage = 'Error!';
-    const expected = {
-      required: { value: true, errorMessage: "You can't leave empty field" },
+    const validationPattern = {
       pattern: {
-        value,
-        errorMessage,
+        value: '^\\S+@\\S+\\.\\S+$',
+        errorMessage: 'Please enter valid email',
       },
     };
+    const expected = {
+      required: { value: true, errorMessage: "You can't leave empty field" },
+      ...validationPattern,
+    };
 
-    const result = fieldValidation(value, errorMessage);
+    const result = fieldValidation(validationPattern);
 
     expect(result).toMatchObject(expected);
   });
