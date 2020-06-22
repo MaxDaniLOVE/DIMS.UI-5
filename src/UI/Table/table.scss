@@ -43,6 +43,12 @@
       grid-template-rows: 1fr;
     }
   }
+  .info-table {
+    td:first-child,
+    th:first-child {
+      width: 100% !important;
+    }
+  }
   .dark-table {
     color: #fff;
     tr:nth-child(odd) {
