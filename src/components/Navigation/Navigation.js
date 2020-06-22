@@ -9,6 +9,7 @@ import MainHeader from '../MainHeader';
 import SideBar from '../SideBar';
 import CreateRolesLink from '../CreateRolesLink';
 import CurrentUser from '../../UI/CurrentUser';
+import getMailLogin from '../../utils/getMailLogin';
 import './navigation.scss';
 
 class Navigation extends Component {
@@ -60,7 +61,7 @@ class Navigation extends Component {
         </SideBar>
         <MainHeader>
           <>
-            <CurrentUser>{email}</CurrentUser>
+            <CurrentUser>{getMailLogin(email)}</CurrentUser>
             <BurgerButton onClick={this.onOpenSideBar} />
             <nav className='navigation__header-nav'>
               <CreateRolesLink onLogOut={logOut} isLoggedIn={isLoggedIn} role={role} userId={userId} />

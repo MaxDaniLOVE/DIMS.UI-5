@@ -28,4 +28,11 @@ describe('Returns login from email', () => {
 
     expect(result).toBe(expected);
   });
+  it('should return empty string for function without args', () => {
+    const expected = '';
+
+    const result = getMailLogin();
+
+    expect(result).toBe(expected);
+  });
 });

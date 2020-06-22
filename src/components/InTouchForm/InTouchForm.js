@@ -1,10 +1,10 @@
 /* eslint-disable no-shadow */
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Label, Modal } from 'reactstrap';
-import { AvGroup, AvField, AvForm } from 'availity-reactstrap-validation';
+import { Modal } from 'reactstrap';
+import { AvForm } from 'availity-reactstrap-validation';
 import { inTouchInputs } from '../../utils/inputs';
 import { fieldValidation, validation } from '../../utils/validation';
 import { defaultInTouchData } from '../../utils/defaultInputsData';
@@ -14,6 +14,7 @@ import { sendMail } from '../../store/actions/dataActions';
 import { Subtitle } from '../../UI/Titles';
 import Preloader from '../Preloader';
 import { MailIcon } from '../../assets/icons';
+import InputGroup from '../InputGroup';
 import './inTouchForm.scss';
 
 const InTouchForm = ({ sendMail, isDarkMode }) => {
@@ -25,12 +26,12 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
   const openModal = () => {
     setIsShowModal(true);
   };
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsShowModal(false);
     setTimeout(() => {
       setFormData(defaultInTouchData);
     }, 150);
-  };
+  }, []);
 
   const startSending = () => {
     setIsSending(true);
@@ -48,27 +49,26 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
     setIsFormValid(isValid);
   };
 
-  const sendMessageToAuthor = async () => {
-    startSending();
-    try {
-      await sendMail(formData);
-    } catch (error) {
+  const sendMessageToAuthor = useMemo(() => {
+    return async () => {
+      startSending();
+      try {
+        await sendMail(formData);
+      } catch (error) {
+        stopSending();
+      }
       stopSending();
-    }
-    stopSending();
-    closeModal();
-  };
+      closeModal();
+    };
+  }, [closeModal, formData, sendMail]);
 
-  const inputs = inTouchInputs.map(({ label, id, type, validationPattern, errorMessage }) => {
-    const pattern = fieldValidation(validationPattern, errorMessage);
+  const inputs = inTouchInputs.map(({ label, id, type, validationPattern }) => {
+    const pattern = fieldValidation(validationPattern);
     const value = formData[id];
     return (
-      <AvGroup className='form-inputs' key={id}>
-        <Label htmlFor={id}>
-          {label}
-          <AvField name={id} value={value} type={type} id={id} onChange={onChange} validate={pattern} />
-        </Label>
-      </AvGroup>
+      <InputGroup key={id} id={id} value={value} type={type} onChange={onChange} validate={pattern}>
+        {label}
+      </InputGroup>
     );
   });
 

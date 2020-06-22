@@ -10,6 +10,8 @@ import { millisecondsToDate } from '../../utils/convertDate';
 import noteConverter from '../../utils/noteConverter';
 import './membersProgressTable.scss';
 import { EditIcon, DeleteIcon } from '../../assets/icons';
+import TooltipWrapper from '../TooltipWrapper';
+import removeStartNumbers from '../../utils/cutStartNumbers';
 
 const MembersProgressTable = ({
   progress,
@@ -23,10 +25,23 @@ const MembersProgressTable = ({
     const onDeleteHandler = () => onSubtaskDelete(taskTrackId);
     const onEditHandler = () => onEditSubtaskModalOpen(taskTrackId);
     const onDataOpenHandler = () => onSubtaskDataOpen(taskTrackId);
+    const id = removeStartNumbers(taskTrackId);
     return (
       <tr key={taskTrackId}>
         <td>{idx + 1}</td>
-        <td>{isMemberTasks ? taskName : <Link to={`/tasks/${taskId}`}>{noteConverter(taskName, 7)}</Link>}</td>
+        <td>
+          {isMemberTasks ? (
+            taskName
+          ) : (
+            <>
+              <TooltipWrapper id={id} tooltip={taskName} length={15}>
+                <Link to={`/tasks/${taskId}`} id={id}>
+                  {noteConverter(taskName, 15)}
+                </Link>
+              </TooltipWrapper>
+            </>
+          )}
+        </td>
         <td>
           {isMemberTasks ? (
             <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote, 20)}</OutlineButton>
@@ -36,13 +51,15 @@ const MembersProgressTable = ({
         </td>
         <td>{millisecondsToDate(trackDate)}</td>
         {isMemberTasks ? (
-          <td className='user-btns'>
-            <Button onClick={onEditHandler}>
-              <EditIcon />
-            </Button>
-            <DangerButton onClick={onDeleteHandler}>
-              <DeleteIcon />
-            </DangerButton>
+          <td>
+            <div className='user-btns'>
+              <Button onClick={onEditHandler}>
+                <EditIcon />
+              </Button>
+              <DangerButton onClick={onDeleteHandler}>
+                <DeleteIcon />
+              </DangerButton>
+            </div>
           </td>
         ) : null}
       </tr>

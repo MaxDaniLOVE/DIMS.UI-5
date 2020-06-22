@@ -20,17 +20,19 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) =>
       <tr key={taskId}>
         <td>{idx + 1}</td>
         <td>
-          <OutlineButton onClick={onOpenData}>{noteConverter(name, 8)}</OutlineButton>
+          <OutlineButton onClick={onOpenData}>{noteConverter(name, 25)}</OutlineButton>
         </td>
         <td>{startString}</td>
         <td>{deadlineString}</td>
-        <td className='admin-btns'>
-          <Button onClick={onEditTaskHandler}>
-            <EditIcon />
-          </Button>
-          <DangerButton onClick={onDeleteTaskHandler}>
-            <DeleteIcon />
-          </DangerButton>
+        <td>
+          <div className='admin-btns'>
+            <Button onClick={onEditTaskHandler}>
+              <EditIcon />
+            </Button>
+            <DangerButton onClick={onDeleteTaskHandler}>
+              <DeleteIcon />
+            </DangerButton>
+          </div>
         </td>
       </tr>
     );

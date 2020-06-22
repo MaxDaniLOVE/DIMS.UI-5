@@ -7,6 +7,7 @@ const auth = new Authentication();
 const errorCallback = (dispatch, error) => {
   const { message } = error;
   dispatch(throwAlert({ type: 'ERROR', message }));
+  dispatch(endAuth());
 };
 
 const logIn = (authData) => {

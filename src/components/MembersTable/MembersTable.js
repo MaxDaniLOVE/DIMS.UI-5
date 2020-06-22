@@ -29,23 +29,25 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
         <td>{education}</td>
         <td>{stringStartDate}</td>
         <td>{ageInYears}</td>
-        <td className={`td-btns td-btns__${role}`}>
-          <LinkButton link={`/member/${id}/tasks`}>
-            <UserTasksIcon />
-          </LinkButton>
-          <LinkButton link={`/member/${id}/progress`}>
-            <UserProgressIcon />
-          </LinkButton>
-          {role === 'ADMIN' ? (
-            <>
-              <Button onClick={openEditModal}>
-                <EditUserIcon />
-              </Button>
-              <DangerButton onClick={deleteMember}>
-                <DeleteIcon />
-              </DangerButton>
-            </>
-          ) : null}
+        <td>
+          <div className={`td-btns td-btns__${role}`}>
+            <LinkButton link={`/member/${id}/tasks`}>
+              <UserTasksIcon />
+            </LinkButton>
+            <LinkButton link={`/member/${id}/progress`}>
+              <UserProgressIcon />
+            </LinkButton>
+            {role === 'ADMIN' ? (
+              <>
+                <Button onClick={openEditModal}>
+                  <EditUserIcon />
+                </Button>
+                <DangerButton onClick={deleteMember}>
+                  <DeleteIcon />
+                </DangerButton>
+              </>
+            ) : null}
+          </div>
         </td>
       </tr>
     );

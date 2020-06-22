@@ -1,5 +1,6 @@
 @import '../../scss/variables';
 .table-wrapper {
+  width: 100%;
   border-radius: 0.5rem;
   .table {
     margin-top: 1rem;
@@ -12,6 +13,11 @@
     td,
     th {
       border-top: none;
+      width: 20% !important;
+    }
+    td:first-child,
+    th:first-child {
+      width: 5% !important;
     }
     th {
       border: none;
@@ -35,6 +41,12 @@
     }
     .td-btns__MENTOR {
       grid-template-rows: 1fr;
+    }
+  }
+  .info-table {
+    td:first-child,
+    th:first-child {
+      width: 100% !important;
     }
   }
   .dark-table {

@@ -11,6 +11,7 @@ import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMember
 import composedModalHOC from '../hoc/withModal';
 import { AddTaskIcon } from '../assets/icons';
 import { DangerSubtitle, Subtitle } from '../UI/Titles';
+import PageWrapper from '../UI/PageWrapper';
 
 const TasksManagePage = ({
   tasks,
@@ -35,7 +36,7 @@ const TasksManagePage = ({
     );
   }
   return (
-    <div className='table-wrapper'>
+    <PageWrapper>
       {isLoaded ? (
         <>
           <SuccessButton onClick={onModalOpen}>
@@ -52,7 +53,7 @@ const TasksManagePage = ({
       ) : (
         <Preloader />
       )}
-    </div>
+    </PageWrapper>
   );
 };
 

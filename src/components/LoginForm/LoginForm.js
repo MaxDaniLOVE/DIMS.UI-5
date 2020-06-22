@@ -9,8 +9,8 @@ import { fieldValidation } from '../../utils/validation';
 import './loginForm.scss';
 
 const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode, onSwitchMode, isDarkMode }) => {
-  const inputsField = inputs.map(({ label, id, type, validationPattern, errorMessage }) => {
-    const pattern = fieldValidation(validationPattern, errorMessage);
+  const inputsField = inputs.map(({ label, id, type, validationPattern }) => {
+    const pattern = fieldValidation(validationPattern);
     return (
       <AvGroup className='login-form__input' key={id}>
         <Label htmlFor={id}>
@@ -41,7 +41,7 @@ const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode
 
 LoginForm.propTypes = {
   onFormChange: PropTypes.func.isRequired,
-  inputs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  inputs: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
   onSubmit: PropTypes.func.isRequired,
   isFormValid: PropTypes.bool.isRequired,
   isRegisterMode: PropTypes.bool.isRequired,

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Label } from 'reactstrap';
-import { AvGroup, AvField } from 'availity-reactstrap-validation';
 import RadioInput from '../../UI/RadioInput';
-import { fieldValidation } from '../../utils/validation';
+import { fieldValidation, dateValidation } from '../../utils/validation';
+import InputGroup from '../InputGroup';
 
 import './formModal.scss';
 
 const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modalHeader }) => {
-  const inputsLabels = inputs.map(({ label, id, type, options, validationPattern, errorMessage }) => {
+  const inputsLabels = inputs.map(({ label, id, type, options, validationPattern, dateToCompare }) => {
     if (type === 'radio') {
       return (
         <RadioInput
@@ -24,14 +23,15 @@ const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modal
       );
     }
     const inputPlaceholder = data[id];
-    const pattern = fieldValidation(validationPattern, errorMessage);
+    let pattern = fieldValidation(validationPattern);
+    if (dateToCompare) {
+      const startDate = data[dateToCompare];
+      pattern = dateValidation(pattern, startDate);
+    }
     return (
-      <AvGroup className='form-inputs' key={id}>
-        <Label htmlFor={id}>
-          {label}
-          <AvField name={id} value={inputPlaceholder} type={type} id={id} onChange={onFormChange} validate={pattern} />
-        </Label>
-      </AvGroup>
+      <InputGroup key={id} id={id} value={inputPlaceholder} type={type} onChange={onFormChange} validate={pattern}>
+        {label}
+      </InputGroup>
     );
   });
   return (

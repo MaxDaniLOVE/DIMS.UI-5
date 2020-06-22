@@ -7,18 +7,16 @@
     margin-bottom: 1rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: 10rem;
+    max-height: 10rem;
     width: 80%;
     overflow: auto;
     border: 1px solid #ced4da;
     padding: 1rem;
     background-color: #fff;
     border-radius: 0.25rem;
+    grid-column-gap: 5rem;
     .form-inputs {
       padding: 0 0 1rem 0;
-      label {
-        justify-content: space-around;
-      }
     }
     input {
       margin: 0;
@@ -32,8 +30,12 @@
     &::-webkit-scrollbar-thumb {
       @include scrollbar-thumb;
     }
+    @media screen and (max-width: 1024px) {
+      grid-column-gap: 2rem;
+    }
     @media screen and (max-width: 768px) {
       width: 65%;
+      grid-column-gap: 1rem;
     }
     @media screen and (max-width: 425px) {
       grid-template-columns: 1fr;

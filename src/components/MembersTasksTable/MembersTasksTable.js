@@ -34,13 +34,15 @@ const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
           </td>
         )}
         {isUser ? null : (
-          <td className='admin-btns'>
-            <SuccessButton onClick={onSucced}>
-              <SuccessIcon />
-            </SuccessButton>
-            <DangerButton onClick={onFailed}>
-              <FailureIcon />
-            </DangerButton>
+          <td>
+            <div className='admin-btns'>
+              <SuccessButton onClick={onSucced}>
+                <SuccessIcon />
+              </SuccessButton>
+              <DangerButton onClick={onFailed}>
+                <FailureIcon />
+              </DangerButton>
+            </div>
           </td>
         )}
       </tr>
