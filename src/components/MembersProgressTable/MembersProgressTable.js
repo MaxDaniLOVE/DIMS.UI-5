@@ -65,9 +65,13 @@ const MembersProgressTable = ({
       </tr>
     );
   });
+
+  const defaultClassName = 'members-progress-table';
+  const className = isMemberTasks ? `${defaultClassName} user-progress` : defaultClassName;
+
   return (
     <Layout>
-      <Table className='members-progress-table'>
+      <Table className={className}>
         <>
           <TableHeader headers={isMemberTasks ? [...headers, 'Manage'] : headers} />
           <tbody>{progressBody}</tbody>
