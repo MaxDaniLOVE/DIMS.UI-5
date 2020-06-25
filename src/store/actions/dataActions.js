@@ -51,13 +51,14 @@ const addUser = () => {
       const {
         data: { formData },
       } = getState();
-      const { birthDate, startDate, email } = formData; // TODO add helper
+      const { birthDate, startDate, email, name } = formData; // TODO add helper
+      const registrationData = { email, password: process.env.REACT_APP_DEFAULT_PASS, name };
       const newUser = { ...formData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
       await api.addNewUser(newUser);
       dispatch({
         type: ADD_MEMBER,
       });
-      dispatch(registerUser({ email, password: process.env.REACT_APP_DEFAULT_PASS }));
+      dispatch(registerUser(registrationData));
       dispatch(getUsers());
       successCallback(dispatch, 'User was successfully added!');
     } catch (error) {

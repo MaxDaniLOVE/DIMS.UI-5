@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import { addCache } from '../utils/cache';
 import initializeService from '../utils/initializeService';
 import firebaseConfig from './firebase.config';
+import Azure from './Azure';
 
 const api = initializeService();
 const appForRegistration = firebase.initializeApp(firebaseConfig, 'Secondary');
@@ -11,12 +12,15 @@ export default class Authentication {
 
   secondaryAuthApp = appForRegistration.auth();
 
-  registerNewUser = async ({ email, password }) => {
+  registerNewUser = async (registrationData) => {
+    const { email, password } = registrationData;
     try {
       const isUserAddedToDb = await api.isUserExists(email);
       if (isUserAddedToDb) {
         await this.secondaryAuthApp.createUserWithEmailAndPassword(email, password);
         await this.secondaryAuthApp.signOut();
+        const sendMailApi = api instanceof Azure ? api : new Azure();
+        await sendMailApi.sendMailToUser(registrationData);
       }
     } catch ({ message }) {
       throw new Error(message);
