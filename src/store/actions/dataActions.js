@@ -25,17 +25,10 @@ import { stringToDate } from '../../utils/convertDate';
 import sortFromOldToNew from '../../utils/sortFromOldToNew';
 import { addCache, removeCacheItemByKey } from '../../utils/cache';
 import Azure from '../../services/Azure';
+import { registerUser } from './authActions';
+import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
 
 const api = initializeService();
-
-const errorCallback = (dispatch, error) => {
-  const { message } = error;
-  dispatch(throwAlert({ type: 'ERROR', message }));
-};
-
-const successCallback = (dispatch, message) => {
-  dispatch(throwAlert({ type: 'SUCCESS', message }));
-};
 
 const getUsers = () => {
   return async (dispatch) => {
@@ -58,12 +51,13 @@ const addUser = () => {
       const {
         data: { formData },
       } = getState();
-      const { birthDate, startDate } = formData; // TODO add helper
+      const { birthDate, startDate, email } = formData; // TODO add helper
       const newUser = { ...formData, birthDate: stringToDate(birthDate), startDate: stringToDate(startDate) };
       await api.addNewUser(newUser);
       dispatch({
         type: ADD_MEMBER,
       });
+      dispatch(registerUser({ email, password: process.env.REACT_APP_DEFAULT_PASS }));
       dispatch(getUsers());
       successCallback(dispatch, 'User was successfully added!');
     } catch (error) {

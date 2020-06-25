@@ -1,23 +1,25 @@
 import firebase from 'firebase';
 import { addCache } from '../utils/cache';
 import initializeService from '../utils/initializeService';
+import firebaseConfig from './firebase.config';
 
 const api = initializeService();
+const appForRegistration = firebase.initializeApp(firebaseConfig, 'Secondary');
 
 export default class Authentication {
   auth = firebase.auth();
+
+  secondaryAuthApp = appForRegistration.auth();
 
   registerNewUser = async ({ email, password }) => {
     try {
       const isUserAddedToDb = await api.isUserExists(email);
       if (isUserAddedToDb) {
-        await this.auth.createUserWithEmailAndPassword(email, password);
-        const userRole = await api.getUserRole(email);
-        return userRole;
+        await this.secondaryAuthApp.createUserWithEmailAndPassword(email, password);
+        await this.secondaryAuthApp.signOut();
       }
-      throw new Error();
-    } catch (error) {
-      throw new Error('User is not added to database. Please contact your mentor or admin');
+    } catch ({ message }) {
+      throw new Error(message);
     }
   };
 

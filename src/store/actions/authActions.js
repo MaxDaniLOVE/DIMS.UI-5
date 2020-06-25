@@ -1,12 +1,11 @@
 import { AUTH_LOG_IN, CHANGE_AUTH_STATUS, AUTH_LOG_OUT, AUTH_REGISTER, AUTH_STARTED, AUTH_ENDED } from './actionTypes';
 import Authentication from '../../services/Authentication';
-import { throwAlert } from './dataActions';
+import { defaultErrorCallback } from './alertsActions';
 
 const auth = new Authentication();
 
 const errorCallback = (dispatch, error) => {
-  const { message } = error;
-  dispatch(throwAlert({ type: 'ERROR', message }));
+  defaultErrorCallback(dispatch, error);
   dispatch(endAuth());
 };
 

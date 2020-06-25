@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
-import { SubmitButton, SuccessButton } from '../../UI/Buttons';
+import { SubmitButton } from '../../UI/Buttons';
 import { fieldValidation } from '../../utils/validation';
 
 import './loginForm.scss';
 
-const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode, onSwitchMode, isDarkMode }) => {
+const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isDarkMode }) => {
   const inputsField = inputs.map(({ label, id, type, validationPattern }) => {
     const pattern = fieldValidation(validationPattern);
     return (
@@ -28,13 +28,12 @@ const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isRegisterMode
   return (
     <div className={wrapperClassName}>
       <AvForm className={formClassName} onSubmit={onSubmit}>
-        <h3>{isRegisterMode ? 'Register:' : 'Login:'}</h3>
+        <h3>Login:</h3>
         {inputsField}
         <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
-          {isRegisterMode ? 'Register' : 'Login'}
+          Login
         </SubmitButton>
       </AvForm>
-      <SuccessButton onClick={onSwitchMode}>{isRegisterMode ? 'Switch to login' : 'Switch to register'}</SuccessButton>
     </div>
   );
 };
@@ -44,8 +43,6 @@ LoginForm.propTypes = {
   inputs: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
   onSubmit: PropTypes.func.isRequired,
   isFormValid: PropTypes.bool.isRequired,
-  isRegisterMode: PropTypes.bool.isRequired,
-  onSwitchMode: PropTypes.func.isRequired,
   isDarkMode: PropTypes.bool.isRequired,
 };
 
