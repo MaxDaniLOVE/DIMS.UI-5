@@ -296,4 +296,18 @@ const inTouchInputs = [
   },
 ];
 
-export { membersInputs, subtasksInputs, authInputs, tasksInputs, inTouchInputs };
+const changePassInputs = [
+  {
+    label: 'Password:',
+    id: 'password',
+    type: 'password',
+    validationPattern: {
+      pattern: {
+        value: '.{8,}',
+        errorMessage: 'Password should contain 8 characters',
+      },
+    },
+  },
+];
+
+export { membersInputs, subtasksInputs, authInputs, tasksInputs, inTouchInputs, changePassInputs };

@@ -9,6 +9,7 @@ import SubmitButton from './SubmitButton';
 import LogoutButton from './LogoutButton';
 import AddProgressButton from './AddProgressButton';
 import AddUserButton from './AddUserButton';
+import ChangePassButton from './ChangePassButton';
 
 export {
   Button,
@@ -22,4 +23,5 @@ export {
   LogoutButton,
   AddProgressButton,
   AddUserButton,
+  ChangePassButton,
 };
