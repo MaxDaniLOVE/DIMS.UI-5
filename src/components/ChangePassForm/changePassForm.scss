@@ -1,0 +1,13 @@
+@import '../../scss/variables';
+
+#change-pass-modal {
+  min-width: min-content;
+  max-width: 30rem;
+  .custom-switch {
+    align-self: flex-end;
+    padding-right: 1rem;
+  }
+  @media screen and (max-width: 768px) {
+    align-self: center;
+  }
+}

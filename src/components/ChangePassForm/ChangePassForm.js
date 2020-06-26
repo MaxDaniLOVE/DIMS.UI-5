@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomInput } from 'reactstrap';
 import { AvForm } from 'availity-reactstrap-validation';
-import { SubmitButton } from '../../UI/Buttons';
+import { SubmitButton, GoBackButton } from '../../UI/Buttons';
+import { SaveIcon } from '../../assets/icons';
+import './changePassForm.scss';
 
-const ChangePassForm = ({ children, isFormValid, onSubmit, showPassHandler, isShowPass }) => {
+const ChangePassForm = ({ children, isFormValid, onSubmit, showPassHandler, isShowPass, closeModal }) => {
   return (
-    <AvForm>
+    <AvForm className='modal-window' id='change-pass-modal'>
       {children}
-      <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
-        Change
-      </SubmitButton>
       <CustomInput
         type='switch'
         id='exampleCustomSwitch'
@@ -19,6 +18,12 @@ const ChangePassForm = ({ children, isFormValid, onSubmit, showPassHandler, isSh
         checked={isShowPass}
         onChange={showPassHandler}
       />
+      <div className='modal-window__footer'>
+        <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
+          <SaveIcon />
+        </SubmitButton>
+        <GoBackButton onClick={closeModal} />
+      </div>
     </AvForm>
   );
 };
@@ -29,6 +34,7 @@ ChangePassForm.propTypes = {
   showPassHandler: PropTypes.func.isRequired,
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
   isShowPass: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default ChangePassForm;

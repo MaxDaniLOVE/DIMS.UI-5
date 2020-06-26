@@ -40,7 +40,8 @@ const defaultInTouchData = {
 };
 
 const defaultPassChangeData = {
-  password: '',
+  newPassword: '',
+  confirmPassword: '',
 };
 
 export {

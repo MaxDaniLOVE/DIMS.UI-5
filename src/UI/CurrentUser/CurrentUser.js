@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Modal } from 'reactstrap';
 import { ChangePassButton } from '../Buttons';
 import { changePassInputs } from '../../utils/inputs';
-import { fieldValidation, validation } from '../../utils/validation';
+import { passChangeValidation, validation } from '../../utils/validation';
 import { defaultPassChangeData } from '../../utils/defaultInputsData';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import InputGroup from '../../components/InputGroup';
@@ -28,20 +28,21 @@ const CurrentUser = ({ children, changePassword }) => {
 
   const onChange = ({ target: { value, id } }) => {
     const updated = inputsChangeHandler(value, id, formData);
-
-    const isValid = validation(updated, changePassInputs);
+    const { newPassword, confirmPassword } = updated;
+    const isValid = validation(updated, changePassInputs) && newPassword === confirmPassword;
 
     setFormData(updated);
     setIsFormValid(isValid);
   };
 
   const onSubmit = async () => {
-    const { password } = formData;
-    await changePassword(password);
+    const { newPassword } = formData;
+    await changePassword(newPassword);
     closeModal();
   };
   const inputs = changePassInputs.map(({ label, id, type, validationPattern }) => {
-    const pattern = fieldValidation(validationPattern);
+    const pattern = passChangeValidation(validationPattern, id, formData.newPassword);
+
     const value = formData[id];
     const newType = isShowPass ? 'text' : type;
     return (
@@ -62,6 +63,7 @@ const CurrentUser = ({ children, changePassword }) => {
           isFormValid={isFormValid}
           onSubmit={onSubmit}
           showPassHandler={showPassHandler}
+          closeModal={closeModal}
         >
           {inputs}
         </ChangePassForm>

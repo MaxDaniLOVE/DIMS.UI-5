@@ -8,7 +8,7 @@ import {
   CHANGE_PASSWORD,
 } from './actionTypes';
 import Authentication from '../../services/Authentication';
-import { defaultErrorCallback } from './alertsActions';
+import { defaultErrorCallback, successCallback } from './alertsActions';
 
 const auth = new Authentication();
 
@@ -94,6 +94,7 @@ const changePassword = (password) => {
       dispatch({
         type: CHANGE_PASSWORD,
       });
+      successCallback(dispatch, 'Successfully updated!');
     } catch (error) {
       errorCallback(dispatch, error);
     }

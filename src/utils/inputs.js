@@ -298,9 +298,21 @@ const inTouchInputs = [
 
 const changePassInputs = [
   {
-    label: 'Password:',
-    id: 'password',
+    label: 'New password:',
+    id: 'newPassword',
     type: 'password',
+    validationPattern: {
+      pattern: {
+        value: '.{8,}',
+        errorMessage: 'Password should contain 8 characters',
+      },
+    },
+  },
+  {
+    label: 'Confirm password:',
+    id: 'confirmPassword',
+    type: 'password',
+    isPassCompare: true,
     validationPattern: {
       pattern: {
         value: '.{8,}',

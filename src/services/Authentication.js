@@ -74,8 +74,8 @@ export default class Authentication {
     const { currentUser } = this.auth;
     try {
       await currentUser.updatePassword(password);
-    } catch (error) {
-      throw new Error("Can't change password. Try later.");
+    } catch ({ message }) {
+      throw new Error(message);
     }
   };
 }
