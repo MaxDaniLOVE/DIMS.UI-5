@@ -55,7 +55,7 @@ const passChangeValidation = (pattern, id, value) => {
       ...fieldValidation(pattern),
       pattern: {
         value,
-        errorMessage: 'Passwords not equal',
+        errorMessage: 'Passwords are not match',
       },
     };
   }

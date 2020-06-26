@@ -4,8 +4,11 @@
   min-width: min-content;
   max-width: 30rem;
   .custom-switch {
-    align-self: flex-end;
-    padding-right: 1rem;
+    align-self: flex-start;
+    padding-left: 3rem;
+  }
+  .subtitle {
+    margin: 1rem;
   }
   @media screen and (max-width: 768px) {
     align-self: center;

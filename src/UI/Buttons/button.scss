@@ -75,10 +75,19 @@
   border: none;
   &:hover {
     @include active-link;
+    .fa-user-edit {
+      fill: $charcoal;
+    }
   }
   &:active,
   &:focus {
     border: none;
     outline: none;
+  }
+  .fa-user-edit {
+    fill: #fff;
+    height: 1.5rem;
+    width: 1.5rem;
+    margin: 0.5rem 0 0.5rem 0.5rem;
   }
 }

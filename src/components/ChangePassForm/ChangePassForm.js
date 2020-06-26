@@ -4,11 +4,13 @@ import { CustomInput } from 'reactstrap';
 import { AvForm } from 'availity-reactstrap-validation';
 import { SubmitButton, GoBackButton } from '../../UI/Buttons';
 import { SaveIcon } from '../../assets/icons';
+import { Subtitle } from '../../UI/Titles';
 import './changePassForm.scss';
 
 const ChangePassForm = ({ children, isFormValid, onSubmit, showPassHandler, isShowPass, closeModal }) => {
   return (
     <AvForm className='modal-window' id='change-pass-modal'>
+      <Subtitle>Enter new password:</Subtitle>
       {children}
       <CustomInput
         type='switch'

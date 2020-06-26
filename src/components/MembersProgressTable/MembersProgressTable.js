@@ -33,13 +33,11 @@ const MembersProgressTable = ({
           {isMemberTasks ? (
             taskName
           ) : (
-            <>
-              <TooltipWrapper id={id} tooltip={taskName} length={15}>
-                <Link to={`/tasks/${taskId}`} id={id}>
-                  {noteConverter(taskName, 15)}
-                </Link>
-              </TooltipWrapper>
-            </>
+            <TooltipWrapper id={id} tooltip={taskName} length={15}>
+              <Link to={`/tasks/${taskId}`} id={id}>
+                {noteConverter(taskName, 15)}
+              </Link>
+            </TooltipWrapper>
           )}
         </td>
         <td>
