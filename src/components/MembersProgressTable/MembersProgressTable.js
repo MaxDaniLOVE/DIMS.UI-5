@@ -33,7 +33,7 @@ const MembersProgressTable = ({
           {isMemberTasks ? (
             taskName
           ) : (
-            <TooltipWrapper id={id} tooltip={taskName} length={15}>
+            <TooltipWrapper id={id} tooltip={taskName} maxValuelength={15}>
               <Link to={`/tasks/${taskId}`} id={id}>
                 {noteConverter(taskName, 15)}
               </Link>
