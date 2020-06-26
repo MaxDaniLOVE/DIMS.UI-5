@@ -69,4 +69,13 @@ export default class Authentication {
       throw new Error('An error occured during logout. Try later.');
     }
   };
+
+  changePass = async (password) => {
+    const { currentUser } = this.auth;
+    try {
+      await currentUser.updatePassword(password);
+    } catch (error) {
+      throw new Error("Can't change password. Try later.");
+    }
+  };
 }

@@ -1,4 +1,11 @@
-import { AUTH_LOG_IN, CHANGE_AUTH_STATUS, AUTH_LOG_OUT, AUTH_STARTED, AUTH_ENDED } from '../actions/actionTypes';
+import {
+  AUTH_LOG_IN,
+  CHANGE_AUTH_STATUS,
+  AUTH_LOG_OUT,
+  AUTH_STARTED,
+  AUTH_ENDED,
+  CHANGE_PASSWORD,
+} from '../actions/actionTypes';
 
 const initialState = {
   isAuthStarted: true,
@@ -8,9 +15,6 @@ const initialState = {
 
 const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case AUTH_LOG_IN:
-    case AUTH_LOG_OUT:
-      return state;
     case CHANGE_AUTH_STATUS:
       const { isLoggedIn, user } = payload;
       return {
@@ -22,6 +26,9 @@ const authReducer = (state = initialState, { type, payload }) => {
       return { ...state, isAuthStarted: true };
     case AUTH_ENDED:
       return { ...state, isAuthStarted: false };
+    case AUTH_LOG_IN:
+    case AUTH_LOG_OUT:
+    case CHANGE_PASSWORD:
     default:
       return state;
   }
