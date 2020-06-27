@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,7 +9,7 @@ import { changePassInputs } from '../../utils/inputs';
 import { passChangeValidation, validation } from '../../utils/validation';
 import { defaultPassChangeData } from '../../utils/defaultInputsData';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
-import InputGroup from '../../components/InputGroup';
+import PassInput from '../../components/PassInput';
 import ChangePassForm from '../../components/ChangePassForm';
 import { changePassword } from '../../store/actions';
 import { useDelay } from '../../hooks';
@@ -18,7 +18,6 @@ const CurrentUser = ({ children, changePassword }) => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [formData, setFormData] = useState(defaultPassChangeData);
   const [isFormValid, setIsFormValid] = useState(false);
-  const [isShowPass, setIsShowPass] = useState(false);
 
   const openModal = () => setIsShowModal(true);
 
@@ -38,31 +37,22 @@ const CurrentUser = ({ children, changePassword }) => {
     await changePassword(newPassword);
     closeModal();
   };
-  const inputs = changePassInputs.map(({ label, id, type, validationPattern }) => {
+  const inputs = changePassInputs.map(({ label, id, validationPattern }) => {
     const pattern = passChangeValidation(validationPattern, id, formData.newPassword);
 
     const value = formData[id];
-    const newType = isShowPass ? 'text' : type;
     return (
-      <InputGroup key={id} id={id} value={value} type={newType} onChange={onChange} validate={pattern}>
+      <PassInput key={id} id={id} value={value} onChange={onChange} validate={pattern}>
         {label}
-      </InputGroup>
+      </PassInput>
     );
   });
-
-  const showPassHandler = useCallback(() => setIsShowPass(!isShowPass), [isShowPass]);
 
   return (
     <>
       <ChangePassButton onClick={openModal}>{children}</ChangePassButton>
       <Modal isOpen={isShowModal} toggle={closeModal}>
-        <ChangePassForm
-          isShowPass={isShowPass}
-          isFormValid={isFormValid}
-          onSubmit={onSubmit}
-          showPassHandler={showPassHandler}
-          closeModal={closeModal}
-        >
+        <ChangePassForm isFormValid={isFormValid} onSubmit={onSubmit} closeModal={closeModal}>
           {inputs}
         </ChangePassForm>
       </Modal>

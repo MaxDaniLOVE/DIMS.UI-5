@@ -13,6 +13,8 @@ import { ReactComponent as GoBackIcon } from './cross.svg';
 import { ReactComponent as GithubIcon } from './github.svg';
 import { ReactComponent as LinkedInIcon } from './linkedin-brands.svg';
 import { ReactComponent as MailIcon } from './envelope-regular.svg';
+import { ReactComponent as ShowPassIcon } from './eye-regular.svg';
+import { ReactComponent as HidePassIcon } from './eye-slash-regular.svg';
 
 export {
   EditIcon,
@@ -30,4 +32,6 @@ export {
   GithubIcon,
   LinkedInIcon,
   MailIcon,
+  ShowPassIcon,
+  HidePassIcon,
 };
