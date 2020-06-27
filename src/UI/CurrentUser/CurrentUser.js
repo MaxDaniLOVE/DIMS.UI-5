@@ -14,7 +14,7 @@ import ChangePassForm from '../../components/ChangePassForm';
 import { changePassword } from '../../store/actions';
 import { useDelay } from '../../hooks';
 
-const CurrentUser = ({ children, changePassword }) => {
+const CurrentUser = ({ children, changePassword, isDarkMode }) => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [formData, setFormData] = useState(defaultPassChangeData);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -25,8 +25,7 @@ const CurrentUser = ({ children, changePassword }) => {
 
   const onChange = ({ target: { value, id } }) => {
     const updated = inputsChangeHandler(value, id, formData);
-    const { newPassword, confirmPassword } = updated;
-    const isValid = validation(updated, changePassInputs) && newPassword === confirmPassword;
+    const isValid = validation(updated, changePassInputs);
 
     setFormData(updated);
     setIsFormValid(isValid);
@@ -48,10 +47,12 @@ const CurrentUser = ({ children, changePassword }) => {
     );
   });
 
+  const modalClassName = isDarkMode ? 'dark-modal' : '';
+
   return (
     <>
       <ChangePassButton onClick={openModal}>{children}</ChangePassButton>
-      <Modal isOpen={isShowModal} toggle={closeModal}>
+      <Modal isOpen={isShowModal} toggle={closeModal} className={modalClassName}>
         <ChangePassForm isFormValid={isFormValid} onSubmit={onSubmit} closeModal={closeModal}>
           {inputs}
         </ChangePassForm>
@@ -67,8 +68,12 @@ CurrentUser.defaultProps = {
 CurrentUser.propTypes = {
   children: PropTypes.string,
   changePassword: PropTypes.func.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
+};
+const mapStateToProps = ({ data: { isDarkMode } }) => {
+  return { isDarkMode };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ changePassword }, dispatch);
 
-export default connect(null, mapDispatchToProps)(CurrentUser);
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentUser);
