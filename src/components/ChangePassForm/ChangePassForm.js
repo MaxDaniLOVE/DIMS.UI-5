@@ -10,7 +10,7 @@ const ChangePassForm = ({ children, isFormValid, onSubmit, closeModal }) => {
   return (
     <AvForm className='modal-window' id='change-pass-modal'>
       <Subtitle>Enter new password:</Subtitle>
-      {children}
+      <div className='modal-window__content'>{children}</div>
       <div className='modal-window__footer'>
         <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
           <SaveIcon />

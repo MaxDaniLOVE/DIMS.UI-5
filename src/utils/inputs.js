@@ -298,7 +298,7 @@ const inTouchInputs = [
 
 const changePassInputs = [
   {
-    label: 'New password:',
+    label: 'Password:',
     id: 'newPassword',
     type: 'password',
     validationPattern: {
@@ -309,7 +309,7 @@ const changePassInputs = [
     },
   },
   {
-    label: 'Confirm password:',
+    label: 'Confirm:',
     id: 'confirmPassword',
     type: 'password',
     isPassCompare: true,
