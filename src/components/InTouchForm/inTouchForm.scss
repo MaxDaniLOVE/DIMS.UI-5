@@ -2,6 +2,14 @@
   padding: 2rem;
   min-height: 21rem;
   justify-content: center;
+  .form-inputs {
+    .form-group {
+      width: 80%;
+      @media screen and (max-width: 550px) {
+        width: 65%;
+      }
+    }
+  }
   .btn {
     align-self: flex-end;
     margin: 0 1rem;

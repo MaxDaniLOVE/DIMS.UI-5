@@ -41,6 +41,9 @@
 }
 .tasks-track-modal {
   grid-template-columns: 1fr;
+  .form-inputs .form-group {
+    width: 75%;
+  }
 }
 .tasks-modal {
   grid-template-columns: 1fr 1fr;
