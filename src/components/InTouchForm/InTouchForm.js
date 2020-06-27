@@ -17,6 +17,7 @@ import { MailIcon } from '../../assets/icons';
 import InputGroup from '../InputGroup';
 import './inTouchForm.scss';
 import { useDelay } from '../../hooks';
+import { ModalFooter, ModalBody } from '../../UI/ModalContent';
 
 const InTouchForm = ({ sendMail, isDarkMode }) => {
   const [formData, setFormData] = useState(defaultInTouchData);
@@ -81,13 +82,13 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
           ) : (
             <>
               <Subtitle>Please, fill this form:</Subtitle>
-              <div className='modal-window__content'>{inputs}</div>
-              <div className='modal-window__footer'>
+              <ModalBody>{inputs}</ModalBody>
+              <ModalFooter>
                 <SubmitButton isFormValid={isFormValid} onClick={sendMessageToAuthor}>
                   <MailIcon />
                 </SubmitButton>
                 <GoBackButton onClick={closeModal} />
-              </div>
+              </ModalFooter>
             </>
           )}
         </AvForm>

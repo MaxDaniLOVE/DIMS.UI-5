@@ -5,18 +5,19 @@ import { SubmitButton, GoBackButton } from '../../UI/Buttons';
 import { SaveIcon } from '../../assets/icons';
 import { Subtitle } from '../../UI/Titles';
 import './changePassForm.scss';
+import { ModalFooter, ModalBody } from '../../UI/ModalContent';
 
 const ChangePassForm = ({ children, isFormValid, onSubmit, closeModal }) => {
   return (
     <AvForm className='modal-window' id='change-pass-modal'>
       <Subtitle>Enter new password:</Subtitle>
-      <div className='modal-window__content'>{children}</div>
-      <div className='modal-window__footer'>
+      <ModalBody>{children}</ModalBody>
+      <ModalFooter>
         <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
           <SaveIcon />
         </SubmitButton>
         <GoBackButton onClick={closeModal} />
-      </div>
+      </ModalFooter>
     </AvForm>
   );
 };
