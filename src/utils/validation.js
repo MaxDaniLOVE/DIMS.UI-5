@@ -1,4 +1,5 @@
 import { stringToDate, stringDateToLocaleString, compareDates } from './convertDate';
+import { compareNumbers, comparePasswords } from './compareFields';
 
 const validation = (data, inputs) => {
   const keys = Object.keys(data);
@@ -10,21 +11,11 @@ const validation = (data, inputs) => {
       isPassCompare,
     } = inputs.find(({ id }) => id === key);
 
-    if (dateToCompare) {
-      const lesserDate = data[dateToCompare];
-      const biggerDate = data[key];
-      return compareDates(lesserDate, biggerDate);
-    }
+    if (dateToCompare) return compareDates(data[dateToCompare], data[key]);
 
-    if (min && max) {
-      const { value: minValue } = min;
-      const { value: maxValue } = max;
-      return data[key] >= minValue && data[key] <= maxValue;
-    }
+    if (min && max) return compareNumbers(min, max, data[key]);
 
-    if (isPassCompare) {
-      return data[key] === data.newPassword;
-    }
+    if (isPassCompare) return comparePasswords(data.newPassword, data[key]);
 
     const { value: patternValue } = pattern;
 

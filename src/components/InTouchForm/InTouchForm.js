@@ -81,8 +81,7 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
           ) : (
             <>
               <Subtitle>Please, fill this form:</Subtitle>
-              {inputs}
-
+              <div className='modal-window__content'>{inputs}</div>
               <div className='modal-window__footer'>
                 <SubmitButton isFormValid={isFormValid} onClick={sendMessageToAuthor}>
                   <MailIcon />
