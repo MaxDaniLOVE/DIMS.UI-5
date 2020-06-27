@@ -10,6 +10,7 @@ import LogoutButton from './LogoutButton';
 import AddProgressButton from './AddProgressButton';
 import AddUserButton from './AddUserButton';
 import ChangePassButton from './ChangePassButton';
+import HidePassButton from './HidePassButton';
 
 export {
   Button,
@@ -24,4 +25,5 @@ export {
   AddProgressButton,
   AddUserButton,
   ChangePassButton,
+  HidePassButton,
 };

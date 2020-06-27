@@ -21,17 +21,7 @@
   #change-pass-modal {
     background-color: $charcoal;
     .pass-hide-btn {
-      background-color: $charcoal;
-      border-color: #ced4da;
-      svg {
-        fill: #ced4da;
-      }
-      &:hover {
-        background-color: #ced4da;
-        svg {
-          fill: #000;
-        }
-      }
+      @include hide-pass;
     }
   }
 }
