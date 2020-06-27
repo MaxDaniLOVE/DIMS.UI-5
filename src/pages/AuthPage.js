@@ -41,7 +41,7 @@ class AuthPage extends Component {
   };
 
   render() {
-    const { isFormValid } = this.state;
+    const { isFormValid, authData } = this.state;
     const { isAuthStarted } = this.props;
     return isAuthStarted ? (
       <Preloader />
@@ -52,6 +52,7 @@ class AuthPage extends Component {
           onSubmit={this.onSubmit}
           onFormChange={this.onFormChange}
           isFormValid={isFormValid}
+          authData={authData}
         />
         <ServiceToggle />
       </>

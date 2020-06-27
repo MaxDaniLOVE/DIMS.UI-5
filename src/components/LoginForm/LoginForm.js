@@ -1,23 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Label } from 'reactstrap';
-import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import { AvForm } from 'availity-reactstrap-validation';
 import { SubmitButton } from '../../UI/Buttons';
 import { fieldValidation } from '../../utils/validation';
-
+import PassInput from '../PassInput';
+import InputGroup from '../InputGroup';
 import './loginForm.scss';
 
-const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isDarkMode }) => {
+const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isDarkMode, authData }) => {
   const inputsField = inputs.map(({ label, id, type, validationPattern }) => {
     const pattern = fieldValidation(validationPattern);
-    return (
-      <AvGroup className='login-form__input' key={id}>
-        <Label htmlFor={id}>
+    const value = authData[id];
+
+    if (type === 'password') {
+      return (
+        <PassInput value={value} key={id} id={id} onChange={onFormChange} validate={pattern}>
           {label}
-          <AvField name={id} type={type} id={id} onChange={onFormChange} validate={pattern} />
-        </Label>
-      </AvGroup>
+        </PassInput>
+      );
+    }
+
+    return (
+      <InputGroup
+        value={value}
+        className='login-form__input'
+        key={id}
+        id={id}
+        type={type}
+        onChange={onFormChange}
+        validate={pattern}
+      >
+        {label}
+      </InputGroup>
     );
   });
 
@@ -44,6 +59,7 @@ LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   isFormValid: PropTypes.bool.isRequired,
   isDarkMode: PropTypes.bool.isRequired,
+  authData: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = ({ data: { isDarkMode } }) => {

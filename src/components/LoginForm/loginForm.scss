@@ -20,6 +20,31 @@
       align-self: flex-end;
       margin-bottom: 1rem;
     }
+    .pass-inputs {
+      padding: 0 0 1rem 0;
+      label {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+
+        #pass-inputs-wrapper {
+          width: 100%;
+        }
+        input {
+          padding: 0.375rem 0.75rem;
+        }
+        .pass-hide-btn {
+          background-color: #fff;
+          border-color: $grey;
+          &:hover {
+            background-color: $grey-ligth;
+            svg {
+              fill: #000;
+            }
+          }
+        }
+      }
+    }
   }
   .btn {
     width: 100%;
@@ -40,6 +65,21 @@
       -webkit-text-fill-color: #fff !important;
       background-color: $charcoal;
       color: #fff;
+    }
+    #pass-inputs-wrapper {
+      .pass-hide-btn {
+        background-color: $charcoal;
+        border-color: #ced4da;
+        svg {
+          fill: #ced4da;
+        }
+        &:hover {
+          background-color: #ced4da;
+          svg {
+            fill: #000;
+          }
+        }
+      }
     }
   }
 }
