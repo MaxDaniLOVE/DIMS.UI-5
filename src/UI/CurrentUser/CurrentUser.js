@@ -12,6 +12,7 @@ import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import InputGroup from '../../components/InputGroup';
 import ChangePassForm from '../../components/ChangePassForm';
 import { changePassword } from '../../store/actions';
+import { useDelay } from '../../hooks';
 
 const CurrentUser = ({ children, changePassword }) => {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -20,11 +21,8 @@ const CurrentUser = ({ children, changePassword }) => {
   const [isShowPass, setIsShowPass] = useState(false);
 
   const openModal = () => setIsShowModal(true);
-  const closeModal = () => {
-    setIsShowModal(false);
-    setFormData(defaultPassChangeData);
-    setIsFormValid(false);
-  };
+
+  const closeModal = useDelay(setIsShowModal, setFormData, setIsFormValid, defaultPassChangeData);
 
   const onChange = ({ target: { value, id } }) => {
     const updated = inputsChangeHandler(value, id, formData);

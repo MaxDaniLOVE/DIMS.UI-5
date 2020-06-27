@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import useAlert from '../../hooks/useAlert';
+import { useAlert } from '../../hooks';
 
 const AlertsContainer = ({ alert }) => {
   const newAlert = useAlert(alert);
