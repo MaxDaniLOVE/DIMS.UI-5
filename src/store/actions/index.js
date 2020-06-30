@@ -16,6 +16,7 @@ import {
   editUserProgress,
   addUserProgress,
   switchDarkMode,
+  reorderTable,
 } from './dataActions';
 import { logIn, changeStatus, logOut, registerUser, startAuth, endAuth, changePassword } from './authActions';
 
@@ -44,4 +45,5 @@ export {
   startAuth,
   endAuth,
   changePassword,
+  reorderTable,
 };

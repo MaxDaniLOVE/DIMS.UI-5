@@ -19,6 +19,7 @@ import {
   ADD_USER_PROGRESS,
   TOGGLE_DARK_MODE,
   SEND_MAIL,
+  REORDER_TABLE,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
@@ -327,6 +328,14 @@ const sendMail = (mailData) => {
   };
 };
 
+const reorderTable = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return { type: REORDER_TABLE, payload: result };
+};
+
 export {
   getUsers,
   addUser,
@@ -348,4 +357,5 @@ export {
   switchDarkMode,
   getAssignedMembers,
   sendMail,
+  reorderTable,
 };
