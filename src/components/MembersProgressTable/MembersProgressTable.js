@@ -12,6 +12,8 @@ import './membersProgressTable.scss';
 import { EditIcon, DeleteIcon } from '../../assets/icons';
 import TooltipWrapper from '../TooltipWrapper';
 import removeStartNumbers from '../../utils/cutStartNumbers';
+import DraggableTable from '../DraggableTable';
+import DraggableRow from '../DraggableRow';
 
 const MembersProgressTable = ({
   progress,
@@ -27,40 +29,42 @@ const MembersProgressTable = ({
     const onDataOpenHandler = () => onSubtaskDataOpen(taskTrackId);
     const id = removeStartNumbers(taskTrackId);
     return (
-      <tr key={taskTrackId}>
-        <td>{idx + 1}</td>
-        <td>
-          {isMemberTasks ? (
-            taskName
-          ) : (
-            <TooltipWrapper id={id} tooltip={taskName} maxValuelength={15}>
-              <Link to={`/tasks/${taskId}`} id={id}>
-                {noteConverter(taskName, 15)}
-              </Link>
-            </TooltipWrapper>
-          )}
-        </td>
-        <td>
-          {isMemberTasks ? (
-            <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote, 20)}</OutlineButton>
-          ) : (
-            trackNote
-          )}
-        </td>
-        <td>{millisecondsToDate(trackDate)}</td>
-        {isMemberTasks ? (
+      <DraggableRow key={taskTrackId} draggableId={taskTrackId} index={idx}>
+        <>
+          <td>{idx + 1}</td>
           <td>
-            <div className='user-btns'>
-              <Button onClick={onEditHandler}>
-                <EditIcon />
-              </Button>
-              <DangerButton onClick={onDeleteHandler}>
-                <DeleteIcon />
-              </DangerButton>
-            </div>
+            {isMemberTasks ? (
+              taskName
+            ) : (
+              <TooltipWrapper id={id} tooltip={taskName} maxValuelength={15}>
+                <Link to={`/tasks/${taskId}`} id={id}>
+                  {noteConverter(taskName, 15)}
+                </Link>
+              </TooltipWrapper>
+            )}
           </td>
-        ) : null}
-      </tr>
+          <td>
+            {isMemberTasks ? (
+              <OutlineButton onClick={onDataOpenHandler}>{noteConverter(trackNote, 20)}</OutlineButton>
+            ) : (
+              trackNote
+            )}
+          </td>
+          <td>{millisecondsToDate(trackDate)}</td>
+          {isMemberTasks ? (
+            <td>
+              <div className='user-btns'>
+                <Button onClick={onEditHandler}>
+                  <EditIcon />
+                </Button>
+                <DangerButton onClick={onDeleteHandler}>
+                  <DeleteIcon />
+                </DangerButton>
+              </div>
+            </td>
+          ) : null}
+        </>
+      </DraggableRow>
     );
   });
 
@@ -72,7 +76,9 @@ const MembersProgressTable = ({
       <Table className={className}>
         <>
           <TableHeader headers={isMemberTasks ? [...headers, 'Manage'] : headers} />
-          <tbody>{progressBody}</tbody>
+          <DraggableTable tableData={progress} tableType='progress'>
+            {progressBody}
+          </DraggableTable>
         </>
       </Table>
     </Layout>
