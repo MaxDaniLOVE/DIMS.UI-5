@@ -71,7 +71,8 @@ const dataReducer = (state = initialState, { type, payload }) => {
     case TOGGLE_DARK_MODE:
       return { ...state, isDarkMode: payload };
     case REORDER_TABLE:
-      return { ...state, members: payload };
+      const { table, result } = payload;
+      return { ...state, [table]: result };
     case ADD_MEMBER:
     case EDIT_MEMBER:
     case DELETE_USER:

@@ -62,7 +62,7 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
       <Table className='members-table'>
         <>
           <TableHeader headers={headers} />
-          <DraggableTable>{membersTableBody}</DraggableTable>
+          <DraggableTable tableData={members}>{membersTableBody}</DraggableTable>
         </>
       </Table>
     </Layout>

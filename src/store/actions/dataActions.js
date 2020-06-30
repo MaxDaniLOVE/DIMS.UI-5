@@ -328,12 +328,12 @@ const sendMail = (mailData) => {
   };
 };
 
-const reorderTable = (list, startIndex, endIndex) => {
+const reorderTable = (table, list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
 
-  return { type: REORDER_TABLE, payload: result };
+  return { type: REORDER_TABLE, payload: { result, table } };
 };
 
 export {

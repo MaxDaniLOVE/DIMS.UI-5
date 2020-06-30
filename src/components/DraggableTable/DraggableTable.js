@@ -7,19 +7,17 @@ import { bindActionCreators } from 'redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { reorderTable } from '../../store/actions';
 
-const DraggableTable = ({ members, reorderTable, children }) => {
+const DraggableTable = ({ tableData, reorderTable, children }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    setItems(members);
-  }, [members]);
+    setItems(tableData);
+  }, [tableData]);
 
   const onDragEnd = ({ destination, source }) => {
-    if (!destination) {
-      return;
-    }
+    if (!destination) return;
 
-    const updatedItems = reorderTable(items, source.index, destination.index);
+    const updatedItems = reorderTable('members', items, source.index, destination.index);
 
     setItems(updatedItems);
   };
@@ -38,18 +36,15 @@ const DraggableTable = ({ members, reorderTable, children }) => {
   );
 };
 
-const mapStateToProps = ({ data: { members } }) => {
-  return { members };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ reorderTable }, dispatch);
 };
 
 DraggableTable.propTypes = {
-  members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+  tableData: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])))
+    .isRequired,
   reorderTable: PropTypes.func.isRequired,
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DraggableTable);
+export default connect(null, mapDispatchToProps)(DraggableTable);
