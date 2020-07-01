@@ -3,8 +3,11 @@ import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useDraggable } from '../../hooks';
 
 const DraggableRow = ({ children, draggableId, index, isDarkMode }) => {
+  const isDragDisabled = useDraggable();
+
   const backgroundColor = isDarkMode ? '#2a2e36' : '#d4d3d3';
 
   const getItemStyle = (isDragging, draggableStyle) => ({
@@ -16,7 +19,7 @@ const DraggableRow = ({ children, draggableId, index, isDarkMode }) => {
   });
 
   return (
-    <Draggable draggableId={draggableId} index={index}>
+    <Draggable isDragDisabled={isDragDisabled} draggableId={draggableId} index={index}>
       {(provided, snapshot) => (
         <tr
           ref={provided.innerRef}

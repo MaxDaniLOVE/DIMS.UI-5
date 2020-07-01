@@ -18,7 +18,7 @@ const DraggableTable = ({ tableData, reorderTable, children, tableType }) => {
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId='droppable'>
         {(provided) => (
-          <tbody {...provided.droppableProps} ref={provided.innerRef}>
+          <tbody id='drag-n-drop-container' {...provided.droppableProps} ref={provided.innerRef}>
             {children}
             {provided.placeholder}
           </tbody>
