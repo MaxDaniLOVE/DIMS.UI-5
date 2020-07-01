@@ -2,12 +2,28 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const DraggableRow = ({ children, draggableId, index }) => {
+const DraggableRow = ({ children, draggableId, index, isDarkMode }) => {
+  const backgroundColor = isDarkMode ? '#2a2e36' : '#d4d3d3';
+
+  const getItemStyle = (isDragging, draggableStyle) => ({
+    userSelect: 'none',
+    backgroundColor: isDragging && backgroundColor,
+    border: isDragging && 'none',
+    transition: 'all 0.3s ease',
+    ...draggableStyle,
+  });
+
   return (
     <Draggable draggableId={draggableId} index={index}>
-      {(provided) => (
-        <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+      {(provided, snapshot) => (
+        <tr
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+        >
           {children}
         </tr>
       )}
@@ -15,10 +31,15 @@ const DraggableRow = ({ children, draggableId, index }) => {
   );
 };
 
+const mapStateToProps = ({ data: { isDarkMode } }) => {
+  return { isDarkMode };
+};
+
 DraggableRow.propTypes = {
   children: PropTypes.element.isRequired,
   draggableId: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
-export default DraggableRow;
+export default connect(mapStateToProps)(DraggableRow);

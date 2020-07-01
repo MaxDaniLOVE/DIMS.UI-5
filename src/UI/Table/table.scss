@@ -22,10 +22,11 @@
     th {
       border: none;
     }
-    tr:nth-child(odd) {
-      background-color: $grey-ligth;
+    tr {
+      border-bottom: 1px solid $grey;
     }
     tr:last-child {
+      border-bottom: none;
       td:first-child {
         border-bottom-left-radius: 0.5rem;
       }
@@ -51,9 +52,6 @@
   }
   .dark-table {
     color: #fff;
-    tr:nth-child(odd) {
-      background-color: $charcoal-hover;
-    }
     .btn-secondary {
       background-color: $black;
       &:hover {
