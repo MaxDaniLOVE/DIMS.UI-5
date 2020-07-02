@@ -12,6 +12,8 @@ export default class Authentication {
 
   githubAuth = new firebase.auth.GithubAuthProvider();
 
+  facebookAuth = new firebase.auth.FacebookAuthProvider();
+
   secondaryAuthApp = appForRegistration.auth();
 
   registerNewUser = async (registrationData) => {
@@ -85,6 +87,14 @@ export default class Authentication {
   loginWithGithub = async () => {
     try {
       await this.auth.signInWithRedirect(this.githubAuth);
+    } catch ({ message }) {
+      throw new Error(message);
+    }
+  };
+
+  loginWithFacebook = async () => {
+    try {
+      await this.auth.signInWithRedirect(this.facebookAuth);
     } catch ({ message }) {
       throw new Error(message);
     }

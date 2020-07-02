@@ -27,6 +27,7 @@ import {
   endAuth,
   changePassword,
   loginWithGithub,
+  loginWithFacebook,
 } from './authActions';
 
 export {
@@ -56,4 +57,5 @@ export {
   changePassword,
   reorderTable,
   loginWithGithub,
+  loginWithFacebook,
 };

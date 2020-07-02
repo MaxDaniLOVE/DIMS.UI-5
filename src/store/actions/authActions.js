@@ -7,6 +7,7 @@ import {
   AUTH_ENDED,
   CHANGE_PASSWORD,
   AUTH_LOG_IN_GITHUB,
+  AUTH_LOG_IN_FACEBOOK,
 } from './actionTypes';
 import Authentication from '../../services/Authentication';
 import { defaultErrorCallback, successCallback } from './alertsActions';
@@ -113,4 +114,25 @@ const loginWithGithub = () => {
   };
 };
 
-export { logIn, changeStatus, logOut, registerUser, startAuth, endAuth, changePassword, loginWithGithub };
+const loginWithFacebook = () => {
+  return async (dispatch) => {
+    try {
+      await auth.loginWithFacebook();
+      dispatch({ type: AUTH_LOG_IN_FACEBOOK });
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
+
+export {
+  logIn,
+  changeStatus,
+  logOut,
+  registerUser,
+  startAuth,
+  endAuth,
+  changePassword,
+  loginWithGithub,
+  loginWithFacebook,
+};

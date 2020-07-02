@@ -8,7 +8,16 @@ import PassInput from '../PassInput';
 import InputGroup from '../InputGroup';
 import './loginForm.scss';
 
-const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isDarkMode, authData, onLoginWithGithub }) => {
+const LoginForm = ({
+  onFormChange,
+  onSubmit,
+  inputs,
+  isFormValid,
+  isDarkMode,
+  authData,
+  onLoginWithGithub,
+  onLoginWithFacebook,
+}) => {
   const inputsField = inputs.map(({ label, id, type, validationPattern }) => {
     const pattern = fieldValidation(validationPattern);
     const value = authData[id];
@@ -46,6 +55,7 @@ const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isDarkMode, au
         <h3>Login:</h3>
         {inputsField}
         <SuccessButton onClick={onLoginWithGithub}>GITHUB!</SuccessButton>
+        <SuccessButton onClick={onLoginWithFacebook}>FACEBOOK!</SuccessButton>
         <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
           Login
         </SubmitButton>
@@ -62,6 +72,7 @@ LoginForm.propTypes = {
   isDarkMode: PropTypes.bool.isRequired,
   authData: PropTypes.objectOf(PropTypes.string).isRequired,
   onLoginWithGithub: PropTypes.func.isRequired,
+  onLoginWithFacebook: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { isDarkMode } }) => {

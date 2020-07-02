@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { logIn, startAuth, loginWithGithub } from '../store/actions';
+import { logIn, startAuth, loginWithGithub, loginWithFacebook } from '../store/actions';
 import LoginForm from '../components/LoginForm';
 import { defaultAuthData } from '../utils/defaultInputsData';
 import { authInputs as inputs } from '../utils/inputs';
@@ -41,8 +41,13 @@ class AuthPage extends Component {
   };
 
   onLoginWithGithub = () => {
-    const { loginWithGithub } = this.props;
+    const { loginWithGithub } = this.props; // ! REMOVE
     loginWithGithub();
+  };
+
+  onLoginWithFacebook = () => {
+    const { loginWithFacebook } = this.props; // ! REMOVE
+    loginWithFacebook();
   };
 
   render() {
@@ -59,6 +64,7 @@ class AuthPage extends Component {
           isFormValid={isFormValid}
           authData={authData}
           onLoginWithGithub={this.onLoginWithGithub}
+          onLoginWithFacebook={this.onLoginWithFacebook}
         />
         <ServiceToggle />
       </>
@@ -71,6 +77,7 @@ AuthPage.propTypes = {
   isAuthStarted: PropTypes.bool.isRequired,
   startAuth: PropTypes.func.isRequired,
   loginWithGithub: PropTypes.func.isRequired,
+  loginWithFacebook: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ auth: { isAuthStarted } }) => {
@@ -78,7 +85,7 @@ const mapStateToProps = ({ auth: { isAuthStarted } }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ logIn, startAuth, loginWithGithub }, dispatch);
+  return bindActionCreators({ logIn, startAuth, loginWithGithub, loginWithFacebook }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPage);
