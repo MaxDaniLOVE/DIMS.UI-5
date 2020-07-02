@@ -5,6 +5,7 @@ import {
   AUTH_STARTED,
   AUTH_ENDED,
   CHANGE_PASSWORD,
+  AUTH_LOG_IN_GITHUB,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -29,6 +30,7 @@ const authReducer = (state = initialState, { type, payload }) => {
     case AUTH_LOG_IN:
     case AUTH_LOG_OUT:
     case CHANGE_PASSWORD:
+    case AUTH_LOG_IN_GITHUB:
     default:
       return state;
   }

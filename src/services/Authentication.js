@@ -10,6 +10,8 @@ const appForRegistration = firebase.initializeApp(firebaseConfig, 'Secondary');
 export default class Authentication {
   auth = firebase.auth();
 
+  githubAuth = new firebase.auth.GithubAuthProvider();
+
   secondaryAuthApp = appForRegistration.auth();
 
   registerNewUser = async (registrationData) => {
@@ -31,9 +33,10 @@ export default class Authentication {
     const isLoggedIn = await new Promise((resolve, reject) => {
       const unsubscribe = this.auth.onAuthStateChanged(async (user) => {
         if (user) {
-          let userRole = await api.getUserRole(user.email);
+          const { email } = user.providerData[0];
+          let userRole = await api.getUserRole(email);
           if (userRole.role === 'USER') {
-            const additionalData = await api.getUserDataByEmail(user.email);
+            const additionalData = await api.getUserDataByEmail(email);
             userRole = { ...userRole, ...additionalData };
           }
           resolve({
@@ -74,6 +77,14 @@ export default class Authentication {
     const { currentUser } = this.auth;
     try {
       await currentUser.updatePassword(password);
+    } catch ({ message }) {
+      throw new Error(message);
+    }
+  };
+
+  loginWithGithub = async () => {
+    try {
+      await this.auth.signInWithRedirect(this.githubAuth);
     } catch ({ message }) {
       throw new Error(message);
     }

@@ -6,6 +6,7 @@ import {
   AUTH_STARTED,
   AUTH_ENDED,
   CHANGE_PASSWORD,
+  AUTH_LOG_IN_GITHUB,
 } from './actionTypes';
 import Authentication from '../../services/Authentication';
 import { defaultErrorCallback, successCallback } from './alertsActions';
@@ -101,4 +102,15 @@ const changePassword = (password) => {
   };
 };
 
-export { logIn, changeStatus, logOut, registerUser, startAuth, endAuth, changePassword };
+const loginWithGithub = () => {
+  return async (dispatch) => {
+    try {
+      await auth.loginWithGithub();
+      dispatch({ type: AUTH_LOG_IN_GITHUB });
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
+
+export { logIn, changeStatus, logOut, registerUser, startAuth, endAuth, changePassword, loginWithGithub };

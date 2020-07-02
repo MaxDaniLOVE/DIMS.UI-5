@@ -18,7 +18,16 @@ import {
   switchDarkMode,
   reorderTable,
 } from './dataActions';
-import { logIn, changeStatus, logOut, registerUser, startAuth, endAuth, changePassword } from './authActions';
+import {
+  logIn,
+  changeStatus,
+  logOut,
+  registerUser,
+  startAuth,
+  endAuth,
+  changePassword,
+  loginWithGithub,
+} from './authActions';
 
 export {
   getUsers,
@@ -46,4 +55,5 @@ export {
   endAuth,
   changePassword,
   reorderTable,
+  loginWithGithub,
 };
