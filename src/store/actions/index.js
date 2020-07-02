@@ -28,6 +28,7 @@ import {
   changePassword,
   loginWithGithub,
   loginWithFacebook,
+  loginWithGoogle,
 } from './authActions';
 
 export {
@@ -58,4 +59,5 @@ export {
   reorderTable,
   loginWithGithub,
   loginWithFacebook,
+  loginWithGoogle,
 };

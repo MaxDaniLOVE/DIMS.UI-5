@@ -12,7 +12,9 @@ export default class Authentication {
 
   githubAuth = new firebase.auth.GithubAuthProvider();
 
-  facebookAuth = new firebase.auth.FacebookAuthProvider();
+  facebookAuth = new firebase.auth.FacebookAuthProvider().addScope('email');
+
+  googleAuth = new firebase.auth.GoogleAuthProvider().addScope('email');
 
   secondaryAuthApp = appForRegistration.auth();
 
@@ -95,6 +97,14 @@ export default class Authentication {
   loginWithFacebook = async () => {
     try {
       await this.auth.signInWithRedirect(this.facebookAuth);
+    } catch ({ message }) {
+      throw new Error(message);
+    }
+  };
+
+  loginWithGoogle = async () => {
+    try {
+      await this.auth.signInWithRedirect(this.googleAuth);
     } catch ({ message }) {
       throw new Error(message);
     }

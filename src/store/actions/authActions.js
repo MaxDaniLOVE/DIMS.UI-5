@@ -8,6 +8,7 @@ import {
   CHANGE_PASSWORD,
   AUTH_LOG_IN_GITHUB,
   AUTH_LOG_IN_FACEBOOK,
+  AUTH_LOG_IN_GOOGLE,
 } from './actionTypes';
 import Authentication from '../../services/Authentication';
 import { defaultErrorCallback, successCallback } from './alertsActions';
@@ -125,6 +126,16 @@ const loginWithFacebook = () => {
   };
 };
 
+const loginWithGoogle = () => {
+  return async (dispatch) => {
+    try {
+      await auth.loginWithGoogle();
+      dispatch({ type: AUTH_LOG_IN_GOOGLE });
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
 export {
   logIn,
   changeStatus,
@@ -135,4 +146,5 @@ export {
   changePassword,
   loginWithGithub,
   loginWithFacebook,
+  loginWithGoogle,
 };
