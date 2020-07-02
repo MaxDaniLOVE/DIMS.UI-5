@@ -2,22 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { AvForm } from 'availity-reactstrap-validation';
-import { SubmitButton, SuccessButton } from '../../UI/Buttons';
+import { SubmitButton } from '../../UI/Buttons';
 import { fieldValidation } from '../../utils/validation';
 import PassInput from '../PassInput';
 import InputGroup from '../InputGroup';
+import LoginServices from '../LoginServices';
 import './loginForm.scss';
 
-const LoginForm = ({
-  onFormChange,
-  onSubmit,
-  inputs,
-  isFormValid,
-  isDarkMode,
-  authData,
-  onLoginWithGithub,
-  onLoginWithFacebook,
-}) => {
+const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isDarkMode, authData }) => {
   const inputsField = inputs.map(({ label, id, type, validationPattern }) => {
     const pattern = fieldValidation(validationPattern);
     const value = authData[id];
@@ -54,8 +46,7 @@ const LoginForm = ({
       <AvForm className={formClassName} onSubmit={onSubmit}>
         <h3>Login:</h3>
         {inputsField}
-        <SuccessButton onClick={onLoginWithGithub}>GITHUB!</SuccessButton>
-        <SuccessButton onClick={onLoginWithFacebook}>FACEBOOK!</SuccessButton>
+        <LoginServices />
         <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
           Login
         </SubmitButton>
@@ -71,8 +62,6 @@ LoginForm.propTypes = {
   isFormValid: PropTypes.bool.isRequired,
   isDarkMode: PropTypes.bool.isRequired,
   authData: PropTypes.objectOf(PropTypes.string).isRequired,
-  onLoginWithGithub: PropTypes.func.isRequired,
-  onLoginWithFacebook: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { isDarkMode } }) => {
