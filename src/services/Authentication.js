@@ -86,27 +86,23 @@ export default class Authentication {
     }
   };
 
-  loginWithGithub = async () => {
+  signInWithProvider = async (provider) => {
     try {
-      await this.auth.signInWithRedirect(this.githubAuth);
+      await this.auth.signInWithRedirect(provider);
     } catch ({ message }) {
       throw new Error(message);
     }
+  };
+
+  loginWithGithub = async () => {
+    await this.signInWithProvider(this.githubAuth);
   };
 
   loginWithFacebook = async () => {
-    try {
-      await this.auth.signInWithRedirect(this.facebookAuth);
-    } catch ({ message }) {
-      throw new Error(message);
-    }
+    await this.signInWithProvider(this.facebookAuth);
   };
 
   loginWithGoogle = async () => {
-    try {
-      await this.auth.signInWithRedirect(this.googleAuth);
-    } catch ({ message }) {
-      throw new Error(message);
-    }
+    await this.signInWithProvider(this.googleAuth);
   };
 }
