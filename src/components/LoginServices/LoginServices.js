@@ -3,15 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { SuccessButton } from '../../UI/Buttons';
+import { GithubIcon, GoogleIcon, FacebookIcon } from '../../assets/icons';
 import { loginWithGithub, loginWithFacebook, loginWithGoogle } from '../../store/actions';
+import './loginServices.scss';
 
 const LoginServices = ({ loginWithGithub, loginWithFacebook, loginWithGoogle }) => {
   return (
     <div className='services-container'>
-      <SuccessButton onClick={loginWithGithub}>GITHUB!</SuccessButton>
-      <SuccessButton onClick={loginWithFacebook}>FACEBOOK!</SuccessButton>
-      <SuccessButton onClick={loginWithGoogle}>GOOGLE!</SuccessButton>
+      <GithubIcon onClick={loginWithGithub} />
+      <FacebookIcon onClick={loginWithFacebook} />
+      <GoogleIcon onClick={loginWithGoogle} />
     </div>
   );
 };

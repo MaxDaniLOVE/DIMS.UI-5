@@ -15,7 +15,8 @@ import { ReactComponent as LinkedInIcon } from './linkedin-brands.svg';
 import { ReactComponent as MailIcon } from './envelope-regular.svg';
 import { ReactComponent as ShowPassIcon } from './eye-regular.svg';
 import { ReactComponent as HidePassIcon } from './eye-slash-regular.svg';
-
+import { ReactComponent as GoogleIcon } from './google-brands.svg';
+import { ReactComponent as FacebookIcon } from './facebook-brands.svg';
 export {
   EditIcon,
   DeleteIcon,
@@ -34,4 +35,6 @@ export {
   MailIcon,
   ShowPassIcon,
   HidePassIcon,
+  GoogleIcon,
+  FacebookIcon,
 };
