@@ -33,13 +33,11 @@ const MembersProgressTable = ({
           {isMemberTasks ? (
             taskName
           ) : (
-            <>
-              <TooltipWrapper id={id} tooltip={taskName} length={15}>
-                <Link to={`/tasks/${taskId}`} id={id}>
-                  {noteConverter(taskName, 15)}
-                </Link>
-              </TooltipWrapper>
-            </>
+            <TooltipWrapper id={id} tooltip={taskName} maxValuelength={15}>
+              <Link to={`/tasks/${taskId}`} id={id}>
+                {noteConverter(taskName, 15)}
+              </Link>
+            </TooltipWrapper>
           )}
         </td>
         <td>
@@ -65,9 +63,13 @@ const MembersProgressTable = ({
       </tr>
     );
   });
+
+  const defaultClassName = 'members-progress-table';
+  const className = isMemberTasks ? `${defaultClassName} user-progress` : defaultClassName;
+
   return (
     <Layout>
-      <Table className='members-progress-table'>
+      <Table className={className}>
         <>
           <TableHeader headers={isMemberTasks ? [...headers, 'Manage'] : headers} />
           <tbody>{progressBody}</tbody>

@@ -32,7 +32,7 @@ import setModalPageData from '../utils/setModalPageData';
 import findModalPageData from '../utils/findModalPageData';
 import setMethods from '../utils/setMethods';
 import DataModal from '../components/DataModal';
-import ModalContent from '../UI/ModalContent';
+import { ModalContent } from '../UI/ModalContent';
 import FormModal from '../components/FormModal';
 import modalHeaders from '../utils/modalHeaders';
 

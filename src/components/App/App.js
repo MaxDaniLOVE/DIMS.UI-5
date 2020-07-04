@@ -10,7 +10,7 @@ import Header from '../Navigation';
 import Footer from '../../UI/Footer';
 import Routes from '../Routes';
 import AlertsContainer from '../AlertsContainer';
-import useLayoutEffect from '../../hooks/useLayoutEffect';
+import { useLayoutEffect } from '../../hooks';
 import './app.scss';
 
 const App = ({ changeStatus, isDarkMode }) => {

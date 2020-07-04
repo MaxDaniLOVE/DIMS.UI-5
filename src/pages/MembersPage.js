@@ -6,10 +6,9 @@ import { bindActionCreators } from 'redux';
 import { setFormData } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
-import { SuccessButton } from '../UI/Buttons';
+import { AddUserButton } from '../UI/Buttons';
 import { defaultRegisterData } from '../utils/defaultInputsData';
 import composedModalHOC from '../hoc/withModal';
-import { AddUserIcon } from '../assets/icons';
 import { DangerSubtitle, Subtitle } from '../UI/Titles';
 import PageWrapper from '../UI/PageWrapper';
 
@@ -26,13 +25,14 @@ const MembersPage = ({
   useEffect(() => {
     setFormData(defaultRegisterData);
   }, [setFormData]);
+
+  const isAdmin = role === 'ADMIN';
+  const emptyTableSubtitle = isAdmin ? 'Add your first student!' : 'Sorry, but only admin can add new users:(';
   if (!members.length && isLoaded) {
     return (
       <>
-        <DangerSubtitle>Add your first student!</DangerSubtitle>
-        <SuccessButton onClick={onModalOpen}>
-          <AddUserIcon />
-        </SuccessButton>
+        <DangerSubtitle>{emptyTableSubtitle}</DangerSubtitle>
+        <AddUserButton onClick={onModalOpen} isAdmin={isAdmin} />
       </>
     );
   }
@@ -40,11 +40,7 @@ const MembersPage = ({
     <PageWrapper>
       {isLoaded ? (
         <>
-          {role === 'ADMIN' ? (
-            <SuccessButton onClick={onModalOpen}>
-              <AddUserIcon />
-            </SuccessButton>
-          ) : null}
+          <AddUserButton onClick={onModalOpen} isAdmin={isAdmin} />
           <Subtitle>All Dev-Incubator students:</Subtitle>
           <MembersTable
             members={members}

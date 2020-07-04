@@ -8,6 +8,9 @@ import BurgerButton from './BurgerButton';
 import SubmitButton from './SubmitButton';
 import LogoutButton from './LogoutButton';
 import AddProgressButton from './AddProgressButton';
+import AddUserButton from './AddUserButton';
+import ChangePassButton from './ChangePassButton';
+import HidePassButton from './HidePassButton';
 
 export {
   Button,
@@ -20,4 +23,7 @@ export {
   SubmitButton,
   LogoutButton,
   AddProgressButton,
+  AddUserButton,
+  ChangePassButton,
+  HidePassButton,
 };

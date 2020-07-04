@@ -63,6 +63,20 @@ $black: #16191a !default;
   }
 }
 
+@mixin hide-pass {
+  background-color: $charcoal;
+  border-color: #ced4da;
+  svg {
+    fill: #ced4da;
+  }
+  &:hover {
+    background-color: #ced4da;
+    svg {
+      fill: #000;
+    }
+  }
+}
+
 @keyframes shake {
   0% {
     padding: 0 1rem 0 1rem;

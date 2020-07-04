@@ -67,3 +67,47 @@
     @include active-link;
   }
 }
+.change-pass-btn {
+  @include inactive-link;
+  width: auto;
+  background-color: $teal-green;
+  padding: 0 1rem;
+  border: none;
+  &:hover {
+    @include active-link;
+    .fa-user-edit {
+      fill: $charcoal;
+    }
+  }
+  &:active,
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  .fa-user-edit {
+    fill: #fff;
+    height: 1.5rem;
+    width: 1.5rem;
+    margin: 0.5rem 0 0.5rem 0.5rem;
+  }
+}
+.pass-hide-btn {
+  border: 1px solid $charcoal;
+  border-radius: 0.25rem;
+  background-color: transparent;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: all 0.3s ease;
+  margin-left: 10%;
+  &:active,
+  &:focus {
+    border: 1px solid $charcoal;
+    outline: none;
+  }
+  &:hover {
+    background-color: $charcoal;
+    svg {
+      fill: #fff;
+    }
+  }
+}

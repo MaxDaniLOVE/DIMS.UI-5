@@ -39,4 +39,16 @@ const defaultInTouchData = {
   message: '',
 };
 
-export { defaultRegisterData, defaultSubtaskData, defaultAuthData, defaultTaskData, defaultInTouchData };
+const defaultPassChangeData = {
+  newPassword: '',
+  confirmPassword: '',
+};
+
+export {
+  defaultRegisterData,
+  defaultSubtaskData,
+  defaultAuthData,
+  defaultTaskData,
+  defaultInTouchData,
+  defaultPassChangeData,
+};

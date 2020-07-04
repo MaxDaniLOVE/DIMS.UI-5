@@ -1,4 +1,5 @@
 import { stringToDate, stringDateToLocaleString, compareDates } from './convertDate';
+import { compareNumbers, comparePasswords } from './compareFields';
 
 const validation = (data, inputs) => {
   const keys = Object.keys(data);
@@ -7,21 +8,16 @@ const validation = (data, inputs) => {
     const {
       validationPattern: { pattern, min, max },
       dateToCompare,
+      isPassCompare,
     } = inputs.find(({ id }) => id === key);
 
+    if (dateToCompare) return compareDates(data[dateToCompare], data[key]);
+
+    if (min && max) return compareNumbers(min, max, data[key]);
+
+    if (isPassCompare) return comparePasswords(data.newPassword, data[key]);
+
     const { value: patternValue } = pattern;
-
-    if (dateToCompare) {
-      const lesserDate = data[dateToCompare];
-      const biggerDate = data[key];
-      return compareDates(lesserDate, biggerDate);
-    }
-
-    if (min && max) {
-      const { value: minValue } = min;
-      const { value: maxValue } = max;
-      return data[key] >= minValue && data[key] <= maxValue;
-    }
 
     const regExp = new RegExp(patternValue);
     return regExp.test(data[key]);
@@ -44,4 +40,17 @@ const dateValidation = (validationPattern, startDate) => {
   return { ...validationPattern, ...datePattern };
 };
 
-export { validation, fieldValidation, dateValidation };
+const passChangeValidation = (pattern, id, value) => {
+  if (id === 'confirmPassword') {
+    return {
+      ...fieldValidation(pattern),
+      pattern: {
+        value,
+        errorMessage: 'Passwords are not match',
+      },
+    };
+  }
+  return fieldValidation(pattern);
+};
+
+export { validation, fieldValidation, dateValidation, passChangeValidation };

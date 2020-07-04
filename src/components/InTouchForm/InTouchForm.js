@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -16,6 +16,8 @@ import Preloader from '../Preloader';
 import { MailIcon } from '../../assets/icons';
 import InputGroup from '../InputGroup';
 import './inTouchForm.scss';
+import { useDelay } from '../../hooks';
+import { ModalFooter, ModalBody } from '../../UI/ModalContent';
 
 const InTouchForm = ({ sendMail, isDarkMode }) => {
   const [formData, setFormData] = useState(defaultInTouchData);
@@ -26,12 +28,8 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
   const openModal = () => {
     setIsShowModal(true);
   };
-  const closeModal = useCallback(() => {
-    setIsShowModal(false);
-    setTimeout(() => {
-      setFormData(defaultInTouchData);
-    }, 150);
-  }, []);
+
+  const closeModal = useDelay(setIsShowModal, setFormData, setIsFormValid, defaultInTouchData);
 
   const startSending = () => {
     setIsSending(true);
@@ -84,14 +82,13 @@ const InTouchForm = ({ sendMail, isDarkMode }) => {
           ) : (
             <>
               <Subtitle>Please, fill this form:</Subtitle>
-              {inputs}
-
-              <div className='modal-window__footer'>
+              <ModalBody>{inputs}</ModalBody>
+              <ModalFooter>
                 <SubmitButton isFormValid={isFormValid} onClick={sendMessageToAuthor}>
                   <MailIcon />
                 </SubmitButton>
                 <GoBackButton onClick={closeModal} />
-              </div>
+              </ModalFooter>
             </>
           )}
         </AvForm>

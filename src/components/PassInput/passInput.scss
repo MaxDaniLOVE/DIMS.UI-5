@@ -1,0 +1,12 @@
+@import '../../scss/variables';
+.pass-inputs {
+  #pass-inputs-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    width: 75%;
+    .form-inputs,
+    .form-group {
+      width: 100%;
+    }
+  }
+}

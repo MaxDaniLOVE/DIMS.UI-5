@@ -1,12 +1,19 @@
-import { AUTH_LOG_IN, CHANGE_AUTH_STATUS, AUTH_LOG_OUT, AUTH_REGISTER, AUTH_STARTED, AUTH_ENDED } from './actionTypes';
+import {
+  AUTH_LOG_IN,
+  CHANGE_AUTH_STATUS,
+  AUTH_LOG_OUT,
+  AUTH_REGISTER,
+  AUTH_STARTED,
+  AUTH_ENDED,
+  CHANGE_PASSWORD,
+} from './actionTypes';
 import Authentication from '../../services/Authentication';
-import { throwAlert } from './dataActions';
+import { defaultErrorCallback, successCallback } from './alertsActions';
 
 const auth = new Authentication();
 
 const errorCallback = (dispatch, error) => {
-  const { message } = error;
-  dispatch(throwAlert({ type: 'ERROR', message }));
+  defaultErrorCallback(dispatch, error);
   dispatch(endAuth());
 };
 
@@ -80,4 +87,18 @@ const endAuth = () => {
   return { type: AUTH_ENDED };
 };
 
-export { logIn, changeStatus, logOut, registerUser, startAuth, endAuth };
+const changePassword = (password) => {
+  return async (dispatch) => {
+    try {
+      await auth.changePass(password);
+      dispatch({
+        type: CHANGE_PASSWORD,
+      });
+      successCallback(dispatch, 'Successfully updated!');
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
+
+export { logIn, changeStatus, logOut, registerUser, startAuth, endAuth, changePassword };

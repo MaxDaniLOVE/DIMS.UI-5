@@ -1,23 +1,29 @@
 import firebase from 'firebase';
 import { addCache } from '../utils/cache';
 import initializeService from '../utils/initializeService';
+import firebaseConfig from './firebase.config';
+import Azure from './Azure';
 
 const api = initializeService();
+const appForRegistration = firebase.initializeApp(firebaseConfig, 'Secondary');
 
 export default class Authentication {
   auth = firebase.auth();
 
-  registerNewUser = async ({ email, password }) => {
+  secondaryAuthApp = appForRegistration.auth();
+
+  registerNewUser = async (registrationData) => {
+    const { email, password } = registrationData;
     try {
       const isUserAddedToDb = await api.isUserExists(email);
       if (isUserAddedToDb) {
-        await this.auth.createUserWithEmailAndPassword(email, password);
-        const userRole = await api.getUserRole(email);
-        return userRole;
+        await this.secondaryAuthApp.createUserWithEmailAndPassword(email, password);
+        await this.secondaryAuthApp.signOut();
+        const sendMailApi = api instanceof Azure ? api : new Azure();
+        await sendMailApi.sendMailToUser(registrationData);
       }
-      throw new Error();
-    } catch (error) {
-      throw new Error('User is not added to database. Please contact your mentor or admin');
+    } catch ({ message }) {
+      throw new Error(message);
     }
   };
 
@@ -61,6 +67,15 @@ export default class Authentication {
       await this.auth.signOut();
     } catch (error) {
       throw new Error('An error occured during logout. Try later.');
+    }
+  };
+
+  changePass = async (password) => {
+    const { currentUser } = this.auth;
+    try {
+      await currentUser.updatePassword(password);
+    } catch ({ message }) {
+      throw new Error(message);
     }
   };
 }

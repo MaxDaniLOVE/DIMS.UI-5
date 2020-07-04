@@ -12,3 +12,15 @@
     margin: 0;
   }
 }
+@media screen and (max-width: 480px) {
+  .user-progress {
+    th:nth-child(4),
+    td:nth-child(4) {
+      display: none;
+    }
+    .user-btns {
+      grid-template-rows: min-content min-content;
+      grid-template-columns: min-content;
+    }
+  }
+}

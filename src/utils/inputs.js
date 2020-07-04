@@ -296,4 +296,30 @@ const inTouchInputs = [
   },
 ];
 
-export { membersInputs, subtasksInputs, authInputs, tasksInputs, inTouchInputs };
+const changePassInputs = [
+  {
+    label: 'Password:',
+    id: 'newPassword',
+    type: 'password',
+    validationPattern: {
+      pattern: {
+        value: '.{8,}',
+        errorMessage: 'Password should contain 8 characters',
+      },
+    },
+  },
+  {
+    label: 'Confirm:',
+    id: 'confirmPassword',
+    type: 'password',
+    isPassCompare: true,
+    validationPattern: {
+      pattern: {
+        value: '.{8,}',
+        errorMessage: 'Password should contain 8 characters',
+      },
+    },
+  },
+];
+
+export { membersInputs, subtasksInputs, authInputs, tasksInputs, inTouchInputs, changePassInputs };

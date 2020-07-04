@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { GoBackButton, SubmitButton } from '../Buttons';
 import Checkboxes from '../Checkboxes';
 import { SaveIcon } from '../../assets/icons';
-
+import ModalFooter from './ModalFooter';
+import ModalBody from './ModalBody';
 import './modal.scss';
 
 const ModalContent = ({
@@ -21,18 +22,18 @@ const ModalContent = ({
   const formClassName = isDarkMode ? 'modal-window dark-modal' : 'modal-window';
   return (
     <AvForm className={formClassName} onSubmit={onSubmit}>
-      <div className='modal-window__content'>
+      <ModalBody>
         {children}
         {isCheckboxShow ? <Checkboxes isEditMode={isEditMode} /> : null}
-      </div>
-      <div className='modal-window__footer'>
+      </ModalBody>
+      <ModalFooter>
         {isDetailMode ? null : (
           <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
             <SaveIcon />
           </SubmitButton>
         )}
         <GoBackButton onClick={onModalClose} />
-      </div>
+      </ModalFooter>
     </AvForm>
   );
 };
