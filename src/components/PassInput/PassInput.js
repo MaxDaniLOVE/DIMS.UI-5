@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Label, InputGroupAddon } from 'reactstrap';
 import { AvGroup, AvField } from 'availity-reactstrap-validation';
 import './passInput.scss';
-import { HidePassButton } from '../../UI/Buttons';
+import { PassButton } from '../../UI/Buttons';
 
 const PassInput = ({ id, value, onChange, validate, children }) => {
   const [isShowPass, setIsShowPass] = useState(false);
@@ -19,7 +19,7 @@ const PassInput = ({ id, value, onChange, validate, children }) => {
         <AvGroup id='pass-inputs-wrapper'>
           <AvField name={id} value={value} type={inputType} id={id} onChange={onChange} validate={validate} />
           <InputGroupAddon addonType='append'>
-            <HidePassButton onClick={showPassHandler} isShowPass={isShowPass} />
+            <PassButton onClick={showPassHandler} isShowPass={isShowPass} />
           </InputGroupAddon>
         </AvGroup>
       </Label>
