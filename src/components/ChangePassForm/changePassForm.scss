@@ -20,7 +20,7 @@
 .dark-modal {
   #change-pass-modal {
     background-color: $charcoal;
-    .pass-hide-btn {
+    #pass-hide-btn {
       @include hide-pass;
     }
   }
