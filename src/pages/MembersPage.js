@@ -32,7 +32,7 @@ const MembersPage = ({
     return (
       <>
         <DangerSubtitle>{emptyTableSubtitle}</DangerSubtitle>
-        <AddUserButton onClick={onModalOpen} isAdmin={isAdmin} />
+        <AddUserButton onClick={onModalOpen} />
       </>
     );
   }
@@ -40,7 +40,7 @@ const MembersPage = ({
     <PageWrapper>
       {isLoaded ? (
         <>
-          <AddUserButton onClick={onModalOpen} isAdmin={isAdmin} />
+          <AddUserButton onClick={onModalOpen} />
           <Subtitle>All Dev-Incubator students:</Subtitle>
           <MembersTable
             members={members}

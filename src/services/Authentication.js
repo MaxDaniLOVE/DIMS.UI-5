@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import { addCache } from '../utils/cache';
 import initializeService from '../utils/initializeService';
 import firebaseConfig from './firebase.config';
 import Azure from './Azure';
@@ -55,8 +54,6 @@ export default class Authentication {
         unsubscribe();
       }, reject);
     });
-
-    addCache('members', []);
 
     return isLoggedIn;
   };

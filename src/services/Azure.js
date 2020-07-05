@@ -286,7 +286,7 @@ export default class Azure {
 
   sendMail = async (mailData) => {
     try {
-      await axios.post(`https://dims-5.herokuapp.com/api/intouch`, mailData);
+      await axios.post(`${this.api}/intouch`, mailData);
     } catch (error) {
       throw new Error("Can't send message. Please, try later.");
     }
@@ -294,7 +294,7 @@ export default class Azure {
 
   sendMailToUser = async (mailData) => {
     try {
-      await axios.post(`https://dims-5.herokuapp.com/api/notify_user`, mailData);
+      await axios.post(`${this.api}/notify_user`, mailData);
     } catch (error) {
       throw new Error("Can't send message. Please, try later.");
     }
