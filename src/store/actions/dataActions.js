@@ -23,8 +23,7 @@ import {
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
-import sortFromOldToNew from '../../utils/sortFromOldToNew';
-import { addCache, removeCacheItemByKey } from '../../utils/cache';
+import { addCache, removeCacheItemByKey, addDragNDropCache, sortCachedData } from '../../utils/cache';
 import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
@@ -36,9 +35,10 @@ const getUsers = () => {
     dispatch(startFetchingData());
     try {
       const users = await api.getUsersData();
+      const sortedUsers = sortCachedData('members', users);
       dispatch({
         type: FETCH_MEMBERS,
-        payload: users,
+        payload: sortedUsers,
       });
     } catch (error) {
       errorCallback(dispatch, error);
@@ -108,9 +108,10 @@ const getTasks = () => {
     dispatch(startFetchingData());
     try {
       const tasks = await api.getAllTasks();
+      const sortedTasks = sortCachedData('tasks', tasks);
       dispatch({
         type: FETCH_TASKS,
-        payload: tasks,
+        payload: sortedTasks,
       });
     } catch (error) {
       errorCallback(dispatch, error);
@@ -123,9 +124,10 @@ const getUserTasks = (id) => {
     dispatch(startFetchingData());
     try {
       const userTasks = await api.getUsersTasks(id);
+      const sortedUserTasks = sortCachedData('userTasks', userTasks);
       dispatch({
         type: FETCH_USER_TASKS,
-        payload: userTasks,
+        payload: sortedUserTasks,
       });
     } catch (error) {
       errorCallback(dispatch, error);
@@ -225,7 +227,7 @@ const getUserProgress = (id) => {
     dispatch(startFetchingData());
     try {
       const userProgress = await api.getUsersProgress(id);
-      const sortedProgress = sortFromOldToNew(userProgress);
+      const sortedProgress = sortCachedData('progress', userProgress);
       dispatch({
         type: GET_USER_PROGRESS,
         payload: sortedProgress,
@@ -331,7 +333,10 @@ const sendMail = (mailData) => {
 const reorderTable = (table, list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
+
   result.splice(endIndex, 0, removed);
+
+  addDragNDropCache(table, result);
 
   return { type: REORDER_TABLE, payload: { result, table } };
 };
