@@ -2,8 +2,8 @@ import axios from 'axios';
 import { dateToString, stringToDate } from '../utils/convertDate';
 import convertSexName from '../utils/convertSexName';
 
-export default class Azure {
-  api = process.env.REACT_APP_AZURE_API;
+export default class Heroku {
+  api = process.env.REACT_APP_HEROKU_API;
 
   getUsersData = async () => {
     try {

@@ -6,9 +6,8 @@ import { bindActionCreators } from 'redux';
 import { Modal } from 'reactstrap';
 import { AvForm } from 'availity-reactstrap-validation';
 import { inTouchInputs } from '../../utils/inputs';
-import { fieldValidation, validation } from '../../utils/validation';
+import { fieldValidation } from '../../utils/validation';
 import { defaultInTouchData } from '../../utils/defaultInputsData';
-import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import { SubmitButton, SuccessButton, GoBackButton } from '../../UI/Buttons';
 import { sendMail } from '../../store/actions/dataActions';
 import { Subtitle } from '../../UI/Titles';
@@ -16,35 +15,22 @@ import Preloader from '../Preloader';
 import { MailIcon } from '../../assets/icons';
 import InputGroup from '../InputGroup';
 import './inTouchForm.scss';
-import { useDelay } from '../../hooks';
+import { useModalToggling } from '../../hooks';
 import { ModalFooter, ModalBody } from '../../UI/ModalContent';
 
 const InTouchForm = ({ sendMail, isDarkMode }) => {
-  const [formData, setFormData] = useState(defaultInTouchData);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [isShowModal, setIsShowModal] = useState(false);
+  const { openModal, closeModal, onChange, isShowModal, formData, isFormValid } = useModalToggling(
+    defaultInTouchData,
+    inTouchInputs,
+  );
+
   const [isSending, setIsSending] = useState(false);
-
-  const openModal = () => {
-    setIsShowModal(true);
-  };
-
-  const closeModal = useDelay(setIsShowModal, setFormData, setIsFormValid, defaultInTouchData);
 
   const startSending = () => {
     setIsSending(true);
   };
   const stopSending = () => {
     setIsSending(false);
-  };
-
-  const onChange = ({ target: { value, id } }) => {
-    const updated = inputsChangeHandler(value, id, formData);
-
-    const isValid = validation(updated, inTouchInputs);
-
-    setFormData(updated);
-    setIsFormValid(isValid);
   };
 
   const sendMessageToAuthor = useMemo(() => {

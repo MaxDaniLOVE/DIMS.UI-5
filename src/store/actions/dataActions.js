@@ -25,7 +25,7 @@ import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
 import sortFromOldToNew from '../../utils/sortFromOldToNew';
 import { addCache, removeCacheItemByKey } from '../../utils/cache';
-import Azure from '../../services/Azure';
+import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
 
@@ -316,7 +316,7 @@ const sendMail = (mailData) => {
   return async (dispatch) => {
     dispatch(startFetchingData());
     try {
-      const sendMailApi = api instanceof Azure ? api : new Azure();
+      const sendMailApi = api instanceof Heroku ? api : new Heroku();
       await sendMailApi.sendMail(mailData);
       dispatch({
         type: SEND_MAIL,
