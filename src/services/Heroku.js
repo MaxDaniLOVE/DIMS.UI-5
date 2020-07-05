@@ -58,11 +58,10 @@ export default class Heroku {
   getUsersTasks = async (userId) => {
     try {
       const { data: userTasks } = await axios.get(`${this.api}/user/tasks/${userId}`);
-      const allUsersTasks = userTasks.map((task, index) => {
+      const allUsersTasks = userTasks.map((task) => {
         const { state, taskName: name, ...convertedTasks } = this.convertData(task);
         const stateId = this.statesIdsForUI[state.toLowerCase()];
-        const userTaskId = index; // TODO REMOVE IT AFTER UPDATING API
-        return { ...convertedTasks, stateId, name, userTaskId };
+        return { ...convertedTasks, stateId, name };
       });
       return allUsersTasks;
     } catch (error) {

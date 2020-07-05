@@ -18,6 +18,7 @@ const addDragNDropCache = (key, data) => {
     if (taskId) {
       return taskId;
     }
+    return null;
   });
 
   addCache(key, ids);
