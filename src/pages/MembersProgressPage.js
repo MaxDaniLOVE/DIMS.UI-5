@@ -19,6 +19,7 @@ class MembersProgressPage extends Component {
     this.state = {
       isLoaded: false,
       memberName: '',
+      userId: '',
     };
   }
 
@@ -29,11 +30,11 @@ class MembersProgressPage extends Component {
     } = match;
     await getUserProgress(mid);
     const { name: memberName } = await db.getUserById(mid);
-    this.setState({ memberName, isLoaded: true });
+    this.setState({ memberName, isLoaded: true, userId: mid });
   }
 
   render() {
-    const { isLoaded, memberName } = this.state;
+    const { isLoaded, memberName, userId } = this.state;
     const { progress } = this.props;
     if (!progress.length && isLoaded) {
       return <DangerSubtitle>This user has no subtasks :(</DangerSubtitle>;
@@ -43,7 +44,7 @@ class MembersProgressPage extends Component {
         {isLoaded ? (
           <>
             <Subtitle>{`${memberName}'s progress:`}</Subtitle>
-            <MembersProgressTable progress={progress} />
+            <MembersProgressTable progress={progress} userId={userId} />
           </>
         ) : (
           <Preloader />

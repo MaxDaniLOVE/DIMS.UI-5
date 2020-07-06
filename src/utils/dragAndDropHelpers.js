@@ -7,19 +7,24 @@ const dataIdNames = {
   userTasks: 'userTaskId',
 };
 
-const addDragNDropCache = (key, data) => {
+const addDragNDropCache = (key, data, userId) => {
   const idName = dataIdNames[key];
 
   const ids = data.map(({ [idName]: id }) => id);
 
-  addCache(key, ids);
+  const fullKey = userId ? `${key}_${userId}` : key;
+
+  addCache(fullKey, ids);
 };
 
 const sortCachedData = (key, data) => {
   const order = loadCache(key);
 
+  const keyWithoutId = key.split('_')[0];
+
   if (order) {
-    const idName = dataIdNames[key];
+    const idName = dataIdNames[keyWithoutId];
+
     const sortedData = [...data];
     sortedData.sort((a, b) => order.indexOf(a[idName]) - order.indexOf(b[idName]));
     return sortedData;

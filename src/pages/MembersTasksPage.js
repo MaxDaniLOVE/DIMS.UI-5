@@ -19,6 +19,7 @@ class MembersTasksPage extends Component {
     this.state = {
       isLoaded: false,
       memberName: '',
+      userId: '',
     };
   }
 
@@ -33,7 +34,7 @@ class MembersTasksPage extends Component {
     } = match;
     await getUserTasks(mid);
     const { name: memberName } = await db.getUserById(mid);
-    this.setState({ memberName, isLoaded: true });
+    this.setState({ memberName, isLoaded: true, userId: mid });
   };
 
   onSetMark = async (userTaskId, state, taskId) => {
@@ -46,7 +47,7 @@ class MembersTasksPage extends Component {
   };
 
   render() {
-    const { isLoaded, memberName } = this.state;
+    const { isLoaded, memberName, userId } = this.state;
     const {
       userTasks,
       user: { role },
@@ -64,7 +65,7 @@ class MembersTasksPage extends Component {
         {isLoaded ? (
           <>
             <Subtitle>{header}</Subtitle>
-            <MembersTasksTable userTasks={userTasks} role={role} onSetMark={this.onSetMark} />
+            <MembersTasksTable userTasks={userTasks} role={role} onSetMark={this.onSetMark} userId={userId} />
           </>
         ) : (
           <Preloader />

@@ -125,7 +125,7 @@ const getUserTasks = (id) => {
     dispatch(startFetchingData());
     try {
       const userTasks = await api.getUsersTasks(id);
-      const sortedUserTasks = sortCachedData('userTasks', userTasks);
+      const sortedUserTasks = sortCachedData(`userTasks_${id}`, userTasks);
       dispatch({
         type: FETCH_USER_TASKS,
         payload: sortedUserTasks,
@@ -228,7 +228,7 @@ const getUserProgress = (id) => {
     dispatch(startFetchingData());
     try {
       const userProgress = await api.getUsersProgress(id);
-      const sortedProgress = sortCachedData('progress', userProgress);
+      const sortedProgress = sortCachedData(`progress_${id}`, userProgress);
       dispatch({
         type: GET_USER_PROGRESS,
         payload: sortedProgress,
@@ -331,13 +331,13 @@ const sendMail = (mailData) => {
   };
 };
 
-const reorderTable = (table, list, startIndex, endIndex) => {
+const reorderTable = (table, list, startIndex, endIndex, userId) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
 
   result.splice(endIndex, 0, removed);
 
-  addDragNDropCache(table, result);
+  addDragNDropCache(table, result, userId);
 
   return { type: REORDER_TABLE, payload: { result, table } };
 };

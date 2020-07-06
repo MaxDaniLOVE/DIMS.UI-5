@@ -12,7 +12,7 @@ import { SuccessIcon, FailureIcon, AddTrackIcon } from '../../assets/icons';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
 
-const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
+const MembersTasksTable = ({ userTasks, role, onSetMark, userId }) => {
   const headers = membersTasksHeaders[role];
   const membersTasksTableBody = userTasks.map((task, idx) => {
     const { deadlineDate, name, startDate, stateId, userTaskId, taskId } = task;
@@ -57,7 +57,7 @@ const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
       <Table className='members-task-table'>
         <>
           <TableHeader headers={headers} />
-          <DraggableTable tableData={userTasks} tableType='userTasks'>
+          <DraggableTable tableData={userTasks} tableType='userTasks' userId={userId}>
             {membersTasksTableBody}
           </DraggableTable>
         </>
@@ -78,6 +78,7 @@ MembersTasksTable.propTypes = {
   ).isRequired,
   role: PropTypes.string.isRequired,
   onSetMark: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default MembersTasksTable;

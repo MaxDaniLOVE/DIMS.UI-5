@@ -55,6 +55,7 @@ const TasksTrackManagePage = ({
             onSubtaskDataOpen={onDataOpen}
             onSubtaskDelete={onDeleteData}
             onEditSubtaskModalOpen={onEditDataModalOpen}
+            userId={userId}
           />
         </>
       ) : (

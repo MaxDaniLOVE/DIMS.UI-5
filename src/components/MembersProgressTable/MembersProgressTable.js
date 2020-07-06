@@ -21,6 +21,7 @@ const MembersProgressTable = ({
   onSubtaskDataOpen,
   onSubtaskDelete,
   onEditSubtaskModalOpen,
+  userId,
 }) => {
   const progressBody = progress.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId, taskId } = task;
@@ -76,7 +77,7 @@ const MembersProgressTable = ({
       <Table className={className}>
         <>
           <TableHeader headers={isMemberTasks ? [...headers, 'Manage'] : headers} />
-          <DraggableTable tableData={progress} tableType='progress'>
+          <DraggableTable tableData={progress} tableType='progress' userId={userId}>
             {progressBody}
           </DraggableTable>
         </>
@@ -98,6 +99,7 @@ MembersProgressTable.propTypes = {
   onSubtaskDataOpen: PropTypes.func,
   onSubtaskDelete: PropTypes.func,
   onEditSubtaskModalOpen: PropTypes.func,
+  userId: PropTypes.string.isRequired,
 };
 
 export default MembersProgressTable;
