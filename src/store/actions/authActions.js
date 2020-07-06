@@ -38,14 +38,14 @@ const changeStatus = () => {
   return async (dispatch) => {
     try {
       const userStatus = await auth.onStatusChanged();
-      const { isLoggedIn, role, email, userId, userName } = userStatus;
+      const { isLoggedIn, role, email, userId, userName, providerId } = userStatus;
       let user = isLoggedIn ? { role, email } : {};
       if (role === 'USER') {
         user = { ...user, userId, userName };
       }
       dispatch({
         type: CHANGE_AUTH_STATUS,
-        payload: { user, isLoggedIn },
+        payload: { user, isLoggedIn, providerId },
       });
     } catch (error) {
       errorCallback(dispatch, error);

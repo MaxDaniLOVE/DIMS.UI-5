@@ -14,16 +14,18 @@ const initialState = {
   isAuthStarted: true,
   isLoggedIn: false,
   user: {},
+  providerId: '',
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CHANGE_AUTH_STATUS:
-      const { isLoggedIn, user } = payload;
+      const { isLoggedIn, user, providerId } = payload;
       return {
         ...state,
         isLoggedIn,
         user,
+        providerId,
       };
     case AUTH_STARTED:
       return { ...state, isAuthStarted: true };

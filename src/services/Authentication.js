@@ -36,7 +36,7 @@ export default class Authentication {
     const isLoggedIn = await new Promise((resolve, reject) => {
       const unsubscribe = this.auth.onAuthStateChanged(async (user) => {
         if (user) {
-          const { email } = user.providerData[0];
+          const { email, providerId } = user.providerData[0];
           let userRole = await api.getUserRole(email);
           if (userRole.role === 'USER') {
             const additionalData = await api.getUserDataByEmail(email);
@@ -45,6 +45,7 @@ export default class Authentication {
           resolve({
             isLoggedIn: true,
             ...userRole,
+            providerId,
           });
         } else {
           resolve({

@@ -84,6 +84,11 @@
     border: none;
     outline: none;
   }
+  &:disabled:hover {
+    transition: none;
+    background-color: $teal-green;
+    color: #ddd;
+  }
   .fa-user-edit {
     fill: #fff;
     height: 1.5rem;

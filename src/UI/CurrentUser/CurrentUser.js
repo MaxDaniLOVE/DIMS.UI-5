@@ -13,7 +13,7 @@ import ChangePassForm from '../../components/ChangePassForm';
 import { changePassword } from '../../store/actions';
 import { useModalToggling } from '../../hooks';
 
-const CurrentUser = ({ children, changePassword, isDarkMode }) => {
+const CurrentUser = ({ children, changePassword, isDarkMode, providerId }) => {
   const { openModal, closeModal, onChange, isShowModal, formData, isFormValid } = useModalToggling(
     defaultPassChangeData,
     changePassInputs,
@@ -38,9 +38,13 @@ const CurrentUser = ({ children, changePassword, isDarkMode }) => {
 
   const modalClassName = isDarkMode ? 'dark-modal' : '';
 
+  const isPasswordAuth = providerId !== 'password';
+
   return (
     <>
-      <ChangePassButton onClick={openModal}>{children}</ChangePassButton>
+      <ChangePassButton onClick={openModal} isPasswordAuth={isPasswordAuth}>
+        {children}
+      </ChangePassButton>
       <Modal isOpen={isShowModal} toggle={closeModal} className={modalClassName}>
         <ChangePassForm isFormValid={isFormValid} onSubmit={onSubmit} closeModal={closeModal}>
           {inputs}
@@ -52,15 +56,18 @@ const CurrentUser = ({ children, changePassword, isDarkMode }) => {
 
 CurrentUser.defaultProps = {
   children: '',
+  providerId: '',
 };
 
 CurrentUser.propTypes = {
   children: PropTypes.string,
   changePassword: PropTypes.func.isRequired,
   isDarkMode: PropTypes.bool.isRequired,
+  providerId: PropTypes.string,
 };
-const mapStateToProps = ({ data: { isDarkMode } }) => {
-  return { isDarkMode };
+
+const mapStateToProps = ({ auth: { providerId }, data: { isDarkMode } }) => {
+  return { isDarkMode, providerId };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ changePassword }, dispatch);
