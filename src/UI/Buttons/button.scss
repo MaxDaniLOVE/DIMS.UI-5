@@ -67,7 +67,7 @@
     @include active-link;
   }
 }
-.change-pass-btn {
+#change-pass-btn {
   @include inactive-link;
   width: auto;
   background-color: $teal-green;
@@ -83,6 +83,9 @@
   &:focus {
     border: none;
     outline: none;
+  }
+  &:disabled {
+    opacity: 1;
   }
   &:disabled:hover {
     transition: none;
