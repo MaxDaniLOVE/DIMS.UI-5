@@ -1,13 +1,35 @@
 import axios from 'axios';
 import { dateToString, stringToDate } from '../utils/convertDate';
 import convertSexName from '../utils/convertSexName';
+import {
+  getUsersUrl,
+  addUserUrl,
+  editUserUrl,
+  deleteUserUrl,
+  getTasksUrl,
+  addTaskUrl,
+  deleteTaskUrl,
+  editTaskUrl,
+  assignTaskUrl,
+  getAssignedUsersUrl,
+  isUserExistsUrl,
+  getUsersTasksUrl,
+  setMarkUrl,
+  getUserByIdUrl,
+  getProgressUrl,
+  addProgressUrl,
+  editProgressUrl,
+  deleteProgressUrl,
+  sendMailUrl,
+  sendUserMailUrl,
+} from './heroku.config';
 
 export default class Heroku {
   api = process.env.REACT_APP_HEROKU_API;
 
   getUsersData = async () => {
     try {
-      const { data: members } = await axios.get(`${this.api}/profiles`);
+      const { data: members } = await axios.get(getUsersUrl);
       return this.transformMembersData(members);
     } catch (error) {
       throw new Error("Can't load members. Please, try later.");
@@ -17,7 +39,7 @@ export default class Heroku {
   addNewUser = async (user) => {
     try {
       const newUser = this.convertData(user, true, true);
-      const response = await axios.post(`${this.api}/create`, newUser);
+      const response = await axios.post(addUserUrl, newUser);
       return response;
     } catch (error) {
       throw new Error("Can't add member. Please, try later.");
@@ -29,7 +51,7 @@ export default class Heroku {
       const { id, ...data } = user;
       const convertedData = this.convertData(data, true, true);
       const editedUser = { id, ...convertedData };
-      const response = await axios.put(`${this.api}/profile/edit/${id}`, editedUser);
+      const response = await axios.put(`${editUserUrl}/${id}`, editedUser);
       return response;
     } catch (error) {
       throw new Error("Can't update member. Please, try later.");
@@ -38,7 +60,7 @@ export default class Heroku {
 
   deleteUser = async (id) => {
     try {
-      const response = await axios.delete(`${this.api}/profile/delete/${id}`);
+      const response = await axios.delete(`${deleteUserUrl}/${id}`);
       return response;
     } catch (error) {
       throw new Error("Can't delete member. Please, try later.");
@@ -47,7 +69,7 @@ export default class Heroku {
 
   getAllTasks = async () => {
     try {
-      const tasks = (await axios.get(`${this.api}/tasks`)).data;
+      const tasks = (await axios.get(getTasksUrl)).data;
       const convertedTasks = tasks.map((task) => this.convertData(task));
       return convertedTasks;
     } catch (error) {
@@ -57,7 +79,7 @@ export default class Heroku {
 
   getUsersTasks = async (userId) => {
     try {
-      const { data: userTasks } = await axios.get(`${this.api}/user/tasks/${userId}`);
+      const { data: userTasks } = await axios.get(`${getUsersTasksUrl}/${userId}`);
       const allUsersTasks = userTasks.map((task) => {
         const { state, taskName: name, ...convertedTasks } = this.convertData(task);
         const stateId = this.statesIdsForUI[state.toLowerCase()];
@@ -74,7 +96,7 @@ export default class Heroku {
       const [state, , TaskId, UserId] = mark;
       const StatusId = this.statesIdsForBackend[state];
       const result = { TaskId, UserId, StatusId };
-      const response = await axios.put(`${this.api}/user/task`, result);
+      const response = await axios.put(setMarkUrl, result);
       return response;
     } catch (error) {
       throw new Error("Can't set mark. Please, try later.");
@@ -86,7 +108,7 @@ export default class Heroku {
       const newTask = this.convertData(task, true, true);
       const {
         data: { TaskId },
-      } = await axios.post(`${this.api}/task/create`, newTask);
+      } = await axios.post(addTaskUrl, newTask);
       await this.assignTaskToUsers(TaskId, assignedMembers);
       return TaskId;
     } catch (error) {
@@ -96,7 +118,7 @@ export default class Heroku {
 
   deleteTask = async (id) => {
     try {
-      const response = await axios.delete(`${this.api}/task/delete/${id}`);
+      const response = await axios.delete(`${deleteTaskUrl}/${id}`);
       return response;
     } catch (error) {
       throw new Error("Can't delete task. Please, try later.");
@@ -107,7 +129,7 @@ export default class Heroku {
     try {
       const { taskId } = task;
       const newTask = this.convertData(task, true, true);
-      const response = await axios.put(`${this.api}/task/edit`, newTask);
+      const response = await axios.put(editTaskUrl, newTask);
       await this.assignTaskToUsers(taskId, assignedMembers);
       return response;
     } catch (error) {
@@ -117,7 +139,7 @@ export default class Heroku {
 
   assignTaskToUsers = async (id, users) => {
     try {
-      const response = await axios.post(`${this.api}/user/task/add/${id}`, users);
+      const response = await axios.post(`${assignTaskUrl}/${id}`, users);
       return response;
     } catch (error) {
       throw new Error("Can't update task. Please, try later.");
@@ -126,7 +148,7 @@ export default class Heroku {
 
   getAssignedUsers = async (taskId) => {
     try {
-      const { data } = await axios.get(`${this.api}/task/users/${taskId}`);
+      const { data } = await axios.get(`${getAssignedUsersUrl}/${taskId}`);
       return data;
     } catch (error) {
       throw new Error("Can't load users. Please, try later.");
@@ -135,7 +157,7 @@ export default class Heroku {
 
   isUserExists = async (userEmail) => {
     try {
-      const { data: isUserExists } = await axios.get(`${this.api}/profile/exists/${userEmail}`);
+      const { data: isUserExists } = await axios.get(`${isUserExistsUrl}/${userEmail}`);
       if (!isUserExists) {
         throw new Error('User is not added to database. Try later.');
       }
@@ -173,7 +195,7 @@ export default class Heroku {
 
   getUserById = async (id) => {
     try {
-      const { data } = await axios.get(`${this.api}/profile/details/${id}`);
+      const { data } = await axios.get(`${getUserByIdUrl}/${id}`);
       const { FullName, ...userData } = data;
       const [name, lastName] = FullName.split(' ');
       return { name, lastName, ...this.convertData(userData) };
@@ -184,7 +206,7 @@ export default class Heroku {
 
   getUsersProgress = async (id) => {
     try {
-      const { data } = await axios.get(`${this.api}/user/tracks/${id}`);
+      const { data } = await axios.get(`${getProgressUrl}/${id}`);
       return data.map((track) => this.convertData(track));
     } catch (error) {
       throw new Error("Can't load user progress. Please, try later.");
@@ -194,7 +216,7 @@ export default class Heroku {
   addNewSubtask = async (track) => {
     try {
       const newTrack = this.convertData(track, true, true);
-      const response = await axios.post(`${this.api}/track/create`, newTrack);
+      const response = await axios.post(addProgressUrl, newTrack);
       return response;
     } catch (error) {
       throw new Error("Can't add user progress. Please, try later.");
@@ -204,7 +226,7 @@ export default class Heroku {
   editUserProgress = async (newTrack) => {
     try {
       const updatedTrack = this.convertData(newTrack, true, true);
-      const response = await axios.put(`${this.api}/user/tracks`, updatedTrack);
+      const response = await axios.put(editProgressUrl, updatedTrack);
       return response;
     } catch (error) {
       throw new Error("Can't update track. Please, try later.");
@@ -213,7 +235,7 @@ export default class Heroku {
 
   deleteSubtask = async (id) => {
     try {
-      const response = await axios.delete(`${this.api}/user/tracks/delete/${id}`);
+      const response = await axios.delete(`${deleteProgressUrl}/${id}`);
       return response;
     } catch (error) {
       throw new Error("Can't delete track. Please, try later.");
@@ -285,7 +307,7 @@ export default class Heroku {
 
   sendMail = async (mailData) => {
     try {
-      await axios.post(`${this.api}/intouch`, mailData);
+      await axios.post(sendMailUrl, mailData);
     } catch (error) {
       throw new Error("Can't send message. Please, try later.");
     }
@@ -293,7 +315,7 @@ export default class Heroku {
 
   sendMailToUser = async (mailData) => {
     try {
-      await axios.post(`${this.api}/notify_user`, mailData);
+      await axios.post(sendUserMailUrl, mailData);
     } catch (error) {
       throw new Error("Can't send message. Please, try later.");
     }
