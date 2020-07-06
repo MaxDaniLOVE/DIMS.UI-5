@@ -14,12 +14,16 @@ const DraggableTable = ({ tableData, reorderTable, children, tableType }) => {
     reorderTable(tableType, tableData, source.index, destination.index);
   };
 
+  const isDragDisabled = children.length <= 1;
+
+  const tableRows = React.Children.map(children, (child) => React.cloneElement(child, { isDragDisabled }));
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId='droppable'>
         {(provided) => (
           <tbody id='drag-n-drop-container' {...provided.droppableProps} ref={provided.innerRef}>
-            {children}
+            {tableRows}
             {provided.placeholder}
           </tbody>
         )}
