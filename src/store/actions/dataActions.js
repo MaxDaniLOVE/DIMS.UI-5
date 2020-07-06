@@ -23,7 +23,8 @@ import {
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
-import { addCache, removeCacheItemByKey, addDragNDropCache, sortCachedData } from '../../utils/cache';
+import { addCache, removeCacheItemByKey } from '../../utils/cache';
+import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelpers';
 import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
