@@ -7,12 +7,14 @@
     padding-right: 0;
     background-color: $charcoal;
     &:hover {
-      .fa-sort-up,
-      .fa-sort-down {
-        opacity: 1;
+      .head-cell {
+        .fa-sort-up,
+        .fa-sort-down {
+          opacity: 1;
+        }
       }
     }
-    div {
+    .head-cell {
       margin-left: 0.5rem;
       display: flex;
       align-items: center;
@@ -24,6 +26,24 @@
         svg {
           opacity: 0;
         }
+      }
+    }
+    .active-sort {
+      .sort-buttons {
+        .fa-sort-up,
+        .fa-sort-down {
+          opacity: 1;
+        }
+      }
+    }
+    .UP {
+      .fa-sort-up {
+        fill: $freesia;
+      }
+    }
+    .DOWN {
+      .fa-sort-down {
+        fill: $freesia;
       }
     }
   }
@@ -52,7 +72,7 @@ td {
   transition: all 0.3s ease;
   &:hover {
     cursor: pointer;
-    fill: $teal-green;
+    fill: $freesia;
   }
   fill: #fff;
 }

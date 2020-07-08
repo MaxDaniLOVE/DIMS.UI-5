@@ -7,7 +7,10 @@ const sortFromAToZ = (data, id) => {
     }
     return a[id].localeCompare(b[id]);
   });
-  return { type: SORT_FROM_A_TO_Z, payload: sortedData };
+
+  const sortInfo = { type: 'UP', id };
+
+  return { type: SORT_FROM_A_TO_Z, payload: { sortedData, sortInfo } };
 };
 
 const sortFromZToA = (data, id) => {
@@ -17,7 +20,10 @@ const sortFromZToA = (data, id) => {
     }
     return b[id].localeCompare(a[id]);
   });
-  return { type: SORT_FROM_Z_TO_A, payload: sortedData };
+
+  const sortInfo = { type: 'DOWN', id };
+
+  return { type: SORT_FROM_Z_TO_A, payload: { sortedData, sortInfo } };
 };
 
 const resetSort = () => {
