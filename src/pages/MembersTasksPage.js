@@ -65,7 +65,7 @@ class MembersTasksPage extends Component {
         {isLoaded ? (
           <>
             <Subtitle>{header}</Subtitle>
-            <MembersTasksTable userTasks={userTasks} role={role} onSetMark={this.onSetMark} userId={userId} />
+            <MembersTasksTable data={userTasks} role={role} onSetMark={this.onSetMark} userId={userId} />
           </>
         ) : (
           <Preloader />

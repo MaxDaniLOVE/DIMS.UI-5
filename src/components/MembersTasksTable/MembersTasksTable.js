@@ -11,10 +11,11 @@ import { millisecondsToDate } from '../../utils/convertDate';
 import { SuccessIcon, FailureIcon, AddTrackIcon } from '../../assets/icons';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
+import withSortFeatures from '../../hoc/withSortFeatures';
 
-const MembersTasksTable = ({ userTasks, role, onSetMark, userId }) => {
+const MembersTasksTable = ({ data, role, onSetMark, userId, sortFromZToA, sortFromAToZ }) => {
   const headers = membersTasksHeaders[role];
-  const membersTasksTableBody = userTasks.map((task, idx) => {
+  const membersTasksTableBody = data.map((task, idx) => {
     const { deadlineDate, name, startDate, stateId, userTaskId, taskId } = task;
     const onSucced = () => onSetMark(userTaskId, 'success', taskId);
     const onFailed = () => onSetMark(userTaskId, 'fail', taskId);
@@ -56,8 +57,8 @@ const MembersTasksTable = ({ userTasks, role, onSetMark, userId }) => {
     <Layout>
       <Table className='members-task-table'>
         <>
-          <TableHeader headers={headers} />
-          <DraggableTable tableData={userTasks} tableType='userTasks' userId={userId}>
+          <TableHeader headers={headers} sortFromZToA={sortFromZToA} sortFromAToZ={sortFromAToZ} />
+          <DraggableTable tableData={data} tableType='userTasks' userId={userId}>
             {membersTasksTableBody}
           </DraggableTable>
         </>
@@ -67,7 +68,7 @@ const MembersTasksTable = ({ userTasks, role, onSetMark, userId }) => {
 };
 
 MembersTasksTable.propTypes = {
-  userTasks: PropTypes.arrayOf(
+  data: PropTypes.arrayOf(
     PropTypes.objectOf(
       PropTypes.oneOfType([
         PropTypes.number,
@@ -79,6 +80,8 @@ MembersTasksTable.propTypes = {
   role: PropTypes.string.isRequired,
   onSetMark: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
+  sortFromZToA: PropTypes.func.isRequired,
+  sortFromAToZ: PropTypes.func.isRequired,
 };
 
-export default MembersTasksTable;
+export default withSortFeatures(MembersTasksTable);

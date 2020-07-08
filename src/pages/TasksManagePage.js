@@ -45,7 +45,7 @@ const TasksManagePage = ({
           <Subtitle>All availiable tasks:</Subtitle>
           <TasksTable
             onDataOpen={onDataOpen}
-            tasks={tasks}
+            data={tasks}
             onDeleteTask={onDeleteData}
             onEditTaskModalOpen={onEditDataModalOpen}
           />

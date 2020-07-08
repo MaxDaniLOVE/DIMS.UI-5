@@ -18,6 +18,7 @@ import {
   switchDarkMode,
   reorderTable,
 } from './dataActions';
+
 import {
   logIn,
   changeStatus,
@@ -30,6 +31,8 @@ import {
   loginWithFacebook,
   loginWithGoogle,
 } from './authActions';
+
+import { sortFromAToZ, sortFromZToA } from './sortActions';
 
 export {
   getUsers,
@@ -60,4 +63,6 @@ export {
   loginWithGithub,
   loginWithFacebook,
   loginWithGoogle,
+  sortFromAToZ,
+  sortFromZToA,
 };

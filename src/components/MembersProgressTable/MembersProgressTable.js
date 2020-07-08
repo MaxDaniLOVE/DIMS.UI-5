@@ -14,16 +14,19 @@ import TooltipWrapper from '../TooltipWrapper';
 import removeStartNumbers from '../../utils/cutStartNumbers';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
+import withSortFeatures from '../../hoc/withSortFeatures';
 
 const MembersProgressTable = ({
-  progress,
+  data,
   isMemberTasks,
   onSubtaskDataOpen,
   onSubtaskDelete,
   onEditSubtaskModalOpen,
   userId,
+  sortFromZToA,
+  sortFromAToZ,
 }) => {
-  const progressBody = progress.map((task, idx) => {
+  const progressBody = data.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId, taskId } = task;
     const onDeleteHandler = () => onSubtaskDelete(taskTrackId);
     const onEditHandler = () => onEditSubtaskModalOpen(taskTrackId);
@@ -76,8 +79,12 @@ const MembersProgressTable = ({
     <Layout>
       <Table className={className}>
         <>
-          <TableHeader headers={isMemberTasks ? [...headers, 'Manage'] : headers} />
-          <DraggableTable tableData={progress} tableType='progress' userId={userId}>
+          <TableHeader
+            sortFromZToA={sortFromZToA}
+            sortFromAToZ={sortFromAToZ}
+            headers={isMemberTasks ? [...headers, { value: 'Manage', id: 'manage', isSortable: false }] : headers}
+          />
+          <DraggableTable tableData={data} tableType='progress' userId={userId}>
             {progressBody}
           </DraggableTable>
         </>
@@ -94,12 +101,14 @@ MembersProgressTable.defaultProps = {
 };
 
 MembersProgressTable.propTypes = {
-  progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+  data: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
   isMemberTasks: PropTypes.bool,
   onSubtaskDataOpen: PropTypes.func,
   onSubtaskDelete: PropTypes.func,
   onEditSubtaskModalOpen: PropTypes.func,
   userId: PropTypes.string.isRequired,
+  sortFromZToA: PropTypes.func.isRequired,
+  sortFromAToZ: PropTypes.func.isRequired,
 };
 
-export default MembersProgressTable;
+export default withSortFeatures(MembersProgressTable);

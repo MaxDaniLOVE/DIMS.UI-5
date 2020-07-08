@@ -43,7 +43,7 @@ const MembersPage = ({
           <AddUserButton onClick={onModalOpen} />
           <Subtitle>All Dev-Incubator students:</Subtitle>
           <MembersTable
-            members={members}
+            data={members}
             onEditMemberModalOpen={onEditDataModalOpen}
             onMemberDataOpen={onDataOpen}
             onUserDelete={onDeleteData}

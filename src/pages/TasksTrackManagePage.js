@@ -50,7 +50,7 @@ const TasksTrackManagePage = ({
           <Subtitle>This is your subtasks:</Subtitle>
           <MembersProgressTable
             onAddSubtaskModalOpen={onSubtaskModalOpen}
-            progress={progress}
+            data={progress}
             isMemberTasks
             onSubtaskDataOpen={onDataOpen}
             onSubtaskDelete={onDeleteData}

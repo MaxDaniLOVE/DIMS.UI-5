@@ -44,7 +44,7 @@ class MembersProgressPage extends Component {
         {isLoaded ? (
           <>
             <Subtitle>{`${memberName}'s progress:`}</Subtitle>
-            <MembersProgressTable progress={progress} userId={userId} />
+            <MembersProgressTable data={progress} userId={userId} />
           </>
         ) : (
           <Preloader />

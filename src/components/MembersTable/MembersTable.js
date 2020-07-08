@@ -11,9 +11,18 @@ import noteConverter from '../../utils/noteConverter';
 import { EditUserIcon, DeleteIcon, UserTasksIcon, UserProgressIcon } from '../../assets/icons';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
+import withSortFeatures from '../../hoc/withSortFeatures';
 
-const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
-  const membersTableBody = members.map((member, idx) => {
+const MembersTable = ({
+  data,
+  onEditMemberModalOpen,
+  onMemberDataOpen,
+  onUserDelete,
+  role,
+  sortFromZToA,
+  sortFromAToZ,
+}) => {
+  const membersTableBody = data.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
     const stringStartDate = millisecondsToDate(startDate);
     const ageInYears = millisecondsToAge(birthDate);
@@ -61,8 +70,8 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
     <Layout>
       <Table className='members-table'>
         <>
-          <TableHeader headers={headers} />
-          <DraggableTable tableData={members} tableType='members'>
+          <TableHeader sortFromZToA={sortFromZToA} sortFromAToZ={sortFromAToZ} headers={headers} />
+          <DraggableTable tableData={data} tableType='members'>
             {membersTableBody}
           </DraggableTable>
         </>
@@ -76,7 +85,9 @@ MembersTable.propTypes = {
   onEditMemberModalOpen: PropTypes.func.isRequired,
   onMemberDataOpen: PropTypes.func.isRequired,
   onUserDelete: PropTypes.func.isRequired,
-  members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+  data: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+  sortFromZToA: PropTypes.func.isRequired,
+  sortFromAToZ: PropTypes.func.isRequired,
 };
 
-export default MembersTable;
+export default withSortFeatures(MembersTable);
