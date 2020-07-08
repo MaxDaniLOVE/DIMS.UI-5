@@ -32,7 +32,7 @@ import {
   loginWithGoogle,
 } from './authActions';
 
-import { sortFromAToZ, sortFromZToA } from './sortActions';
+import { sortFromAToZ, sortFromZToA, resetSort } from './sortActions';
 
 export {
   getUsers,
@@ -65,4 +65,5 @@ export {
   loginWithGoogle,
   sortFromAToZ,
   sortFromZToA,
+  resetSort,
 };

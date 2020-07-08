@@ -4,7 +4,28 @@
   font-size: 1.5rem;
   text-align: left;
   th {
+    padding-right: 0;
     background-color: $charcoal;
+    &:hover {
+      .fa-sort-up,
+      .fa-sort-down {
+        opacity: 1;
+      }
+    }
+    div {
+      margin-left: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .sort-buttons {
+        margin-left: inherit;
+        display: flex;
+        flex-direction: column;
+        svg {
+          opacity: 0;
+        }
+      }
+    }
   }
   th:first-child {
     border-top-left-radius: 0.5rem;
@@ -24,4 +45,14 @@ th,
 td {
   font-weight: 300;
   padding: 0.5rem 0.8rem;
+}
+
+.fa-sort-up,
+.fa-sort-down {
+  transition: all 0.3s ease;
+  &:hover {
+    cursor: pointer;
+    fill: $teal-green;
+  }
+  fill: #fff;
 }

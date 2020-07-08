@@ -1,4 +1,4 @@
-import { SORT_FROM_A_TO_Z, SORT_FROM_Z_TO_A } from './actionTypes';
+import { SORT_FROM_A_TO_Z, SORT_FROM_Z_TO_A, RESET_SORT } from './actionTypes';
 
 const sortFromAToZ = (data, id) => {
   const sortedData = [...data].sort((a, b) => {
@@ -20,4 +20,8 @@ const sortFromZToA = (data, id) => {
   return { type: SORT_FROM_Z_TO_A, payload: sortedData };
 };
 
-export { sortFromAToZ, sortFromZToA };
+const resetSort = () => {
+  return { type: RESET_SORT };
+};
+
+export { sortFromAToZ, sortFromZToA, resetSort };

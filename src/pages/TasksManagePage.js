@@ -7,7 +7,7 @@ import Preloader from '../components/Preloader';
 import { SuccessButton } from '../UI/Buttons';
 import TasksTable from '../components/TasksTable';
 import { defaultTaskData } from '../utils/defaultInputsData';
-import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers } from '../store/actions';
+import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers, resetSort } from '../store/actions';
 import composedModalHOC from '../hoc/withModal';
 import { AddTaskIcon } from '../assets/icons';
 import { DangerSubtitle, Subtitle } from '../UI/Titles';
@@ -21,10 +21,12 @@ const TasksManagePage = ({
   onModalOpen,
   setFormData,
   onDataOpen,
+  resetSort,
 }) => {
   useEffect(() => {
     setFormData(defaultTaskData);
-  }, [setFormData]);
+    resetSort();
+  }, [setFormData, resetSort]);
   if (!tasks.length && isLoaded) {
     return (
       <>
@@ -65,6 +67,7 @@ TasksManagePage.propTypes = {
   onEditDataModalOpen: PropTypes.func.isRequired,
   onModalOpen: PropTypes.func.isRequired,
   onDataOpen: PropTypes.func.isRequired,
+  resetSort: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {
@@ -72,7 +75,10 @@ const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers }, dispatch);
+  return bindActionCreators(
+    { resetSort, getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers },
+    dispatch,
+  );
 };
 
 export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(TasksManagePage), 'TASK_PAGE');

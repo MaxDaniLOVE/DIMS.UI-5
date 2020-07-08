@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { SortDownIcon, SortUpIcon } from '../../assets/icons';
 import './tableHeader.scss';
 
 const TableHeader = ({ headers, isDarkMode, sortFromAToZ, sortFromZToA }) => {
@@ -11,17 +11,15 @@ const TableHeader = ({ headers, isDarkMode, sortFromAToZ, sortFromZToA }) => {
       <tr>
         {headers.map(({ id, value, isSortable }) => (
           <th key={id} id={id}>
-            {value}
-            {isSortable && (
-              <>
-                <button type='button' onClick={() => sortFromZToA(id)}>
-                  Z-A
-                </button>
-                <button type='button' onClick={() => sortFromAToZ(id)}>
-                  A-Z
-                </button>
-              </>
-            )}
+            <div>
+              {value}
+              {isSortable && (
+                <span className='sort-buttons'>
+                  <SortUpIcon onClick={() => sortFromZToA(id)} />
+                  <SortDownIcon onClick={() => sortFromAToZ(id)} />
+                </span>
+              )}
+            </div>
           </th>
         ))}
       </tr>
