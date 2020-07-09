@@ -1,33 +1,37 @@
-import { SORT_FROM_A_TO_Z, SORT_FROM_Z_TO_A, RESET_SORT } from './actionTypes';
+import { SORT_DATA, RESET_SORT } from './actionTypes';
 
-const sortFromAToZ = (data, id) => {
+const sortHelper = (data, id, type) => {
+  const index = type === 'UP' ? 1 : -1;
+
   const sortedData = [...data].sort((a, b) => {
     if (typeof a[id] === 'number') {
-      return a[id] - b[id];
+      return (a[id] - b[id]) * index;
     }
-    return a[id].localeCompare(b[id]);
+    return index === 1 ? a[id].localeCompare(b[id]) : b[id].localeCompare(a[id]);
   });
-
-  const sortInfo = { type: 'UP', id };
-
-  return { type: SORT_FROM_A_TO_Z, payload: { sortedData, sortInfo } };
+  return sortedData;
 };
 
-const sortFromZToA = (data, id) => {
-  const sortedData = [...data].sort((a, b) => {
-    if (typeof a[id] === 'number') {
-      return b[id] - a[id];
+const sortData = (data, id, type) => {
+  return (dispatch, getState) => {
+    const {
+      sort: { sortInfo: previousSort },
+    } = getState();
+
+    if (previousSort.id === id && previousSort.type === type) {
+      return dispatch(resetSort());
     }
-    return b[id].localeCompare(a[id]);
-  });
 
-  const sortInfo = { type: 'DOWN', id };
+    const sortedData = sortHelper(data, id, type);
 
-  return { type: SORT_FROM_Z_TO_A, payload: { sortedData, sortInfo } };
+    const sortInfo = { type, id };
+
+    return dispatch({ type: SORT_DATA, payload: { sortedData, sortInfo } });
+  };
 };
 
 const resetSort = () => {
   return { type: RESET_SORT };
 };
 
-export { sortFromAToZ, sortFromZToA, resetSort };
+export { sortData, resetSort };
