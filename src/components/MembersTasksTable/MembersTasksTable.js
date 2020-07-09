@@ -11,7 +11,7 @@ import { millisecondsToDate } from '../../utils/convertDate';
 import { SuccessIcon, FailureIcon, AddTrackIcon } from '../../assets/icons';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
-import withSortFeatures from '../../hoc/withSortFeatures';
+import { withSortFeatures } from '../../hoc';
 
 const MembersTasksTable = ({ data, role, onSetMark, userId, sortFromZToA, sortFromAToZ }) => {
   const headers = membersTasksHeaders[role];

@@ -16,7 +16,7 @@ import {
   resetSort,
 } from '../store/actions';
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
-import composedModalHOC from '../hoc/withModal';
+import { withModal } from '../hoc';
 import { AddProgressButton } from '../UI/Buttons';
 import PageWrapper from '../UI/PageWrapper';
 
@@ -102,4 +102,4 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
-export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage), 'TRACK_PAGE');
+export default withModal(connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage), 'TRACK_PAGE');

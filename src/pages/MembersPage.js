@@ -8,7 +8,7 @@ import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import { AddUserButton } from '../UI/Buttons';
 import { defaultRegisterData } from '../utils/defaultInputsData';
-import composedModalHOC from '../hoc/withModal';
+import { withModal } from '../hoc';
 import { DangerSubtitle, Subtitle } from '../UI/Titles';
 import PageWrapper from '../UI/PageWrapper';
 
@@ -83,4 +83,4 @@ MembersPage.propTypes = {
   resetSort: PropTypes.func.isRequired,
 };
 
-export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(MembersPage), 'MEMBERS_PAGE');
+export default withModal(connect(mapStateToProps, mapDispatchToProps)(MembersPage), 'MEMBERS_PAGE');

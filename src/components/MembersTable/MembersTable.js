@@ -11,7 +11,7 @@ import noteConverter from '../../utils/noteConverter';
 import { EditUserIcon, DeleteIcon, UserTasksIcon, UserProgressIcon } from '../../assets/icons';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
-import withSortFeatures from '../../hoc/withSortFeatures';
+import { withSortFeatures } from '../../hoc';
 
 const MembersTable = ({
   data,

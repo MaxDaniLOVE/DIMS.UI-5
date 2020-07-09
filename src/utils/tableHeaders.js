@@ -1,11 +1,11 @@
 const membersProgressHeaders = [
-  { value: '#', id: 'index', isSortable: true },
+  { value: '#', id: 'index', isSortable: false },
   { value: 'Task', id: 'taskName', isSortable: true },
   { value: 'Note', id: 'trackNote', isSortable: true },
   { value: 'Date', id: 'trackDate', isSortable: true },
 ];
 const membersHeaders = [
-  { value: '#', id: 'index', isSortable: true },
+  { value: '#', id: 'index', isSortable: false },
   { value: 'Full name', id: 'name', isSortable: true },
   { value: 'Direction', id: 'directionId', isSortable: true },
   { value: 'Education', id: 'education', isSortable: true },
@@ -15,7 +15,7 @@ const membersHeaders = [
 ];
 const membersTasksHeaders = {
   USER: [
-    { value: '#', id: 'index', isSortable: true },
+    { value: '#', id: 'index', isSortable: false },
     { value: 'Name', id: 'name', isSortable: true },
     { value: 'Start', id: 'startDate', isSortable: true },
     { value: 'Deadline', id: 'deadlineDate', isSortable: true },
@@ -23,7 +23,7 @@ const membersTasksHeaders = {
     { value: 'Manage', id: 'manage', isSortable: false },
   ],
   ADMIN: [
-    { value: '#', id: 'index', isSortable: true },
+    { value: '#', id: 'index', isSortable: false },
     { value: 'Name', id: 'name', isSortable: true },
     { value: 'Start', id: 'startDate', isSortable: true },
     { value: 'Deadline', id: 'deadlineDate', isSortable: true },
@@ -31,7 +31,7 @@ const membersTasksHeaders = {
     { value: 'Mark', id: 'manage', isSortable: false },
   ],
   MENTOR: [
-    { value: '#', id: 'index', isSortable: true },
+    { value: '#', id: 'index', isSortable: false },
     { value: 'Name', id: 'name', isSortable: true },
     { value: 'Start', id: 'startDate', isSortable: true },
     { value: 'Deadline', id: 'deadlineDate', isSortable: true },
@@ -40,7 +40,7 @@ const membersTasksHeaders = {
   ],
 };
 const taskTableHeaders = [
-  { value: '#', id: 'index', isSortable: true },
+  { value: '#', id: 'index', isSortable: false },
   { value: 'Name', id: 'name', isSortable: true },
   { value: 'Start', id: 'startDate', isSortable: true },
   { value: 'Deadline', id: 'deadlineDate', isSortable: true },

@@ -10,7 +10,7 @@ import { EditIcon, DeleteIcon } from '../../assets/icons';
 import noteConverter from '../../utils/noteConverter';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
-import withSortFeatures from '../../hoc/withSortFeatures';
+import { withSortFeatures } from '../../hoc';
 
 const TasksTable = ({ data, onDeleteTask, onEditTaskModalOpen, onDataOpen, sortFromZToA, sortFromAToZ }) => {
   const tasksTableBody = data.map(({ deadlineDate, name, startDate, taskId }, idx) => {

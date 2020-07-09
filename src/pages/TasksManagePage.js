@@ -8,7 +8,7 @@ import { SuccessButton } from '../UI/Buttons';
 import TasksTable from '../components/TasksTable';
 import { defaultTaskData } from '../utils/defaultInputsData';
 import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers, resetSort } from '../store/actions';
-import composedModalHOC from '../hoc/withModal';
+import { withModal } from '../hoc';
 import { AddTaskIcon } from '../assets/icons';
 import { DangerSubtitle, Subtitle } from '../UI/Titles';
 import PageWrapper from '../UI/PageWrapper';
@@ -81,4 +81,4 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
-export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(TasksManagePage), 'TASK_PAGE');
+export default withModal(connect(mapStateToProps, mapDispatchToProps)(TasksManagePage), 'TASK_PAGE');

@@ -14,7 +14,7 @@ import TooltipWrapper from '../TooltipWrapper';
 import removeStartNumbers from '../../utils/cutStartNumbers';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
-import withSortFeatures from '../../hoc/withSortFeatures';
+import { withSortFeatures } from '../../hoc';
 
 const MembersProgressTable = ({
   data,
