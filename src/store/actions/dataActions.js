@@ -28,6 +28,7 @@ import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelper
 import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
+import { resetSort } from './sortActions';
 
 const api = initializeService();
 
@@ -332,14 +333,24 @@ const sendMail = (mailData) => {
 };
 
 const reorderTable = (table, list, startIndex, endIndex, userId) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
+  return (dispatch, getStore) => {
+    const {
+      sort: { isSorted },
+    } = getStore();
 
-  result.splice(endIndex, 0, removed);
+    if (isSorted) {
+      dispatch(resetSort());
+    }
 
-  addDragNDropCache(table, result, userId);
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
 
-  return { type: REORDER_TABLE, payload: { result, table } };
+    result.splice(endIndex, 0, removed);
+
+    addDragNDropCache(table, result, userId);
+
+    dispatch({ type: REORDER_TABLE, payload: { result, table } });
+  };
 };
 
 export {

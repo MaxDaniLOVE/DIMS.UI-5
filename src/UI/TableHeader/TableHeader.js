@@ -31,11 +31,16 @@ const TableHeader = ({ headers, isDarkMode, sortFromAToZ, sortFromZToA, sortInfo
   );
 };
 
+TableHeader.defaultProps = {
+  sortFromAToZ: () => {},
+  sortFromZToA: () => {},
+};
+
 TableHeader.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool]))).isRequired,
   isDarkMode: PropTypes.bool.isRequired,
-  sortFromAToZ: PropTypes.func.isRequired,
-  sortFromZToA: PropTypes.func.isRequired,
+  sortFromAToZ: PropTypes.func,
+  sortFromZToA: PropTypes.func,
   sortInfo: PropTypes.objectOf(PropTypes.string).isRequired,
   isSorted: PropTypes.bool.isRequired,
 };
