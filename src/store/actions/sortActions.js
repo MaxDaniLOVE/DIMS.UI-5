@@ -12,13 +12,13 @@ const sortHelper = (data, id, type) => {
   return sortedData;
 };
 
-const sortData = (data, id, type) => {
+const sortData = (data, id, type, isSkipReseting = false) => {
   return (dispatch, getState) => {
     const {
       sort: { sortInfo: previousSort },
     } = getState();
 
-    if (previousSort.id === id && previousSort.type === type) {
+    if (previousSort.id === id && previousSort.type === type && !isSkipReseting) {
       return dispatch(resetSort());
     }
 

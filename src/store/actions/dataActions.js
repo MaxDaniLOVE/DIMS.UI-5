@@ -28,16 +28,27 @@ import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelper
 import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
-import { resetSort } from './sortActions';
+import { resetSort, sortData } from './sortActions';
 
 const api = initializeService();
 
+const sortingCallback = (dispatch, getState, data) => {
+  const {
+    sort: { isSorted, sortInfo },
+  } = getState();
+  if (isSorted) {
+    const { type, id } = sortInfo;
+    dispatch(sortData(data, id, type, true));
+  }
+};
+
 const getUsers = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingData());
     try {
       const users = await api.getUsersData();
       const sortedUsers = sortCachedData('members', users);
+      sortingCallback(dispatch, getState, users);
       dispatch({
         type: FETCH_MEMBERS,
         payload: sortedUsers,
@@ -106,11 +117,12 @@ const deleteUser = (id) => {
 };
 
 const getTasks = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingData());
     try {
       const tasks = await api.getAllTasks();
       const sortedTasks = sortCachedData('tasks', tasks);
+      sortingCallback(dispatch, getState, tasks);
       dispatch({
         type: FETCH_TASKS,
         payload: sortedTasks,
@@ -122,11 +134,12 @@ const getTasks = () => {
 };
 
 const getUserTasks = (id) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingData());
     try {
       const userTasks = await api.getUsersTasks(id);
       const sortedUserTasks = sortCachedData(`userTasks_${id}`, userTasks);
+      sortingCallback(dispatch, getState, userTasks);
       dispatch({
         type: FETCH_USER_TASKS,
         payload: sortedUserTasks,
@@ -225,11 +238,12 @@ const setAssignedMembers = (members) => {
 };
 
 const getUserProgress = (id) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingData());
     try {
       const userProgress = await api.getUsersProgress(id);
       const sortedProgress = sortCachedData(`progress_${id}`, userProgress);
+      sortingCallback(dispatch, getState, userProgress);
       dispatch({
         type: GET_USER_PROGRESS,
         payload: sortedProgress,
