@@ -9,11 +9,14 @@ import { sortData } from '../store/actions';
 const withSortFeatures = (WrappedComponent) => (props) => {
   const { sortedData, data, isSorted, sortData, ...properties } = props;
 
-  const sortZtoA = (id) => sortData(data, id, 'DOWN');
-  const sortAToZ = (id) => sortData(data, id, 'UP');
+  const sortFromZToA = (id) => sortData(data, id, 'DOWN');
+  const sortFromAToZ = (id) => sortData(data, id, 'UP');
+
   const displayedData = isSorted ? sortedData : data;
 
-  return <WrappedComponent sortFromAToZ={sortAToZ} sortFromZToA={sortZtoA} data={displayedData} {...properties} />;
+  return (
+    <WrappedComponent sortFromAToZ={sortFromAToZ} sortFromZToA={sortFromZToA} data={displayedData} {...properties} />
+  );
 };
 
 const mapStateToProps = ({ sort: { sortedData, sortInfo, isSorted } }) => ({

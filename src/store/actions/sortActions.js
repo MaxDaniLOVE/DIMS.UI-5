@@ -1,24 +1,17 @@
 import { SORT_DATA, RESET_SORT } from './actionTypes';
-
-const sortHelper = (data, id, type) => {
-  const index = type === 'UP' ? 1 : -1;
-
-  const sortedData = [...data].sort((a, b) => {
-    if (typeof a[id] === 'number') {
-      return (a[id] - b[id]) * index;
-    }
-    return index === 1 ? a[id].localeCompare(b[id]) : b[id].localeCompare(a[id]);
-  });
-  return sortedData;
-};
+import sortHelper from '../../utils/sortHelper';
 
 const sortData = (data, id, type, isSkipReseting = false) => {
   return (dispatch, getState) => {
     const {
-      sort: { sortInfo: previousSort },
+      sort: {
+        sortInfo: { id: previousId, type: previousType },
+      },
     } = getState();
 
-    if (previousSort.id === id && previousSort.type === type && !isSkipReseting) {
+    const isResetSort = previousId === id && previousType === type && !isSkipReseting;
+
+    if (isResetSort) {
       return dispatch(resetSort());
     }
 
