@@ -32,13 +32,13 @@ import { resetSort, sortData } from './sortActions';
 
 const api = initializeService();
 
-const sortingCallback = (dispatch, getState, data) => {
+const sortingCallback = (dispatch, getState, sortTableId) => {
   const {
     sort: { isSorted, sortInfo },
   } = getState();
   if (isSorted) {
     const { type, id } = sortInfo;
-    dispatch(sortData(data, id, type, true));
+    dispatch(sortData(sortTableId, id, type, true));
   }
 };
 
@@ -48,11 +48,11 @@ const getUsers = () => {
     try {
       const users = await api.getUsersData();
       const sortedUsers = sortCachedData('members', users);
-      sortingCallback(dispatch, getState, users);
       dispatch({
         type: FETCH_MEMBERS,
         payload: sortedUsers,
       });
+      sortingCallback(dispatch, getState, 'members');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -122,11 +122,11 @@ const getTasks = () => {
     try {
       const tasks = await api.getAllTasks();
       const sortedTasks = sortCachedData('tasks', tasks);
-      sortingCallback(dispatch, getState, tasks);
       dispatch({
         type: FETCH_TASKS,
         payload: sortedTasks,
       });
+      sortingCallback(dispatch, getState, 'tasks');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -139,11 +139,11 @@ const getUserTasks = (id) => {
     try {
       const userTasks = await api.getUsersTasks(id);
       const sortedUserTasks = sortCachedData(`userTasks_${id}`, userTasks);
-      sortingCallback(dispatch, getState, userTasks);
       dispatch({
         type: FETCH_USER_TASKS,
         payload: sortedUserTasks,
       });
+      sortingCallback(dispatch, getState, 'userTasks');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -243,11 +243,11 @@ const getUserProgress = (id) => {
     try {
       const userProgress = await api.getUsersProgress(id);
       const sortedProgress = sortCachedData(`progress_${id}`, userProgress);
-      sortingCallback(dispatch, getState, userProgress);
       dispatch({
         type: GET_USER_PROGRESS,
         payload: sortedProgress,
       });
+      sortingCallback(dispatch, getState, 'progress');
     } catch (error) {
       errorCallback(dispatch, error);
     }

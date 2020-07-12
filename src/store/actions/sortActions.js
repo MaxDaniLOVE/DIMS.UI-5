@@ -1,9 +1,10 @@
 import { SORT_DATA, RESET_SORT } from './actionTypes';
 import sortHelper from '../../utils/sortHelper';
 
-const sortData = (data, id, type, isSkipReseting = false) => {
+const sortData = (sortTableId, id, type, isSkipReseting = false) => {
   return (dispatch, getState) => {
     const {
+      data: { [sortTableId]: dataToSort },
       sort: {
         sortInfo: { id: previousId, type: previousType },
       },
@@ -15,7 +16,7 @@ const sortData = (data, id, type, isSkipReseting = false) => {
       return dispatch(resetSort());
     }
 
-    const sortedData = sortHelper(data, id, type);
+    const sortedData = sortHelper(dataToSort, id, type);
 
     const sortInfo = { type, id };
 

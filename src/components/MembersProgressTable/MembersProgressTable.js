@@ -23,8 +23,6 @@ const MembersProgressTable = ({
   onSubtaskDelete,
   onEditSubtaskModalOpen,
   userId,
-  sortFromZToA,
-  sortFromAToZ,
 }) => {
   const progressBody = data.map((task, idx) => {
     const { taskName, trackDate, trackNote, taskTrackId, taskId } = task;
@@ -80,8 +78,7 @@ const MembersProgressTable = ({
       <Table className={className}>
         <>
           <TableHeader
-            sortFromZToA={sortFromZToA}
-            sortFromAToZ={sortFromAToZ}
+            tableType='progress'
             headers={isMemberTasks ? [...headers, { value: 'Manage', id: 'manage', isSortable: false }] : headers}
           />
           <DraggableTable tableData={data} tableType='progress' userId={userId}>
@@ -107,8 +104,6 @@ MembersProgressTable.propTypes = {
   onSubtaskDelete: PropTypes.func,
   onEditSubtaskModalOpen: PropTypes.func,
   userId: PropTypes.string.isRequired,
-  sortFromZToA: PropTypes.func.isRequired,
-  sortFromAToZ: PropTypes.func.isRequired,
 };
 
 export default withSortFeatures(MembersProgressTable);

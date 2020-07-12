@@ -13,7 +13,7 @@ import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
 import { withSortFeatures } from '../../hoc';
 
-const MembersTasksTable = ({ data, role, onSetMark, userId, sortFromZToA, sortFromAToZ }) => {
+const MembersTasksTable = ({ data, role, onSetMark, userId }) => {
   const headers = membersTasksHeaders[role];
   const membersTasksTableBody = data.map((task, idx) => {
     const { deadlineDate, name, startDate, stateId, userTaskId, taskId } = task;
@@ -57,7 +57,7 @@ const MembersTasksTable = ({ data, role, onSetMark, userId, sortFromZToA, sortFr
     <Layout>
       <Table className='members-task-table'>
         <>
-          <TableHeader headers={headers} sortFromZToA={sortFromZToA} sortFromAToZ={sortFromAToZ} />
+          <TableHeader headers={headers} tableType='userTasks' />
           <DraggableTable tableData={data} tableType='userTasks' userId={userId}>
             {membersTasksTableBody}
           </DraggableTable>
@@ -80,8 +80,6 @@ MembersTasksTable.propTypes = {
   role: PropTypes.string.isRequired,
   onSetMark: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
-  sortFromZToA: PropTypes.func.isRequired,
-  sortFromAToZ: PropTypes.func.isRequired,
 };
 
 export default withSortFeatures(MembersTasksTable);

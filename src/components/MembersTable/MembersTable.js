@@ -13,15 +13,7 @@ import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
 import { withSortFeatures } from '../../hoc';
 
-const MembersTable = ({
-  data,
-  onEditMemberModalOpen,
-  onMemberDataOpen,
-  onUserDelete,
-  role,
-  sortFromZToA,
-  sortFromAToZ,
-}) => {
+const MembersTable = ({ data, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
   const membersTableBody = data.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
     const stringStartDate = millisecondsToDate(startDate);
@@ -70,7 +62,7 @@ const MembersTable = ({
     <Layout>
       <Table className='members-table'>
         <>
-          <TableHeader sortFromZToA={sortFromZToA} sortFromAToZ={sortFromAToZ} headers={headers} />
+          <TableHeader headers={headers} tableType='members' />
           <DraggableTable tableData={data} tableType='members'>
             {membersTableBody}
           </DraggableTable>
@@ -86,8 +78,6 @@ MembersTable.propTypes = {
   onMemberDataOpen: PropTypes.func.isRequired,
   onUserDelete: PropTypes.func.isRequired,
   data: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
-  sortFromZToA: PropTypes.func.isRequired,
-  sortFromAToZ: PropTypes.func.isRequired,
 };
 
 export default withSortFeatures(MembersTable);

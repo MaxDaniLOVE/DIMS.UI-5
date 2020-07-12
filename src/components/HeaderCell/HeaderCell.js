@@ -1,13 +1,16 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { SortDownIcon, SortUpIcon } from '../../assets/icons';
+import { sortData } from '../../store/actions';
 
-const HeaderCell = ({ id, children, isSortable, sortFromAToZ, sortFromZToA, sortInfo, isSorted }) => {
+const HeaderCell = ({ id, children, isSortable, sortData, sortInfo, isSorted, tableType }) => {
   const { type, id: sortedId } = sortInfo;
 
-  const sortUp = () => sortFromAToZ(id);
-  const sortDown = () => sortFromZToA(id);
+  const sortUp = () => sortData(tableType, id, 'UP');
+  const sortDown = () => sortData(tableType, id, 'DOWN');
 
   const wrapperClassName = isSorted && sortedId === id ? `head-cell active-sort ${type}` : 'head-cell';
   return (
@@ -30,13 +33,17 @@ HeaderCell.propTypes = {
   children: PropTypes.string.isRequired,
   isSortable: PropTypes.bool.isRequired,
   sortInfo: PropTypes.objectOf(PropTypes.string).isRequired,
-  sortFromAToZ: PropTypes.func.isRequired,
-  sortFromZToA: PropTypes.func.isRequired,
+  sortData: PropTypes.func.isRequired,
   isSorted: PropTypes.bool.isRequired,
+  tableType: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = ({ sort: { sortInfo, isSorted } }) => {
   return { sortInfo, isSorted };
 };
 
-export default connect(mapStateToProps, null)(HeaderCell);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ sortData }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderCell);

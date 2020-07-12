@@ -12,7 +12,7 @@ import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
 import { withSortFeatures } from '../../hoc';
 
-const TasksTable = ({ data, onDeleteTask, onEditTaskModalOpen, onDataOpen, sortFromZToA, sortFromAToZ }) => {
+const TasksTable = ({ data, onDeleteTask, onEditTaskModalOpen, onDataOpen }) => {
   const tasksTableBody = data.map(({ deadlineDate, name, startDate, taskId }, idx) => {
     const startString = millisecondsToDate(startDate);
     const deadlineString = millisecondsToDate(deadlineDate);
@@ -46,7 +46,7 @@ const TasksTable = ({ data, onDeleteTask, onEditTaskModalOpen, onDataOpen, sortF
     <Layout>
       <Table className='task-table'>
         <>
-          <TableHeader headers={headers} sortFromZToA={sortFromZToA} sortFromAToZ={sortFromAToZ} />
+          <TableHeader headers={headers} tableType='tasks' />
           <DraggableTable tableData={data} tableType='tasks'>
             {tasksTableBody}
           </DraggableTable>
@@ -61,8 +61,6 @@ TasksTable.propTypes = {
   onDeleteTask: PropTypes.func.isRequired,
   onEditTaskModalOpen: PropTypes.func.isRequired,
   onDataOpen: PropTypes.func.isRequired,
-  sortFromZToA: PropTypes.func.isRequired,
-  sortFromAToZ: PropTypes.func.isRequired,
 };
 
 export default withSortFeatures(TasksTable);
