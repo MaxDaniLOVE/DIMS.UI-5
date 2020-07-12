@@ -28,6 +28,10 @@ const HeaderCell = ({ id, children, isSortable, sortData, sortInfo, isSorted, ta
   );
 };
 
+HeaderCell.defaultProps = {
+  tableType: '',
+};
+
 HeaderCell.propTypes = {
   id: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
@@ -35,7 +39,7 @@ HeaderCell.propTypes = {
   sortInfo: PropTypes.objectOf(PropTypes.string).isRequired,
   sortData: PropTypes.func.isRequired,
   isSorted: PropTypes.bool.isRequired,
-  tableType: PropTypes.string.isRequired,
+  tableType: PropTypes.string,
 };
 
 const mapStateToProps = ({ sort: { sortInfo, isSorted } }) => {

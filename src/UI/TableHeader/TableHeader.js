@@ -21,10 +21,14 @@ const TableHeader = ({ headers, isDarkMode, tableType }) => {
   );
 };
 
+TableHeader.defaultProps = {
+  tableType: '',
+};
+
 TableHeader.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool]))).isRequired,
   isDarkMode: PropTypes.bool.isRequired,
-  tableType: PropTypes.string.isRequired,
+  tableType: PropTypes.string,
 };
 
 const mapStateToPRops = ({ data: { isDarkMode } }) => {
