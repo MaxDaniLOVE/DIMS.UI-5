@@ -34,6 +34,8 @@ import {
 
 import { sortData, resetSort } from './sortActions';
 
+import { throwAlert } from './alertsActions';
+
 export {
   getUsers,
   addUser,
@@ -65,4 +67,5 @@ export {
   loginWithGoogle,
   sortData,
   resetSort,
+  throwAlert,
 };

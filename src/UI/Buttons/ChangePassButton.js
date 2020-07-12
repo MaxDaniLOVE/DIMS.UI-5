@@ -1,22 +1,19 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip } from 'reactstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { EditUserIcon } from '../../assets/icons';
 import Button from './Button';
-import { useTooltipToggling } from '../../hooks';
+import { throwAlert } from '../../store/actions';
 
-const ChangePassButton = ({ onClick, children, isPasswordAuth }) => {
-  const [isOpenTooltip, toggleTooltip] = useTooltipToggling();
-
+const ChangePassButton = ({ onClick, children, isPasswordAuth, throwAlert }) => {
   const icon = !isPasswordAuth && <EditUserIcon />;
 
-  const onClickHandler = !isPasswordAuth ? onClick : null;
+  const notification = () =>
+    throwAlert({ type: 'ERROR', message: 'To change password sign-in with password and email!' });
 
-  const tooltip = isPasswordAuth && (
-    <Tooltip placement='bottom' isOpen={isOpenTooltip} target='change-pass-btn' toggle={toggleTooltip}>
-      To change password login with password and email!
-    </Tooltip>
-  );
+  const onClickHandler = !isPasswordAuth ? onClick : notification;
 
   return (
     <>
@@ -28,7 +25,6 @@ const ChangePassButton = ({ onClick, children, isPasswordAuth }) => {
           </>
         )}
       </Button>
-      {tooltip}
     </>
   );
 };
@@ -37,6 +33,11 @@ ChangePassButton.propTypes = {
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   isPasswordAuth: PropTypes.bool.isRequired,
+  throwAlert: PropTypes.func.isRequired,
 };
 
-export default ChangePassButton;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ throwAlert }, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(ChangePassButton);
