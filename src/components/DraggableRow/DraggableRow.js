@@ -10,7 +10,8 @@ const DraggableRow = ({ children, draggableId, index, isDarkMode, isDragDisabled
   const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',
     backgroundColor: isDragging && backgroundColor,
-    border: isDragging && 'none',
+    display: isDragging && 'table',
+    boxShadow: isDragging && 'none',
     transition: 'all 0.3s ease',
     ...draggableStyle,
   });
