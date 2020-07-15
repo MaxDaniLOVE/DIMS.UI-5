@@ -5,19 +5,29 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { sortData } from '../store/actions';
+import FiltersContainer from '../components/FiltersContainer';
 
 const withSortFeatures = (WrappedComponent) => (props) => {
-  const { sortedData, data, isSorted, sortData, ...properties } = props;
+  const { sortedData, data, isSorted, sortData, isFiltered, filteredData, ...properties } = props;
 
-  const displayedData = isSorted ? sortedData : data;
+  let displayedData = isSorted ? sortedData : data;
 
-  return <WrappedComponent data={displayedData} {...properties} />;
+  displayedData = isFiltered ? filteredData : displayedData;
+
+  return (
+    <>
+      <FiltersContainer />
+      <WrappedComponent data={displayedData} {...properties} />
+    </>
+  );
 };
 
-const mapStateToProps = ({ sort: { sortedData, sortInfo, isSorted } }) => ({
+const mapStateToProps = ({ sort: { sortedData, sortInfo, isSorted, isFiltered, filteredData } }) => ({
   sortedData,
   sortInfo,
   isSorted,
+  filteredData,
+  isFiltered,
 });
 
 const mapDispatchToProps = (dispatch) => {

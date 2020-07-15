@@ -1,0 +1,13 @@
+@import '../../scss/variables';
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  svg {
+    align-self: center;
+    margin-bottom: 1rem;
+    width: 3rem;
+    height: 2rem;
+    fill: $charcoal;
+  }
+}

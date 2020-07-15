@@ -1,5 +1,6 @@
-import { SORT_DATA, RESET_SORT } from './actionTypes';
+import { SORT_DATA, RESET_SORT, FILTER_DATA, RESET_FILTER } from './actionTypes';
 import sortHelper from '../../utils/sortHelper';
+import { defaultMembersFilter } from '../../utils/defaultFiltersData';
 
 const sortData = (sortTableId, id, type, isSkipReseting = false) => {
   return (dispatch, getState) => {
@@ -28,4 +29,33 @@ const resetSort = () => {
   return { type: RESET_SORT };
 };
 
-export { sortData, resetSort };
+const resetFilterData = (pageType) => {
+  const defaultFilters = {
+    members: defaultMembersFilter,
+  };
+  return { type: RESET_FILTER, payload: defaultFilters[pageType] };
+};
+
+const filterData = (sortTableId, filterInfo) => {
+  return (dispatch, getState) => {
+    const {
+      data: { [sortTableId]: dataToFilter },
+    } = getState();
+
+    const keys = Object.keys(filterInfo);
+
+    const filteredData = dataToFilter.filter((item) => {
+      const isEqualsArray = keys.map((key) => {
+        if (!filterInfo[key]) {
+          return true;
+        }
+        return filterInfo[key] === item[key];
+      });
+      return isEqualsArray.every((element) => element);
+    });
+
+    return dispatch({ type: FILTER_DATA, payload: { filteredData, filterInfo } });
+  };
+};
+
+export { sortData, resetSort, resetFilterData, filterData };
