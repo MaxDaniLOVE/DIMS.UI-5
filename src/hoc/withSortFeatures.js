@@ -6,8 +6,14 @@ import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { sortData } from '../store/actions';
 import FiltersContainer from '../components/FiltersContainer';
+import { membersFilterInputs, tasksFilterInputs } from '../utils/filterInputs';
 
-const withSortFeatures = (WrappedComponent) => (props) => {
+const withSortFeatures = (WrappedComponent, pageType) => (props) => {
+  const inputs = {
+    members: membersFilterInputs,
+    tasks: tasksFilterInputs,
+  };
+
   const { sortedData, data, isSorted, sortData, isFiltered, filteredData, ...properties } = props;
 
   let displayedData = isSorted ? sortedData : data;
@@ -16,7 +22,7 @@ const withSortFeatures = (WrappedComponent) => (props) => {
 
   return (
     <>
-      <FiltersContainer />
+      <FiltersContainer inputs={inputs[pageType]} pageType={pageType} />
       <WrappedComponent data={displayedData} {...properties} />
     </>
   );

@@ -6,4 +6,10 @@ const defaultMembersFilter = {
   directionId: '',
 };
 
-export { defaultMembersFilter };
+const defaultTasksFilter = {
+  name: '',
+  startDate: null,
+  deadlineDate: null,
+};
+
+export { defaultMembersFilter, defaultTasksFilter };

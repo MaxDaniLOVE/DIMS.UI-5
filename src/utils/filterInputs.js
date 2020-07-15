@@ -27,4 +27,22 @@ const membersFilterInputs = [
   },
 ];
 
-export { membersFilterInputs };
+const tasksFilterInputs = [
+  {
+    label: 'Name:',
+    id: 'name',
+    type: 'text',
+  },
+  {
+    label: 'Start date:',
+    id: 'startDate',
+    type: 'date',
+  },
+  {
+    label: 'Deadline date:',
+    id: 'deadlineDate',
+    type: 'date',
+  },
+];
+
+export { membersFilterInputs, tasksFilterInputs };

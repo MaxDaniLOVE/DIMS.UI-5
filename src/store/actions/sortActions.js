@@ -1,6 +1,6 @@
 import { SORT_DATA, RESET_SORT, FILTER_DATA, RESET_FILTER } from './actionTypes';
 import sortHelper from '../../utils/sortHelper';
-import { defaultMembersFilter } from '../../utils/defaultFiltersData';
+import { defaultMembersFilter, defaultTasksFilter } from '../../utils/defaultFiltersData';
 
 const sortData = (sortTableId, id, type, isSkipReseting = false) => {
   return (dispatch, getState) => {
@@ -32,6 +32,7 @@ const resetSort = () => {
 const resetFilterData = (pageType) => {
   const defaultFilters = {
     members: defaultMembersFilter,
+    tasks: defaultTasksFilter,
   };
   return { type: RESET_FILTER, payload: defaultFilters[pageType] };
 };

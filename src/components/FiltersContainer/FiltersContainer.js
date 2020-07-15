@@ -6,24 +6,23 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { filterData } from '../../store/actions';
 import { SortDownIcon } from '../../assets/icons';
-import { membersFilterInputs } from '../../utils/filterInputs';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import { useTooltipToggling as useDropdownToggling } from '../../hooks';
 import './filtersContainer.scss';
 
-const FiltersContainer = ({ filterInfo, filterData }) => {
+const FiltersContainer = ({ filterInfo, filterData, pageType, inputs }) => {
   const [isOpen, setIsOpen] = useDropdownToggling();
 
   const onChange = ({ target: { value, id } }) => {
     const updatedFilters = inputsChangeHandler(value, id, filterInfo);
-    filterData('members', updatedFilters);
+    filterData(pageType, updatedFilters);
   };
 
   return (
     <div className='filters'>
       <SortDownIcon onClick={setIsOpen} />
       <Collapse isOpen={isOpen}>
-        {membersFilterInputs.map(({ id, label, type, options }) => {
+        {inputs.map(({ id, label, type, options }) => {
           return type === 'radio' ? (
             options.map((option) => (
               <Label className='radio-label' htmlFor={`${id}_${option}`} key={option}>
@@ -53,6 +52,10 @@ const FiltersContainer = ({ filterInfo, filterData }) => {
 FiltersContainer.propTypes = {
   filterInfo: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   filterData: PropTypes.func.isRequired,
+  pageType: PropTypes.string.isRequired,
+  inputs: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])),
+  ).isRequired,
 };
 
 const mapStateToProps = ({ sort: { filterInfo } }) => {

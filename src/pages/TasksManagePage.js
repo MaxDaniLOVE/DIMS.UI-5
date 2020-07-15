@@ -7,7 +7,16 @@ import Preloader from '../components/Preloader';
 import { SuccessButton } from '../UI/Buttons';
 import TasksTable from '../components/TasksTable';
 import { defaultTaskData } from '../utils/defaultInputsData';
-import { getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers, resetSort } from '../store/actions';
+import {
+  getTasks,
+  addTask,
+  deleteTask,
+  editTask,
+  setFormData,
+  setAssignedMembers,
+  resetSort,
+  resetFilterData,
+} from '../store/actions';
 import { withModal } from '../hoc';
 import { AddTaskIcon } from '../assets/icons';
 import { DangerSubtitle, Subtitle } from '../UI/Titles';
@@ -22,11 +31,13 @@ const TasksManagePage = ({
   setFormData,
   onDataOpen,
   resetSort,
+  resetFilterData,
 }) => {
   useEffect(() => {
     setFormData(defaultTaskData);
     resetSort();
-  }, [setFormData, resetSort]);
+    resetFilterData('tasks');
+  }, [setFormData, resetSort, resetFilterData]);
   if (!tasks.length && isLoaded) {
     return (
       <>
@@ -68,6 +79,7 @@ TasksManagePage.propTypes = {
   onModalOpen: PropTypes.func.isRequired,
   onDataOpen: PropTypes.func.isRequired,
   resetSort: PropTypes.func.isRequired,
+  resetFilterData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {
@@ -76,7 +88,7 @@ const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { resetSort, getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers },
+    { resetSort, getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers, resetFilterData },
     dispatch,
   );
 };
