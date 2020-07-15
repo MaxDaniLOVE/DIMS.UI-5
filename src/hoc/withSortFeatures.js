@@ -6,12 +6,13 @@ import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { sortData } from '../store/actions';
 import FiltersContainer from '../components/FiltersContainer';
-import { membersFilterInputs, tasksFilterInputs } from '../utils/filterInputs';
+import { membersFilterInputs, tasksFilterInputs, progressFilterInputs } from '../utils/filterInputs';
 
 const withSortFeatures = (WrappedComponent, pageType) => (props) => {
   const inputs = {
     members: membersFilterInputs,
     tasks: tasksFilterInputs,
+    progress: progressFilterInputs,
   };
 
   const { sortedData, data, isSorted, sortData, isFiltered, filteredData, ...properties } = props;

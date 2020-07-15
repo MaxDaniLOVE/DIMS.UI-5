@@ -45,4 +45,22 @@ const tasksFilterInputs = [
   },
 ];
 
-export { membersFilterInputs, tasksFilterInputs };
+const progressFilterInputs = [
+  {
+    label: 'Task name:',
+    id: 'taskName',
+    type: 'text',
+  },
+  {
+    label: 'Track date:',
+    id: 'trackDate',
+    type: 'date',
+  },
+  {
+    label: 'Note:',
+    id: 'trackNote',
+    type: 'text',
+  },
+];
+
+export { membersFilterInputs, tasksFilterInputs, progressFilterInputs };

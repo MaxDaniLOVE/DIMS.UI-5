@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import MembersProgressTable from '../components/MembersProgressTable';
 import Preloader from '../components/Preloader';
-import { getUserProgress, resetSort } from '../store/actions';
+import { getUserProgress, resetSort, resetFilterData } from '../store/actions';
 import initializeService from '../utils/initializeService';
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
 import PageWrapper from '../UI/PageWrapper';
@@ -24,11 +24,12 @@ class MembersProgressPage extends Component {
   }
 
   async componentDidMount() {
-    const { match, getUserProgress, resetSort } = this.props;
+    const { match, getUserProgress, resetSort, resetFilterData } = this.props;
     const {
       params: { mid },
     } = match;
     resetSort();
+    resetFilterData('progress');
     await getUserProgress(mid);
     const { name: memberName } = await db.getUserById(mid);
     this.setState({ memberName, isLoaded: true, userId: mid });
@@ -60,6 +61,7 @@ MembersProgressPage.propTypes = {
   getUserProgress: PropTypes.func.isRequired,
   progress: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
   resetSort: PropTypes.func.isRequired,
+  resetFilterData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { progress } }) => {
@@ -67,7 +69,7 @@ const mapStateToProps = ({ data: { progress } }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ getUserProgress, resetSort }, dispatch);
+  return bindActionCreators({ getUserProgress, resetSort, resetFilterData }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersProgressPage));

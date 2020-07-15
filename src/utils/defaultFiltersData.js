@@ -12,4 +12,10 @@ const defaultTasksFilter = {
   deadlineDate: null,
 };
 
-export { defaultMembersFilter, defaultTasksFilter };
+const defaultProgressFilter = {
+  taskName: '',
+  trackDate: null,
+  trackNote: '',
+};
+
+export { defaultMembersFilter, defaultTasksFilter, defaultProgressFilter };
