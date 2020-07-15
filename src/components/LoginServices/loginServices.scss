@@ -1,0 +1,17 @@
+@import '../../scss/variables';
+
+.services-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  .svg-inline--fa {
+    height: 3.5rem;
+    width: 3.5rem;
+    transition: all 0.3s ease;
+    fill: $baby-blue;
+    &:hover {
+      fill: $teal-green;
+      cursor: pointer;
+    }
+  }
+}

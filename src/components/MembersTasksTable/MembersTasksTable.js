@@ -9,8 +9,10 @@ import Layout from '../Layout';
 import Table from '../../UI/Table';
 import { millisecondsToDate } from '../../utils/convertDate';
 import { SuccessIcon, FailureIcon, AddTrackIcon } from '../../assets/icons';
+import DraggableTable from '../DraggableTable';
+import DraggableRow from '../DraggableRow';
 
-const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
+const MembersTasksTable = ({ userTasks, role, onSetMark, userId }) => {
   const headers = membersTasksHeaders[role];
   const membersTasksTableBody = userTasks.map((task, idx) => {
     const { deadlineDate, name, startDate, stateId, userTaskId, taskId } = task;
@@ -18,34 +20,36 @@ const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
     const onFailed = () => onSetMark(userTaskId, 'fail', taskId);
     const isUser = role === 'USER';
     return (
-      <tr key={userTaskId}>
-        <td>{idx + 1}</td>
-        <td>{name}</td>
-        <td>{millisecondsToDate(startDate)}</td>
-        <td>{millisecondsToDate(deadlineDate)}</td>
-        <td>
-          <Status stateId={stateId} />
-        </td>
-        {!isUser ? null : (
+      <DraggableRow key={userTaskId} draggableId={userTaskId} index={idx}>
+        <>
+          <td>{idx + 1}</td>
+          <td>{name}</td>
+          <td>{millisecondsToDate(startDate)}</td>
+          <td>{millisecondsToDate(deadlineDate)}</td>
           <td>
-            <LinkButton link={`/member/subtasks/${taskId}`}>
-              <AddTrackIcon />
-            </LinkButton>
+            <Status stateId={stateId} />
           </td>
-        )}
-        {isUser ? null : (
-          <td>
-            <div className='admin-btns'>
-              <SuccessButton onClick={onSucced}>
-                <SuccessIcon />
-              </SuccessButton>
-              <DangerButton onClick={onFailed}>
-                <FailureIcon />
-              </DangerButton>
-            </div>
-          </td>
-        )}
-      </tr>
+          {!isUser ? null : (
+            <td>
+              <LinkButton link={`/member/subtasks/${taskId}`}>
+                <AddTrackIcon />
+              </LinkButton>
+            </td>
+          )}
+          {isUser ? null : (
+            <td>
+              <div className='admin-btns'>
+                <SuccessButton onClick={onSucced}>
+                  <SuccessIcon />
+                </SuccessButton>
+                <DangerButton onClick={onFailed}>
+                  <FailureIcon />
+                </DangerButton>
+              </div>
+            </td>
+          )}
+        </>
+      </DraggableRow>
     );
   });
   return (
@@ -53,7 +57,9 @@ const MembersTasksTable = ({ userTasks, role, onSetMark }) => {
       <Table className='members-task-table'>
         <>
           <TableHeader headers={headers} />
-          <tbody>{membersTasksTableBody}</tbody>
+          <DraggableTable tableData={userTasks} tableType='userTasks' userId={userId}>
+            {membersTasksTableBody}
+          </DraggableTable>
         </>
       </Table>
     </Layout>
@@ -72,6 +78,7 @@ MembersTasksTable.propTypes = {
   ).isRequired,
   role: PropTypes.string.isRequired,
   onSetMark: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default MembersTasksTable;

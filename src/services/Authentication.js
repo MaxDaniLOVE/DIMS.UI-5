@@ -1,14 +1,19 @@
 import firebase from 'firebase';
-import { addCache } from '../utils/cache';
 import initializeService from '../utils/initializeService';
 import firebaseConfig from './firebase.config';
-import Azure from './Azure';
+import Heroku from './Heroku';
 
 const api = initializeService();
 const appForRegistration = firebase.initializeApp(firebaseConfig, 'Secondary');
 
 export default class Authentication {
   auth = firebase.auth();
+
+  githubAuth = new firebase.auth.GithubAuthProvider();
+
+  facebookAuth = new firebase.auth.FacebookAuthProvider().addScope('email');
+
+  googleAuth = new firebase.auth.GoogleAuthProvider().addScope('email');
 
   secondaryAuthApp = appForRegistration.auth();
 
@@ -19,7 +24,7 @@ export default class Authentication {
       if (isUserAddedToDb) {
         await this.secondaryAuthApp.createUserWithEmailAndPassword(email, password);
         await this.secondaryAuthApp.signOut();
-        const sendMailApi = api instanceof Azure ? api : new Azure();
+        const sendMailApi = api instanceof Heroku ? api : new Heroku();
         await sendMailApi.sendMailToUser(registrationData);
       }
     } catch ({ message }) {
@@ -31,14 +36,16 @@ export default class Authentication {
     const isLoggedIn = await new Promise((resolve, reject) => {
       const unsubscribe = this.auth.onAuthStateChanged(async (user) => {
         if (user) {
-          let userRole = await api.getUserRole(user.email);
+          const { email, providerId } = user.providerData[0];
+          let userRole = await api.getUserRole(email);
           if (userRole.role === 'USER') {
-            const additionalData = await api.getUserDataByEmail(user.email);
+            const additionalData = await api.getUserDataByEmail(email);
             userRole = { ...userRole, ...additionalData };
           }
           resolve({
             isLoggedIn: true,
             ...userRole,
+            providerId,
           });
         } else {
           resolve({
@@ -48,8 +55,6 @@ export default class Authentication {
         unsubscribe();
       }, reject);
     });
-
-    addCache('members', []);
 
     return isLoggedIn;
   };
@@ -77,5 +82,25 @@ export default class Authentication {
     } catch ({ message }) {
       throw new Error(message);
     }
+  };
+
+  signInWithProvider = async (provider) => {
+    try {
+      await this.auth.signInWithRedirect(provider);
+    } catch ({ message }) {
+      throw new Error(message);
+    }
+  };
+
+  loginWithGithub = async () => {
+    await this.signInWithProvider(this.githubAuth);
+  };
+
+  loginWithFacebook = async () => {
+    await this.signInWithProvider(this.facebookAuth);
+  };
+
+  loginWithGoogle = async () => {
+    await this.signInWithProvider(this.googleAuth);
   };
 }

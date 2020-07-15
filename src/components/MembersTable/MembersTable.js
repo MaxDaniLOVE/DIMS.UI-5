@@ -9,6 +9,8 @@ import Layout from '../Layout';
 import Table from '../../UI/Table';
 import noteConverter from '../../utils/noteConverter';
 import { EditUserIcon, DeleteIcon, UserTasksIcon, UserProgressIcon } from '../../assets/icons';
+import DraggableTable from '../DraggableTable';
+import DraggableRow from '../DraggableRow';
 
 const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
   const membersTableBody = members.map((member, idx) => {
@@ -20,44 +22,49 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
     const deleteMember = () => onUserDelete(id);
     const userName = noteConverter(`${name} ${lastName}`, 10);
     return (
-      <tr key={id}>
-        <td>{idx + 1}</td>
-        <td>
-          <OutlineButton onClick={openDataModal}>{userName}</OutlineButton>
-        </td>
-        <td>{directionId}</td>
-        <td>{education}</td>
-        <td>{stringStartDate}</td>
-        <td>{ageInYears}</td>
-        <td>
-          <div className={`td-btns td-btns__${role}`}>
-            <LinkButton link={`/member/${id}/tasks`}>
-              <UserTasksIcon />
-            </LinkButton>
-            <LinkButton link={`/member/${id}/progress`}>
-              <UserProgressIcon />
-            </LinkButton>
-            {role === 'ADMIN' ? (
-              <>
-                <Button onClick={openEditModal}>
-                  <EditUserIcon />
-                </Button>
-                <DangerButton onClick={deleteMember}>
-                  <DeleteIcon />
-                </DangerButton>
-              </>
-            ) : null}
-          </div>
-        </td>
-      </tr>
+      <DraggableRow key={id} draggableId={id} index={idx}>
+        <>
+          <td>{idx + 1}</td>
+          <td>
+            <OutlineButton onClick={openDataModal}>{userName}</OutlineButton>
+          </td>
+          <td>{directionId}</td>
+          <td>{education}</td>
+          <td>{stringStartDate}</td>
+          <td>{ageInYears}</td>
+          <td>
+            <div className={`td-btns td-btns__${role}`}>
+              <LinkButton link={`/member/${id}/tasks`}>
+                <UserTasksIcon />
+              </LinkButton>
+              <LinkButton link={`/member/${id}/progress`}>
+                <UserProgressIcon />
+              </LinkButton>
+              {role === 'ADMIN' ? (
+                <>
+                  <Button onClick={openEditModal}>
+                    <EditUserIcon />
+                  </Button>
+                  <DangerButton onClick={deleteMember}>
+                    <DeleteIcon />
+                  </DangerButton>
+                </>
+              ) : null}
+            </div>
+          </td>
+        </>
+      </DraggableRow>
     );
   });
+
   return (
     <Layout>
       <Table className='members-table'>
         <>
           <TableHeader headers={headers} />
-          <tbody>{membersTableBody}</tbody>
+          <DraggableTable tableData={members} tableType='members'>
+            {membersTableBody}
+          </DraggableTable>
         </>
       </Table>
     </Layout>

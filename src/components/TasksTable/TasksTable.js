@@ -8,6 +8,8 @@ import { taskTableHeaders as headers } from '../../utils/tableHeaders';
 import { millisecondsToDate } from '../../utils/convertDate';
 import { EditIcon, DeleteIcon } from '../../assets/icons';
 import noteConverter from '../../utils/noteConverter';
+import DraggableTable from '../DraggableTable';
+import DraggableRow from '../DraggableRow';
 
 const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) => {
   const tasksTableBody = tasks.map(({ deadlineDate, name, startDate, taskId }, idx) => {
@@ -17,24 +19,26 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) =>
     const onDeleteTaskHandler = () => onDeleteTask(taskId);
     const onOpenData = () => onDataOpen(taskId);
     return (
-      <tr key={taskId}>
-        <td>{idx + 1}</td>
-        <td>
-          <OutlineButton onClick={onOpenData}>{noteConverter(name, 25)}</OutlineButton>
-        </td>
-        <td>{startString}</td>
-        <td>{deadlineString}</td>
-        <td>
-          <div className='admin-btns'>
-            <Button onClick={onEditTaskHandler}>
-              <EditIcon />
-            </Button>
-            <DangerButton onClick={onDeleteTaskHandler}>
-              <DeleteIcon />
-            </DangerButton>
-          </div>
-        </td>
-      </tr>
+      <DraggableRow key={taskId} draggableId={taskId} index={idx}>
+        <>
+          <td>{idx + 1}</td>
+          <td>
+            <OutlineButton onClick={onOpenData}>{noteConverter(name, 25)}</OutlineButton>
+          </td>
+          <td>{startString}</td>
+          <td>{deadlineString}</td>
+          <td>
+            <div className='admin-btns'>
+              <Button onClick={onEditTaskHandler}>
+                <EditIcon />
+              </Button>
+              <DangerButton onClick={onDeleteTaskHandler}>
+                <DeleteIcon />
+              </DangerButton>
+            </div>
+          </td>
+        </>
+      </DraggableRow>
     );
   });
   return (
@@ -42,7 +46,9 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) =>
       <Table className='task-table'>
         <>
           <TableHeader headers={headers} />
-          <tbody>{tasksTableBody}</tbody>
+          <DraggableTable tableData={tasks} tableType='tasks'>
+            {tasksTableBody}
+          </DraggableTable>
         </>
       </Table>
     </Layout>

@@ -19,12 +19,13 @@ import {
   ADD_USER_PROGRESS,
   TOGGLE_DARK_MODE,
   SEND_MAIL,
+  REORDER_TABLE,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
 import { stringToDate } from '../../utils/convertDate';
-import sortFromOldToNew from '../../utils/sortFromOldToNew';
 import { addCache, removeCacheItemByKey } from '../../utils/cache';
-import Azure from '../../services/Azure';
+import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelpers';
+import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
 
@@ -35,9 +36,10 @@ const getUsers = () => {
     dispatch(startFetchingData());
     try {
       const users = await api.getUsersData();
+      const sortedUsers = sortCachedData('members', users);
       dispatch({
         type: FETCH_MEMBERS,
-        payload: users,
+        payload: sortedUsers,
       });
     } catch (error) {
       errorCallback(dispatch, error);
@@ -107,9 +109,10 @@ const getTasks = () => {
     dispatch(startFetchingData());
     try {
       const tasks = await api.getAllTasks();
+      const sortedTasks = sortCachedData('tasks', tasks);
       dispatch({
         type: FETCH_TASKS,
-        payload: tasks,
+        payload: sortedTasks,
       });
     } catch (error) {
       errorCallback(dispatch, error);
@@ -122,9 +125,10 @@ const getUserTasks = (id) => {
     dispatch(startFetchingData());
     try {
       const userTasks = await api.getUsersTasks(id);
+      const sortedUserTasks = sortCachedData(`userTasks_${id}`, userTasks);
       dispatch({
         type: FETCH_USER_TASKS,
-        payload: userTasks,
+        payload: sortedUserTasks,
       });
     } catch (error) {
       errorCallback(dispatch, error);
@@ -224,7 +228,7 @@ const getUserProgress = (id) => {
     dispatch(startFetchingData());
     try {
       const userProgress = await api.getUsersProgress(id);
-      const sortedProgress = sortFromOldToNew(userProgress);
+      const sortedProgress = sortCachedData(`progress_${id}`, userProgress);
       dispatch({
         type: GET_USER_PROGRESS,
         payload: sortedProgress,
@@ -315,7 +319,7 @@ const sendMail = (mailData) => {
   return async (dispatch) => {
     dispatch(startFetchingData());
     try {
-      const sendMailApi = api instanceof Azure ? api : new Azure();
+      const sendMailApi = api instanceof Heroku ? api : new Heroku();
       await sendMailApi.sendMail(mailData);
       dispatch({
         type: SEND_MAIL,
@@ -325,6 +329,17 @@ const sendMail = (mailData) => {
       errorCallback(dispatch, error);
     }
   };
+};
+
+const reorderTable = (table, list, startIndex, endIndex, userId) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+
+  result.splice(endIndex, 0, removed);
+
+  addDragNDropCache(table, result, userId);
+
+  return { type: REORDER_TABLE, payload: { result, table } };
 };
 
 export {
@@ -348,4 +363,5 @@ export {
   switchDarkMode,
   getAssignedMembers,
   sendMail,
+  reorderTable,
 };

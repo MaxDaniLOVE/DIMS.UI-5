@@ -1,18 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { Tooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { useTooltipToggling } from '../../hooks';
 
 const TooltipWrapper = ({ children, id, tooltip, maxValuelength }) => {
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const toggle = useCallback(() => {
-    setTooltipOpen(!tooltipOpen);
-  }, [tooltipOpen]);
+  const [isOpenTooltip, toggleTooltip] = useTooltipToggling();
 
   const { length: tooltipLength } = tooltip;
 
   const tooltipComponent = tooltipLength > maxValuelength && (
-    <Tooltip placement='right' isOpen={tooltipOpen} target={id} toggle={toggle}>
+    <Tooltip placement='right' isOpen={isOpenTooltip} target={id} toggle={toggleTooltip}>
       {tooltip}
     </Tooltip>
   );

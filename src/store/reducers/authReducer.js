@@ -5,22 +5,27 @@ import {
   AUTH_STARTED,
   AUTH_ENDED,
   CHANGE_PASSWORD,
+  AUTH_LOG_IN_GITHUB,
+  AUTH_LOG_IN_FACEBOOK,
+  AUTH_LOG_IN_GOOGLE,
 } from '../actions/actionTypes';
 
 const initialState = {
   isAuthStarted: true,
   isLoggedIn: false,
   user: {},
+  providerId: '',
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CHANGE_AUTH_STATUS:
-      const { isLoggedIn, user } = payload;
+      const { isLoggedIn, user, providerId } = payload;
       return {
         ...state,
         isLoggedIn,
         user,
+        providerId,
       };
     case AUTH_STARTED:
       return { ...state, isAuthStarted: true };
@@ -29,6 +34,9 @@ const authReducer = (state = initialState, { type, payload }) => {
     case AUTH_LOG_IN:
     case AUTH_LOG_OUT:
     case CHANGE_PASSWORD:
+    case AUTH_LOG_IN_GITHUB:
+    case AUTH_LOG_IN_FACEBOOK:
+    case AUTH_LOG_IN_GOOGLE:
     default:
       return state;
   }

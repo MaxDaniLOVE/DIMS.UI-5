@@ -18,6 +18,7 @@ import {
   EDIT_USER_PROGRESS,
   TOGGLE_DARK_MODE,
   SEND_MAIL,
+  REORDER_TABLE,
 } from '../actions/actionTypes';
 import { loadCache } from '../../utils/cache';
 
@@ -69,6 +70,9 @@ const dataReducer = (state = initialState, { type, payload }) => {
       return { ...state, assignedMembers: payload };
     case TOGGLE_DARK_MODE:
       return { ...state, isDarkMode: payload };
+    case REORDER_TABLE:
+      const { table, result } = payload;
+      return { ...state, [table]: result };
     case ADD_MEMBER:
     case EDIT_MEMBER:
     case DELETE_USER:

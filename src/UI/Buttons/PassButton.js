@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { HidePassIcon, ShowPassIcon } from '../../assets/icons';
+import Button from './Button';
 
-const HidePassButton = ({ onClick, isShowPass }) => {
+const PassButton = ({ onClick, isShowPass }) => {
   return (
-    <button onClick={onClick} className='pass-hide-btn' type='button'>
+    <Button onClick={onClick} id='pass-hide-btn'>
       {isShowPass ? <HidePassIcon /> : <ShowPassIcon />}
-    </button>
+    </Button>
   );
 };
 
-HidePassButton.propTypes = {
+PassButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   isShowPass: PropTypes.bool.isRequired,
 };
 
-export default HidePassButton;
+export default PassButton;

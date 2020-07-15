@@ -1,41 +1,30 @@
 /* eslint-disable no-shadow */
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Modal } from 'reactstrap';
 import { ChangePassButton } from '../Buttons';
 import { changePassInputs } from '../../utils/inputs';
-import { passChangeValidation, validation } from '../../utils/validation';
+import { passChangeValidation } from '../../utils/validation';
 import { defaultPassChangeData } from '../../utils/defaultInputsData';
-import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import PassInput from '../../components/PassInput';
 import ChangePassForm from '../../components/ChangePassForm';
 import { changePassword } from '../../store/actions';
-import { useDelay } from '../../hooks';
+import { useModalToggling } from '../../hooks';
 
-const CurrentUser = ({ children, changePassword, isDarkMode }) => {
-  const [isShowModal, setIsShowModal] = useState(false);
-  const [formData, setFormData] = useState(defaultPassChangeData);
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  const openModal = () => setIsShowModal(true);
-
-  const closeModal = useDelay(setIsShowModal, setFormData, setIsFormValid, defaultPassChangeData);
-
-  const onChange = ({ target: { value, id } }) => {
-    const updated = inputsChangeHandler(value, id, formData);
-    const isValid = validation(updated, changePassInputs);
-
-    setFormData(updated);
-    setIsFormValid(isValid);
-  };
+const CurrentUser = ({ children, changePassword, isDarkMode, providerId }) => {
+  const { openModal, closeModal, onChange, isShowModal, formData, isFormValid } = useModalToggling(
+    defaultPassChangeData,
+    changePassInputs,
+  );
 
   const onSubmit = async () => {
     const { newPassword } = formData;
     await changePassword(newPassword);
     closeModal();
   };
+
   const inputs = changePassInputs.map(({ label, id, validationPattern }) => {
     const pattern = passChangeValidation(validationPattern, id, formData.newPassword);
 
@@ -49,9 +38,13 @@ const CurrentUser = ({ children, changePassword, isDarkMode }) => {
 
   const modalClassName = isDarkMode ? 'dark-modal' : '';
 
+  const isPasswordAuth = providerId !== 'password';
+
   return (
     <>
-      <ChangePassButton onClick={openModal}>{children}</ChangePassButton>
+      <ChangePassButton onClick={openModal} isPasswordAuth={isPasswordAuth}>
+        {children}
+      </ChangePassButton>
       <Modal isOpen={isShowModal} toggle={closeModal} className={modalClassName}>
         <ChangePassForm isFormValid={isFormValid} onSubmit={onSubmit} closeModal={closeModal}>
           {inputs}
@@ -63,15 +56,18 @@ const CurrentUser = ({ children, changePassword, isDarkMode }) => {
 
 CurrentUser.defaultProps = {
   children: '',
+  providerId: '',
 };
 
 CurrentUser.propTypes = {
   children: PropTypes.string,
   changePassword: PropTypes.func.isRequired,
   isDarkMode: PropTypes.bool.isRequired,
+  providerId: PropTypes.string,
 };
-const mapStateToProps = ({ data: { isDarkMode } }) => {
-  return { isDarkMode };
+
+const mapStateToProps = ({ auth: { providerId }, data: { isDarkMode } }) => {
+  return { isDarkMode, providerId };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ changePassword }, dispatch);

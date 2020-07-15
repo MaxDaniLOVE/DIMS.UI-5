@@ -1,17 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import SuccessButton from './SuccessButton';
 import { AddUserIcon } from '../../assets/icons';
 
-const AddUserButton = ({ onClick, isAdmin }) =>
-  isAdmin && (
+const AddUserButton = ({ onClick, role }) =>
+  role === 'ADMIN' && (
     <SuccessButton onClick={onClick}>
       <AddUserIcon />
     </SuccessButton>
   );
 
 AddUserButton.propTypes = {
-  isAdmin: PropTypes.bool.isRequired,
+  role: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
-export default AddUserButton;
+
+const mapStateToProps = ({
+  auth: {
+    user: { role },
+  },
+}) => {
+  return { role };
+};
+
+export default connect(mapStateToProps, null)(AddUserButton);

@@ -16,8 +16,20 @@ import {
   editUserProgress,
   addUserProgress,
   switchDarkMode,
+  reorderTable,
 } from './dataActions';
-import { logIn, changeStatus, logOut, registerUser, startAuth, endAuth, changePassword } from './authActions';
+import {
+  logIn,
+  changeStatus,
+  logOut,
+  registerUser,
+  startAuth,
+  endAuth,
+  changePassword,
+  loginWithGithub,
+  loginWithFacebook,
+  loginWithGoogle,
+} from './authActions';
 
 export {
   getUsers,
@@ -44,4 +56,8 @@ export {
   startAuth,
   endAuth,
   changePassword,
+  reorderTable,
+  loginWithGithub,
+  loginWithFacebook,
+  loginWithGoogle,
 };

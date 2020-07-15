@@ -1,4 +1,4 @@
-import { comparePasswords, compareNumbers } from '../utils/compareFields';
+import { compareNumbers } from '../utils/compareFields';
 
 const min = {
   value: 4,
@@ -10,7 +10,7 @@ const max = {
   errorMessage: "It can't be greater than 10",
 };
 
-describe('Compare fields dates', () => {
+describe('Compare numbers', () => {
   it("should return 'true' for given 5", () => {
     const numberToCompare = 5;
 
@@ -35,26 +35,6 @@ describe('Compare fields dates', () => {
     const expected = false;
 
     const result = compareNumbers(min, max, numberToCompare);
-
-    expect(result).toBe(expected);
-  });
-  it("should return 'true' for same passwords", () => {
-    const password = 'qwerty123';
-    const passwordToCompare = 'qwerty123';
-
-    const expected = true;
-
-    const result = comparePasswords(password, passwordToCompare);
-
-    expect(result).toBe(expected);
-  });
-  it("should return 'false' for different passwords", () => {
-    const password = 'qwerty123';
-    const passwordToCompare = 'qwerty12';
-
-    const expected = false;
-
-    const result = comparePasswords(password, passwordToCompare);
 
     expect(result).toBe(expected);
   });

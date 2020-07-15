@@ -6,6 +6,7 @@ import { SubmitButton } from '../../UI/Buttons';
 import { fieldValidation } from '../../utils/validation';
 import PassInput from '../PassInput';
 import InputGroup from '../InputGroup';
+import LoginServices from '../LoginServices';
 import './loginForm.scss';
 
 const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isDarkMode, authData }) => {
@@ -45,6 +46,7 @@ const LoginForm = ({ onFormChange, onSubmit, inputs, isFormValid, isDarkMode, au
       <AvForm className={formClassName} onSubmit={onSubmit}>
         <h3>Login:</h3>
         {inputsField}
+        <LoginServices />
         <SubmitButton isFormValid={isFormValid} onClick={onSubmit}>
           Login
         </SubmitButton>

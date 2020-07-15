@@ -6,6 +6,9 @@ import {
   AUTH_STARTED,
   AUTH_ENDED,
   CHANGE_PASSWORD,
+  AUTH_LOG_IN_GITHUB,
+  AUTH_LOG_IN_FACEBOOK,
+  AUTH_LOG_IN_GOOGLE,
 } from './actionTypes';
 import Authentication from '../../services/Authentication';
 import { defaultErrorCallback, successCallback } from './alertsActions';
@@ -35,14 +38,14 @@ const changeStatus = () => {
   return async (dispatch) => {
     try {
       const userStatus = await auth.onStatusChanged();
-      const { isLoggedIn, role, email, userId, userName } = userStatus;
+      const { isLoggedIn, role, email, userId, userName, providerId } = userStatus;
       let user = isLoggedIn ? { role, email } : {};
       if (role === 'USER') {
         user = { ...user, userId, userName };
       }
       dispatch({
         type: CHANGE_AUTH_STATUS,
-        payload: { user, isLoggedIn },
+        payload: { user, isLoggedIn, providerId },
       });
     } catch (error) {
       errorCallback(dispatch, error);
@@ -101,4 +104,47 @@ const changePassword = (password) => {
   };
 };
 
-export { logIn, changeStatus, logOut, registerUser, startAuth, endAuth, changePassword };
+const loginWithGithub = () => {
+  return async (dispatch) => {
+    try {
+      await auth.loginWithGithub();
+      dispatch({ type: AUTH_LOG_IN_GITHUB });
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
+
+const loginWithFacebook = () => {
+  return async (dispatch) => {
+    try {
+      await auth.loginWithFacebook();
+      dispatch({ type: AUTH_LOG_IN_FACEBOOK });
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
+
+const loginWithGoogle = () => {
+  return async (dispatch) => {
+    try {
+      await auth.loginWithGoogle();
+      dispatch({ type: AUTH_LOG_IN_GOOGLE });
+    } catch (error) {
+      errorCallback(dispatch, error);
+    }
+  };
+};
+export {
+  logIn,
+  changeStatus,
+  logOut,
+  registerUser,
+  startAuth,
+  endAuth,
+  changePassword,
+  loginWithGithub,
+  loginWithFacebook,
+  loginWithGoogle,
+};

@@ -1,5 +1,6 @@
 import useAlert from './useAlert';
-import useDelay from './useDelay';
+import useModalToggling from './useModalToggling';
 import useLayoutEffect from './useLayoutEffect';
+import useTooltipToggling from './useTooltipToggling';
 
-export { useAlert, useDelay, useLayoutEffect };
+export { useAlert, useModalToggling, useLayoutEffect, useTooltipToggling };

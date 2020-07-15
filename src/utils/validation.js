@@ -4,18 +4,26 @@ import { compareNumbers, comparePasswords } from './compareFields';
 const validation = (data, inputs) => {
   const keys = Object.keys(data);
   const isValidArray = keys.map((key) => {
-    if (key === 'id' || key === 'taskId') return true;
+    if (key === 'id' || key === 'taskId') {
+      return true;
+    }
     const {
       validationPattern: { pattern, min, max },
       dateToCompare,
       isPassCompare,
     } = inputs.find(({ id }) => id === key);
 
-    if (dateToCompare) return compareDates(data[dateToCompare], data[key]);
+    if (dateToCompare) {
+      return compareDates(data[dateToCompare], data[key]);
+    }
 
-    if (min && max) return compareNumbers(min, max, data[key]);
+    if (min && max) {
+      return compareNumbers(min, max, data[key]);
+    }
 
-    if (isPassCompare) return comparePasswords(data.newPassword, data[key]);
+    if (isPassCompare) {
+      return comparePasswords(data.newPassword, data[key]);
+    }
 
     const { value: patternValue } = pattern;
 
