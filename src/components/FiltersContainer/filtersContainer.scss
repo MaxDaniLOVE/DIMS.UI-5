@@ -10,4 +10,22 @@
     height: 2rem;
     fill: $charcoal;
   }
+  .filter-inputs {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid $teal-green;
+    border-radius: 0.5rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: none;
+    label {
+      width: 100%;
+      padding: 0 0.5rem;
+    }
+    .form-control {
+      padding: 0 0.5rem;
+      height: 2rem;
+    }
+  }
 }

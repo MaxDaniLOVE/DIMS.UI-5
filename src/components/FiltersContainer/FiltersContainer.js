@@ -22,28 +22,30 @@ const FiltersContainer = ({ filterInfo, filterData, pageType, inputs }) => {
     <div className='filters-container'>
       <ShowFiltersButton onClick={setIsOpen} isOpen={isOpen} />
       <Collapse isOpen={isOpen}>
-        {inputs.map(({ id, label, type, options }) => {
-          return type === 'radio' ? (
-            options.map((option) => (
-              <Label className='radio-label' htmlFor={`${id}_${option}`} key={option}>
-                <CustomInput
-                  name={id}
-                  type={type}
-                  id={`${id}_${option}`}
-                  onChange={onChange}
-                  value={option}
-                  checked={filterInfo[id] === option}
-                />
-                {option}
+        <div className='filter-inputs'>
+          {inputs.map(({ id, label, type, options }) => {
+            return type === 'radio' ? (
+              options.map((option) => (
+                <Label className='radio-label' htmlFor={`${id}_${option}`} key={option}>
+                  <CustomInput
+                    name={id}
+                    type={type}
+                    id={`${id}_${option}`}
+                    onChange={onChange}
+                    value={option}
+                    checked={filterInfo[id] === option}
+                  />
+                  {option}
+                </Label>
+              ))
+            ) : (
+              <Label key={id} htmlFor={id}>
+                {label}
+                <Input id={id} type={type} onChange={onChange} />
               </Label>
-            ))
-          ) : (
-            <Label key={id} htmlFor={id}>
-              {label}
-              <Input id={id} type={type} onChange={onChange} />
-            </Label>
-          );
-        })}
+            );
+          })}
+        </div>
       </Collapse>
     </div>
   );
