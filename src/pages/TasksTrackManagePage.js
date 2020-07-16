@@ -14,6 +14,7 @@ import {
   addUserProgress,
   getUserTasks,
   resetSort,
+  resetFilterData,
 } from '../store/actions';
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
 import { withModal } from '../hoc';
@@ -31,12 +32,14 @@ const TasksTrackManagePage = ({
   getUserTasks,
   userId,
   resetSort,
+  resetFilterData,
 }) => {
   useEffect(() => {
     setFormData(defaultSubtaskData);
     getUserTasks(userId);
     resetSort();
-  }, [getUserTasks, setFormData, userId, resetSort]);
+    resetFilterData('progress');
+  }, [getUserTasks, setFormData, userId, resetSort, resetFilterData]);
   if (!progress.length && isLoaded) {
     return (
       <>
@@ -79,6 +82,7 @@ TasksTrackManagePage.propTypes = {
   getUserTasks: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
   resetSort: PropTypes.func.isRequired,
+  resetFilterData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({
@@ -97,7 +101,16 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { resetSort, getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress, getUserTasks },
+    {
+      resetSort,
+      getUserProgress,
+      setFormData,
+      deleteUserProgress,
+      editUserProgress,
+      addUserProgress,
+      getUserTasks,
+      resetFilterData,
+    },
     dispatch,
   );
 };
