@@ -63,4 +63,17 @@ const progressFilterInputs = [
   },
 ];
 
-export { membersFilterInputs, tasksFilterInputs, progressFilterInputs };
+const userTasksFilterInputs = [
+  {
+    label: 'Task name:',
+    id: 'name',
+    type: 'text',
+  },
+  {
+    label: 'State',
+    id: 'stateId',
+    type: 'text',
+  },
+];
+
+export { membersFilterInputs, tasksFilterInputs, progressFilterInputs, userTasksFilterInputs };

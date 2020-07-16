@@ -82,4 +82,4 @@ MembersTasksTable.propTypes = {
   userId: PropTypes.string.isRequired,
 };
 
-export default withSortFeatures(MembersTasksTable);
+export default withSortFeatures(MembersTasksTable, 'userTasks');

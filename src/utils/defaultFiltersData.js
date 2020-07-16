@@ -18,4 +18,9 @@ const defaultProgressFilter = {
   trackNote: '',
 };
 
-export { defaultMembersFilter, defaultTasksFilter, defaultProgressFilter };
+const defaultUserTasksFilter = {
+  name: '',
+  stateId: null,
+};
+
+export { defaultMembersFilter, defaultTasksFilter, defaultProgressFilter, defaultUserTasksFilter };
