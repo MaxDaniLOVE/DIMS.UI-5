@@ -8,6 +8,7 @@ const initialState = {
   isFiltered: false,
   filteredData: [],
   filterInfo: {},
+  settedFilters: {},
 };
 
 const sortReducer = (state = initialState, { type, payload }) => {
@@ -18,10 +19,10 @@ const sortReducer = (state = initialState, { type, payload }) => {
     case RESET_SORT:
       return { ...initialState };
     case FILTER_DATA:
-      const { filteredData, filterInfo } = payload;
-      return { ...state, isFiltered: true, filteredData, filterInfo };
+      return { ...state, isFiltered: true, settedFilters: payload.settedFilters, filteredData: payload.filteredData };
     case RESET_FILTER:
-      return { ...state, isFiltered: false, filterInfo: payload, filteredData: [] };
+      const { settedFilters } = payload;
+      return { ...state, isFiltered: false, filterInfo: payload.filterInfo, settedFilters, filteredData: [] };
     default:
       return state;
   }

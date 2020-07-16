@@ -1,26 +1,26 @@
 const defaultMembersFilter = {
-  name: '',
-  birthDate: null,
-  startDate: null,
-  education: '',
-  directionId: '',
+  name: [],
+  birthDate: [],
+  startDate: [],
+  education: [],
+  directionId: [],
 };
 
 const defaultTasksFilter = {
-  name: '',
-  startDate: null,
-  deadlineDate: null,
+  name: [],
+  startDate: [],
+  deadlineDate: [],
 };
 
 const defaultProgressFilter = {
-  taskName: '',
-  trackDate: null,
-  trackNote: '',
+  taskName: [],
+  trackDate: [],
+  trackNote: [],
 };
 
 const defaultUserTasksFilter = {
-  name: '',
-  stateId: null,
+  name: [],
+  stateId: [],
 };
 
 export { defaultMembersFilter, defaultTasksFilter, defaultProgressFilter, defaultUserTasksFilter };

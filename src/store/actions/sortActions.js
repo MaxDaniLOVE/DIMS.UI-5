@@ -34,35 +34,50 @@ const resetSort = () => {
   return { type: RESET_SORT };
 };
 
-const resetFilterData = (pageType) => {
-  const defaultFilters = {
-    members: defaultMembersFilter,
-    tasks: defaultTasksFilter,
-    progress: defaultProgressFilter,
-    userTasks: defaultUserTasksFilter,
+const resetFilterData = (pageType, dataToFilter = []) => {
+  return (dispatch) => {
+    const defaultFilters = {
+      members: defaultMembersFilter,
+      tasks: defaultTasksFilter,
+      progress: defaultProgressFilter,
+      userTasks: defaultUserTasksFilter,
+    };
+
+    const keys = Object.keys(defaultFilters[pageType]);
+    const filterInfo = {};
+
+    keys.map((key) => {
+      const availiableFilters = new Set();
+      dataToFilter.map((item) => availiableFilters.add(item[key]));
+      filterInfo[key] = [...availiableFilters];
+      return null;
+    });
+
+    const settedFilters = defaultFilters[pageType];
+
+    dispatch({ type: RESET_FILTER, payload: { filterInfo, settedFilters } });
   };
-  return { type: RESET_FILTER, payload: defaultFilters[pageType] };
 };
 
-const filterData = (sortTableId, filterInfo) => {
+const filterData = (sortTableId, settedFilters) => {
   return (dispatch, getState) => {
     const {
       data: { [sortTableId]: dataToFilter },
     } = getState();
 
-    const keys = Object.keys(filterInfo);
+    const keys = Object.keys(settedFilters);
 
     const filteredData = dataToFilter.filter((item) => {
       const isEqualsArray = keys.map((key) => {
-        if (!filterInfo[key]) {
+        if (!settedFilters[key].length) {
           return true;
         }
-        return filterInfo[key] === item[key];
+        return settedFilters[key].includes(item[key]);
       });
       return isEqualsArray.every((element) => element);
     });
 
-    return dispatch({ type: FILTER_DATA, payload: { filteredData, filterInfo } });
+    return dispatch({ type: FILTER_DATA, payload: { settedFilters, filteredData } });
   };
 };
 
