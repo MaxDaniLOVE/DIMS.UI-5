@@ -19,7 +19,7 @@ import { ReactComponent as GoogleIcon } from './google-brands.svg';
 import { ReactComponent as FacebookIcon } from './facebook-brands.svg';
 import { ReactComponent as SortDownIcon } from './sort-down-solid.svg';
 import { ReactComponent as SortUpIcon } from './sort-up-solid.svg';
-
+import { ReactComponent as AngleIcon } from './angle-down-solid.svg';
 export {
   EditIcon,
   DeleteIcon,
@@ -42,4 +42,5 @@ export {
   FacebookIcon,
   SortDownIcon,
   SortUpIcon,
+  AngleIcon,
 };

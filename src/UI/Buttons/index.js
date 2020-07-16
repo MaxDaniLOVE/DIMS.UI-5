@@ -11,6 +11,7 @@ import AddProgressButton from './AddProgressButton';
 import AddUserButton from './AddUserButton';
 import ChangePassButton from './ChangePassButton';
 import PassButton from './PassButton';
+import ShowFiltersButton from './ShowFiltersButton';
 
 export {
   Button,
@@ -26,4 +27,5 @@ export {
   AddUserButton,
   ChangePassButton,
   PassButton,
+  ShowFiltersButton,
 };

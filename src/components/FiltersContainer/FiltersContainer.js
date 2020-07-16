@@ -5,7 +5,7 @@ import { Collapse, Input, CustomInput, Label } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { filterData } from '../../store/actions';
-import { SortDownIcon } from '../../assets/icons';
+import { ShowFiltersButton } from '../../UI/Buttons';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import { useTooltipToggling as useDropdownToggling } from '../../hooks';
 import './filtersContainer.scss';
@@ -19,8 +19,8 @@ const FiltersContainer = ({ filterInfo, filterData, pageType, inputs }) => {
   };
 
   return (
-    <div className='filters'>
-      <SortDownIcon onClick={setIsOpen} />
+    <div className='filters-container'>
+      <ShowFiltersButton onClick={setIsOpen} isOpen={isOpen} />
       <Collapse isOpen={isOpen}>
         {inputs.map(({ id, label, type, options }) => {
           return type === 'radio' ? (

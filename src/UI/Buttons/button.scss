@@ -125,3 +125,24 @@
     }
   }
 }
+
+.filters-btn {
+  width: 100%;
+  background-color: $teal-green;
+  height: 2rem;
+  svg {
+    transition: all 0.3s ease;
+    margin: 0;
+  }
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: $teal-green;
+  }
+}
+
+.open-filter {
+  svg {
+    transform: scale(1, -1);
+  }
+}
