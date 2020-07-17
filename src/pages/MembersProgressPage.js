@@ -24,15 +24,19 @@ class MembersProgressPage extends Component {
   }
 
   async componentDidMount() {
-    const { match, getUserProgress, resetSort, resetFilterData } = this.props;
+    const { match, getUserProgress, resetSort } = this.props;
     const {
       params: { mid },
     } = match;
     resetSort();
-    resetFilterData('progress');
     await getUserProgress(mid);
     const { name: memberName } = await db.getUserById(mid);
     this.setState({ memberName, isLoaded: true, userId: mid });
+  }
+
+  componentDidUpdate() {
+    const { resetFilterData, progress } = this.props;
+    resetFilterData('progress', progress);
   }
 
   render() {

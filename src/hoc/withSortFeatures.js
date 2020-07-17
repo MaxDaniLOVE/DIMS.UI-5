@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { sortData, resetFilterData } from '../store/actions';
@@ -15,10 +15,6 @@ import {
 
 const withSortFeatures = (WrappedComponent, pageType) => (props) => {
   const { sortedData, data, isSorted, sortData, isFiltered, filteredData, resetFilterData, ...properties } = props;
-
-  useEffect(() => {
-    resetFilterData(pageType, data);
-  }, [data, resetFilterData]);
 
   const inputs = {
     members: membersFilterInputs,

@@ -24,10 +24,14 @@ class MembersTasksPage extends Component {
   }
 
   componentDidMount() {
-    const { resetSort, resetFilterData } = this.props;
+    const { resetSort } = this.props;
     resetSort();
-    resetFilterData('userTasks');
     this.getUserTasksData();
+  }
+
+  componentDidUpdate() {
+    const { resetFilterData, userTasks } = this.props;
+    resetFilterData('userTasks', userTasks);
   }
 
   getUserTasksData = async () => {

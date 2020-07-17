@@ -27,8 +27,8 @@ const MembersPage = ({
   useEffect(() => {
     setFormData(defaultRegisterData);
     resetSort();
-    resetFilterData('members');
-  }, [setFormData, resetSort, resetFilterData]);
+    resetFilterData('members', members);
+  }, [setFormData, resetSort, resetFilterData, members]);
 
   const isAdmin = role === 'ADMIN';
   const emptyTableSubtitle = isAdmin ? 'Add your first student!' : 'Sorry, but only admin can add new users:(';

@@ -38,8 +38,8 @@ const TasksTrackManagePage = ({
     setFormData(defaultSubtaskData);
     getUserTasks(userId);
     resetSort();
-    resetFilterData('progress');
-  }, [getUserTasks, setFormData, userId, resetSort, resetFilterData]);
+    resetFilterData('progress', progress);
+  }, [getUserTasks, setFormData, userId, resetSort, resetFilterData, progress]);
   if (!progress.length && isLoaded) {
     return (
       <>

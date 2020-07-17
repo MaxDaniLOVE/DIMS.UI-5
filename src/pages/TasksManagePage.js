@@ -36,8 +36,8 @@ const TasksManagePage = ({
   useEffect(() => {
     setFormData(defaultTaskData);
     resetSort();
-    resetFilterData('tasks');
-  }, [setFormData, resetSort, resetFilterData]);
+    resetFilterData('tasks', tasks);
+  }, [setFormData, resetSort, resetFilterData, tasks]);
   if (!tasks.length && isLoaded) {
     return (
       <>
