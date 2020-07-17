@@ -14,7 +14,7 @@ import {
   addUserProgress,
   getUserTasks,
   resetSort,
-  resetFilterData,
+  setFilterData,
 } from '../store/actions';
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
 import { withModal } from '../hoc';
@@ -32,14 +32,14 @@ const TasksTrackManagePage = ({
   getUserTasks,
   userId,
   resetSort,
-  resetFilterData,
+  setFilterData,
 }) => {
   useEffect(() => {
     setFormData(defaultSubtaskData);
     getUserTasks(userId);
     resetSort();
-    resetFilterData('progress', progress);
-  }, [getUserTasks, setFormData, userId, resetSort, resetFilterData, progress]);
+    setFilterData('progress', progress);
+  }, [getUserTasks, setFormData, userId, resetSort, setFilterData, progress]);
   if (!progress.length && isLoaded) {
     return (
       <>
@@ -82,7 +82,7 @@ TasksTrackManagePage.propTypes = {
   getUserTasks: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
   resetSort: PropTypes.func.isRequired,
-  resetFilterData: PropTypes.func.isRequired,
+  setFilterData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({
@@ -109,7 +109,7 @@ const mapDispatchToProps = (dispatch) => {
       editUserProgress,
       addUserProgress,
       getUserTasks,
-      resetFilterData,
+      setFilterData,
     },
     dispatch,
   );

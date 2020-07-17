@@ -4,7 +4,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { sortData, resetFilterData } from '../store/actions';
+import { sortData } from '../store/actions';
 import FiltersContainer from '../components/FiltersContainer';
 import {
   membersFilterInputs,
@@ -14,7 +14,7 @@ import {
 } from '../utils/filterInputs';
 
 const withSortFeatures = (WrappedComponent, pageType) => (props) => {
-  const { sortedData, data, isSorted, sortData, isFiltered, filteredData, resetFilterData, ...properties } = props;
+  const { sortedData, data, isSorted, sortData, isFiltered, filteredData, ...properties } = props;
 
   const inputs = {
     members: membersFilterInputs,
@@ -44,7 +44,7 @@ const mapStateToProps = ({ sort: { sortedData, sortInfo, isSorted, isFiltered, f
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ sortData, resetFilterData }, dispatch);
+  return bindActionCreators({ sortData }, dispatch);
 };
 
 const composedModalHOC = compose(connect(mapStateToProps, mapDispatchToProps), withSortFeatures);

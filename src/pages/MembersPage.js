@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setFormData, resetSort, resetFilterData } from '../store/actions';
+import { setFormData, resetSort, setFilterData } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import { AddUserButton } from '../UI/Buttons';
@@ -22,13 +22,13 @@ const MembersPage = ({
   onModalOpen,
   setFormData,
   resetSort,
-  resetFilterData,
+  setFilterData,
 }) => {
   useEffect(() => {
     setFormData(defaultRegisterData);
     resetSort();
-    resetFilterData('members', members);
-  }, [setFormData, resetSort, resetFilterData, members]);
+    setFilterData('members', members);
+  }, [setFormData, resetSort, setFilterData, members]);
 
   const isAdmin = role === 'ADMIN';
   const emptyTableSubtitle = isAdmin ? 'Add your first student!' : 'Sorry, but only admin can add new users:(';
@@ -70,7 +70,7 @@ const mapStateToProps = ({ data: { members, formData }, auth: { user } }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ setFormData, resetSort, resetFilterData }, dispatch);
+  return bindActionCreators({ setFormData, resetSort, setFilterData }, dispatch);
 };
 
 MembersPage.propTypes = {
@@ -83,7 +83,7 @@ MembersPage.propTypes = {
   onDataOpen: PropTypes.func.isRequired,
   onModalOpen: PropTypes.func.isRequired,
   resetSort: PropTypes.func.isRequired,
-  resetFilterData: PropTypes.func.isRequired,
+  setFilterData: PropTypes.func.isRequired,
 };
 
 export default withModal(connect(mapStateToProps, mapDispatchToProps)(MembersPage), 'MEMBERS_PAGE');

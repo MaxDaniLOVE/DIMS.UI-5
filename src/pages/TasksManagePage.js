@@ -15,7 +15,7 @@ import {
   setFormData,
   setAssignedMembers,
   resetSort,
-  resetFilterData,
+  setFilterData,
 } from '../store/actions';
 import { withModal } from '../hoc';
 import { AddTaskIcon } from '../assets/icons';
@@ -31,13 +31,13 @@ const TasksManagePage = ({
   setFormData,
   onDataOpen,
   resetSort,
-  resetFilterData,
+  setFilterData,
 }) => {
   useEffect(() => {
     setFormData(defaultTaskData);
     resetSort();
-    resetFilterData('tasks', tasks);
-  }, [setFormData, resetSort, resetFilterData, tasks]);
+    setFilterData('tasks', tasks);
+  }, [setFormData, resetSort, setFilterData, tasks]);
   if (!tasks.length && isLoaded) {
     return (
       <>
@@ -79,7 +79,7 @@ TasksManagePage.propTypes = {
   onModalOpen: PropTypes.func.isRequired,
   onDataOpen: PropTypes.func.isRequired,
   resetSort: PropTypes.func.isRequired,
-  resetFilterData: PropTypes.func.isRequired,
+  setFilterData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {
@@ -88,7 +88,7 @@ const mapStateToProps = ({ data: { tasks, formData, assignedMembers } }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { resetSort, getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers, resetFilterData },
+    { resetSort, getTasks, addTask, deleteTask, editTask, setFormData, setAssignedMembers, setFilterData },
     dispatch,
   );
 };

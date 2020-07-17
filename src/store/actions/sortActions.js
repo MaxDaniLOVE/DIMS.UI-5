@@ -1,4 +1,4 @@
-import { SORT_DATA, RESET_SORT, FILTER_DATA, RESET_FILTER } from './actionTypes';
+import { SORT_DATA, RESET_SORT, FILTER_DATA, SET_FILTER } from './actionTypes';
 import sortHelper from '../../utils/sortHelper';
 import {
   defaultMembersFilter,
@@ -34,7 +34,7 @@ const resetSort = () => {
   return { type: RESET_SORT };
 };
 
-const resetFilterData = (pageType, dataToFilter = []) => {
+const setFilterData = (pageType, dataToFilter) => {
   return (dispatch) => {
     const defaultFilters = {
       members: defaultMembersFilter,
@@ -55,7 +55,7 @@ const resetFilterData = (pageType, dataToFilter = []) => {
 
     const settedFilters = defaultFilters[pageType];
 
-    dispatch({ type: RESET_FILTER, payload: { filterInfo, settedFilters } });
+    dispatch({ type: SET_FILTER, payload: { filterInfo, settedFilters } });
   };
 };
 
@@ -81,4 +81,4 @@ const filterData = (sortTableId, settedFilters) => {
   };
 };
 
-export { sortData, resetSort, resetFilterData, filterData };
+export { sortData, resetSort, setFilterData, filterData };
