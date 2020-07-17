@@ -48,11 +48,11 @@ const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inp
                   }
                 }
                 return (
-                  <Label className='checkbox-label' htmlFor={`${id}_${option}`} key={option}>
+                  <Label className='checkbox-label' htmlFor={`${id}_${option}_filter`} key={option}>
                     <CustomInput
                       name={id}
                       type='checkbox'
-                      id={`${id}_${option}`}
+                      id={`${id}_${option}_filter`}
                       onChange={onChange}
                       value={option}
                       checked={settedFilters[id].includes(option)}

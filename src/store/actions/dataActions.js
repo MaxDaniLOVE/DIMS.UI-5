@@ -22,7 +22,7 @@ import {
   REORDER_TABLE,
 } from './actionTypes';
 import initializeService from '../../utils/initializeService';
-import { stringToDate } from '../../utils/convertDate';
+import { stringToDate, millisecondsToAge } from '../../utils/convertDate';
 import { addCache, removeCacheItemByKey } from '../../utils/cache';
 import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelpers';
 import Heroku from '../../services/Heroku';
@@ -47,7 +47,12 @@ const getUsers = () => {
     dispatch(startFetchingData());
     try {
       const users = await api.getUsersData();
-      const sortedUsers = sortCachedData('members', users);
+      const usersWithAgeData = users.map(({ birthDate, ...data }) => ({
+        ...data,
+        birthDate,
+        age: millisecondsToAge(birthDate),
+      }));
+      const sortedUsers = sortCachedData('members', usersWithAgeData);
       dispatch({
         type: FETCH_MEMBERS,
         payload: sortedUsers,

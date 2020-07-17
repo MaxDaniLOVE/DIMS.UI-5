@@ -5,7 +5,7 @@ const membersFilterInputs = [
   },
   {
     label: 'Age:',
-    id: 'birthDate',
+    id: 'age',
   },
   {
     label: 'Start date:',
