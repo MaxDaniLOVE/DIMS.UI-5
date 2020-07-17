@@ -11,10 +11,10 @@
     fill: $charcoal;
   }
   .filter-inputs {
-    padding: 1rem 0;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+    flex-direction: row;
     border: 1px solid $teal-green;
     border-radius: 0.5rem;
     border-top-left-radius: 0;
@@ -23,10 +23,22 @@
     label {
       width: 100%;
       padding: 0 0.5rem;
+      display: flex;
     }
     .form-control {
       padding: 0 0.5rem;
       height: 2rem;
+    }
+    &__column {
+      display: flex;
+      flex-direction: column;
+    }
+    &__title {
+      align-self: center;
+      margin-bottom: 0.5rem;
+    }
+    .checkbox-label {
+      margin-bottom: 0;
     }
   }
 }

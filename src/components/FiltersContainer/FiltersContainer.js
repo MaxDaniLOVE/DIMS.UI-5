@@ -11,20 +11,21 @@ import './filtersContainer.scss';
 
 const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inputs }) => {
   const [isOpen, setIsOpen] = useDropdownToggling();
-  const onChange = ({ target: { id, checked, value } }) => {
-    const aaa = { ...settedFilters };
 
-    const updatedFilters = new Set();
-    settedFilters[id.split('_')[0]].map((el) => updatedFilters.add(el));
+  const onChange = ({ target: { id, checked, value } }) => {
+    const updatedFilters = { ...settedFilters };
+
+    const helpingSet = new Set();
+    settedFilters[id.split('_')[0]].map((el) => helpingSet.add(el));
 
     if (checked) {
-      updatedFilters.add(value);
+      helpingSet.add(value);
     } else {
-      updatedFilters.delete(value);
+      helpingSet.delete(value);
     }
-    aaa[id.split('_')[0]] = [...updatedFilters];
+    updatedFilters[id.split('_')[0]] = [...helpingSet];
 
-    filterData(pageType, aaa);
+    filterData(pageType, updatedFilters);
   };
 
   return (
@@ -32,21 +33,24 @@ const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inp
       <ShowFiltersButton onClick={setIsOpen} isOpen={isOpen} />
       <Collapse isOpen={isOpen}>
         <div className='filter-inputs'>
-          {inputs.map(({ id }) => {
-            return filterInfo[id].map((option) => (
-              <Label className='radio-label' htmlFor={`${id}_${option}`} key={option}>
-                <CustomInput
-                  name={id}
-                  type='checkbox'
-                  id={`${id}_${option}`}
-                  onChange={onChange}
-                  value={option}
-                  checked={settedFilters[id].includes(option)}
-                />
-                {option}
-              </Label>
-            ));
-          })}
+          {inputs.map(({ id, label }) => (
+            <div className='filter-inputs__column' key={id}>
+              <p className='filter-inputs__title'>{label}</p>
+              {filterInfo[id].map((option) => (
+                <Label className='checkbox-label' htmlFor={`${id}_${option}`} key={option}>
+                  <CustomInput
+                    name={id}
+                    type='checkbox'
+                    id={`${id}_${option}`}
+                    onChange={onChange}
+                    value={option}
+                    checked={settedFilters[id].includes(option)}
+                  />
+                  {option}
+                </Label>
+              ))}
+            </div>
+          ))}
         </div>
       </Collapse>
     </div>
