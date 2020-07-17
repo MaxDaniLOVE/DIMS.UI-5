@@ -10,9 +10,10 @@ import { EditIcon, DeleteIcon } from '../../assets/icons';
 import noteConverter from '../../utils/noteConverter';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
+import { withSortFeatures } from '../../hoc';
 
-const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) => {
-  const tasksTableBody = tasks.map(({ deadlineDate, name, startDate, taskId }, idx) => {
+const TasksTable = ({ data, onDeleteTask, onEditTaskModalOpen, onDataOpen }) => {
+  const tasksTableBody = data.map(({ deadlineDate, name, startDate, taskId }, idx) => {
     const startString = millisecondsToDate(startDate);
     const deadlineString = millisecondsToDate(deadlineDate);
     const onEditTaskHandler = () => onEditTaskModalOpen(taskId);
@@ -45,8 +46,8 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) =>
     <Layout>
       <Table className='task-table'>
         <>
-          <TableHeader headers={headers} />
-          <DraggableTable tableData={tasks} tableType='tasks'>
+          <TableHeader headers={headers} tableType='tasks' />
+          <DraggableTable tableData={data} tableType='tasks'>
             {tasksTableBody}
           </DraggableTable>
         </>
@@ -56,10 +57,10 @@ const TasksTable = ({ tasks, onDeleteTask, onEditTaskModalOpen, onDataOpen }) =>
 };
 
 TasksTable.propTypes = {
-  tasks: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
   onDeleteTask: PropTypes.func.isRequired,
   onEditTaskModalOpen: PropTypes.func.isRequired,
   onDataOpen: PropTypes.func.isRequired,
 };
 
-export default TasksTable;
+export default withSortFeatures(TasksTable);

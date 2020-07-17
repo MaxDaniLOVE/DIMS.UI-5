@@ -11,9 +11,10 @@ import noteConverter from '../../utils/noteConverter';
 import { EditUserIcon, DeleteIcon, UserTasksIcon, UserProgressIcon } from '../../assets/icons';
 import DraggableTable from '../DraggableTable';
 import DraggableRow from '../DraggableRow';
+import { withSortFeatures } from '../../hoc';
 
-const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
-  const membersTableBody = members.map((member, idx) => {
+const MembersTable = ({ data, onEditMemberModalOpen, onMemberDataOpen, onUserDelete, role }) => {
+  const membersTableBody = data.map((member, idx) => {
     const { id, name, lastName, directionId, education, startDate, birthDate } = member;
     const stringStartDate = millisecondsToDate(startDate);
     const ageInYears = millisecondsToAge(birthDate);
@@ -61,8 +62,8 @@ const MembersTable = ({ members, onEditMemberModalOpen, onMemberDataOpen, onUser
     <Layout>
       <Table className='members-table'>
         <>
-          <TableHeader headers={headers} />
-          <DraggableTable tableData={members} tableType='members'>
+          <TableHeader headers={headers} tableType='members' />
+          <DraggableTable tableData={data} tableType='members'>
             {membersTableBody}
           </DraggableTable>
         </>
@@ -76,7 +77,7 @@ MembersTable.propTypes = {
   onEditMemberModalOpen: PropTypes.func.isRequired,
   onMemberDataOpen: PropTypes.func.isRequired,
   onUserDelete: PropTypes.func.isRequired,
-  members: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+  data: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-export default MembersTable;
+export default withSortFeatures(MembersTable);

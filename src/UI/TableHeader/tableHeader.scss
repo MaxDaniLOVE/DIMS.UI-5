@@ -4,13 +4,56 @@
   font-size: 1.5rem;
   text-align: left;
   th {
+    padding-right: 0;
     background-color: $charcoal;
+    &:hover {
+      .head-cell {
+        .fa-sort-up,
+        .fa-sort-down {
+          opacity: 1;
+        }
+      }
+    }
+    .head-cell {
+      margin-left: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .sort-buttons {
+        margin-left: inherit;
+        display: flex;
+        flex-direction: column;
+        svg {
+          opacity: 0;
+        }
+      }
+    }
+    .active-sort {
+      .sort-buttons {
+        .fa-sort-up,
+        .fa-sort-down {
+          opacity: 1;
+        }
+      }
+    }
+    .UP {
+      .fa-sort-up {
+        fill: $freesia;
+      }
+    }
+    .DOWN {
+      .fa-sort-down {
+        fill: $freesia;
+      }
+    }
   }
   th:first-child {
     border-top-left-radius: 0.5rem;
+    padding-left: 0;
   }
   th:last-child {
     border-top-right-radius: 0.5rem;
+    padding-right: 1.5rem;
   }
 }
 
@@ -24,4 +67,14 @@ th,
 td {
   font-weight: 300;
   padding: 0.5rem 0.8rem;
+}
+
+.fa-sort-up,
+.fa-sort-down {
+  transition: all 0.3s ease;
+  &:hover {
+    cursor: pointer;
+    fill: $freesia;
+  }
+  fill: #fff;
 }

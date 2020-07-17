@@ -3,12 +3,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setFormData } from '../store/actions';
+import { setFormData, resetSort } from '../store/actions';
 import Preloader from '../components/Preloader';
 import MembersTable from '../components/MembersTable';
 import { AddUserButton } from '../UI/Buttons';
 import { defaultRegisterData } from '../utils/defaultInputsData';
-import composedModalHOC from '../hoc/withModal';
+import { withModal } from '../hoc';
 import { DangerSubtitle, Subtitle } from '../UI/Titles';
 import PageWrapper from '../UI/PageWrapper';
 
@@ -21,10 +21,12 @@ const MembersPage = ({
   onDataOpen,
   onModalOpen,
   setFormData,
+  resetSort,
 }) => {
   useEffect(() => {
     setFormData(defaultRegisterData);
-  }, [setFormData]);
+    resetSort();
+  }, [setFormData, resetSort]);
 
   const isAdmin = role === 'ADMIN';
   const emptyTableSubtitle = isAdmin ? 'Add your first student!' : 'Sorry, but only admin can add new users:(';
@@ -43,7 +45,7 @@ const MembersPage = ({
           <AddUserButton onClick={onModalOpen} />
           <Subtitle>All Dev-Incubator students:</Subtitle>
           <MembersTable
-            members={members}
+            data={members}
             onEditMemberModalOpen={onEditDataModalOpen}
             onMemberDataOpen={onDataOpen}
             onUserDelete={onDeleteData}
@@ -66,7 +68,7 @@ const mapStateToProps = ({ data: { members, formData }, auth: { user } }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ setFormData }, dispatch);
+  return bindActionCreators({ setFormData, resetSort }, dispatch);
 };
 
 MembersPage.propTypes = {
@@ -78,6 +80,7 @@ MembersPage.propTypes = {
   onEditDataModalOpen: PropTypes.func.isRequired,
   onDataOpen: PropTypes.func.isRequired,
   onModalOpen: PropTypes.func.isRequired,
+  resetSort: PropTypes.func.isRequired,
 };
 
-export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(MembersPage), 'MEMBERS_PAGE');
+export default withModal(connect(mapStateToProps, mapDispatchToProps)(MembersPage), 'MEMBERS_PAGE');

@@ -10,6 +10,7 @@
     font-family: 1rem;
     box-shadow: 0px 0px 21px 0px rgba(0, 0, 0, 0.75);
     transition: all 0.3s ease;
+    overflow: hidden;
     td,
     th {
       border-top: none;
@@ -23,10 +24,10 @@
       border: none;
     }
     tr {
-      border-bottom: 1px solid $grey;
+      box-shadow: inset 0px -1px 0px 0px $grey;
     }
     tr:last-child {
-      border-bottom: none;
+      box-shadow: none;
       td:first-child {
         border-bottom-left-radius: 0.5rem;
       }

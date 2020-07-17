@@ -18,6 +18,7 @@ import {
   switchDarkMode,
   reorderTable,
 } from './dataActions';
+
 import {
   logIn,
   changeStatus,
@@ -30,6 +31,10 @@ import {
   loginWithFacebook,
   loginWithGoogle,
 } from './authActions';
+
+import { sortData, resetSort } from './sortActions';
+
+import { throwAlert } from './alertsActions';
 
 export {
   getUsers,
@@ -60,4 +65,7 @@ export {
   loginWithGithub,
   loginWithFacebook,
   loginWithGoogle,
+  sortData,
+  resetSort,
+  throwAlert,
 };

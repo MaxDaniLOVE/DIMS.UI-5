@@ -17,6 +17,9 @@ import { ReactComponent as ShowPassIcon } from './eye-regular.svg';
 import { ReactComponent as HidePassIcon } from './eye-slash-regular.svg';
 import { ReactComponent as GoogleIcon } from './google-brands.svg';
 import { ReactComponent as FacebookIcon } from './facebook-brands.svg';
+import { ReactComponent as SortDownIcon } from './sort-down-solid.svg';
+import { ReactComponent as SortUpIcon } from './sort-up-solid.svg';
+
 export {
   EditIcon,
   DeleteIcon,
@@ -37,4 +40,6 @@ export {
   HidePassIcon,
   GoogleIcon,
   FacebookIcon,
+  SortDownIcon,
+  SortUpIcon,
 };

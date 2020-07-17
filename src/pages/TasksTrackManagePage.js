@@ -13,9 +13,10 @@ import {
   editUserProgress,
   addUserProgress,
   getUserTasks,
+  resetSort,
 } from '../store/actions';
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
-import composedModalHOC from '../hoc/withModal';
+import { withModal } from '../hoc';
 import { AddProgressButton } from '../UI/Buttons';
 import PageWrapper from '../UI/PageWrapper';
 
@@ -29,11 +30,13 @@ const TasksTrackManagePage = ({
   setFormData,
   getUserTasks,
   userId,
+  resetSort,
 }) => {
   useEffect(() => {
     setFormData(defaultSubtaskData);
     getUserTasks(userId);
-  }, [getUserTasks, setFormData, userId]);
+    resetSort();
+  }, [getUserTasks, setFormData, userId, resetSort]);
   if (!progress.length && isLoaded) {
     return (
       <>
@@ -50,7 +53,7 @@ const TasksTrackManagePage = ({
           <Subtitle>This is your subtasks:</Subtitle>
           <MembersProgressTable
             onAddSubtaskModalOpen={onSubtaskModalOpen}
-            progress={progress}
+            data={progress}
             isMemberTasks
             onSubtaskDataOpen={onDataOpen}
             onSubtaskDelete={onDeleteData}
@@ -75,6 +78,7 @@ TasksTrackManagePage.propTypes = {
   onSubtaskModalOpen: PropTypes.func.isRequired,
   getUserTasks: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
+  resetSort: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({
@@ -93,9 +97,9 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress, getUserTasks },
+    { resetSort, getUserProgress, setFormData, deleteUserProgress, editUserProgress, addUserProgress, getUserTasks },
     dispatch,
   );
 };
 
-export default composedModalHOC(connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage), 'TRACK_PAGE');
+export default withModal(connect(mapStateToProps, mapDispatchToProps)(TasksTrackManagePage), 'TRACK_PAGE');

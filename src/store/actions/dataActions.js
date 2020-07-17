@@ -28,11 +28,22 @@ import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelper
 import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
+import { resetSort, sortData } from './sortActions';
 
 const api = initializeService();
 
+const sortingCallback = (dispatch, getState, sortTableId) => {
+  const {
+    sort: { isSorted, sortInfo },
+  } = getState();
+  if (isSorted) {
+    const { type, id } = sortInfo;
+    dispatch(sortData(sortTableId, id, type, true));
+  }
+};
+
 const getUsers = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingData());
     try {
       const users = await api.getUsersData();
@@ -41,6 +52,7 @@ const getUsers = () => {
         type: FETCH_MEMBERS,
         payload: sortedUsers,
       });
+      sortingCallback(dispatch, getState, 'members');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -105,7 +117,7 @@ const deleteUser = (id) => {
 };
 
 const getTasks = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingData());
     try {
       const tasks = await api.getAllTasks();
@@ -114,6 +126,7 @@ const getTasks = () => {
         type: FETCH_TASKS,
         payload: sortedTasks,
       });
+      sortingCallback(dispatch, getState, 'tasks');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -121,7 +134,7 @@ const getTasks = () => {
 };
 
 const getUserTasks = (id) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingData());
     try {
       const userTasks = await api.getUsersTasks(id);
@@ -130,6 +143,7 @@ const getUserTasks = (id) => {
         type: FETCH_USER_TASKS,
         payload: sortedUserTasks,
       });
+      sortingCallback(dispatch, getState, 'userTasks');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -224,7 +238,7 @@ const setAssignedMembers = (members) => {
 };
 
 const getUserProgress = (id) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(startFetchingData());
     try {
       const userProgress = await api.getUsersProgress(id);
@@ -233,6 +247,7 @@ const getUserProgress = (id) => {
         type: GET_USER_PROGRESS,
         payload: sortedProgress,
       });
+      sortingCallback(dispatch, getState, 'progress');
     } catch (error) {
       errorCallback(dispatch, error);
     }
@@ -332,14 +347,24 @@ const sendMail = (mailData) => {
 };
 
 const reorderTable = (table, list, startIndex, endIndex, userId) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
+  return (dispatch, getStore) => {
+    const {
+      sort: { isSorted },
+    } = getStore();
 
-  result.splice(endIndex, 0, removed);
+    if (isSorted) {
+      dispatch(resetSort());
+    }
 
-  addDragNDropCache(table, result, userId);
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
 
-  return { type: REORDER_TABLE, payload: { result, table } };
+    result.splice(endIndex, 0, removed);
+
+    addDragNDropCache(table, result, userId);
+
+    dispatch({ type: REORDER_TABLE, payload: { result, table } });
+  };
 };
 
 export {
