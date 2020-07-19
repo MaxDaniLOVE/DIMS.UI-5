@@ -8,6 +8,7 @@ import { filterData } from '../../store/actions';
 import { ShowFiltersButton } from '../../UI/Buttons';
 import { useTooltipToggling as useDropdownToggling } from '../../hooks';
 import { dateToString, millisecondsToAge } from '../../utils/convertDate';
+import { statesIds } from '../../utils/constants';
 import './filtersContainer.scss';
 
 const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inputs }) => {
@@ -19,13 +20,14 @@ const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inp
     const helpingSet = new Set();
     settedFilters[id.split('_')[0]].map((el) => helpingSet.add(el));
 
-    const filter = parseInt(value, 10) ? parseInt(value, 10) : value;
+    const filter = parseInt(value, 10) || value === '0' ? parseInt(value, 10) : value;
 
     if (checked) {
       helpingSet.add(filter);
     } else {
       helpingSet.delete(filter);
     }
+
     updatedFilters[id.split('_')[0]] = [...helpingSet];
 
     filterData(pageType, updatedFilters);
@@ -41,6 +43,9 @@ const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inp
               <p className='filter-inputs__title'>{label}</p>
               {filterInfo[id].map((option) => {
                 let title = option;
+                if (id === 'stateId') {
+                  title = statesIds[option];
+                }
                 if (id.includes('Date')) {
                   title = dateToString(option);
                   if (id === 'birthDate') {
