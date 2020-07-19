@@ -11,7 +11,7 @@ import { dateToString, millisecondsToAge } from '../../utils/convertDate';
 import { statesIds } from '../../utils/constants';
 import './filtersContainer.scss';
 
-const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inputs }) => {
+const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inputs, isDarkMode }) => {
   const [isOpen, setIsOpen] = useDropdownToggling();
 
   const onChange = ({ target: { id, checked, value } }) => {
@@ -33,8 +33,10 @@ const FiltersContainer = ({ filterInfo, settedFilters, filterData, pageType, inp
     filterData(pageType, updatedFilters);
   };
 
+  const containerClassName = isDarkMode ? 'filters-container dark-filters' : 'filters-container';
+
   return (
-    <div className='filters-container'>
+    <div className={containerClassName}>
       <ShowFiltersButton onClick={setIsOpen} isOpen={isOpen} />
       <Collapse isOpen={isOpen}>
         <div className='filter-inputs'>
@@ -84,10 +86,11 @@ FiltersContainer.propTypes = {
   ).isRequired,
   settedFilters: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])))
     .isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = ({ sort: { filterInfo, settedFilters } }) => {
-  return { filterInfo, settedFilters };
+const mapStateToProps = ({ sort: { filterInfo, settedFilters }, data: { isDarkMode } }) => {
+  return { filterInfo, settedFilters, isDarkMode };
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -3,6 +3,7 @@
 .filters-container {
   display: flex;
   flex-direction: column;
+  font-weight: 300;
   svg {
     align-self: center;
     margin-bottom: 1rem;
@@ -36,9 +37,13 @@
     &__title {
       align-self: center;
       margin-bottom: 0.5rem;
+      font-weight: 400;
     }
     .checkbox-label {
       margin-bottom: 0;
     }
   }
+}
+.dark-filters {
+  color: $baby-blue;
 }
