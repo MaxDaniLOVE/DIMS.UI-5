@@ -12,6 +12,7 @@ import {
   progressFilterInputs,
   userTasksFilterInputs,
 } from '../utils/filterInputs';
+import { NoFilteredDataTitle } from '../UI/Titles';
 
 const withSortFeatures = (WrappedComponent, pageType) => (props) => {
   const inputs = {
@@ -30,7 +31,11 @@ const withSortFeatures = (WrappedComponent, pageType) => (props) => {
   return (
     <>
       <FiltersContainer inputs={inputs[pageType]} pageType={pageType} />
-      <WrappedComponent data={displayedData} {...properties} />
+      {isFiltered && !displayedData.length ? (
+        <NoFilteredDataTitle />
+      ) : (
+        <WrappedComponent data={displayedData} {...properties} />
+      )}
     </>
   );
 };
