@@ -12,6 +12,7 @@ import AddUserButton from './AddUserButton';
 import ChangePassButton from './ChangePassButton';
 import PassButton from './PassButton';
 import ShowFiltersButton from './ShowFiltersButton';
+import ResetFiltersButton from './ResetFiltersButton';
 
 export {
   Button,
@@ -28,4 +29,5 @@ export {
   ChangePassButton,
   PassButton,
   ShowFiltersButton,
+  ResetFiltersButton,
 };
