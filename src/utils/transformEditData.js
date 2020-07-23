@@ -3,8 +3,8 @@ import { dateToString } from './convertDate';
 const transformEditData = (pageType, pageData, recievedId) => {
   if (pageType === 'MEMBERS_PAGE') {
     const editedData = pageData.find(({ id }) => id === recievedId);
-    const { birthDate, startDate } = editedData;
-    return { ...editedData, birthDate: dateToString(birthDate), startDate: dateToString(startDate) };
+    const { birthDate, startDate, age, ...data } = editedData;
+    return { ...data, birthDate: dateToString(birthDate), startDate: dateToString(startDate) };
   }
   if (pageType === 'TASK_PAGE') {
     const editedData = pageData.find(({ taskId }) => taskId === recievedId);
