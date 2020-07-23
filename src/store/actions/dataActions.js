@@ -29,6 +29,7 @@ import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
 import { resetSort, sortData } from './sortActions';
+import addAgeFieldToUsers from '../../utils/addAgeFieldToUsers';
 
 const api = initializeService();
 
@@ -47,7 +48,8 @@ const getUsers = () => {
     dispatch(startFetchingData());
     try {
       const users = await api.getUsersData();
-      const sortedUsers = sortCachedData('members', users);
+      const usersWithAgeData = addAgeFieldToUsers(users);
+      const sortedUsers = sortCachedData('members', usersWithAgeData);
       dispatch({
         type: FETCH_MEMBERS,
         payload: sortedUsers,

@@ -24,13 +24,14 @@ const FiltersContainer = ({ filterInfo, filterData, pageType, inputs }) => {
       <Collapse isOpen={isOpen}>
         <div className='filter-inputs'>
           {inputs.map(({ id, label, type, options }) => {
+            const minMaxNumberValue = type === 'number' ? { min: 18, max: 100 } : '';
             return type === 'radio' ? (
               options.map((option) => (
-                <Label className='radio-label' htmlFor={`${id}_${option}`} key={option}>
+                <Label className='radio-label' htmlFor={`${id}_filter_${option}`} key={option}>
                   <CustomInput
                     name={id}
                     type={type}
-                    id={`${id}_${option}`}
+                    id={`${id}_filter_${option}`}
                     onChange={onChange}
                     value={option}
                     checked={filterInfo[id] === option}
@@ -41,7 +42,13 @@ const FiltersContainer = ({ filterInfo, filterData, pageType, inputs }) => {
             ) : (
               <Label key={id} htmlFor={id}>
                 {label}
-                <Input id={id} type={type} onChange={onChange} />
+                <Input
+                  id={id}
+                  type={type}
+                  onChange={onChange}
+                  min={minMaxNumberValue.min}
+                  max={minMaxNumberValue.max}
+                />
               </Label>
             );
           })}

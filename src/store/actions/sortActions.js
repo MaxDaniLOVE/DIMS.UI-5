@@ -6,6 +6,7 @@ import {
   defaultProgressFilter,
   defaultUserTasksFilter,
 } from '../../utils/defaultFiltersData';
+import { dateToString } from '../../utils/convertDate';
 
 const sortData = (sortTableId, id, type, isSkipReseting = false) => {
   return (dispatch, getState) => {
@@ -57,7 +58,8 @@ const filterData = (sortTableId, filterInfo) => {
         if (!filterInfo[key]) {
           return true;
         }
-        return filterInfo[key] === item[key];
+        const valueToCompare = key.includes('Date') ? dateToString(item[key]) : item[key];
+        return filterInfo[key] == valueToCompare;
       });
       return isEqualsArray.every((element) => element);
     });
