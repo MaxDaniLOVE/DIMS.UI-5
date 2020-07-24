@@ -24,7 +24,7 @@ const sortReducer = (state = initialState, { type, payload }) => {
       const { sortedData, sortInfo } = payload;
       return { ...state, isSorted: true, sortedData, sortInfo };
     case RESET_SORT:
-      return { ...sortInititalState, ...state };
+      return { ...state, ...sortInititalState };
     case FILTER_DATA:
       const { filteredData, filterInfo } = payload;
       return { ...state, isFiltered: true, filteredData, filterInfo };
