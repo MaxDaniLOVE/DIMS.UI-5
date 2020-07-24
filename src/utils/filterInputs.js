@@ -72,7 +72,8 @@ const userTasksFilterInputs = [
   {
     label: 'State',
     id: 'stateId',
-    type: 'text',
+    type: 'select',
+    options: ['0', '1', '2'],
   },
 ];
 

@@ -7,6 +7,8 @@ import { bindActionCreators } from 'redux';
 import RadioInput from '../../UI/RadioInput';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import { filterData } from '../../store/actions';
+import { statesIds } from '../../utils/constants';
+
 import './filterInputs.scss';
 
 const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
@@ -17,19 +19,36 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
 
   const availiableInputs = inputs.map(({ id, label, type, options }) => {
     const minMaxNumberValue = type === 'number' ? { min: 18, max: 100 } : '';
-
-    return type === 'radio' ? (
-      <RadioInput
-        key={id}
-        label={label}
-        id={id}
-        type={type}
-        options={options}
-        onChange={onChange}
-        data={filterInfo}
-        isFilter
-      />
-    ) : (
+    if (type === 'radio') {
+      return (
+        <RadioInput
+          key={id}
+          label={label}
+          id={id}
+          type={type}
+          options={options}
+          onChange={onChange}
+          data={filterInfo}
+          isFilter
+        />
+      );
+    }
+    if (type === 'select') {
+      return (
+        <Label for={id} key={id}>
+          {label}
+          <Input type={type} name='stateId' id={id} onChange={onChange}>
+            <option value=''>All</option>
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {statesIds[option]}
+              </option>
+            ))}
+          </Input>
+        </Label>
+      );
+    }
+    return (
       <Label key={id} htmlFor={id}>
         {label}
         <Input
