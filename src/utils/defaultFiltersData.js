@@ -1,6 +1,6 @@
 const defaultMembersFilter = {
   name: '',
-  birthDate: '',
+  age: '',
   startDate: '',
   education: '',
   directionId: '',
