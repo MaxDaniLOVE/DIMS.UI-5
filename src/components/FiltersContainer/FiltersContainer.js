@@ -14,9 +14,7 @@ const FiltersContainer = ({ pageType, inputs }) => {
       <ShowFiltersButton onClick={setIsOpen} isOpen={isOpen} />
       <Collapse isOpen={isOpen}>
         <div className='collapse-container'>
-          <div className='collapse-inputs'>
-            <FilterInputs inputs={inputs} pageType={pageType} />
-          </div>
+          <FilterInputs inputs={inputs} pageType={pageType} />
           <ResetFiltersButton pageType={pageType} />
         </div>
       </Collapse>

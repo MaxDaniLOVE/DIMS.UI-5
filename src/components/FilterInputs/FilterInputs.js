@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import RadioInput from '../../UI/RadioInput';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import { filterData } from '../../store/actions';
+import './filterInputs.scss';
 
 const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
   const onChange = ({ target: { value, id } }) => {
@@ -14,7 +15,7 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
     filterData(pageType, updatedFilters);
   };
 
-  return inputs.map(({ id, label, type, options }) => {
+  const availiableInputs = inputs.map(({ id, label, type, options }) => {
     const minMaxNumberValue = type === 'number' ? { min: 18, max: 100 } : '';
 
     return type === 'radio' ? (
@@ -42,6 +43,8 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
       </Label>
     );
   });
+
+  return <div className={`collapse-inputs ${pageType}-filter`}>{availiableInputs}</div>;
 };
 
 FilterInputs.propTypes = {
