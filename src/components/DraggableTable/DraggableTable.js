@@ -7,14 +7,14 @@ import { bindActionCreators } from 'redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { reorderTable } from '../../store/actions';
 
-const DraggableTable = ({ tableData, reorderTable, children, tableType, userId }) => {
+const DraggableTable = ({ tableData, reorderTable, children, tableType, userId, isFiltered }) => {
   const onDragEnd = ({ destination, source }) => {
     if (!destination) return;
 
     reorderTable(tableType, tableData, source.index, destination.index, userId);
   };
 
-  const isDragDisabled = children.length <= 1;
+  const isDragDisabled = children.length <= 1 || isFiltered;
 
   const tableRows = React.Children.map(children, (child) => React.cloneElement(child, { isDragDisabled }));
 
@@ -32,6 +32,10 @@ const DraggableTable = ({ tableData, reorderTable, children, tableType, userId }
   );
 };
 
+const mapStateToProps = ({ sort: { isFiltered } }) => {
+  return { isFiltered };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ reorderTable }, dispatch);
 };
@@ -47,6 +51,7 @@ DraggableTable.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
   tableType: PropTypes.string.isRequired,
   userId: PropTypes.string,
+  isFiltered: PropTypes.bool.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(DraggableTable);
+export default connect(mapStateToProps, mapDispatchToProps)(DraggableTable);
