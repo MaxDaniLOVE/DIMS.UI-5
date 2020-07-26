@@ -28,18 +28,21 @@ import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelper
 import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
-import { resetSort, sortData } from './sortActions';
+import { resetSort, sortData, filterData } from './sortActions';
 import addAgeFieldToUsers from '../../utils/addAgeFieldToUsers';
 
 const api = initializeService();
 
 const sortingCallback = (dispatch, getState, sortTableId) => {
   const {
-    sort: { isSorted, sortInfo },
+    sort: { isSorted, sortInfo, filterInfo, isFiltered },
   } = getState();
   if (isSorted) {
     const { type, id } = sortInfo;
     dispatch(sortData(sortTableId, id, type, true));
+  }
+  if (isFiltered) {
+    dispatch(filterData(sortTableId, filterInfo));
   }
 };
 
