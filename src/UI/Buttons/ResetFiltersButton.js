@@ -8,7 +8,7 @@ import DangerButton from './DangerButton';
 
 const ResetFiltersButton = ({ pageType, resetFilterData }) => {
   const onClick = () => resetFilterData(pageType);
-  return <DangerButton onClick={onClick}>Reset filters</DangerButton>;
+  return <DangerButton onClick={onClick}>Reset</DangerButton>;
 };
 
 ResetFiltersButton.propTypes = {

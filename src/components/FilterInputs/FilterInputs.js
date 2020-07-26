@@ -37,7 +37,7 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
       return (
         <Label for={id} key={id}>
           {label}
-          <Input type={type} name='stateId' id={id} onChange={onChange}>
+          <Input type={type} name='stateId' id={id} onChange={onChange} value={filterInfo[id]}>
             <option value=''>All</option>
             {options.map((option) => (
               <option key={option} value={option}>
