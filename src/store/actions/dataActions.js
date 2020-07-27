@@ -361,12 +361,13 @@ const reorderTable = (table, list, startIndex, endIndex, userId) => {
       dispatch(resetSort());
     }
 
-    const result = Array.from(list);
-    const removed = result[startIndex];
+    const arrayOfData = Array.from(list);
 
-    const finalResult = result.slice(endIndex, 0, removed);
+    const removed = arrayOfData[startIndex];
+    const updatedArray = [...arrayOfData.slice(0, startIndex), ...arrayOfData.slice(startIndex + 1)];
+    const result = [...updatedArray.slice(0, endIndex), removed, ...updatedArray.slice(endIndex)];
 
-    addDragNDropCache(table, finalResult, userId);
+    addDragNDropCache(table, result, userId);
 
     dispatch({ type: REORDER_TABLE, payload: { result, table } });
   };
