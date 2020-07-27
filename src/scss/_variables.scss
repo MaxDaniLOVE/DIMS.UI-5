@@ -11,6 +11,7 @@ $teal-green-hover: #0a5f57 !default;
 $honeysuckle-hover: #8f373a !default;
 $charcoal-hover: #2a2e36 !default;
 $black: #16191a !default;
+$icelandic-white: #d4d3d3 !default;
 
 @mixin active-link {
   display: inline-block;
@@ -99,4 +100,9 @@ $black: #16191a !default;
   padding: 3rem;
   background-color: $teal-green;
   border-radius: 0.25rem;
+}
+
+:export {
+  charcoalHover: $charcoal-hover;
+  icelandicWhite: $icelandic-white;
 }
