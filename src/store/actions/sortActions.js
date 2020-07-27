@@ -1,12 +1,12 @@
 import { SORT_DATA, RESET_SORT, FILTER_DATA, RESET_FILTER } from './actionTypes';
 import sortHelper from '../../utils/sortHelper';
+import filterHelper from '../../utils/filterHelper';
 import {
   defaultMembersFilter,
   defaultTasksFilter,
   defaultProgressFilter,
   defaultUserTasksFilter,
 } from '../../utils/defaultFiltersData';
-import isDataFitsToFilter from '../../utils/isDataFitsToFilter';
 
 const sortData = (sortTableId, id, type, isSkipReseting = false) => {
   return (dispatch, getState) => {
@@ -51,17 +51,7 @@ const filterData = (sortTableId, filterInfo) => {
       data: { [sortTableId]: dataToFilter },
     } = getState();
 
-    const keys = Object.keys(filterInfo);
-
-    const filteredData = dataToFilter.filter((item) => {
-      const isEqualsArray = keys.map((key) => {
-        if (!filterInfo[key]) {
-          return true;
-        }
-        return isDataFitsToFilter(item[key], filterInfo[key], key);
-      });
-      return isEqualsArray.every((element) => element);
-    });
+    const filteredData = filterHelper(dataToFilter, filterInfo);
 
     return dispatch({ type: FILTER_DATA, payload: { filteredData, filterInfo } });
   };
