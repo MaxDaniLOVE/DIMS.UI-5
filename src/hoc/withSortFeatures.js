@@ -22,11 +22,28 @@ const withSortFeatures = (WrappedComponent, pageType) => (props) => {
     userTasks: userTasksFilterInputs,
   };
 
-  const { sortedData, data, isSorted, sortData, isFiltered, filteredData, ...properties } = props;
+  const {
+    sortedData,
+    data,
+    isSorted,
+    sortData,
+    isFiltered,
+    filteredData,
+    sortedAndFilteredData,
+    ...properties
+  } = props;
 
-  let displayedData = isSorted ? sortedData : data;
+  let displayedData = data;
 
-  displayedData = isFiltered ? filteredData : displayedData;
+  if (isSorted) {
+    displayedData = sortedData;
+  }
+  if (isFiltered) {
+    displayedData = filteredData;
+  }
+  if (isSorted && isFiltered) {
+    displayedData = sortedAndFilteredData;
+  }
 
   return (
     <>
@@ -40,12 +57,15 @@ const withSortFeatures = (WrappedComponent, pageType) => (props) => {
   );
 };
 
-const mapStateToProps = ({ sort: { sortedData, sortInfo, isSorted, isFiltered, filteredData } }) => ({
+const mapStateToProps = ({
+  sort: { sortedData, sortInfo, isSorted, isFiltered, filteredData, sortedAndFilteredData },
+}) => ({
   sortedData,
   sortInfo,
   isSorted,
   filteredData,
   isFiltered,
+  sortedAndFilteredData,
 });
 
 const mapDispatchToProps = (dispatch) => {
