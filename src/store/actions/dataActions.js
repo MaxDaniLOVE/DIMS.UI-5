@@ -9,7 +9,6 @@ import {
   ADD_TASK,
   DELETE_TASK,
   EDIT_TASK,
-  THROW_ALERT,
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
   GET_USER_PROGRESS,
@@ -26,7 +25,7 @@ import { addCache, removeCacheItemByKey } from '../../utils/cache';
 import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelpers';
 import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
-import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
+import { defaultErrorCallback as errorCallback, successCallback, throwAlert } from './alertsActions';
 import { resetSort, sortData, filterData } from './sortActions';
 import addAgeFieldToUsers from '../../utils/addAgeFieldToUsers';
 
@@ -220,10 +219,6 @@ const editTask = () => {
       errorCallback(dispatch, error);
     }
   };
-};
-
-const throwAlert = (alert) => {
-  return { type: THROW_ALERT, payload: alert };
 };
 
 const setFormData = (data) => {
