@@ -24,7 +24,7 @@ class AlertsContainer extends Component {
     return (
       <div className='alerts-container'>
         {alerts.map((alert) => (
-          <Alert alert={alert} />
+          <Alert key={alert.id} alert={alert} />
         ))}
       </div>
     );

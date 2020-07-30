@@ -20,6 +20,7 @@ import {
   REORDER_TABLE,
 } from '../actions/actionTypes';
 import { loadCache } from '../../utils/cache';
+import getRandomId from '../../utils/getRandomId';
 
 const isDarkMode = !!loadCache('isDarkMode');
 
@@ -62,7 +63,7 @@ const dataReducer = (state = initialState, { type, payload }) => {
         progress: payload,
       };
     case THROW_ALERT:
-      return { ...state, alerts: [...state.alerts, payload] };
+      return { ...state, alerts: [...state.alerts, { ...payload, id: getRandomId() }] };
     case SET_ASSIGNED_MEMBERS:
       return { ...state, assignedMembers: payload };
     case TOGGLE_DARK_MODE:
