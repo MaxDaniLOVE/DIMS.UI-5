@@ -227,6 +227,7 @@ const editTask = () => {
 };
 
 const startFetchingData = () => {
+  // ! REMOVE
   return { type: FETCH_DATA_START };
 };
 

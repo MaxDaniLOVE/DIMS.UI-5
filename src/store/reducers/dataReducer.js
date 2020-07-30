@@ -10,7 +10,6 @@ import {
   DELETE_TASK,
   EDIT_TASK,
   THROW_ALERT,
-  FETCH_DATA_START,
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
   GET_USER_PROGRESS,
@@ -28,7 +27,7 @@ const initialState = {
   members: [],
   tasks: [],
   userTasks: [],
-  alert: {},
+  alerts: [],
   formData: {},
   assignedMembers: [],
   progress: [],
@@ -62,10 +61,8 @@ const dataReducer = (state = initialState, { type, payload }) => {
         ...state,
         progress: payload,
       };
-    case FETCH_DATA_START:
-      return { ...state, alert: {} };
     case THROW_ALERT:
-      return { ...state, alert: payload };
+      return { ...state, alerts: [...state.alerts, payload] };
     case SET_ASSIGNED_MEMBERS:
       return { ...state, assignedMembers: payload };
     case TOGGLE_DARK_MODE:

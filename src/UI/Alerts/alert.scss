@@ -1,9 +1,7 @@
 @import '../../scss/variables';
 
 .alert {
-  position: fixed;
-  right: 2rem;
-  bottom: 3rem;
+  position: relative;
   font-size: 1rem;
   font-weight: 300;
   z-index: 4;

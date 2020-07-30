@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useAlert } from '../../hooks';
+import Alert from '../Alert';
+import './alertsContainer.scss';
 
-const AlertsContainer = ({ alert }) => {
-  const newAlert = useAlert(alert);
-  return <div>{newAlert}</div>;
-};
+class AlertsContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      alerts: [],
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    const { alerts } = nextProps;
+    return {
+      alerts,
+    };
+  }
+
+  render() {
+    const { alerts } = this.state;
+    return (
+      <div className='alerts-container'>
+        {alerts.map((alert) => (
+          <Alert alert={alert} />
+        ))}
+      </div>
+    );
+  }
+}
 
 AlertsContainer.propTypes = {
-  alert: PropTypes.objectOf(PropTypes.string).isRequired,
+  alerts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
 };
 
-const mapStateToProps = ({ data: { alert } }) => ({ alert });
+const mapStateToProps = ({ data: { alerts } }) => ({ alerts });
 
 export default connect(mapStateToProps)(AlertsContainer);
