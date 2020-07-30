@@ -1,37 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DangerAlert, SuccessAlert } from '../../UI/Alerts';
 
-const Alert = ({ alert: { message, type } }) => {
-  const [isOpen, onSetIsOpen] = useState(false);
-  const onCloseAlert = () => onSetIsOpen(false);
-  const onOpenAlert = () => onSetIsOpen(true);
-
-  useEffect(() => {
-    if (message && type) {
-      onOpenAlert();
-      setTimeout(onCloseAlert, 5000);
-    }
-  }, [message, type]);
-
-  const alerts = {
-    ERROR: (
-      <DangerAlert isOpen={isOpen} toggle={onCloseAlert}>
-        {message}
-      </DangerAlert>
-    ),
-    SUCCESS: (
-      <SuccessAlert isOpen={isOpen} toggle={onCloseAlert}>
-        {message}
-      </SuccessAlert>
-    ),
+export default class Alert extends Component {
+  state = {
+    isOpen: false,
   };
 
-  return alerts[type] || null;
-};
+  componentDidMount() {
+    const {
+      alert: { message, type },
+    } = this.props;
+    if (message && type) {
+      this.onOpenAlert();
+      this.timer = setTimeout(this.onCloseAlert, 5000);
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+  }
+
+  onOpenAlert = () => {
+    this.setState({ isOpen: true });
+  };
+
+  onCloseAlert = () => {
+    const {
+      alert: { id },
+      removeAlert,
+    } = this.props;
+    this.setState({ isOpen: false });
+    removeAlert(id);
+  };
+
+  render() {
+    const { isOpen } = this.state;
+    const {
+      alert: { type, message },
+    } = this.props;
+    const alerts = {
+      ERROR: (
+        <DangerAlert isOpen={isOpen} toggle={this.onCloseAlert}>
+          {message}
+        </DangerAlert>
+      ),
+      SUCCESS: (
+        <SuccessAlert isOpen={isOpen} toggle={this.onCloseAlert}>
+          {message}
+        </SuccessAlert>
+      ),
+    };
+    return alerts[type] || null;
+  }
+}
 
 Alert.propTypes = {
   alert: PropTypes.objectOf(PropTypes.string).isRequired,
+  removeAlert: PropTypes.func.isRequired,
 };
 
-export default Alert;
+// export default Alert;

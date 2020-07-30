@@ -18,6 +18,7 @@ import {
   TOGGLE_DARK_MODE,
   SEND_MAIL,
   REORDER_TABLE,
+  REMOVE_ALERT,
 } from '../actions/actionTypes';
 import { loadCache } from '../../utils/cache';
 import getRandomId from '../../utils/getRandomId';
@@ -71,6 +72,8 @@ const dataReducer = (state = initialState, { type, payload }) => {
     case REORDER_TABLE:
       const { table, result } = payload;
       return { ...state, [table]: result };
+    case REMOVE_ALERT:
+      return { ...state, alerts: payload };
     case ADD_MEMBER:
     case EDIT_MEMBER:
     case DELETE_USER:

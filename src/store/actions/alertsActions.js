@@ -1,4 +1,4 @@
-import { THROW_ALERT } from './actionTypes';
+import { THROW_ALERT, REMOVE_ALERT } from './actionTypes';
 
 const defaultErrorCallback = (dispatch, error) => {
   const { message } = error;
@@ -13,4 +13,17 @@ const throwAlert = (alert) => {
   return { type: THROW_ALERT, payload: alert };
 };
 
-export { defaultErrorCallback, successCallback, throwAlert };
+const removeAlert = (recievedId) => {
+  return (dispatch, getState) => {
+    const {
+      data: { alerts },
+    } = getState();
+
+    const index = alerts.findIndex(({ id }) => id === recievedId);
+
+    const updatedAlerts = [...alerts.slice(0, index), ...alerts.slice(index + 1)];
+    dispatch({ type: REMOVE_ALERT, payload: updatedAlerts });
+  };
+};
+
+export { defaultErrorCallback, successCallback, throwAlert, removeAlert };
