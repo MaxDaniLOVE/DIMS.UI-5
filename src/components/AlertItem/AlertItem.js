@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DangerAlert, SuccessAlert } from '../../UI/Alerts';
 
-export default class Alert extends Component {
+export default class AlertItem extends Component {
   state = {
     isOpen: false,
   };
@@ -55,7 +55,7 @@ export default class Alert extends Component {
   }
 }
 
-Alert.propTypes = {
+AlertItem.propTypes = {
   alert: PropTypes.objectOf(PropTypes.string).isRequired,
   removeAlert: PropTypes.func.isRequired,
 };

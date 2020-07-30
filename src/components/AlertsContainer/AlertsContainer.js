@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Alert from '../Alert';
+import AlertItem from '../AlertItem';
 import { removeAlert } from '../../store/actions';
 
 import './alertsContainer.scss';
@@ -12,7 +12,7 @@ const AlertsContainer = ({ alerts, removeAlert }) => {
   return (
     <div className='alerts-container'>
       {alerts.map((alert) => (
-        <Alert key={alert.id} alert={alert} removeAlert={removeAlert} />
+        <AlertItem key={alert.id} alert={alert} removeAlert={removeAlert} />
       ))}
     </div>
   );
