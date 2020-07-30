@@ -28,7 +28,17 @@
       height: 2rem;
     }
     .btn {
-      width: 100%;
+      align-self: flex-end;
     }
+  }
+}
+
+.dark-filters {
+  color: $baby-blue;
+  input,
+  input:focus,
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    @include dark-inputs;
   }
 }

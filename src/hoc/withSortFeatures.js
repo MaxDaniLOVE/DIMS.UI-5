@@ -30,6 +30,7 @@ const withSortFeatures = (WrappedComponent, pageType) => (props) => {
     isFiltered,
     filteredData,
     sortedAndFilteredData,
+    isDarkMode,
     ...properties
   } = props;
 
@@ -47,7 +48,7 @@ const withSortFeatures = (WrappedComponent, pageType) => (props) => {
 
   return (
     <>
-      <FiltersContainer inputs={inputs[pageType]} pageType={pageType} />
+      <FiltersContainer inputs={inputs[pageType]} pageType={pageType} isDarkMode={isDarkMode} />
       {isFiltered && !displayedData.length ? (
         <NoFilteredDataTitle />
       ) : (
@@ -59,6 +60,7 @@ const withSortFeatures = (WrappedComponent, pageType) => (props) => {
 
 const mapStateToProps = ({
   sort: { sortedData, sortInfo, isSorted, isFiltered, filteredData, sortedAndFilteredData },
+  data: { isDarkMode },
 }) => ({
   sortedData,
   sortInfo,
@@ -66,6 +68,7 @@ const mapStateToProps = ({
   filteredData,
   isFiltered,
   sortedAndFilteredData,
+  isDarkMode,
 });
 
 const mapDispatchToProps = (dispatch) => {

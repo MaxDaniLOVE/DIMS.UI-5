@@ -6,11 +6,14 @@ import { useTooltipToggling as useDropdownToggling } from '../../hooks';
 import FilterInputs from '../FilterInputs';
 import './filtersContainer.scss';
 
-const FiltersContainer = ({ pageType, inputs }) => {
+const FiltersContainer = ({ pageType, inputs, isDarkMode }) => {
   const [isOpen, setIsOpen] = useDropdownToggling();
 
+  const defaultClassName = 'filters-container';
+  const className = isDarkMode ? `${defaultClassName} dark-filters` : defaultClassName;
+
   return (
-    <div className='filters-container'>
+    <div className={className}>
       <ShowFiltersButton onClick={setIsOpen} isOpen={isOpen} />
       <Collapse isOpen={isOpen}>
         <div className='collapse-container'>
@@ -27,6 +30,7 @@ FiltersContainer.propTypes = {
   inputs: PropTypes.arrayOf(
     PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])),
   ).isRequired,
+  isDarkMode: PropTypes.bool.isRequired,
 };
 
 export default FiltersContainer;
