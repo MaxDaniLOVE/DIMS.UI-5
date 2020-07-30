@@ -59,5 +59,3 @@ Alert.propTypes = {
   alert: PropTypes.objectOf(PropTypes.string).isRequired,
   removeAlert: PropTypes.func.isRequired,
 };
-
-// export default Alert;
