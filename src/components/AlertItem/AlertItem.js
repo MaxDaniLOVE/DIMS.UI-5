@@ -8,13 +8,8 @@ export default class AlertItem extends Component {
   };
 
   componentDidMount() {
-    const {
-      alert: { message, type },
-    } = this.props;
-    if (message && type) {
-      this.onOpenAlert();
-      this.timer = setTimeout(this.onCloseAlert, 5000);
-    }
+    this.onOpenAlert();
+    this.timer = setTimeout(this.onCloseAlert, 5000);
   }
 
   componentWillUnmount() {

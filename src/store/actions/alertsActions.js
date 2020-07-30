@@ -22,7 +22,9 @@ const removeAlert = (recievedId) => {
     const index = alerts.findIndex(({ id }) => id === recievedId);
 
     const updatedAlerts = [...alerts.slice(0, index), ...alerts.slice(index + 1)];
-    dispatch({ type: REMOVE_ALERT, payload: updatedAlerts });
+    setTimeout(() => {
+      dispatch({ type: REMOVE_ALERT, payload: updatedAlerts });
+    }, 150);
   };
 };
 
