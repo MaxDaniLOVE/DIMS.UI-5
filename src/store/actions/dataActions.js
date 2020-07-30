@@ -10,7 +10,6 @@ import {
   DELETE_TASK,
   EDIT_TASK,
   THROW_ALERT,
-  FETCH_DATA_START,
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
   GET_USER_PROGRESS,
@@ -48,7 +47,6 @@ const sortingCallback = (dispatch, getState, sortTableId) => {
 
 const getUsers = () => {
   return async (dispatch, getState) => {
-    dispatch(startFetchingData());
     try {
       const users = await api.getUsersData();
       const usersWithAgeData = addAgeFieldToUsers(users);
@@ -123,7 +121,6 @@ const deleteUser = (id) => {
 
 const getTasks = () => {
   return async (dispatch, getState) => {
-    dispatch(startFetchingData());
     try {
       const tasks = await api.getAllTasks();
       const sortedTasks = sortCachedData('tasks', tasks);
@@ -140,7 +137,6 @@ const getTasks = () => {
 
 const getUserTasks = (id) => {
   return async (dispatch, getState) => {
-    dispatch(startFetchingData());
     try {
       const userTasks = await api.getUsersTasks(id);
       const sortedUserTasks = sortCachedData(`userTasks_${id}`, userTasks);
@@ -226,11 +222,6 @@ const editTask = () => {
   };
 };
 
-const startFetchingData = () => {
-  // ! REMOVE
-  return { type: FETCH_DATA_START };
-};
-
 const throwAlert = (alert) => {
   return { type: THROW_ALERT, payload: alert };
 };
@@ -245,7 +236,6 @@ const setAssignedMembers = (members) => {
 
 const getUserProgress = (id) => {
   return async (dispatch, getState) => {
-    dispatch(startFetchingData());
     try {
       const userProgress = await api.getUsersProgress(id);
       const sortedProgress = sortCachedData(`progress_${id}`, userProgress);
@@ -326,7 +316,6 @@ const switchDarkMode = ({ target: { checked } }) => {
 
 const getAssignedMembers = (taskId) => {
   return async (dispatch) => {
-    dispatch(startFetchingData());
     try {
       const users = await api.getAssignedUsers(taskId);
       dispatch(setAssignedMembers(users));
@@ -338,7 +327,6 @@ const getAssignedMembers = (taskId) => {
 
 const sendMail = (mailData) => {
   return async (dispatch) => {
-    dispatch(startFetchingData());
     try {
       const sendMailApi = api instanceof Heroku ? api : new Heroku();
       await sendMailApi.sendMail(mailData);
