@@ -22,7 +22,7 @@ const membersFilterInputs = [
   {
     label: 'Direction:',
     id: 'directionId',
-    type: 'radio',
+    type: 'checkbox',
     options: ['Java', 'Frontend', '.Net', 'Salesforce'],
   },
 ];

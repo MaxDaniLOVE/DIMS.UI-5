@@ -3,7 +3,7 @@ const defaultMembersFilter = {
   age: '',
   startDate: '',
   education: '',
-  directionId: '',
+  directionId: [],
 };
 
 const defaultTasksFilter = {
