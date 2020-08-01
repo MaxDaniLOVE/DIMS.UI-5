@@ -5,8 +5,13 @@ const membersFilterInputs = [
     type: 'text',
   },
   {
-    label: 'Age:',
-    id: 'age',
+    label: 'Min:',
+    id: 'minAge',
+    type: 'number',
+  },
+  {
+    label: 'Max:',
+    id: 'maxAge',
     type: 'number',
   },
   {
