@@ -29,7 +29,21 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
   };
 
   const availiableInputs = inputs.map(({ id, label, type, options }) => {
-    const minMaxNumberValue = type === 'number' ? { min: 18, max: 100 } : '';
+    if (id === 'age') {
+      return options.map((option) => (
+        <Label key={option} htmlFor={option}>
+          {option}
+          <Input
+            id={option}
+            type='number'
+            onChange={onChange}
+            value={filterInfo[option]}
+            // min={minMaxNumberValue.min}
+            // max={minMaxNumberValue.max}
+          />
+        </Label>
+      ));
+    }
     if (type === 'checkbox') {
       return (
         <CheckboxInput
@@ -74,14 +88,7 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
     return (
       <Label key={id} htmlFor={id}>
         {label}
-        <Input
-          id={id}
-          type={type}
-          onChange={onChange}
-          value={filterInfo[id]}
-          min={minMaxNumberValue.min}
-          max={minMaxNumberValue.max}
-        />
+        <Input id={id} type={type} onChange={onChange} value={filterInfo[id]} />
       </Label>
     );
   });
