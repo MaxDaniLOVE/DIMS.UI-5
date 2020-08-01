@@ -9,6 +9,7 @@ import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import { filterData } from '../../store/actions';
 import { statesIds } from '../../utils/constants';
 import CheckboxInput from '../../UI/CheckboxInput';
+import AgeInputs from '../AgeInputs';
 
 import './filterInputs.scss';
 
@@ -30,19 +31,8 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
 
   const availiableInputs = inputs.map(({ id, label, type, options }) => {
     if (id === 'age') {
-      return options.map((option) => (
-        <Label key={option} htmlFor={option}>
-          {option}
-          <Input
-            id={option}
-            type='number'
-            onChange={onChange}
-            value={filterInfo[option]}
-            // min={minMaxNumberValue.min}
-            // max={minMaxNumberValue.max}
-          />
-        </Label>
-      ));
+      const { minAge, maxAge } = filterInfo;
+      return <AgeInputs key={id} options={options} onChange={onChange} minAge={minAge} maxAge={maxAge} />;
     }
     if (type === 'checkbox') {
       return (
