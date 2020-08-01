@@ -1,0 +1,8 @@
+.checkboxes__wrapper {
+  display: grid;
+  grid-gap: 0.5rem;
+  label {
+    display: flex;
+    justify-content: flex-start;
+  }
+}

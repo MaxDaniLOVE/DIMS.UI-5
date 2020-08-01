@@ -7,8 +7,7 @@
     grid-area: 1 / 3 / span 2 / span 1;
     flex-direction: column;
     padding: 0;
-    .checkbox-btns__wrapper {
-      display: grid;
+    .checkboxes__wrapper {
       grid-template-columns: 1fr 1fr;
       margin-bottom: 1.5rem;
     }
@@ -25,7 +24,7 @@
   .members-filter {
     .form-inputs__checkbox {
       grid-area: 3 / 1 / span 2 / span 2;
-      .checkbox-btns__wrapper {
+      .checkboxes__wrapper {
         width: 100%;
         grid-template-columns: 1fr 1fr 1fr 1fr;
       }
@@ -36,9 +35,9 @@
 @media screen and (max-width: 425px) {
   .collapse-inputs {
     grid-template-columns: 1fr;
-    .form-inputs__radio {
+    .form-inputs__checkbox {
       grid-area: auto;
-      .radio-btns__wrapper {
+      .checkboxes__wrapper {
         width: 100%;
         grid-template-columns: 1fr 1fr;
       }

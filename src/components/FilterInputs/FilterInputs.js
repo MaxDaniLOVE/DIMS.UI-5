@@ -1,13 +1,14 @@
 /* eslint-disable no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Label, CustomInput } from 'reactstrap';
+import { Input, Label } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RadioInput from '../../UI/RadioInput';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import { filterData } from '../../store/actions';
 import { statesIds } from '../../utils/constants';
+import CheckboxInput from '../../UI/CheckboxInput';
 
 import './filterInputs.scss';
 
@@ -31,23 +32,14 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
     const minMaxNumberValue = type === 'number' ? { min: 18, max: 100 } : '';
     if (type === 'checkbox') {
       return (
-        <Label htmlFor={id} key={id} className='form-inputs__checkbox'>
-          {label}
-          <div className='checkbox-btns__wrapper '>
-            {options.map((option) => (
-              <Label htmlFor={`${id}_${option}_filter`} key={`${id}_${option}_filter`}>
-                {option}
-                <CustomInput
-                  value={option}
-                  type='checkbox'
-                  id={`${id}_${option}_filter`}
-                  onChange={onChange}
-                  checked={filterInfo[id].includes(option)}
-                />
-              </Label>
-            ))}
-          </div>
-        </Label>
+        <CheckboxInput
+          key={id}
+          id={id}
+          label={label}
+          options={options}
+          onChange={onChange}
+          dataToCompare={filterInfo[id]}
+        />
       );
     }
     if (type === 'radio') {
