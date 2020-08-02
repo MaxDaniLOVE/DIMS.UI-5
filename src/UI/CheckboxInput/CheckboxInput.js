@@ -6,8 +6,8 @@ import './checkboxInput.scss';
 
 const CheckboxInput = ({ id, options, onChange, label, dataToCompare }) => {
   return (
-    <Label htmlFor={id} className='form-inputs__checkbox'>
-      {label}
+    <div className='form-inputs__checkbox'>
+      <Label htmlFor={id}>{label}</Label>
       <div className='checkboxes__wrapper'>
         {options.map((option) => (
           <Label htmlFor={`${id}_${option}_filter`} key={`${id}_${option}_filter`}>
@@ -22,7 +22,7 @@ const CheckboxInput = ({ id, options, onChange, label, dataToCompare }) => {
           </Label>
         ))}
       </div>
-    </Label>
+    </div>
   );
 };
 

@@ -1,8 +1,15 @@
 .checkboxes__wrapper {
   display: grid;
-  grid-gap: 0.5rem;
+  height: 5rem;
   label {
     display: flex;
-    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0;
+  }
+  label[for='directionId_.Net_filter'] {
+    align-items: flex-end;
+  }
+  label[for='directionId_Salesforce_filter'] {
+    align-items: flex-end;
   }
 }
