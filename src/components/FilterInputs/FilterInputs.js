@@ -10,21 +10,17 @@ import { filterData } from '../../store/actions';
 import { statesIds } from '../../utils/constants';
 import CheckboxInput from '../../UI/CheckboxInput';
 import AgeInputs from '../AgeInputs';
+import checkboxHandler from '../../utils/checkboxHandler';
 
 import './filterInputs.scss';
 
 const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
   const onChange = ({ target: { value, id, checked } }) => {
     let updatedFilters = inputsChangeHandler(value, id, filterInfo);
-    if (id.includes('_')) {
+    if (id.includes('filter')) {
       const checkboxId = id.slice(0, id.indexOf('_'));
-      const helperSet = new Set([...filterInfo[checkboxId]]);
-      if (checked) {
-        helperSet.add(value);
-      } else {
-        helperSet.delete(value);
-      }
-      updatedFilters = { ...updatedFilters, [checkboxId]: [...helperSet] };
+      const updatedCheckboxes = checkboxHandler([...filterInfo[checkboxId]], value, checked);
+      updatedFilters = { ...updatedFilters, [checkboxId]: updatedCheckboxes };
     }
     filterData(pageType, updatedFilters);
   };
