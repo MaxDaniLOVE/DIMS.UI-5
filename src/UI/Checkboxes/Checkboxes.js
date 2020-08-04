@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import { CustomInput, FormGroup, Label } from 'reactstrap';
 import { setAssignedMembers } from '../../store/actions';
 import { DangerSubtitle } from '../Titles';
+import checkboxHandler from '../../utils/checkboxHandler';
+
 import './checkboxes.scss';
 
 class Checkboxes extends PureComponent {
@@ -15,16 +17,10 @@ class Checkboxes extends PureComponent {
   }
 
   onCheckboxChange = (e) => {
-    const { id, checked } = e.target;
+    const { value, checked } = e.target;
     const { setAssignedMembers, assignedMembers } = this.props;
-    const updatedMembers = new Set();
-    assignedMembers.map((el) => updatedMembers.add(el));
-    if (checked) {
-      updatedMembers.add(id);
-    } else {
-      updatedMembers.delete(id);
-    }
-    setAssignedMembers([...updatedMembers]);
+    const updatedMembers = checkboxHandler(assignedMembers, value, checked);
+    setAssignedMembers(updatedMembers);
   };
 
   render() {

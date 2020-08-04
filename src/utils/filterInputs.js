@@ -8,6 +8,7 @@ const membersFilterInputs = [
     label: 'Age:',
     id: 'age',
     type: 'number',
+    options: ['minAge', 'maxAge'],
   },
   {
     label: 'Start date:',
@@ -22,7 +23,7 @@ const membersFilterInputs = [
   {
     label: 'Direction:',
     id: 'directionId',
-    type: 'radio',
+    type: 'checkbox',
     options: ['Java', 'Frontend', '.Net', 'Salesforce'],
   },
 ];

@@ -10,7 +10,6 @@ import {
   DELETE_TASK,
   EDIT_TASK,
   THROW_ALERT,
-  FETCH_DATA_START,
   SET_FORM_DATA,
   SET_ASSIGNED_MEMBERS,
   GET_USER_PROGRESS,
@@ -19,8 +18,10 @@ import {
   TOGGLE_DARK_MODE,
   SEND_MAIL,
   REORDER_TABLE,
+  REMOVE_ALERT,
 } from '../actions/actionTypes';
 import { loadCache } from '../../utils/cache';
+import getRandomId from '../../utils/getRandomId';
 
 const isDarkMode = !!loadCache('isDarkMode');
 
@@ -28,7 +29,7 @@ const initialState = {
   members: [],
   tasks: [],
   userTasks: [],
-  alert: {},
+  alerts: [],
   formData: {},
   assignedMembers: [],
   progress: [],
@@ -62,10 +63,8 @@ const dataReducer = (state = initialState, { type, payload }) => {
         ...state,
         progress: payload,
       };
-    case FETCH_DATA_START:
-      return { ...state, alert: {} };
     case THROW_ALERT:
-      return { ...state, alert: payload };
+      return { ...state, alerts: [...state.alerts, { ...payload, id: getRandomId() }] };
     case SET_ASSIGNED_MEMBERS:
       return { ...state, assignedMembers: payload };
     case TOGGLE_DARK_MODE:
@@ -73,6 +72,8 @@ const dataReducer = (state = initialState, { type, payload }) => {
     case REORDER_TABLE:
       const { table, result } = payload;
       return { ...state, [table]: result };
+    case REMOVE_ALERT:
+      return { ...state, alerts: payload };
     case ADD_MEMBER:
     case EDIT_MEMBER:
     case DELETE_USER:

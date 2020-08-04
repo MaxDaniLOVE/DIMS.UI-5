@@ -8,17 +8,40 @@ import RadioInput from '../../UI/RadioInput';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
 import { filterData } from '../../store/actions';
 import { statesIds } from '../../utils/constants';
+import CheckboxInput from '../../UI/CheckboxInput';
+import AgeInputs from '../AgeInputs';
+import checkboxHandler from '../../utils/checkboxHandler';
 
 import './filterInputs.scss';
 
 const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
-  const onChange = ({ target: { value, id } }) => {
-    const updatedFilters = inputsChangeHandler(value, id, filterInfo);
+  const onChange = ({ target: { value, id, checked } }) => {
+    let updatedFilters = inputsChangeHandler(value, id, filterInfo);
+    if (id.includes('filter')) {
+      const checkboxId = id.slice(0, id.indexOf('_'));
+      const updatedCheckboxes = checkboxHandler([...filterInfo[checkboxId]], value, checked);
+      updatedFilters = { ...updatedFilters, [checkboxId]: updatedCheckboxes };
+    }
     filterData(pageType, updatedFilters);
   };
 
   const availiableInputs = inputs.map(({ id, label, type, options }) => {
-    const minMaxNumberValue = type === 'number' ? { min: 18, max: 100 } : '';
+    if (id === 'age') {
+      const { minAge, maxAge } = filterInfo;
+      return <AgeInputs key={id} options={options} onChange={onChange} minAge={minAge} maxAge={maxAge} />;
+    }
+    if (type === 'checkbox') {
+      return (
+        <CheckboxInput
+          key={id}
+          id={id}
+          label={label}
+          options={options}
+          onChange={onChange}
+          dataToCompare={filterInfo[id]}
+        />
+      );
+    }
     if (type === 'radio') {
       return (
         <RadioInput
@@ -51,14 +74,7 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
     return (
       <Label key={id} htmlFor={id}>
         {label}
-        <Input
-          id={id}
-          type={type}
-          onChange={onChange}
-          value={filterInfo[id]}
-          min={minMaxNumberValue.min}
-          max={minMaxNumberValue.max}
-        />
+        <Input id={id} type={type} onChange={onChange} value={filterInfo[id]} />
       </Label>
     );
   });
@@ -70,7 +86,9 @@ FilterInputs.propTypes = {
   inputs: PropTypes.arrayOf(
     PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])),
   ).isRequired,
-  filterInfo: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
+  filterInfo: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.string)]),
+  ).isRequired,
   pageType: PropTypes.string.isRequired,
   filterData: PropTypes.func.isRequired,
 };

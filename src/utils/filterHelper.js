@@ -8,6 +8,14 @@ const filterHelper = (dataToFilter, filterInfo) => {
       if (!filterInfo[key]) {
         return true;
       }
+      if (key === 'minAge') {
+        const { age } = item;
+        return age >= filterInfo[key];
+      }
+      if (key === 'maxAge') {
+        const { age } = item;
+        return age <= filterInfo[key];
+      }
       return isDataFitsToFilter(item[key], filterInfo[key], key);
     });
     return isEqualsArray.every((element) => element);

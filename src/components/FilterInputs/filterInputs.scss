@@ -3,15 +3,48 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 .members-filter {
-  .form-inputs__radio {
+  .form-inputs__checkbox {
     grid-area: 1 / 3 / span 2 / span 1;
     flex-direction: column;
     padding: 0;
-    .radio-btns__wrapper {
-      margin-bottom: 1.5rem;
+    .checkboxes__wrapper {
+      grid-template-columns: 1fr 1fr;
     }
   }
 }
 .userTasks-filter {
   grid-template-columns: 1fr 1fr;
+}
+
+@media screen and (max-width: 875px) {
+  .collapse-inputs {
+    grid-template-columns: 1fr 1fr;
+  }
+  .members-filter {
+    .form-inputs__checkbox {
+      grid-area: 3 / 1 / span 2 / span 2;
+      .checkboxes__wrapper {
+        width: 100%;
+        height: fit-content;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        margin-bottom: 1rem;
+        label {
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .collapse-inputs {
+    grid-template-columns: 1fr;
+    .form-inputs__checkbox {
+      grid-area: auto;
+      .checkboxes__wrapper {
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  }
 }

@@ -1,17 +1,32 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useAlert } from '../../hooks';
+import { bindActionCreators } from 'redux';
+import AlertItem from '../AlertItem';
+import { removeAlert } from '../../store/actions';
 
-const AlertsContainer = ({ alert }) => {
-  const newAlert = useAlert(alert);
-  return <div>{newAlert}</div>;
+import './alertsContainer.scss';
+
+const AlertsContainer = ({ alerts, removeAlert }) => {
+  return (
+    <div className='alerts-container'>
+      {alerts.map((alert) => (
+        <AlertItem key={alert.id} alert={alert} removeAlert={removeAlert} />
+      ))}
+    </div>
+  );
 };
 
 AlertsContainer.propTypes = {
-  alert: PropTypes.objectOf(PropTypes.string).isRequired,
+  alerts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  removeAlert: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ data: { alert } }) => ({ alert });
+const mapStateToProps = ({ data: { alerts } }) => ({ alerts });
 
-export default connect(mapStateToProps)(AlertsContainer);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ removeAlert }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AlertsContainer);

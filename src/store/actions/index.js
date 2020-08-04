@@ -34,7 +34,7 @@ import {
 
 import { sortData, resetSort, resetFilterData, filterData } from './sortActions';
 
-import { throwAlert } from './alertsActions';
+import { throwAlert, removeAlert } from './alertsActions';
 
 export {
   getUsers,
@@ -70,4 +70,5 @@ export {
   throwAlert,
   resetFilterData,
   filterData,
+  removeAlert,
 };

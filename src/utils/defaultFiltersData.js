@@ -1,9 +1,11 @@
 const defaultMembersFilter = {
   name: '',
   age: '',
+  minAge: '',
+  maxAge: '',
   startDate: '',
   education: '',
-  directionId: '',
+  directionId: [],
 };
 
 const defaultTasksFilter = {
