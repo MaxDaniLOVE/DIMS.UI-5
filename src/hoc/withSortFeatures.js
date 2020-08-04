@@ -5,19 +5,70 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { sortData } from '../store/actions';
+import FiltersContainer from '../components/FiltersContainer';
+import {
+  membersFilterInputs,
+  tasksFilterInputs,
+  progressFilterInputs,
+  userTasksFilterInputs,
+} from '../utils/filterInputs';
+import { NoFilteredDataTitle } from '../UI/Titles';
 
-const withSortFeatures = (WrappedComponent) => (props) => {
-  const { sortedData, data, isSorted, sortData, ...properties } = props;
+const withSortFeatures = (WrappedComponent, pageType) => (props) => {
+  const inputs = {
+    members: membersFilterInputs,
+    tasks: tasksFilterInputs,
+    progress: progressFilterInputs,
+    userTasks: userTasksFilterInputs,
+  };
 
-  const displayedData = isSorted ? sortedData : data;
+  const {
+    sortedData,
+    data,
+    isSorted,
+    sortData,
+    isFiltered,
+    filteredData,
+    sortedAndFilteredData,
+    isDarkMode,
+    ...properties
+  } = props;
 
-  return <WrappedComponent data={displayedData} {...properties} />;
+  let displayedData = data;
+
+  if (isSorted) {
+    displayedData = sortedData;
+  }
+  if (isFiltered) {
+    displayedData = filteredData;
+  }
+  if (isSorted && isFiltered) {
+    displayedData = sortedAndFilteredData;
+  }
+
+  return (
+    <>
+      <FiltersContainer inputs={inputs[pageType]} pageType={pageType} isDarkMode={isDarkMode} />
+      {isFiltered && !displayedData.length ? (
+        <NoFilteredDataTitle />
+      ) : (
+        <WrappedComponent data={displayedData} {...properties} />
+      )}
+    </>
+  );
 };
 
-const mapStateToProps = ({ sort: { sortedData, sortInfo, isSorted } }) => ({
+const mapStateToProps = ({
+  sort: { sortedData, sortInfo, isSorted, isFiltered, filteredData, sortedAndFilteredData },
+  data: { isDarkMode },
+}) => ({
   sortedData,
   sortInfo,
   isSorted,
+  filteredData,
+  isFiltered,
+  sortedAndFilteredData,
+  isDarkMode,
 });
 
 const mapDispatchToProps = (dispatch) => {

@@ -28,17 +28,21 @@ import { addDragNDropCache, sortCachedData } from '../../utils/dragAndDropHelper
 import Heroku from '../../services/Heroku';
 import { registerUser } from './authActions';
 import { defaultErrorCallback as errorCallback, successCallback } from './alertsActions';
-import { resetSort, sortData } from './sortActions';
+import { resetSort, sortData, filterData } from './sortActions';
+import addAgeFieldToUsers from '../../utils/addAgeFieldToUsers';
 
 const api = initializeService();
 
 const sortingCallback = (dispatch, getState, sortTableId) => {
   const {
-    sort: { isSorted, sortInfo },
+    sort: { isSorted, sortInfo, filterInfo, isFiltered },
   } = getState();
   if (isSorted) {
     const { type, id } = sortInfo;
     dispatch(sortData(sortTableId, id, type, true));
+  }
+  if (isFiltered) {
+    dispatch(filterData(sortTableId, filterInfo));
   }
 };
 
@@ -47,7 +51,8 @@ const getUsers = () => {
     dispatch(startFetchingData());
     try {
       const users = await api.getUsersData();
-      const sortedUsers = sortCachedData('members', users);
+      const usersWithAgeData = addAgeFieldToUsers(users);
+      const sortedUsers = sortCachedData('members', usersWithAgeData);
       dispatch({
         type: FETCH_MEMBERS,
         payload: sortedUsers,
@@ -356,10 +361,11 @@ const reorderTable = (table, list, startIndex, endIndex, userId) => {
       dispatch(resetSort());
     }
 
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
+    const arrayOfData = Array.from(list);
 
-    result.splice(endIndex, 0, removed);
+    const removed = arrayOfData[startIndex];
+    const updatedArray = [...arrayOfData.slice(0, startIndex), ...arrayOfData.slice(startIndex + 1)];
+    const result = [...updatedArray.slice(0, endIndex), removed, ...updatedArray.slice(endIndex)];
 
     addDragNDropCache(table, result, userId);
 

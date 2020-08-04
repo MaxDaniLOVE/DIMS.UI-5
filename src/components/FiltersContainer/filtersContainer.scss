@@ -1,0 +1,44 @@
+@import '../../scss/variables';
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  svg {
+    align-self: center;
+    margin-bottom: 1rem;
+    width: 3rem;
+    height: 2rem;
+    fill: $charcoal;
+  }
+  .collapse-container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $teal-green;
+    border-radius: 0.5rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: none;
+    label {
+      width: 100%;
+      padding: 0 0.5rem;
+    }
+    .form-control {
+      padding: 0 0.5rem;
+      height: 2rem;
+    }
+    .btn {
+      align-self: flex-end;
+    }
+  }
+}
+
+.dark-filters {
+  color: $baby-blue;
+  input,
+  input:focus,
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    @include dark-inputs;
+  }
+}

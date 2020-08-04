@@ -3,9 +3,10 @@ import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { charcoalHover, icelandicWhite } from '../../scss/_variables.scss';
 
 const DraggableRow = ({ children, draggableId, index, isDarkMode, isDragDisabled }) => {
-  const backgroundColor = isDarkMode ? '#2a2e36' : '#d4d3d3';
+  const backgroundColor = isDarkMode ? charcoalHover : icelandicWhite;
 
   const getItemStyle = (isDragging, draggableStyle) => ({
     userSelect: 'none',

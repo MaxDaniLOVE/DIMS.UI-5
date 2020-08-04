@@ -106,4 +106,4 @@ MembersProgressTable.propTypes = {
   userId: PropTypes.string.isRequired,
 };
 
-export default withSortFeatures(MembersProgressTable);
+export default withSortFeatures(MembersProgressTable, 'progress');

@@ -32,7 +32,7 @@ import {
   loginWithGoogle,
 } from './authActions';
 
-import { sortData, resetSort } from './sortActions';
+import { sortData, resetSort, resetFilterData, filterData } from './sortActions';
 
 import { throwAlert } from './alertsActions';
 
@@ -68,4 +68,6 @@ export {
   sortData,
   resetSort,
   throwAlert,
+  resetFilterData,
+  filterData,
 };

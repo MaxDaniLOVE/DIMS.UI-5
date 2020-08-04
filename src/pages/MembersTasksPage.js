@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import MembersTasksTable from '../components/MembersTasksTable';
 import Preloader from '../components/Preloader';
-import { getUserTasks, setMark, resetSort } from '../store/actions';
+import { getUserTasks, setMark, resetSort, resetFilterData } from '../store/actions';
 import initializeService from '../utils/initializeService';
 import { Subtitle, DangerSubtitle } from '../UI/Titles';
 import PageWrapper from '../UI/PageWrapper';
@@ -24,8 +24,9 @@ class MembersTasksPage extends Component {
   }
 
   componentDidMount() {
-    const { resetSort } = this.props;
+    const { resetSort, resetFilterData } = this.props;
     resetSort();
+    resetFilterData('userTasks');
     this.getUserTasksData();
   }
 
@@ -85,6 +86,7 @@ MembersTasksPage.propTypes = {
     .isRequired,
   user: PropTypes.objectOf(PropTypes.string).isRequired,
   resetSort: PropTypes.func.isRequired,
+  resetFilterData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ data: { userTasks }, auth: { user } }) => {
@@ -92,7 +94,7 @@ const mapStateToProps = ({ data: { userTasks }, auth: { user } }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ getUserTasks, setMark, resetSort }, dispatch);
+  return bindActionCreators({ getUserTasks, setMark, resetSort, resetFilterData }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MembersTasksPage));

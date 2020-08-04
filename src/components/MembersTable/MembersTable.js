@@ -80,4 +80,4 @@ MembersTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
 };
 
-export default withSortFeatures(MembersTable);
+export default withSortFeatures(MembersTable, 'members');

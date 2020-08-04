@@ -63,4 +63,4 @@ TasksTable.propTypes = {
   onDataOpen: PropTypes.func.isRequired,
 };
 
-export default withSortFeatures(TasksTable);
+export default withSortFeatures(TasksTable, 'tasks');

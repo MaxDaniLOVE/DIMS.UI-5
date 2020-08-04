@@ -10,8 +10,7 @@ import { throwAlert } from '../../store/actions';
 const ChangePassButton = ({ onClick, children, isPasswordAuth, throwAlert }) => {
   const icon = !isPasswordAuth && <EditUserIcon />;
 
-  const notification = () =>
-    throwAlert({ type: 'ERROR', message: 'To change password sign-in with password and email!' });
+  const notification = () => throwAlert({ type: 'ERROR', message: 'Please, sign-in with password and email!' });
 
   const onClickHandler = !isPasswordAuth ? onClick : notification;
 
