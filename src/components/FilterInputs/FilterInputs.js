@@ -11,6 +11,7 @@ import { statesIds } from '../../utils/constants';
 import CheckboxInput from '../../UI/CheckboxInput';
 import AgeInputs from '../AgeInputs';
 import checkboxHandler from '../../utils/checkboxHandler';
+import DateInput from '../../UI/DateInput';
 
 import './filterInputs.scss';
 
@@ -22,6 +23,11 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
       const updatedCheckboxes = checkboxHandler([...filterInfo[checkboxId]], value, checked);
       updatedFilters = { ...updatedFilters, [checkboxId]: updatedCheckboxes };
     }
+    filterData(pageType, updatedFilters);
+  };
+
+  const resetDateInput = (id) => {
+    const updatedFilters = { ...filterInfo, [id]: '' };
     filterData(pageType, updatedFilters);
   };
 
@@ -69,6 +75,18 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
             ))}
           </Input>
         </Label>
+      );
+    }
+    if (type === 'date') {
+      return (
+        <DateInput
+          resetDateInput={resetDateInput}
+          key={id}
+          id={id}
+          label={label}
+          value={filterInfo[id]}
+          onChange={onChange}
+        />
       );
     }
     return (

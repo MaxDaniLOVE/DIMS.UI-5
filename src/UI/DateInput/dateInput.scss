@@ -1,0 +1,13 @@
+@import '../../scss/variables';
+
+.input-group-append {
+  height: 2rem;
+  .input-group-text {
+    svg {
+      height: 1rem;
+      width: 1rem;
+      margin: 0;
+      fill: $honeysuckle;
+    }
+  }
+}
