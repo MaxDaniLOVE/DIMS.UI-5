@@ -79,14 +79,9 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
     }
     if (type === 'date') {
       return (
-        <DateInput
-          resetDateInput={resetDateInput}
-          key={id}
-          id={id}
-          label={label}
-          value={filterInfo[id]}
-          onChange={onChange}
-        />
+        <DateInput resetDateInput={resetDateInput} key={id} id={id} value={filterInfo[id]} onChange={onChange}>
+          {label}
+        </DateInput>
       );
     }
     return (

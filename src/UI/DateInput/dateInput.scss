@@ -3,11 +3,17 @@
 .input-group-append {
   height: 2rem;
   .input-group-text {
+    padding: 0.375rem;
+    transition: all 0.3s ease;
     svg {
       height: 1rem;
       width: 1rem;
       margin: 0;
       fill: $honeysuckle;
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: $icelandic-white;
     }
   }
 }
