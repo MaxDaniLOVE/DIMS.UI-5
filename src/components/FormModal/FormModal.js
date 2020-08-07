@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import RadioInput from '../../UI/RadioInput';
 import { fieldValidation, dateValidation } from '../../utils/validation';
 import InputGroup from '../InputGroup';
+import DateInput from '../../UI/DateInput/DateInput';
 
 import './formModal.scss';
 
@@ -27,6 +28,13 @@ const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modal
     if (dateToCompare) {
       const startDate = data[dateToCompare];
       pattern = dateValidation(pattern, startDate);
+    }
+    if (type === 'date') {
+      return (
+        <DateInput key={id} id={id} value={inputPlaceholder} type={type} onChange={onFormChange} validate={pattern}>
+          {label}
+        </DateInput>
+      );
     }
     return (
       <InputGroup key={id} id={id} value={inputPlaceholder} type={type} onChange={onFormChange} validate={pattern}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AvGroup, AvField } from 'availity-reactstrap-validation';
-import { Label, InputGroupAddon, InputGroupText } from 'reactstrap';
+import { InputGroupAddon, InputGroupText } from 'reactstrap';
 import { CrossIcon } from '../../assets/icons';
 import './dateInput.scss';
 
@@ -9,7 +9,7 @@ const DateInput = ({ id, value, children, onChange, resetDateInput, validate = {
   const onClick = () => resetDateInput(id);
 
   return (
-    <Label>
+    <AvGroup className='date-input-group__wrapper'>
       {children}
       <AvGroup className='date-input-group'>
         <AvField name={id} id={id} type='date' onChange={onChange} value={value} validate={validate} />
@@ -19,7 +19,7 @@ const DateInput = ({ id, value, children, onChange, resetDateInput, validate = {
           </InputGroupText>
         </InputGroupAddon>
       </AvGroup>
-    </Label>
+    </AvGroup>
   );
 };
 
