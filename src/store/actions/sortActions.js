@@ -1,4 +1,11 @@
-import { SORT_DATA, RESET_SORT, FILTER_DATA, RESET_FILTER, COMBINE_SORT_AND_FILTER } from './actionTypes';
+import {
+  SORT_DATA,
+  RESET_SORT,
+  FILTER_DATA,
+  RESET_FILTER,
+  COMBINE_SORT_AND_FILTER,
+  SET_FILTER_INFO,
+} from './actionTypes';
 import sortHelper from '../../utils/sortHelper';
 import filterHelper from '../../utils/filterHelper';
 import {
@@ -53,11 +60,15 @@ const resetFilterData = (pageType) => {
   return { type: RESET_FILTER, payload: defaultFilters[pageType] };
 };
 
-const filterData = (sortTableId, filterInfo) => {
+const setFilterInfo = (filterInfo) => {
+  return { type: SET_FILTER_INFO, payload: filterInfo };
+};
+
+const filterData = (sortTableId) => {
   return (dispatch, getState) => {
     const {
       data: { [sortTableId]: dataToFilter },
-      sort: { isSorted, sortedData, sortInfo },
+      sort: { isSorted, sortedData, sortInfo, filterInfo },
     } = getState();
 
     const filteredData = filterHelper(dataToFilter, filterInfo);
@@ -67,8 +78,8 @@ const filterData = (sortTableId, filterInfo) => {
       dispatch({ type: COMBINE_SORT_AND_FILTER, payload: { sortedAndFilteredData, filterInfo, sortInfo } });
     }
 
-    return dispatch({ type: FILTER_DATA, payload: { filteredData, filterInfo } });
+    return dispatch({ type: FILTER_DATA, payload: { filteredData } });
   };
 };
 
-export { sortData, resetSort, resetFilterData, filterData };
+export { sortData, resetSort, resetFilterData, filterData, setFilterInfo };

@@ -27,9 +27,12 @@
       padding: 0 0.5rem;
       height: 2rem;
     }
-    .btn {
-      align-self: flex-end;
-      margin: 0.5rem;
+    .filter-btns {
+      display: flex;
+      justify-content: space-between;
+      .btn {
+        margin: 0.5rem;
+      }
     }
   }
 }

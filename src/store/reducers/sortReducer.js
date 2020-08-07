@@ -1,5 +1,12 @@
 /* eslint-disable no-case-declarations */
-import { SORT_DATA, RESET_SORT, FILTER_DATA, RESET_FILTER, COMBINE_SORT_AND_FILTER } from '../actions/actionTypes';
+import {
+  SORT_DATA,
+  RESET_SORT,
+  FILTER_DATA,
+  RESET_FILTER,
+  COMBINE_SORT_AND_FILTER,
+  SET_FILTER_INFO,
+} from '../actions/actionTypes';
 
 const sortInititalState = {
   sortedData: [],
@@ -27,10 +34,12 @@ const sortReducer = (state = initialState, { type, payload }) => {
     case RESET_SORT:
       return { ...state, ...sortInititalState, sortedAndFilteredData: [] };
     case FILTER_DATA:
-      const { filteredData, filterInfo } = payload;
-      return { ...state, isFiltered: true, filteredData, filterInfo };
+      const { filteredData } = payload;
+      return { ...state, isFiltered: true, filteredData };
     case RESET_FILTER:
       return { ...state, ...filterInitialState, filterInfo: payload, sortedAndFilteredData: [] };
+    case SET_FILTER_INFO:
+      return { ...state, filterInfo: payload };
     case COMBINE_SORT_AND_FILTER:
       const { sortedAndFilteredData } = payload;
       return { ...state, sortedAndFilteredData, filterInfo: payload.filterInfo, sortInfo: payload.sortInfo };

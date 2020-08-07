@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RadioInput from '../../UI/RadioInput';
 import inputsChangeHandler from '../../utils/inputsChangeHandler';
-import { filterData } from '../../store/actions';
+import { setFilterInfo } from '../../store/actions';
 import { statesIds } from '../../utils/constants';
 import CheckboxInput from '../../UI/CheckboxInput';
 import AgeInputs from '../AgeInputs';
@@ -15,7 +15,7 @@ import DateInput from '../../UI/DateInput';
 
 import './filterInputs.scss';
 
-const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
+const FilterInputs = ({ inputs, filterInfo, pageType, setFilterInfo }) => {
   const onChange = ({ target: { value, id, checked } }) => {
     let updatedFilters = inputsChangeHandler(value, id, filterInfo);
     if (id.includes('filter')) {
@@ -23,12 +23,12 @@ const FilterInputs = ({ inputs, filterInfo, filterData, pageType }) => {
       const updatedCheckboxes = checkboxHandler([...filterInfo[checkboxId]], value, checked);
       updatedFilters = { ...updatedFilters, [checkboxId]: updatedCheckboxes };
     }
-    filterData(pageType, updatedFilters);
+    setFilterInfo(updatedFilters);
   };
 
   const resetDateInput = (id) => {
     const updatedFilters = { ...filterInfo, [id]: '' };
-    filterData(pageType, updatedFilters);
+    setFilterInfo(updatedFilters);
   };
 
   const availiableInputs = inputs.map(({ id, label, type, options }) => {
@@ -103,7 +103,7 @@ FilterInputs.propTypes = {
     PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.string)]),
   ).isRequired,
   pageType: PropTypes.string.isRequired,
-  filterData: PropTypes.func.isRequired,
+  setFilterInfo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ sort: { filterInfo } }) => {
@@ -111,7 +111,7 @@ const mapStateToProps = ({ sort: { filterInfo } }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ filterData }, dispatch);
+  return bindActionCreators({ setFilterInfo }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterInputs);
