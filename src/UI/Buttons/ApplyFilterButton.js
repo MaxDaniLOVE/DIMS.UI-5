@@ -5,11 +5,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { filterData } from '../../store/actions';
 import SuccessButton from './SuccessButton';
+import { FilterIcon } from '../../assets/icons';
 
 const ApplyFilterButton = ({ filterData, pageType }) => {
   const onClick = () => filterData(pageType);
 
-  return <SuccessButton onClick={onClick}>Apply</SuccessButton>;
+  return (
+    <SuccessButton onClick={onClick}>
+      <FilterIcon />
+    </SuccessButton>
+  );
 };
 
 ApplyFilterButton.propTypes = {

@@ -21,7 +21,7 @@ import { ReactComponent as SortDownIcon } from './sort-down-solid.svg';
 import { ReactComponent as SortUpIcon } from './sort-up-solid.svg';
 import { ReactComponent as AngleIcon } from './angle-down-solid.svg';
 import { ReactComponent as CrossIcon } from './cross.svg';
-
+import { ReactComponent as FilterIcon } from './filter-solid.svg';
 export {
   EditIcon,
   DeleteIcon,
@@ -46,4 +46,5 @@ export {
   SortUpIcon,
   AngleIcon,
   CrossIcon,
+  FilterIcon,
 };

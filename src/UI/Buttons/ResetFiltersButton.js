@@ -5,10 +5,16 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { resetFilterData } from '../../store/actions';
 import DangerButton from './DangerButton';
+import { CrossIcon } from '../../assets/icons';
 
 const ResetFiltersButton = ({ pageType, resetFilterData }) => {
   const onClick = () => resetFilterData(pageType);
-  return <DangerButton onClick={onClick}>Reset</DangerButton>;
+
+  return (
+    <DangerButton onClick={onClick}>
+      <CrossIcon />
+    </DangerButton>
+  );
 };
 
 ResetFiltersButton.propTypes = {
