@@ -46,7 +46,7 @@ class AuthPage extends Component {
     return isAuthStarted ? (
       <Preloader />
     ) : (
-      <>
+      <div className='auth-page-wrapper'>
         <LoginForm
           inputs={inputs}
           onSubmit={this.onSubmit}
@@ -55,7 +55,7 @@ class AuthPage extends Component {
           authData={authData}
         />
         <ServiceToggle />
-      </>
+      </div>
     );
   }
 }
