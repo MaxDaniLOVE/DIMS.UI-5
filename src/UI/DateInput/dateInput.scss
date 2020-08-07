@@ -1,7 +1,21 @@
 @import '../../scss/variables';
 
+.date-input-group {
+  display: flex;
+  width: 100%;
+  .form-group {
+    width: 100%;
+  }
+  input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right-width: 0;
+  }
+}
 .input-group-append {
   .input-group-text {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
     padding: 0.375rem;
     transition: all 0.3s ease;
     svg {

@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Label } from 'reactstrap';
+import { AvForm } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RadioInput from '../../UI/RadioInput';
@@ -92,7 +93,7 @@ const FilterInputs = ({ inputs, filterInfo, pageType, setFilterInfo }) => {
     );
   });
 
-  return <div className={`collapse-inputs ${pageType}-filter`}>{availiableInputs}</div>;
+  return <AvForm className={`collapse-inputs ${pageType}-filter`}>{availiableInputs}</AvForm>;
 };
 
 FilterInputs.propTypes = {
