@@ -1,7 +1,6 @@
 @import '../../scss/variables';
 
 .input-group-append {
-  height: 2rem;
   .input-group-text {
     padding: 0.375rem;
     transition: all 0.3s ease;
@@ -15,5 +14,11 @@
       cursor: pointer;
       background-color: $icelandic-white;
     }
+  }
+}
+
+.collapse-container {
+  .input-group-append {
+    height: 2rem;
   }
 }
