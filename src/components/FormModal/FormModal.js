@@ -7,7 +7,7 @@ import DateInput from '../../UI/DateInput/DateInput';
 
 import './formModal.scss';
 
-const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modalHeader }) => {
+const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modalHeader, resetDate }) => {
   const inputsLabels = inputs.map(({ label, id, type, options, validationPattern, dateToCompare }) => {
     if (type === 'radio') {
       return (
@@ -30,8 +30,17 @@ const FormModal = ({ addClassName, onFormChange, isEditMode, data, inputs, modal
       pattern = dateValidation(pattern, startDate);
     }
     if (type === 'date') {
+      const resetDateInput = () => resetDate(id);
       return (
-        <DateInput key={id} id={id} value={inputPlaceholder} type={type} onChange={onFormChange} validate={pattern}>
+        <DateInput
+          resetDateInput={resetDateInput}
+          key={id}
+          id={id}
+          value={inputPlaceholder}
+          type={type}
+          onChange={onFormChange}
+          validate={pattern}
+        >
           {label}
         </DateInput>
       );
@@ -57,6 +66,7 @@ FormModal.propTypes = {
   data: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   inputs: PropTypes.arrayOf(PropTypes.object).isRequired,
   modalHeader: PropTypes.element.isRequired,
+  resetDate: PropTypes.func.isRequired,
 };
 
 export default FormModal;

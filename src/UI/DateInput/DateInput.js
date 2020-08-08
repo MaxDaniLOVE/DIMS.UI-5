@@ -5,7 +5,7 @@ import { InputGroupAddon, InputGroupText } from 'reactstrap';
 import { CrossIcon } from '../../assets/icons';
 import './dateInput.scss';
 
-const DateInput = ({ id, value, children, onChange, resetDateInput, validate = {} }) => {
+const DateInput = ({ id, value, children, onChange, resetDateInput, validate }) => {
   const onClick = () => resetDateInput(id);
 
   return (
@@ -23,12 +23,22 @@ const DateInput = ({ id, value, children, onChange, resetDateInput, validate = {
   );
 };
 
+DateInput.defaultProps = {
+  validate: {},
+};
+
 DateInput.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   resetDateInput: PropTypes.func.isRequired,
+  validate: PropTypes.objectOf(
+    PropTypes.shape({
+      pattern: PropTypes.objectOf(PropTypes.string),
+      required: PropTypes.objectOf(PropTypes.string, PropTypes.bool),
+    }),
+  ),
 };
 
 export default DateInput;

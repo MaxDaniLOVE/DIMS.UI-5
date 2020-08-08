@@ -132,6 +132,13 @@ const withModal = (WrappedComponent, pageType) =>
       this.setState({ isFormValid });
     };
 
+    resetDate = (id) => {
+      const { formData, setFormData } = this.props;
+      const updatedFormData = { ...formData, [id]: '' };
+      setFormData(updatedFormData);
+      this.setState({ isFormValid: false });
+    };
+
     onAddData = async () => {
       await this.addData();
       this.onModalClose();
@@ -223,6 +230,7 @@ const withModal = (WrappedComponent, pageType) =>
                   isEditMode={isEditMode}
                   isFormValid={isFormValid}
                   modalHeader={modalHeader}
+                  resetDate={this.resetDate}
                 />
               )}
             </ModalContent>
